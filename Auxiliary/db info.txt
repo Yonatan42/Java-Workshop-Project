@@ -1,0 +1,4 @@
+db is the MAMP db
+we need the MAMP server running so it will only work on mac
+the database for the project is calls "java_workshop_db"
+the admin user added for the project database is: 'admin'@'localhost' with pass of 123456
