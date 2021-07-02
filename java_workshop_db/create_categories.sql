@@ -1,18 +1,23 @@
-CREATE TABLE java_workshop_db.categories (
-   id INT NOT NULL auto_increment,
-   name varchar (32) NOT NULL,
-   created timestamp default now(),
-   modified timestamp default now(),
+USE java_workshop_db;
+
+CREATE TABLE categories (
+   id INT NOT NULL AUTO_INCREMENT,
+   name VARCHAR (32) NOT NULL,
+   created TIMESTAMP default now(),
+   modified TIMESTAMP default now(),
    PRIMARY KEY (id)
 );
 
-create trigger java_workshop_db.trigger_categories_update
-before update on java_workshop_db.categories
-for each row
-set new.modified = now();
+CREATE TRIGGER trigger_categories_update
+BEFORE UPDATE ON categories
+FOR EACH ROW
+SET NEW.modified = NOW();
 
 # test category
-insert into java_workshop_db.categories (name) values ('cat1');
+# INSERT INTO categories (name) VALUES ('cat1');
 
 #test update
-update java_workshop_db.categories  set name = 'cat2' where id = 1;
+# UPDATE categories  SET name = 'cat2' WHERE id = 1;
+
+# delete all from table
+DELETE FROM categories WHERE id > 0;
