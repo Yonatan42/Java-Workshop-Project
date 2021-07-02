@@ -20,4 +20,4 @@ SET NEW.modified = NOW();
 # UPDATE categories  SET name = 'cat2' WHERE id = 1;
 
 # delete all from table
-DELETE FROM categories WHERE id > 0;
+# DELETE FROM categories WHERE id > 0;
