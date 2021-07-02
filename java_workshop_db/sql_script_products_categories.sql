@@ -1,6 +1,6 @@
 USE java_workshop_db;
 
-# DROP TABLE products_categories;
+DROP TABLE products_categories;
 
 CREATE TABLE products_categories (
 	product_id INT NOT NULL,
@@ -24,6 +24,6 @@ SET NEW.modified = NOW();
 # UPDATE products_categories  SET category_id = 4 WHERE product_id = 2;-- 
 
 # delete all from table
-# DELETE FROM products_categories WHERE id > 0;
+DELETE FROM products_categories WHERE product_id > 0;
 
 -- will need to make a procedure and function that inserts into this table when creating a new product
