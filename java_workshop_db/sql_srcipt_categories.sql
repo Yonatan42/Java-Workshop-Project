@@ -21,3 +21,6 @@ SET NEW.modified = NOW();
 
 # delete all from table
 # DELETE FROM categories WHERE id > 0;
+
+
+# will have paging - the LIMIT can be used (if it gets 2 values then the first is the number to start AFTER and the second is the amount)
