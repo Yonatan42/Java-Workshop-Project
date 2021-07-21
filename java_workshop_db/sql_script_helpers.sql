@@ -93,3 +93,61 @@ SELECT get_next_auto_increment('products');
 
 
 
+
+
+
+/*
+DROP FUNCTION get_random_id;
+
+
+DELIMITER $$
+
+CREATE FUNCTION get_random_id(
+	my_table_name VARCHAR(32)
+) 
+RETURNS INT
+NOT DETERMINISTIC
+BEGIN
+    RETURN (CALL get_random_id_proc(my_table_name) AS rand_id);
+END$$
+DELIMITER ;
+
+SELECT get_random_id('products');
+*/
+
+
+
+
+
+
+
+DROP PROCEDURE get_random_id;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE get_random_id(
+	IN my_table_name VARCHAR(32),
+    OUT uid BIGINT
+) 
+BEGIN
+	SET uid = 0;
+	SET @s = CONCAT('SELECT `id` INTO @uid FROM `', my_table_name, '` ORDER BY RAND() LIMIT 1');
+    PREPARE QUERY FROM @s;
+    EXECUTE QUERY;
+    DEALLOCATE PREPARE QUERY;
+	SET uid = @uid;
+END$$
+DELIMITER ;
+
+-- CALL get_random_id('products');
+
+
+
+
+
+
+
+
+
+
