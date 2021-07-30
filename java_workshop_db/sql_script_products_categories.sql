@@ -30,6 +30,17 @@ DELETE FROM products_categories WHERE product_id > 0;
 
 
 
+CREATE VIEW products_with_categories AS
+SELECT pc.product_id, p.name, p.description, p.image_url, pc.category_id, c.name as category 
+FROM products AS p INNER JOIN products_categories AS pc ON p.id = pc.product_id INNER JOIN categories AS c ON pc.category_id = c.id;
+
+SELECT * FROM products_with_categories WHERE product_id = 1;
+SELECT * FROM products_with_categories WHERE category LIKE '%3%';
+
+
+
+
+
 
 
 
@@ -73,3 +84,76 @@ DELIMITER ;
 
 
 CALL insert_some_products_with_categories(10);
+
+
+
+
+
+
+
+-- ------------------------ Insert Products with  Categories ----------------------
+
+
+
+
+DROP PROCEDURE insert_products_with_categories;
+
+DELIMITER $$
+CREATE PROCEDURE insert_products_with_categories(
+	IN p_name VARCHAR (64),
+	IN p_description VARCHAR (256),
+    IN p_image_url VARCHAR(256),
+    IN p_categories_string VARCHAR (64) -- a comma separated string of category id's
+)
+BEGIN
+	DECLARE x  INT;    
+    DECLARE current_cat_id INT;
+    DECLARE end_symbol INT;
+    DECLARE product_id INT;
+    
+    /*
+	DECLARE errno INT;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+    GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
+    SELECT errno AS MYSQL_ERROR;
+    ROLLBACK;
+    END;
+    
+    START TRANSACTION;
+    
+    -- can't use transaction because of the foreign key constraint - so the products talbe isn't actually updated with a new id by the time we try to use it as a foreign key
+    */
+    
+    SET end_symbol =  -1;
+    
+    INSERT INTO products (name, description, image_url) VALUES (p_name, p_description, p_image_url);
+    
+    SET product_id = (SELECT LAST_INSERT_ID() AS id FROM products LIMIT 1);
+
+        
+	SET x = 1;
+	
+	loop_label:  LOOP
+		SET current_cat_id = (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(p_categories_string, ',' ,end_symbol), ',', x), ',', -1) LIMIT 1);
+		IF  current_cat_id = end_symbol THEN 
+			LEAVE  loop_label;
+		END  IF;
+        
+		INSERT INTO products_categories (product_id, category_id) VALUES (product_id, current_cat_id);
+        
+        SET  x = x + 1;
+	END LOOP;
+    
+    /*
+    COMMIT WORK;
+    */
+    
+    
+END$$
+
+DELIMITER ;
+
+
+
+CALL insert_products_with_categories('pc', 'pc test', NULL, '4,8,12');
