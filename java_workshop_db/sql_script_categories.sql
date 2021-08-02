@@ -3,8 +3,8 @@ USE java_workshop_db;
 CREATE TABLE categories (
    id INT NOT NULL AUTO_INCREMENT,
    name VARCHAR (32) NOT NULL,
-   created TIMESTAMP default now(),
-   modified TIMESTAMP default now(),
+   created TIMESTAMP DEFAULT NOW(),
+   modified TIMESTAMP DEFAULT NOW(),
    PRIMARY KEY (id)
 );
 

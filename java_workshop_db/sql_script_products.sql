@@ -7,8 +7,8 @@ CREATE TABLE products (
 	name VARCHAR (64) NOT NULL,
 	description VARCHAR (256) NOT NULL,
     image_url VARCHAR(256),
-	created TIMESTAMP default now(),
-	modified TIMESTAMP default now(),
+	created TIMESTAMP DEFAULT NOW(),
+	modified TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
 );
 

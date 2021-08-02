@@ -5,8 +5,8 @@ DROP TABLE products_categories;
 CREATE TABLE products_categories (
 	product_id INT NOT NULL,
     category_id INT NOT NULL,
-	created TIMESTAMP default now(),
-	modified TIMESTAMP default now(),
+	created TIMESTAMP DEFAULT NOW(),
+	modified TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (product_id) REFERENCES products(id) ON UPDATE CASCADE ON DELETE RESTRICT,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	UNIQUE (product_id, category_id)
