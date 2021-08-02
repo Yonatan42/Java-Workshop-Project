@@ -167,13 +167,3 @@ DELIMITER ;
 SELECT get_split_string_at_index('1,2,3,4', ',', 2);
 
 
-
-
-
--- secret key for encryption
-
-CREATE FUNCTION get_secret_key(row_id INT)
-RETURNS CHAR(32)
-
-
-
