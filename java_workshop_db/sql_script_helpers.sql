@@ -147,7 +147,24 @@ DELIMITER ;
 
 
 
+DROP FUNCTION get_split_string_at_index;
 
+
+DELIMITER $$
+
+CREATE FUNCTION get_split_string_at_index(
+	str VARCHAR(64),
+    delim VARCHAR(32),
+    idx INT # index is 1 based
+) 
+RETURNS VARCHAR(64)
+DETERMINISTIC
+BEGIN
+    RETURN SUBSTRING_INDEX(SUBSTRING_INDEX(str, delim, idx), delim, -1);
+END$$
+DELIMITER ;
+
+SELECT get_split_string_at_index('1,2,3,4', ',', 2);
 
 
 

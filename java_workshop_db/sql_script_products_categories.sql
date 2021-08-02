@@ -103,7 +103,7 @@ CREATE PROCEDURE insert_products_with_categories(
 	IN p_name VARCHAR (64),
 	IN p_description VARCHAR (256),
     IN p_image_url VARCHAR(256),
-    IN p_categories_string VARCHAR (64) -- a comma separated string of category id's
+    IN p_categories_string VARCHAR (64) # a comma separated string of category id's
 )
 BEGIN
 	DECLARE x  INT;    
@@ -134,7 +134,7 @@ BEGIN
 	SET x = 1;
 	
 	loop_label:  LOOP
-		SET current_cat_id = (SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(p_categories_string, ',' ,end_symbol), ',', x), ',', -1) LIMIT 1);
+		SET current_cat_id = (SELECT get_split_string_at_index(CONCAT(p_categories_string, ',' ,end_symbol), ',', x) LIMIT 1);
 		IF  current_cat_id = end_symbol THEN 
 			LEAVE  loop_label;
 		END  IF;
