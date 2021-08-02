@@ -93,7 +93,7 @@ CALL insert_some_products_with_categories(10);
 
 -- ------------------------ Insert Products with  Categories ----------------------
 
-
+-- needed for project!!
 
 
 DROP PROCEDURE insert_products_with_categories;
@@ -111,19 +111,15 @@ BEGIN
     DECLARE end_symbol INT;
     DECLARE product_id INT;
     
-    /*
+    
 	DECLARE errno INT;
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-    GET CURRENT DIAGNOSTICS CONDITION 1 errno = MYSQL_ERRNO;
-    SELECT errno AS MYSQL_ERROR;
+	BEGIN
     ROLLBACK;
+    DELETE FROM products WHERE id = product_id; # delete the inserted product if the transaction fails (meaning that there was an issue with one of the categories)
+    RESIGNAL; # rethrow the exeption that was caught
     END;
     
-    START TRANSACTION;
-    
-    -- can't use transaction because of the foreign key constraint - so the products talbe isn't actually updated with a new id by the time we try to use it as a foreign key
-    */
     
     SET end_symbol =  -1;
     
@@ -131,6 +127,9 @@ BEGIN
     
     SET product_id = (SELECT LAST_INSERT_ID() AS id FROM products LIMIT 1);
 
+    
+    START TRANSACTION; # only start transaction once the new product is inserted so that the id can be used as a primary key
+    
         
 	SET x = 1;
 	
@@ -145,10 +144,8 @@ BEGIN
         SET  x = x + 1;
 	END LOOP;
     
-    /*
-    COMMIT WORK;
-    */
     
+	COMMIT WORK;
     
 END$$
 
@@ -157,3 +154,4 @@ DELIMITER ;
 
 
 CALL insert_products_with_categories('pc', 'pc test', NULL, '4,8,12');
+-- CALL insert_products_with_categories('pc', 'pc test', NULL, '4,8,18'); # should fail and when it does no new product should exist
