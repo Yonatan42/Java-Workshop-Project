@@ -29,9 +29,10 @@ DELETE FROM products_categories WHERE product_id > 0;
 -- will need to make a procedure and function that inserts into this table when creating a new product
 
 
+DROP VIEW products_with_categories;
 
 CREATE VIEW products_with_categories AS
-SELECT pc.product_id, p.name, p.description, p.image_url, pc.category_id, c.name as category 
+SELECT pc.product_id, p.title, p.description, p.image_url, pc.category_id, c.title as category 
 FROM products AS p INNER JOIN products_categories AS pc ON p.id = pc.product_id INNER JOIN categories AS c ON pc.category_id = c.id;
 
 SELECT * FROM products_with_categories WHERE product_id = 1;

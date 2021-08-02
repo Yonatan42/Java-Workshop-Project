@@ -2,10 +2,28 @@ USE java_workshop_db;
 
 DROP TABLE products;
 
+/*
 CREATE TABLE products (
 	id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR (64) NOT NULL,
 	description VARCHAR (256) NOT NULL,
+    image_url VARCHAR(256),
+	created TIMESTAMP DEFAULT NOW(),
+	modified TIMESTAMP DEFAULT NOW(),
+	PRIMARY KEY (id)
+);
+
+# changed descripton to TEXT and allowed NULL
+ALTER TABLE products MODIFY description TEXT;
+
+# renamed the name column to title
+ALTER TABLE `products` CHANGE `name` `title` VARCHAR (64) NOT NULL;
+*/
+
+CREATE TABLE products (
+	id INT NOT NULL AUTO_INCREMENT,
+	title VARCHAR (64) NOT NULL,
+	description TEXT,
     image_url VARCHAR(256),
 	created TIMESTAMP DEFAULT NOW(),
 	modified TIMESTAMP DEFAULT NOW(),
@@ -18,13 +36,16 @@ FOR EACH ROW
 SET NEW.modified = NOW();
 
 # test category
-# INSERT INTO products (name, description) VALUES ('prod1', 'desc1');
+# INSERT INTO products (title, description) VALUES ('prod1', 'desc1');
+INSERT INTO products (title) VALUES ('super test');
 
 #test update
-# UPDATE products  SET name = 'prod2' WHERE id = 1;-- 
+# UPDATE products  SET title = 'prod2' WHERE id = 1;-- 
 
 # delete all from table
 DELETE FROM products WHERE id > 0;
+
+
 
 
 

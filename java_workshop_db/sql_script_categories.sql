@@ -1,8 +1,21 @@
 USE java_workshop_db;
 
+/*
 CREATE TABLE categories (
    id INT NOT NULL AUTO_INCREMENT,
    name VARCHAR (32) NOT NULL,
+   created TIMESTAMP DEFAULT NOW(),
+   modified TIMESTAMP DEFAULT NOW(),
+   PRIMARY KEY (id)
+);
+
+# renamed the name column to title
+ALTER TABLE `categories` CHANGE `name` `title` VARCHAR (32) NOT NULL;
+*/
+
+CREATE TABLE categories (
+   id INT NOT NULL AUTO_INCREMENT,
+   title VARCHAR (32) NOT NULL,
    created TIMESTAMP DEFAULT NOW(),
    modified TIMESTAMP DEFAULT NOW(),
    PRIMARY KEY (id)
