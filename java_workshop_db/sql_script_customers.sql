@@ -54,12 +54,17 @@ CREATE FUNCTION encrypt_password(
 RETURNS BLOB
 DETERMINISTIC
 BEGIN
-	SET secret_ket = 'a234dsfAd535a564sd67Asdf56asdFasd7Fasd34Fasd2fa';
+	DECLARE secret_key  CHAR(32);
+	DECLARE sha2_size  INT;
+    
+	SET secret_key = '8pWIeLKIAXCPP2CHMtAMWUjWzf1GgeBx';
     SET sha2_size = 512;
     
-    RETURN  AES_ENCRYPT(pass, SHA2(CONCAT(SHA2(row_id, sha2_size), secret_ket), sha2_size))
+    RETURN  AES_ENCRYPT(pass, SHA2(CONCAT(SHA2(row_id, sha2_size), secret_key), sha2_size));
 END$$
 DELIMITER ;
 
 SELECT encrypt_password('myawesomepass', 3);
+
+
 
