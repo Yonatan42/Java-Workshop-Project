@@ -28,7 +28,7 @@ INSERT INTO orders (customer_id, total_cost, phone, address) VALUES (2, 185.42, 
 
 
 #test update
-# UPDATE customers  SET name = 'cat2' WHERE id = 1;
+# UPDATE orders  SET name = 'cat2' WHERE id = 1;
 
 # delete all from table
 DELETE FROM orders WHERE id > 0;
