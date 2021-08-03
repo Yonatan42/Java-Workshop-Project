@@ -4,6 +4,7 @@ USE java_workshop_db;
 DROP TRIGGER trigger_customers_update;
 DROP TABLE customers;
 
+/*
 CREATE TABLE customers (
 	id INT NOT NULL AUTO_INCREMENT,
 	email VARCHAR(320) NOT NULL UNIQUE,
@@ -15,6 +16,30 @@ CREATE TABLE customers (
 	PRIMARY KEY (id)
 );
 
+
+# added first and last name
+ALTER TABLE customers ADD first_name VARCHAR(32) NOT NULL;
+ALTER TABLE customers ADD last_name VARCHAR(32) NOT NULL;
+
+# moved the new columns to the place I wanted
+ALTER TABLE customers MODIFY first_name VARCHAR(32) NOT NULL AFTER pass;
+ALTER TABLE customers MODIFY last_name VARCHAR(32) NOT NULL AFTER first_name;
+*/
+
+
+
+CREATE TABLE customers (
+	id INT NOT NULL AUTO_INCREMENT,
+	email VARCHAR(320) NOT NULL UNIQUE,
+    pass VARBINARY(256) NOT NULL,
+    first_name VARCHAR(32) NOT NULL,
+    last_name VARCHAR(32) NOT NULL,
+    phone VARCHAR(20),
+    address TEXT,
+	created TIMESTAMP DEFAULT NOW(),
+	modified TIMESTAMP DEFAULT NOW(),
+	PRIMARY KEY (id)
+);
  
 CREATE TRIGGER trigger_customers_update
 BEFORE UPDATE ON customers
@@ -22,7 +47,7 @@ FOR EACH ROW
 SET NEW.modified = NOW();
 
 # test category
-INSERT INTO customers (email, pass) VALUES ('y@y.y', 'mysuperpass');
+INSERT INTO customers (email, pass, first_name, last_name) VALUES ('s@s.s', 'mysuperpass', 'Steve', 'Anderson');
 
 
 #test update

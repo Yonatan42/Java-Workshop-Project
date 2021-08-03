@@ -25,6 +25,7 @@ SET NEW.modified = NOW();
 
 # test category
 INSERT INTO order_products (order_id, product_id, price_at_order, quantity) VALUES (2, 1, 15.25, 3);
+INSERT INTO order_products (order_id, product_id, price_at_order) VALUES (2, 2, 4.25);
 
 
 #test update

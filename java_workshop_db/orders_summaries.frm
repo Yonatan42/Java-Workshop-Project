@@ -1,0 +1,15 @@
+TYPE=VIEW
+query=select `orders_details`.`order_id` AS `order_id`,`orders_details`.`customer_id` AS `customer_id`,`orders_details`.`customer_name` AS `customer_name`,`orders_details`.`email` AS `email`,`orders_details`.`phone` AS `phone`,`orders_details`.`address` AS `address`,sum(`orders_details`.`total_price`) AS `total_price` from `java_workshop_db`.`orders_details` group by `orders_details`.`order_id`
+md5=1c3df1a465da7454f877a9001edd67c0
+updatable=0
+algorithm=0
+definer_user=admin
+definer_host=localhost
+suid=2
+with_check_option=0
+timestamp=2021-08-03 12:24:10
+create-version=1
+source=SELECT \norder_id, \ncustomer_id,\ncustomer_name,\nemail,\nphone,\naddress,\nSUM(total_price) AS total_price \nFROM orders_details \nGROUP BY order_id
+client_cs_name=utf8
+connection_cl_name=utf8_general_ci
+view_body_utf8=select `orders_details`.`order_id` AS `order_id`,`orders_details`.`customer_id` AS `customer_id`,`orders_details`.`customer_name` AS `customer_name`,`orders_details`.`email` AS `email`,`orders_details`.`phone` AS `phone`,`orders_details`.`address` AS `address`,sum(`orders_details`.`total_price`) AS `total_price` from `java_workshop_db`.`orders_details` group by `orders_details`.`order_id`

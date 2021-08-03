@@ -1,0 +1,15 @@
+TYPE=VIEW
+query=select `order_details`.`order_id` AS `order_id`,`order_details`.`customer_id` AS `customer_id`,`order_details`.`customer_name` AS `customer_name`,`order_details`.`email` AS `email`,`order_details`.`phone` AS `phone`,`order_details`.`address` AS `address`,sum(`order_details`.`total_price`) AS `cost` from `java_workshop_db`.`order_details` group by `order_details`.`order_id`
+md5=5ed5bf6e8879bf0d0a9bf4bf5829f41b
+updatable=0
+algorithm=0
+definer_user=admin
+definer_host=localhost
+suid=2
+with_check_option=0
+timestamp=2021-08-03 12:21:32
+create-version=1
+source=SELECT \norder_id, \ncustomer_id,\ncustomer_name,\nemail,\nphone,\naddress,\nSUM(total_price) AS cost \nFROM order_details \nGROUP BY order_id
+client_cs_name=utf8
+connection_cl_name=utf8_general_ci
+view_body_utf8=select `order_details`.`order_id` AS `order_id`,`order_details`.`customer_id` AS `customer_id`,`order_details`.`customer_name` AS `customer_name`,`order_details`.`email` AS `email`,`order_details`.`phone` AS `phone`,`order_details`.`address` AS `address`,sum(`order_details`.`total_price`) AS `cost` from `java_workshop_db`.`order_details` group by `order_details`.`order_id`
