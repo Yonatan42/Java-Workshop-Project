@@ -6,6 +6,7 @@
 package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.Customers;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -81,6 +82,22 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
         return String.valueOf(super.count());
+    }
+    
+    
+    @POST
+    @Path("makeit")
+    public void makeSomething() {
+        Customers c = new Customers();
+        c.setFirstName("fn1");
+        c.setLastName("ln1");
+        c.setPhone("0522020202");
+        c.setEmail("mail@mail.mail");
+        c.setAddress("ze place");
+        c.setPass(new byte[]{0,1,0,1});
+        c.setCreated(new Date());
+        c.setModified(new Date());
+        super.create(c);
     }
 
     @Override
