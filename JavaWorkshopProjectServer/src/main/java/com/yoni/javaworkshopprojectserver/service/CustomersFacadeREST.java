@@ -8,8 +8,11 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.yoni.javaworkshopprojectserver.Customers;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -29,7 +32,7 @@ import javax.ws.rs.core.MediaType;
 @Path("com.yoni.javaworkshopprojectserver.customers")
 public class CustomersFacadeREST extends AbstractFacade<Customers> {
 
-    @PersistenceContext(unitName = "my_persistence_unit")
+    // @PersistenceContext(unitName = "my_persistence_unit")
     private EntityManager em;
 
     public CustomersFacadeREST() {
@@ -85,7 +88,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     }
     
     
-    @POST
+    @GET
     @Path("makeit")
     public void makeSomething() {
         Customers c = new Customers();
@@ -99,9 +102,32 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         c.setModified(new Date());
         super.create(c);
     }
+    
+    @GET
+    @Path("makeitagain")
+    public void makeSomethingAgain() {
+        em.getTransaction().begin();
+//        em.createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('s@s.s', ?, 'Steve', 'Anderson')").setParameter(1, new byte[]{0,0,0,1,1,0}).executeUpdate();
+        em.createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('test@test.test', 'superpass', 'Steve', 'Anderson')").executeUpdate();
+        em.getTransaction().commit();
+    }
+    
+    @GET
+    @Path("selectcount")
+    public long selectcount() {
+        return (long)em.createNativeQuery("SELECT COUNT(id) FROM customers").getSingleResult();
+    }
+
 
     @Override
     protected EntityManager getEntityManager() {
+//        try {
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(CustomersFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+        em = Persistence.createEntityManagerFactory("my_persistence_unit").createEntityManager();
         return em;
     }
     
