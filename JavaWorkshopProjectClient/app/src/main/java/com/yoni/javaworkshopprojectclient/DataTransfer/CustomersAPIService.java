@@ -25,7 +25,7 @@ import retrofit2.http.Path;
 
 public interface CustomersAPIService {
 
-    String URL = "com.yoni.javaworkshopprojectserver.customers/";
+    String URL = "customers/";
 
     @GET(URL)
     Call<List<Customer>> getAllProducts();

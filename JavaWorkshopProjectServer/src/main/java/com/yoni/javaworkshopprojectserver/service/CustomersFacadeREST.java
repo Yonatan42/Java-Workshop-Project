@@ -29,7 +29,7 @@ import javax.ws.rs.core.MediaType;
  * @author Yoni
  */
 @Stateless
-@Path("com.yoni.javaworkshopprojectserver.customers")
+@Path("customers")
 public class CustomersFacadeREST extends AbstractFacade<Customers> {
 
     // @PersistenceContext(unitName = "my_persistence_unit")
