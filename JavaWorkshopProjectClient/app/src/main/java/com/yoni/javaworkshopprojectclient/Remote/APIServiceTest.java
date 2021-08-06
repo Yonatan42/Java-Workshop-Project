@@ -1,6 +1,6 @@
 package com.yoni.javaworkshopprojectclient.Remote;
 
-import com.yoni.javaworkshopprojectclient.Models.Post;
+import com.yoni.javaworkshopprojectclient.DataTransfer.Post;
 
 import java.util.List;
 

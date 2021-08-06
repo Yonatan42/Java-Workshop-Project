@@ -1,4 +1,6 @@
-package com.yoni.javaworkshopprojectclient.Models;
+// todo - remove this
+
+package com.yoni.javaworkshopprojectclient.DataTransfer;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

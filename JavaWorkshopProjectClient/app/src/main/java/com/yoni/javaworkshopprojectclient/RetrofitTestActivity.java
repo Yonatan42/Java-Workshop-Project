@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.yoni.javaworkshopprojectclient.DataTransfer.CustomersAPIService;
 import com.yoni.javaworkshopprojectclient.Remote.ApiUtils;
 import com.yoni.javaworkshopprojectclient.Remote.ProductsAPIService;
 import com.yoni.javaworkshopprojectclient.Remote.UserAPIService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +34,29 @@ public class RetrofitTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrofit_tester);
+
+        CustomersAPIService productsAPIService = ApiUtils.getCustomersAPIService();
+        productsAPIService.getAllProducts().enqueue(new Callback<List<CustomersAPIService.Customer>>() {
+
+            @Override
+            public void onResponse(Call<List<CustomersAPIService.Customer>> call, Response<List<CustomersAPIService.Customer>> response) {
+                Log.i("RetrofitTester", "Got "+response.body().size()+" Products: \n"+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<CustomersAPIService.Customer>> call, Throwable t) {
+                Log.e("RetrofitTester", "Got error", t);
+            }
+        });
+
+
+
+
+
+
+
+
+
 //        getDrawableFile();
 
 //        UserAPIService userAPIService = ApiUtils.getUserAPIService();
@@ -60,20 +85,20 @@ public class RetrofitTestActivity extends AppCompatActivity {
 //        });
 
 
-        ProductsAPIService productsAPIService = ApiUtils.getProductsAPIService();
-        productsAPIService.getAllProducts().enqueue(new Callback<ProductsAPIService.MultiProductResponse>() {
+//        ProductsAPIService productsAPIService = ApiUtils.getProductsAPIService();
+//        productsAPIService.getAllProducts().enqueue(new Callback<ProductsAPIService.MultiProductResponse>() {
 //        productsAPIService.searchByName("a").enqueue(new Callback<ProductsAPIService.MultiProductResponse>() {
-            @Override
-            public void onResponse(Call<ProductsAPIService.MultiProductResponse> call, Response<ProductsAPIService.MultiProductResponse> response) {
-                int x = 3;
-                Log.i("RetrofitTester", "Got "+response.body().getCount()+" Products: \n"+response.body().getProducts());
-            }
-
-            @Override
-            public void onFailure(Call<ProductsAPIService.MultiProductResponse> call, Throwable t) {
-                int x = 3;
-            }
-        });
+//            @Override
+//            public void onResponse(Call<ProductsAPIService.MultiProductResponse> call, Response<ProductsAPIService.MultiProductResponse> response) {
+//                int x = 3;
+//                Log.i("RetrofitTester", "Got "+response.body().getCount()+" Products: \n"+response.body().getProducts());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ProductsAPIService.MultiProductResponse> call, Throwable t) {
+//                int x = 3;
+//            }
+//        });
 //        productsAPIService.saveProduct(TEST_TOKEN, "socket",30.64).enqueue(new Callback<ProductsAPIService.SaveResponse>() {
 //            @Override
 //            public void onResponse(Call<ProductsAPIService.SaveResponse> call, Response<ProductsAPIService.SaveResponse> response) {
