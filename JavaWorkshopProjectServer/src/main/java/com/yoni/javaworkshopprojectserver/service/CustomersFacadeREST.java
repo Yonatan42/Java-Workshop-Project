@@ -5,8 +5,14 @@
  */
 package com.yoni.javaworkshopprojectserver.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.yoni.javaworkshopprojectserver.Customers;
 import com.yoni.javaworkshopprojectserver.utils.BcryptUtil;
+import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
+import com.yoni.javaworkshopprojectserver.utils.ResponseErrorCodes;
+import com.yoni.javaworkshopprojectserver.utils.ResponseUtil;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,6 +21,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -181,15 +188,26 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     @POST
     @Path("login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.TEXT_PLAIN) // change this and all others to json 
+    @Produces(MediaType.APPLICATION_JSON)
     public String login( 
             @FormParam("email") String email, 
             @FormParam("pass") String pass) {
-        Customers c = getEntityManager().createNamedQuery("Customers.findByEmail", Customers.class).setParameter("email", email).getSingleResult();
-        if(c != null){
-            return c.toString();
-        }
-        return "doesn't exist";
+
+        return ResponseUtil.RespondSafe(() -> {
+            
+            List<Customers> resutls = getEntityManager().createNamedQuery("Customers.findByEmail", Customers.class).setParameter("email", email).getResultList();
+            if(resutls.isEmpty()){
+                return JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.LOGIN_NO_SUCH_EMAIL);
+            }
+            else{
+                if(!BcryptUtil.checkEq(pass, resutls.get(0).getPass())){
+                    return JsonUtil.createResponseJson("login failed", ResponseErrorCodes.LOGIN_PASSWORD_MISSMATCH);
+                }
+                else{
+                    return JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject("login successful"));
+                }
+            }
+        });
     }
 
 //    @Override
