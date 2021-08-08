@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.yoni.javaworkshopprojectclient.DataTransfer.CustomersAPIService;
+import com.yoni.javaworkshopprojectclient.DataTransfer.Models.Customer;
+import com.yoni.javaworkshopprojectclient.DataTransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.Remote.ApiUtils;
+import com.yoni.javaworkshopprojectclient.Remote.ServerCallback;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,53 +37,46 @@ public class RetrofitTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_retrofit_tester);
 
         CustomersAPIService productsAPIService = ApiUtils.getCustomersAPIService();
-//        productsAPIService.getAllCustomers().enqueue(new Callback<List<CustomersAPIService.Customer>>() {
+//        productsAPIService.getAllCustomers().enqueue(new ServerCallback<List<Customer>>() {
+//                 @Override
+//                 public void onResponseSuccess(Call<ServerResponse<List<Customer>>> call, Response<ServerResponse<List<Customer>>> response, List<Customer> result) {
+//                     Log.i("RetrofitTester", "Got "+result.size()+" Customers: \n"+result);
+//                 }
 //
-//            @Override
-//            public void onResponse(Call<List<CustomersAPIService.Customer>> call, Response<List<CustomersAPIService.Customer>> response) {
-//                Log.i("RetrofitTester", "Got "+response.body().size()+" Products: \n"+response.body());
-//            }
+//                 @Override
+//                 public void onResponseError(Call<ServerResponse<List<Customer>>> call, ServerResponse.ServerResponseError responseError) {
+//                     Log.e("RetrofitTester", "Got error: "+responseError.getMessage());
+//                 }
 //
-//            @Override
-//            public void onFailure(Call<List<CustomersAPIService.Customer>> call, Throwable t) {
-//                Log.e("RetrofitTester", "Got error", t);
+//                 @Override
+//                 public void onFailure(Call<ServerResponse<List<Customer>>> call, Throwable t) {
+//                     Log.e("RetrofitTester", "Got error", t);
+//                 }
 //            }
-//        });
-
-        CustomersAPIService.Customer customer = new CustomersAPIService.Customer();
-        customer.setFirstName("Android");
-        customer.setLastName("Stevenson");
-        customer.setEmail("themail2@the2.mail2");
-        customer.setPass(new byte[]{0,1,1,1,0,1,0,1,0,1}); // need to make this a string
-        customer.setPhone("0504578993");
-        customer.setAddress("android app");
-        productsAPIService.register3(customer).enqueue(new Callback<Void>() {
-//        productsAPIService.register(
-//                customer.getEmail(),
-//                customer.getPass(),
-//                customer.getFirstName(),
-//                customer.getLastName(),
-//                customer.getPhone(),
-//                customer.getAddress()
-//        ).enqueue(new Callback<Void>() {
-
+//        );
+        productsAPIService.register(
+                "androidmail@the.mail",
+                "androidpass",
+                "Android",
+                "Stevenson",
+                null,
+                null
+        ).enqueue(new ServerCallback<String>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                Log.i("RetrofitTester", "Got success");
+            public void onResponseSuccess(Call<ServerResponse<String>> call, Response<ServerResponse<String>> response, String result) {
+                Log.i("RetrofitTester", "Got success: "+result);
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onResponseError(Call<ServerResponse<String>> call, ServerResponse.ServerResponseError responseError) {
+                Log.e("RetrofitTester", "Got error:"+responseError.getMessage() );
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse<String>> call, Throwable t) {
                 Log.e("RetrofitTester", "Got error", t);
             }
-
         });
-
-
-
-
-
-
 
 
 

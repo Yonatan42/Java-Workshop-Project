@@ -1,5 +1,6 @@
 package com.yoni.javaworkshopprojectclient.Remote;
 
+import com.google.gson.Gson;
 import com.yoni.javaworkshopprojectclient.DataTransfer.CustomersAPIService;
 
 import java.io.File;
@@ -15,6 +16,9 @@ public class ApiUtils {
 
 //    public static final String BASE_URL = "https://yoni-rest-api-test.herokuapp.com/";
     public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/";
+
+    public static final Gson GSON = new Gson();
+
 
     // todo - to remove
     public static UserAPIService getUserAPIService() {
