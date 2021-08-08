@@ -76,13 +76,9 @@ public class Customers implements Serializable {
     @Size(max = 65535)
     @Column(name = "address")
     private String address;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;

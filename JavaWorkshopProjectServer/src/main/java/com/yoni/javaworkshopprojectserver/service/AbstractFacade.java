@@ -5,6 +5,7 @@
  */
 package com.yoni.javaworkshopprojectserver.service;
 
+import com.yoni.javaworkshopprojectserver.JAXRSConfiguration;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -20,7 +21,11 @@ public abstract class AbstractFacade<T> {
         this.entityClass = entityClass;
     }
 
-    protected abstract EntityManager getEntityManager();
+    protected EntityManager getEntityManager(){
+        return JAXRSConfiguration.EM;
+    }
+    
+//    protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
         getEntityManager().persist(entity);

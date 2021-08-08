@@ -16,6 +16,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -32,8 +33,8 @@ import javax.ws.rs.core.MediaType;
 @Path("customers")
 public class CustomersFacadeREST extends AbstractFacade<Customers> {
 
-    // @PersistenceContext(unitName = "my_persistence_unit")
-    private EntityManager em;
+//    @PersistenceContext(unitName = "my_persistence_unit")
+//    private EntityManager em;
 
     public CustomersFacadeREST() {
         super(Customers.class);
@@ -95,7 +96,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         c.setFirstName("fn1");
         c.setLastName("ln1");
         c.setPhone("0522020202");
-        c.setEmail("mail@mail.mail");
+        c.setEmail("makeit@mail.mail");
         c.setAddress("ze place");
         c.setPass(new byte[]{0,1,0,1});
         c.setCreated(new Date());
@@ -106,29 +107,80 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     @GET
     @Path("makeitagain")
     public void makeSomethingAgain() {
-        em.getTransaction().begin();
+        getEntityManager().getTransaction().begin();
 //        em.createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('s@s.s', ?, 'Steve', 'Anderson')").setParameter(1, new byte[]{0,0,0,1,1,0}).executeUpdate();
-        em.createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('test@test.test', 'superpass', 'Steve', 'Anderson')").executeUpdate();
-        em.getTransaction().commit();
+        getEntityManager().createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('test@test.test', 'superpass', 'Steve', 'Anderson')").executeUpdate();
+        getEntityManager().getTransaction().commit();
     }
     
     @GET
     @Path("selectcount")
     public long selectcount() {
-        return (long)em.createNativeQuery("SELECT COUNT(id) FROM customers").getSingleResult();
-    }
-
-
-    @Override
-    protected EntityManager getEntityManager() {
-//        try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(CustomersFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-
-        em = Persistence.createEntityManagerFactory("my_persistence_unit").createEntityManager();
-        return em;
+        return (long)getEntityManager().createNativeQuery("SELECT COUNT(id) FROM customers").getSingleResult();
     }
     
+
+//    
+    @POST
+    @Path("register")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void register(
+            @FormParam("email") String email, 
+            @FormParam("pass") String pass, 
+            @FormParam("firstName") String firstName, 
+            @FormParam("lastName") String lastName, 
+            @FormParam("phone") String phone, 
+            @FormParam("address") String address) {
+        getEntityManager().getTransaction().begin();
+        getEntityManager().createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name, phone, address) VALUES (?, ?, ?, ?, ?, ?)")
+                .setParameter(1, email)
+                .setParameter(2, pass.getBytes())
+                .setParameter(3, firstName)
+                .setParameter(4, lastName)
+                .setParameter(5, phone)
+                .setParameter(6, address)
+                .executeUpdate();
+        getEntityManager().getTransaction().commit();
+    }
+
+    
+    @POST
+    @Path("register2")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void register2(
+            @FormParam("email") String email, 
+            @FormParam("pass") String pass, 
+            @FormParam("firstName") String firstName, 
+            @FormParam("lastName") String lastName, 
+            @FormParam("phone") String phone, 
+            @FormParam("address") String address) {
+        Customers c = new Customers();
+        c.setFirstName(firstName);
+        c.setLastName(lastName);
+        c.setPhone(phone);
+        c.setEmail(email);
+        c.setAddress(address);
+        c.setPass(pass.getBytes()); // todo - password encryption
+        getEntityManager().getTransaction().begin();
+        super.create(c);
+        getEntityManager().getTransaction().commit();
+    }
+    
+    @POST
+    @Path("register3")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void register3(Customers entity) {
+        getEntityManager().getTransaction().begin();
+        super.create(entity);
+        getEntityManager().getTransaction().commit();
+    }
+
+//    @Override
+//    protected EntityManager getEntityManager() {
+////        if(em == null){
+////            em = Persistence.createEntityManagerFactory("my_persistence_unit").createEntityManager();
+////        }
+//        return em;
+//    }
+//    
 }

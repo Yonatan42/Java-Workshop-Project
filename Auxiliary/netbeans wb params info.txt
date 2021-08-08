@@ -1,0 +1,4 @@
+info on how to get a lot of different types of params in netbeans webservice
+
+https://www.twblogs.net/a/5c97935fbd9eee491b623e35
+(translate it from Chinese)
