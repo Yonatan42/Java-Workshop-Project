@@ -49,13 +49,15 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     public CustomersFacadeREST() {
         super(Customers.class);
     }
-
-    @POST
-    @Override
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void create(Customers entity) {
-        super.create(entity);
-    }
+    
+    // todo - delete. here we have register instead
+//
+//    @POST
+//    @Override
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public void create(Customers entity) {
+//        super.create(entity);
+//    }
 
     // todo - convert to response
     @PUT
@@ -87,9 +89,10 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
                         .build();
             }
             catch(IllegalArgumentException e){
+                e.printStackTrace(System.err);
                 return Response
                         .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject("no customer found to provided id")))
+                        .entity(JsonUtil.createResponseJson("no customer found to provided id", ResponseErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
         });
