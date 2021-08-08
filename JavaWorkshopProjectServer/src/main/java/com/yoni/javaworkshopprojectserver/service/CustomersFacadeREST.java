@@ -176,6 +176,21 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         super.create(entity);
         getEntityManager().getTransaction().commit();
     }
+    
+    
+    @POST
+    @Path("login")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN) // change this and all others to json 
+    public String login( 
+            @FormParam("email") String email, 
+            @FormParam("pass") String pass) {
+        Customers c = getEntityManager().createNamedQuery("Customers.findByEmail", Customers.class).setParameter("email", email).getSingleResult();
+        if(c != null){
+            return c.toString();
+        }
+        return "doesn't exist";
+    }
 
 //    @Override
 //    protected EntityManager getEntityManager() {
