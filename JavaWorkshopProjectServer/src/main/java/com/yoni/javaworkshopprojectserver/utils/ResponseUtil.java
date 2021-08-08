@@ -7,6 +7,7 @@ package com.yoni.javaworkshopprojectserver.utils;
 
 import java.util.function.Supplier;
 import javax.persistence.PersistenceException;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -14,17 +15,23 @@ import javax.persistence.PersistenceException;
  */
 public class ResponseUtil {
     
-    public static String RespondSafe(Supplier<String> action){
+    public static Response RespondSafe(Supplier<Response> action){
         try{
             return action.get();
         }
         catch(PersistenceException e){
             e.printStackTrace(System.err);
-            return JsonUtil.createResponseJson("a persistence error occurred", ResponseErrorCodes.PERSISTENCE_GENERAL);
+            return Response
+                    .status(500)
+                    .entity(JsonUtil.createResponseJson("a persistence error occurred", ResponseErrorCodes.PERSISTENCE_GENERAL))
+                    .build();
         }
         catch(Exception e){
             e.printStackTrace(System.err);
-            return JsonUtil.createResponseJson("unexpected error occurred", ResponseErrorCodes.UNKNOWN);
+            return Response
+                    .status(500)
+                    .entity(JsonUtil.createResponseJson("unexpected error occurred", ResponseErrorCodes.UNKNOWN))
+                    .build();
         }
     }
     

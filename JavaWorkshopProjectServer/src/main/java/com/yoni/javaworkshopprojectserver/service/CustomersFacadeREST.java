@@ -32,6 +32,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -189,7 +190,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     @Path("login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public String login( 
+    public Response login( 
             @FormParam("email") String email, 
             @FormParam("pass") String pass) {
 
@@ -197,14 +198,23 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
             
             List<Customers> resutls = getEntityManager().createNamedQuery("Customers.findByEmail", Customers.class).setParameter("email", email).getResultList();
             if(resutls.isEmpty()){
-                return JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.LOGIN_NO_SUCH_EMAIL);
+                return Response
+                        .status(Response.Status.UNAUTHORIZED)
+                        .entity(JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.LOGIN_NO_SUCH_EMAIL))
+                        .build();
             }
             else{
                 if(!BcryptUtil.checkEq(pass, resutls.get(0).getPass())){
-                    return JsonUtil.createResponseJson("login failed", ResponseErrorCodes.LOGIN_PASSWORD_MISSMATCH);
+                    return Response
+                        .status(Response.Status.FORBIDDEN)
+                        .entity(JsonUtil.createResponseJson("login failed", ResponseErrorCodes.LOGIN_PASSWORD_MISSMATCH))
+                        .build();
                 }
                 else{
-                    return JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject("login successful"));
+                    return Response
+                        .status(Response.Status.OK)
+                        .entity(JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject("login successful")))
+                        .build();
                 }
             }
         });
