@@ -49,7 +49,6 @@ SET NEW.modified = NOW();
 # test category
 INSERT INTO customers (email, pass, first_name, last_name) VALUES ('s@s.s', 'mysuperpass', 'Steve', 'Anderson');
 
-
 #test update
 # UPDATE customers  SET name = 'cat2' WHERE id = 1;
 

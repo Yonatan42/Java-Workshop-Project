@@ -18,13 +18,17 @@ ALTER TABLE products MODIFY description TEXT;
 
 # renamed the name column to title
 ALTER TABLE `products` CHANGE `name` `title` VARCHAR (64) NOT NULL;
+
+
+# change name and type of image_url to image_data (make blob for base64 encoding and allow it to be null - will have a placeholder on the client)
+ALTER TABLE `products` CHANGE `image_url` `image_data` BLOB;
 */
 
 CREATE TABLE products (
 	id INT NOT NULL AUTO_INCREMENT,
 	title VARCHAR (64) NOT NULL,
 	description TEXT,
-    image_url VARCHAR(256),
+    image_url BLOB,
 	created TIMESTAMP DEFAULT NOW(),
 	modified TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
@@ -44,7 +48,6 @@ INSERT INTO products (title) VALUES ('super test');
 
 # delete all from table
 DELETE FROM products WHERE id > 0;
-
 
 
 
