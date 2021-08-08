@@ -70,14 +70,6 @@
             <version>0.4</version>
         </dependency>
         
-        <!-- jdbc connector -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.26</version>
-            <scope>provided</scope>
-        </dependency>
-        
     </dependencies>
     
      <build>
