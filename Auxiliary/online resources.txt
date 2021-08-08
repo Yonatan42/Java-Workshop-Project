@@ -7,3 +7,6 @@ https://www.youtube.com/playlist?list=PLBgMUB7xGcO0m3XXwhHO76E876qIJ8JAd
 
 mysql tutorials
 https://www.youtube.com/playlist?list=PLyuRouwmQCjlXvBkTfGeDTq79r9_GoMt9
+
+another java web services playlist:
+https://www.youtube.com/playlist?list=PLqq-6Pq4lTTZh5U8RbdXq0WaYvZBz2rbn
