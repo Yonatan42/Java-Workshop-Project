@@ -41,12 +41,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Customers.findByModified", query = "SELECT c FROM Customers c WHERE c.modified = :modified")})
 public class Customers implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -55,9 +49,9 @@ public class Customers implements Serializable {
     private String email;
     @Basic(optional = false)
     @NotNull
-    @Lob
+    @Size(min = 60, max = 60)
     @Column(name = "pass")
-    private byte[] pass;
+    private String pass;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -76,6 +70,13 @@ public class Customers implements Serializable {
     @Size(max = 65535)
     @Column(name = "address")
     private String address;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
@@ -90,7 +91,7 @@ public class Customers implements Serializable {
         this.id = id;
     }
 
-    public Customers(Integer id, String email, byte[] pass, String firstName, String lastName, Date created, Date modified) {
+    public Customers(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
         this.id = id;
         this.email = email;
         this.pass = pass;
@@ -108,21 +109,6 @@ public class Customers implements Serializable {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public byte[] getPass() {
-        return pass;
-    }
-
-    public void setPass(byte[] pass) {
-        this.pass = pass;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -140,21 +126,6 @@ public class Customers implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public Date getCreated() {
         return created;
@@ -172,6 +143,39 @@ public class Customers implements Serializable {
         this.modified = modified;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

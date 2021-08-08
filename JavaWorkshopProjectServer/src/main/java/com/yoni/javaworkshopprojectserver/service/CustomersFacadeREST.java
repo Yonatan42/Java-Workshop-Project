@@ -6,6 +6,7 @@
 package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.Customers;
+import com.yoni.javaworkshopprojectserver.utils.BcryptUtil;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -98,7 +99,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         c.setPhone("0522020202");
         c.setEmail("makeit@mail.mail");
         c.setAddress("ze place");
-        c.setPass(new byte[]{0,1,0,1});
+        c.setPass("$2a$10$zl0b5Lry7kJSZLPA5HHkc.gdDjVfgFkuOx2NlaRXNV5IgVWHvt6E6");
         c.setCreated(new Date());
         c.setModified(new Date());
         super.create(c);
@@ -109,7 +110,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     public void makeSomethingAgain() {
         getEntityManager().getTransaction().begin();
 //        em.createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('s@s.s', ?, 'Steve', 'Anderson')").setParameter(1, new byte[]{0,0,0,1,1,0}).executeUpdate();
-        getEntityManager().createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('test@test.test', 'superpass', 'Steve', 'Anderson')").executeUpdate();
+        getEntityManager().createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('test@test.test', '$2a$10$i32v4vzRQrFvtKHjzwyd/u./BzQaxB4LeEPmYxe34UuOexlJhr9ou', 'Steve', 'Anderson')").executeUpdate();
         getEntityManager().getTransaction().commit();
     }
     
@@ -134,7 +135,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         getEntityManager().getTransaction().begin();
         getEntityManager().createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name, phone, address) VALUES (?, ?, ?, ?, ?, ?)")
                 .setParameter(1, email)
-                .setParameter(2, pass.getBytes())
+                .setParameter(2, BcryptUtil.encrypt(pass))
                 .setParameter(3, firstName)
                 .setParameter(4, lastName)
                 .setParameter(5, phone)
@@ -160,7 +161,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         c.setPhone(phone);
         c.setEmail(email);
         c.setAddress(address);
-        c.setPass(pass.getBytes()); // todo - password encryption
+        c.setPass(BcryptUtil.encrypt(pass));
         getEntityManager().getTransaction().begin();
         super.create(c);
         getEntityManager().getTransaction().commit();
@@ -170,6 +171,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     @Path("register3")
     @Consumes(MediaType.APPLICATION_JSON)
     public void register3(Customers entity) {
+        entity.setPass(BcryptUtil.encrypt(entity.getPass()));
         getEntityManager().getTransaction().begin();
         super.create(entity);
         getEntityManager().getTransaction().commit();

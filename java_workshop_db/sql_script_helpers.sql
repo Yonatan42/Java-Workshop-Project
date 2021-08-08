@@ -167,3 +167,9 @@ DELIMITER ;
 SELECT get_split_string_at_index('1,2,3,4', ',', 2);
 
 
+
+-- get clumn types of a given table:
+SELECT COLUMN_NAME, COLUMN_TYPE from INFORMATION_SCHEMA.COLUMNS where
+table_schema = 'java_workshop_db' and table_name = 'customers';
+
+

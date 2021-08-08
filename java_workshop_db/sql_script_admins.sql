@@ -4,11 +4,30 @@ USE java_workshop_db;
 DROP TRIGGER trigger_admins_update;
 DROP TABLE admins;
 
-
+/*
 CREATE TABLE admins (
 	id INT NOT NULL AUTO_INCREMENT,
 	email VARCHAR(320) NOT NULL UNIQUE,
     pass VARBINARY(256) NOT NULL,
+    first_name VARCHAR(32) NOT NULL,
+    last_name VARCHAR(32) NOT NULL,
+    phone VARCHAR(20),
+    address TEXT,
+	created TIMESTAMP DEFAULT NOW(),
+	modified TIMESTAMP DEFAULT NOW(),
+	PRIMARY KEY (id)
+);
+
+# made pass work with recommendations for bcrypt
+ALTER TABLE customers MODIFY pass CHAR(60) NOT NULL;
+*/
+
+
+
+CREATE TABLE admins (
+	id INT NOT NULL AUTO_INCREMENT,
+	email VARCHAR(320) NOT NULL UNIQUE,
+    pass CHAR(60) NOT NULL,
     first_name VARCHAR(32) NOT NULL,
     last_name VARCHAR(32) NOT NULL,
     phone VARCHAR(20),
@@ -49,5 +68,7 @@ SELECT *, 1 AS is_admin FROM admins;
 
 
 SELECT * FROM users;
+
+
 
 
