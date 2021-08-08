@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
@@ -56,6 +57,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         super.create(entity);
     }
 
+    // todo - convert to response
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -63,126 +65,108 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         super.edit(entity);
     }
 
+    // todo - convert to response
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
         super.remove(super.find(id));
     }
 
+    
+    // todo - we probably don't want this since we are talking about customers
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Customers find(@PathParam("id") Integer id) {
-        return super.find(id);
+    public Response find(@PathParam("id") Integer id) {
+        return ResponseUtil.RespondSafe(() -> {
+            try{
+                Customers c = super.find(id);
+                return Response
+                        .status(Response.Status.OK)
+                        .entity(JsonUtil.convertToJson(c))
+                        .build();
+            }
+            catch(IllegalArgumentException e){
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(JsonUtil.createSimpleMessageObject("no customer found to provided id"))
+                        .build();
+            }
+        });
     }
 
+    // todo - we probably don't want this since we are talking about customers
     @GET
-    @Override
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Customers> findAll() {
-        return super.findAll();
+    public Response findAllRes() {
+        return ResponseUtil.RespondSafe(() -> {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(JsonUtil.convertToJson(super.findAll()))
+                    .build();
+        });
     }
 
-    @GET
-    @Path("{from}/{to}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Customers> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
 
     @GET
     @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
-    
-    
-    @GET
-    @Path("makeit")
-    public void makeSomething() {
-        Customers c = new Customers();
-        c.setFirstName("fn1");
-        c.setLastName("ln1");
-        c.setPhone("0522020202");
-        c.setEmail("makeit@mail.mail");
-        c.setAddress("ze place");
-        c.setPass("$2a$10$zl0b5Lry7kJSZLPA5HHkc.gdDjVfgFkuOx2NlaRXNV5IgVWHvt6E6");
-        c.setCreated(new Date());
-        c.setModified(new Date());
-        super.create(c);
-    }
-    
-    @GET
-    @Path("makeitagain")
-    public void makeSomethingAgain() {
-        getEntityManager().getTransaction().begin();
-//        em.createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('s@s.s', ?, 'Steve', 'Anderson')").setParameter(1, new byte[]{0,0,0,1,1,0}).executeUpdate();
-        getEntityManager().createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name) VALUES ('test@test.test', '$2a$10$i32v4vzRQrFvtKHjzwyd/u./BzQaxB4LeEPmYxe34UuOexlJhr9ou', 'Steve', 'Anderson')").executeUpdate();
-        getEntityManager().getTransaction().commit();
-    }
-    
-    @GET
-    @Path("selectcount")
-    public long selectcount() {
-        return (long)getEntityManager().createNativeQuery("SELECT COUNT(id) FROM customers").getSingleResult();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response countRes() {
+        return ResponseUtil.RespondSafe(() -> {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject(String.valueOf(super.count()))))
+                    .build();
+        });
     }
     
 
-//    
+    
     @POST
     @Path("register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void register(
+    public Response register(
             @FormParam("email") String email, 
             @FormParam("pass") String pass, 
             @FormParam("firstName") String firstName, 
             @FormParam("lastName") String lastName, 
             @FormParam("phone") String phone, 
             @FormParam("address") String address) {
-        getEntityManager().getTransaction().begin();
-        getEntityManager().createNativeQuery("INSERT INTO customers (email, pass, first_name, last_name, phone, address) VALUES (?, ?, ?, ?, ?, ?)")
-                .setParameter(1, email)
-                .setParameter(2, BcryptUtil.encrypt(pass))
-                .setParameter(3, firstName)
-                .setParameter(4, lastName)
-                .setParameter(5, phone)
-                .setParameter(6, address)
-                .executeUpdate();
-        getEntityManager().getTransaction().commit();
-    }
+        
+        return ResponseUtil.RespondSafe(() -> {
+                getEntityManager().getTransaction().begin();
+                
+                try{
+                    
+                    Customers c = new Customers();
+                    c.setFirstName(firstName);
+                    c.setLastName(lastName);
+                    c.setPhone(phone);
+                    c.setEmail(email);
+                    c.setAddress(address);
+                    c.setPass(BcryptUtil.encrypt(pass));
+                    super.create(c);
 
-    
-    @POST
-    @Path("register2")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void register2(
-            @FormParam("email") String email, 
-            @FormParam("pass") String pass, 
-            @FormParam("firstName") String firstName, 
-            @FormParam("lastName") String lastName, 
-            @FormParam("phone") String phone, 
-            @FormParam("address") String address) {
-        Customers c = new Customers();
-        c.setFirstName(firstName);
-        c.setLastName(lastName);
-        c.setPhone(phone);
-        c.setEmail(email);
-        c.setAddress(address);
-        c.setPass(BcryptUtil.encrypt(pass));
-        getEntityManager().getTransaction().begin();
-        super.create(c);
-        getEntityManager().getTransaction().commit();
-    }
-    
-    @POST
-    @Path("register3")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void register3(Customers entity) {
-        entity.setPass(BcryptUtil.encrypt(entity.getPass()));
-        getEntityManager().getTransaction().begin();
-        super.create(entity);
-        getEntityManager().getTransaction().commit();
+                }
+                catch(EntityExistsException e){
+                    e.printStackTrace(System.err);
+                    
+                    return Response
+                        .status(Response.Status.CONFLICT)
+                        .entity(JsonUtil.createResponseJson("customer already exists", ResponseErrorCodes.USERS_USER_ALREADY_EXISTS))
+                        .build();
+                }
+                
+                getEntityManager().getTransaction().commit();
+                                   
+                return Response
+                    .status(Response.Status.CREATED)
+                    .entity(JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject("customer created")))
+                    .build();
+
+        });
+        
+
     }
     
     
@@ -200,14 +184,14 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
             if(resutls.isEmpty()){
                 return Response
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity(JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.LOGIN_NO_SUCH_EMAIL))
+                        .entity(JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
             else{
                 if(!BcryptUtil.checkEq(pass, resutls.get(0).getPass())){
                     return Response
                         .status(Response.Status.FORBIDDEN)
-                        .entity(JsonUtil.createResponseJson("login failed", ResponseErrorCodes.LOGIN_PASSWORD_MISSMATCH))
+                        .entity(JsonUtil.createResponseJson("login failed", ResponseErrorCodes.USERS_PASSWORD_MISSMATCH))
                         .build();
                 }
                 else{

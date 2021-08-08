@@ -22,14 +22,14 @@ public class ResponseUtil {
         catch(PersistenceException e){
             e.printStackTrace(System.err);
             return Response
-                    .status(500)
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(JsonUtil.createResponseJson("a persistence error occurred", ResponseErrorCodes.PERSISTENCE_GENERAL))
                     .build();
         }
         catch(Exception e){
             e.printStackTrace(System.err);
             return Response
-                    .status(500)
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(JsonUtil.createResponseJson("unexpected error occurred", ResponseErrorCodes.UNKNOWN))
                     .build();
         }

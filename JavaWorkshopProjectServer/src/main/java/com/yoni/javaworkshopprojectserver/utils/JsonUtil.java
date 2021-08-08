@@ -17,8 +17,9 @@ import com.google.gson.JsonPrimitive;
  */
 public class JsonUtil {
  
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    
     private static String createResponseJson(JsonElement result, String errorMessage, int errorCode){
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonObject jsonRoot = new JsonObject();
         boolean hasError = errorCode > 0;
         jsonRoot.addProperty("hasError", hasError);
@@ -33,7 +34,7 @@ public class JsonUtil {
             jsonRoot.add("result", result);
         }
         
-        return gson.toJson(jsonRoot);
+        return GSON.toJson(jsonRoot);
     }
     
     public static String createResponseJson(JsonElement result){
@@ -46,6 +47,10 @@ public class JsonUtil {
     
     public static JsonElement createSimpleMessageObject(String message){
         return new JsonPrimitive(message);
+    }
+    
+    public static JsonElement convertToJson(Object entity){
+        return GSON.toJsonTree(entity);
     }
 
     
