@@ -83,13 +83,13 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
                 Customers c = super.find(id);
                 return Response
                         .status(Response.Status.OK)
-                        .entity(JsonUtil.convertToJson(c))
+                        .entity(JsonUtil.createResponseJson(JsonUtil.convertToJson(c)))
                         .build();
             }
             catch(IllegalArgumentException e){
                 return Response
                         .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtil.createSimpleMessageObject("no customer found to provided id"))
+                        .entity(JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject("no customer found to provided id")))
                         .build();
             }
         });
@@ -102,7 +102,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         return ResponseUtil.RespondSafe(() -> {
             return Response
                     .status(Response.Status.OK)
-                    .entity(JsonUtil.convertToJson(super.findAll()))
+                    .entity(JsonUtil.createResponseJson(JsonUtil.convertToJson(super.findAll())))
                     .build();
         });
     }

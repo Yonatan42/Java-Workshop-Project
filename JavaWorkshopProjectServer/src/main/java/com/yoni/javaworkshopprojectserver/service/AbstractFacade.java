@@ -5,8 +5,9 @@
  */
 package com.yoni.javaworkshopprojectserver.service;
 
-import com.yoni.javaworkshopprojectserver.JAXRSConfiguration;
+import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 
 /**
@@ -15,6 +16,10 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractFacade<T> {
 
+    
+    @EJB
+    private EntityManagerSingleton resourceManagerBean;
+    
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -22,7 +27,7 @@ public abstract class AbstractFacade<T> {
     }
 
     protected EntityManager getEntityManager(){
-        return JAXRSConfiguration.EM;
+          return resourceManagerBean.getEntityManager();
     }
     
 //    protected abstract EntityManager getEntityManager();

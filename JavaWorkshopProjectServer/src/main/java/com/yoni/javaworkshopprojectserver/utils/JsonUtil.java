@@ -52,6 +52,14 @@ public class JsonUtil {
     public static JsonElement convertToJson(Object entity){
         return GSON.toJsonTree(entity);
     }
+    
+    public static String convertToJsonString(Object entity){
+        return GSON.toJson(entity);
+    }
+    
+    public static String convertJsonToString(JsonElement json){
+        return GSON.toJson(json);
+    }
 
     
     
