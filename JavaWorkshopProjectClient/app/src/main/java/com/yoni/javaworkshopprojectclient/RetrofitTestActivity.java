@@ -9,8 +9,6 @@ import android.util.Log;
 
 import com.yoni.javaworkshopprojectclient.DataTransfer.CustomersAPIService;
 import com.yoni.javaworkshopprojectclient.Remote.ApiUtils;
-import com.yoni.javaworkshopprojectclient.Remote.ProductsAPIService;
-import com.yoni.javaworkshopprojectclient.Remote.UserAPIService;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,17 +34,46 @@ public class RetrofitTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_retrofit_tester);
 
         CustomersAPIService productsAPIService = ApiUtils.getCustomersAPIService();
-        productsAPIService.getAllProducts().enqueue(new Callback<List<CustomersAPIService.Customer>>() {
+//        productsAPIService.getAllCustomers().enqueue(new Callback<List<CustomersAPIService.Customer>>() {
+//
+//            @Override
+//            public void onResponse(Call<List<CustomersAPIService.Customer>> call, Response<List<CustomersAPIService.Customer>> response) {
+//                Log.i("RetrofitTester", "Got "+response.body().size()+" Products: \n"+response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<CustomersAPIService.Customer>> call, Throwable t) {
+//                Log.e("RetrofitTester", "Got error", t);
+//            }
+//        });
+
+        CustomersAPIService.Customer customer = new CustomersAPIService.Customer();
+        customer.setFirstName("Android");
+        customer.setLastName("Stevenson");
+        customer.setEmail("themail2@the2.mail2");
+        customer.setPass(new byte[]{0,1,1,1,0,1,0,1,0,1}); // need to make this a string
+        customer.setPhone("0504578993");
+        customer.setAddress("android app");
+        productsAPIService.register3(customer).enqueue(new Callback<Void>() {
+//        productsAPIService.register(
+//                customer.getEmail(),
+//                customer.getPass(),
+//                customer.getFirstName(),
+//                customer.getLastName(),
+//                customer.getPhone(),
+//                customer.getAddress()
+//        ).enqueue(new Callback<Void>() {
 
             @Override
-            public void onResponse(Call<List<CustomersAPIService.Customer>> call, Response<List<CustomersAPIService.Customer>> response) {
-                Log.i("RetrofitTester", "Got "+response.body().size()+" Products: \n"+response.body());
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.i("RetrofitTester", "Got success");
             }
 
             @Override
-            public void onFailure(Call<List<CustomersAPIService.Customer>> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Log.e("RetrofitTester", "Got error", t);
             }
+
         });
 
 

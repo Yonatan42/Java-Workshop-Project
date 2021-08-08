@@ -28,7 +28,19 @@ public interface CustomersAPIService {
     String URL = "customers/";
 
     @GET(URL)
-    Call<List<Customer>> getAllProducts();
+    Call<List<Customer>> getAllCustomers();
+
+    @POST(URL+"register3/")
+    Call<Void> register3(@Body Customer customer);
+
+    @POST(URL+"register/")
+    @FormUrlEncoded
+    Call<Void> register(@Field("email") String email,
+                        @Field("pass") byte[] pass,
+                        @Field("firstName") String firstName,
+                        @Field("lastName") String lastName,
+                        @Field("phone") String phone,
+                        @Field("address") String address);
 
 
     public class Customer {
@@ -61,6 +73,77 @@ public interface CustomersAPIService {
         @Expose
         private Date modified;
 
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public byte[] getPass() {
+            return pass;
+        }
+
+        public void setPass(byte[] pass) {
+            this.pass = pass;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public Date getCreated() {
+            return created;
+        }
+
+        public void setCreated(Date created) {
+            this.created = created;
+        }
+
+        public Date getModified() {
+            return modified;
+        }
+
+        public void setModified(Date modified) {
+            this.modified = modified;
+        }
 
         @Override
         public String toString() {
