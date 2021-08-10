@@ -1,7 +1,6 @@
-package com.yoni.javaworkshopprojectclient.Remote;
+package com.yoni.javaworkshopprojectclient.remote;
 
-import com.google.gson.Gson;
-import com.yoni.javaworkshopprojectclient.DataTransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 
 import java.io.IOException;
 

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.yoni.javaworkshopprojectserver;
+package com.yoni.javaworkshopprojectserver.models;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "customers")
-@XmlRootElement
+@XmlRootElement // todo - check if this annotation is needed
 @NamedQueries({
     @NamedQuery(name = "Customers.findAll", query = "SELECT c FROM Customers c"),
     @NamedQuery(name = "Customers.findById", query = "SELECT c FROM Customers c WHERE c.id = :id"),
@@ -41,11 +42,27 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Customers.findByModified", query = "SELECT c FROM Customers c WHERE c.modified = :modified")})
 public class Customers implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    @Expose
+    private Integer id;
+    @Column(name = "created")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Expose
+    private Date created;
+    @Column(name = "modified")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Expose
+    private Date modified;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 320)
     @Column(name = "email")
+    @Expose
     private String email;
     @Basic(optional = false)
     @NotNull
@@ -56,33 +73,26 @@ public class Customers implements Serializable {
     @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "first_name")
+    @Expose
     private String firstName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "last_name")
+    @Expose
     private String lastName;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Size(max = 20)
     @Column(name = "phone")
+    @Expose
     private String phone;
     @Lob
     @Size(max = 65535)
     @Column(name = "address")
+    @Expose
     private String address;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Column(name = "created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
-    @Column(name = "modified")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modified;
+    
 
     public Customers() {
     }

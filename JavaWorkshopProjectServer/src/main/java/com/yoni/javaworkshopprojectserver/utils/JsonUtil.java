@@ -17,7 +17,7 @@ import com.google.gson.JsonPrimitive;
  */
 public class JsonUtil {
  
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     
     private static String createResponseJson(JsonElement result, String errorMessage, int errorCode){
         JsonObject jsonRoot = new JsonObject();

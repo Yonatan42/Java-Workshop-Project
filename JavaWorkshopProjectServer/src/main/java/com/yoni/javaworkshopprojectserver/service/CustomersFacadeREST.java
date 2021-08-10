@@ -8,7 +8,7 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.yoni.javaworkshopprojectserver.Customers;
+import com.yoni.javaworkshopprojectserver.models.Customers;
 import com.yoni.javaworkshopprojectserver.utils.BcryptUtil;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
 import com.yoni.javaworkshopprojectserver.utils.ResponseErrorCodes;
@@ -151,7 +151,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
                     super.create(c);
 
                 }
-                catch(EntityExistsException e){
+                catch(EntityExistsException e){// java.sql.SQLIntegrityConstraintViolationException
                     e.printStackTrace(System.err);
                     
                     return Response

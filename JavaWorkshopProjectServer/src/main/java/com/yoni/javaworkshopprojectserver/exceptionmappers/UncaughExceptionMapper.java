@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exceptionmappers;
+package com.yoni.javaworkshopprojectserver.exceptionmappers;
 
 import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
 import com.yoni.javaworkshopprojectserver.utils.ResponseErrorCodes;

@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.Remote;
+package com.yoni.javaworkshopprojectclient.remote;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

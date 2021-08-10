@@ -1,7 +1,7 @@
-package com.yoni.javaworkshopprojectclient.Remote;
+package com.yoni.javaworkshopprojectclient.remote;
 
 import com.google.gson.Gson;
-import com.yoni.javaworkshopprojectclient.DataTransfer.CustomersAPIService;
+import com.yoni.javaworkshopprojectclient.datatransfer.CustomersAPIService;
 
 import java.io.File;
 

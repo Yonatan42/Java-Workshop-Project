@@ -1,12 +1,8 @@
-package com.yoni.javaworkshopprojectclient.DataTransfer;
+package com.yoni.javaworkshopprojectclient.datatransfer;
 
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.yoni.javaworkshopprojectclient.DataTransfer.Models.Customer;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.Customer;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;

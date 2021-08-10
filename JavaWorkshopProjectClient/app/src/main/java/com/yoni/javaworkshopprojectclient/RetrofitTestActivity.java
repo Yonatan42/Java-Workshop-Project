@@ -7,18 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.yoni.javaworkshopprojectclient.DataTransfer.CustomersAPIService;
-import com.yoni.javaworkshopprojectclient.DataTransfer.Models.Customer;
-import com.yoni.javaworkshopprojectclient.DataTransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.Remote.ApiUtils;
-import com.yoni.javaworkshopprojectclient.Remote.ServerCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.CustomersAPIService;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.remote.ApiUtils;
+import com.yoni.javaworkshopprojectclient.remote.ServerCallback;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RetrofitTestActivity extends AppCompatActivity {
