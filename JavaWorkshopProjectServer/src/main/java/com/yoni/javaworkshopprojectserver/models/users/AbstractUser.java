@@ -17,9 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -31,7 +28,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class AbstractUsers implements Serializable {
+public abstract class AbstractUser implements Serializable {
  
     
 private static final long serialVersionUID = 1L;
@@ -86,14 +83,14 @@ private static final long serialVersionUID = 1L;
 
     
 
-    public AbstractUsers() {
+    public AbstractUser() {
     }
 
-    public AbstractUsers(Integer id) {
+    public AbstractUser(Integer id) {
         this.id = id;
     }
 
-    public AbstractUsers(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
+    public AbstractUser(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
         this.id = id;
         this.email = email;
         this.pass = pass;
@@ -187,10 +184,10 @@ private static final long serialVersionUID = 1L;
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof AbstractUsers)) {
+        if (!(object instanceof AbstractUser)) {
             return false;
         }
-        AbstractUsers other = (AbstractUsers) object;
+        AbstractUser other = (AbstractUser) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -199,7 +196,7 @@ private static final long serialVersionUID = 1L;
 
     @Override
     public String toString() {
-        return "Users{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
+        return "AbstractUser{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
     }
 
     
