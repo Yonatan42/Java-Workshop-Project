@@ -101,3 +101,42 @@ DELIMITER ;
 
 
 SELECT generate_secret_key();
+
+
+
+
+
+
+
+
+
+
+DROP PROCEDURE refresh_secret_key;
+
+DELIMITER $$
+CREATE PROCEDURE refresh_secret_key(
+	IN p_email VARCHAR(320)
+)
+BEGIN
+    DECLARE p_id INT;
+    DECLARE p_is_admin TINYINT(1);
+    
+    SELECT id, is_admin INTO p_id, p_is_admin FROM users WHERE email = p_email;
+    
+    IF p_is_admin THEN
+		UPDATE admins SET secret_key = generate_secret_key() WHERE id = p_id;
+	ELSE
+		UPDATE customers SET secret_key = generate_secret_key() WHERE id = p_id;
+	END IF;
+
+    
+END$$
+
+DELIMITER ;
+
+
+
+CALL refresh_secret_key('y@y.y');
+
+
+
