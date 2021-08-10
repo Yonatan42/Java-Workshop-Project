@@ -19,7 +19,11 @@ CREATE TABLE admins (
 );
 
 # made pass work with recommendations for bcrypt
-ALTER TABLE customers MODIFY pass CHAR(60) NOT NULL;
+ALTER TABLE admins MODIFY pass CHAR(60) NOT NULL;
+
+# add secret key
+ALTER TABLE admins ADD secret_key CHAR(64) NOT NULL AFTER address;
+
 */
 
 
@@ -32,6 +36,7 @@ CREATE TABLE admins (
     last_name VARCHAR(32) NOT NULL,
     phone VARCHAR(20),
     address TEXT,
+    secret_key CHAR(64) NOT NULL,
 	created TIMESTAMP DEFAULT NOW(),
 	modified TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
@@ -42,8 +47,14 @@ BEFORE UPDATE ON admins
 FOR EACH ROW
 SET NEW.modified = NOW();
 
+
+CREATE TRIGGER trigger_admins_insert
+BEFORE INSERT ON admins 
+FOR EACH ROW
+SET NEW.secret_key = generate_secret_key();
+
 # test category
-INSERT INTO admins (email, pass, first_name, last_name) VALUES ('admin2@admin.admin', 'mysuperpass', 'admin2', 'administrator2');
+INSERT INTO customers (email, pass, first_name, last_name) VALUES ('admin3@admin.admin', 'mysuperpass', 'admin2', 'administrator2');
 
 #test update
 # UPDATE customers  SET name = 'cat2' WHERE id = 1;
@@ -58,8 +69,9 @@ DELETE FROM admins WHERE id > 0;
 SELECT * FROM admins;
 
 
-
 # view that consolidates customers and admins together as users (used for login)
+
+DROP VIEW users;
 
 CREATE VIEW users AS
 SELECT *, 0 AS is_admin FROM customers
@@ -72,3 +84,20 @@ SELECT * FROM users;
 
 
 
+
+
+
+DROP FUNCTION generate_secret_key;
+
+DELIMITER $$
+
+CREATE FUNCTION generate_secret_key() 
+RETURNS CHAR(64)
+NOT DETERMINISTIC
+BEGIN
+    RETURN  SHA2(UUID(), 256);
+END$$
+DELIMITER ;
+
+
+SELECT generate_secret_key();
