@@ -8,9 +8,12 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.yoni.javaworkshopprojectserver.models.Customers;
+import com.yoni.javaworkshopprojectserver.models.users.AbstractUsers;
+import com.yoni.javaworkshopprojectserver.models.users.Customers;
+import com.yoni.javaworkshopprojectserver.models.users.FullUsers;
 import com.yoni.javaworkshopprojectserver.utils.BcryptUtil;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
+import com.yoni.javaworkshopprojectserver.utils.JwtUtil;
 import com.yoni.javaworkshopprojectserver.utils.ResponseErrorCodes;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtil;
 import java.util.Date;
@@ -27,12 +30,15 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 /**
@@ -41,10 +47,10 @@ import javax.ws.rs.core.Response;
  */
 @Stateless
 @Path("customers")
-public class CustomersFacadeREST extends AbstractFacade<Customers> {
+public class UsersFacadeREST extends AbstractFacade<AbstractUsers> {
 
-    public CustomersFacadeREST() {
-        super(Customers.class);
+    public UsersFacadeREST() {
+        super(AbstractUsers.class);
     }
     
     // todo - delete. here we have register instead
@@ -60,7 +66,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void edit(@PathParam("id") Integer id, Customers entity) {
+    public void edit(@PathParam("id") Integer id, AbstractUsers entity) {
         super.edit(entity);
     }
 
@@ -79,7 +85,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
     public Response find(@PathParam("id") Integer id) {
         return ResponseUtil.RespondSafe(() -> {
             try{
-                Customers c = super.find(id);
+                AbstractUsers c = super.find(id);
                 return Response
                         .status(Response.Status.OK)
                         .entity(JsonUtil.createResponseJson(JsonUtil.convertToJson(c)))
@@ -174,7 +180,7 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
 
         return ResponseUtil.RespondSafe(() -> {
             
-            Customers c = findByEmail(email);
+            AbstractUsers c = findByEmail(email);
             if(c == null){
                 return Response
                         .status(Response.Status.UNAUTHORIZED)
@@ -198,11 +204,43 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
         });
     }
     
-    private Customers findByEmail(String email){
-            List<Customers> results = getEntityManager().createNamedQuery("Customers.findByEmail", Customers.class).setParameter("email", email).getResultList();
+    private AbstractUsers findByEmail(String email){
+            List<FullUsers> results = getEntityManager().createNamedQuery("FullUsers.findByEmail", FullUsers.class).setParameter("email", email).getResultList();
             if(results.isEmpty()){
                 return null;
             }
             return results.get(0);
     } 
+    
+    
+    @GET
+    @Path("token/create/{email}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String testToken(@PathParam("email") String email) {
+        return JwtUtil.create(email);
+    }
+    
+    @GET
+    @Path("token/validate/{email}/{token}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public boolean testToken(@PathParam("email") String email, @PathParam("token") String token) {
+        return JwtUtil.isValid(token, email);
+    }
+    
+    
+
+//    private boolean checkAuth(
+//            /*@HeaderParam("authorization") */String token) {
+//        if(JwtUtil.isExpired(token)){
+//            return false;
+//        }
+//        String email = JwtUtil.getEmail(token);
+//    }
 }
+
+
+/*
+todo - 
+I have renamed this to UsersFacadeREST
+the intention is to have the entire user service here including customers, admins, both together (users), as well as token endpoints 
+*/

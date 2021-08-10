@@ -19,5 +19,9 @@ public class ResponseErrorCodes {
   public static final int USERS_PASSWORD_MISSMATCH = 401;
   public static final int USERS_NO_SUCH_USER = 402;
   public static final int USERS_USER_ALREADY_EXISTS = 403;
+  
+  public static final int TOKEN_GENERAL = 501;
+  public static final int TOKEN_EXPIRED = 502;
+  public static final int TOKEN_INVALID = 503;
 
 }

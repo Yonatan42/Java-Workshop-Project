@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.yoni.javaworkshopprojectserver.models;
+package com.yoni.javaworkshopprojectserver.models.users;
 
 import com.google.gson.annotations.Expose;
 import java.io.Serializable;
@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,86 +24,76 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Yoni
  */
 @Entity
-@Table(name = "customers")
-@XmlRootElement // todo - check if this annotation is needed
-@NamedQueries({
-    @NamedQuery(name = "Customers.findAll", query = "SELECT c FROM Customers c"),
-    @NamedQuery(name = "Customers.findById", query = "SELECT c FROM Customers c WHERE c.id = :id"),
-    @NamedQuery(name = "Customers.findByEmail", query = "SELECT c FROM Customers c WHERE c.email = :email"),
-    @NamedQuery(name = "Customers.findByFirstName", query = "SELECT c FROM Customers c WHERE c.firstName = :firstName"),
-    @NamedQuery(name = "Customers.findByLastName", query = "SELECT c FROM Customers c WHERE c.lastName = :lastName"),
-    @NamedQuery(name = "Customers.findByPhone", query = "SELECT c FROM Customers c WHERE c.phone = :phone"),
-    @NamedQuery(name = "Customers.findByCreated", query = "SELECT c FROM Customers c WHERE c.created = :created"),
-    @NamedQuery(name = "Customers.findByModified", query = "SELECT c FROM Customers c WHERE c.modified = :modified")})
-public class Customers implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class AbstractUsers implements Serializable {
+ 
+    
+private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     @Expose
-    private Integer id;
+    protected Integer id;
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
-    private Date created;
+    protected Date created;
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
-    private Date modified;
+    protected Date modified;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 320)
     @Column(name = "email")
     @Expose
-    private String email;
+    protected String email;
     @Basic(optional = false)
     @NotNull
     @Size(min = 60, max = 60)
     @Column(name = "pass")
-    private String pass;
+    protected String pass;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "first_name")
     @Expose
-    private String firstName;
+    protected String firstName;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "last_name")
     @Expose
-    private String lastName;
+    protected String lastName;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Size(max = 20)
     @Column(name = "phone")
     @Expose
-    private String phone;
+    protected String phone;
     @Lob
     @Size(max = 65535)
     @Column(name = "address")
     @Expose
-    private String address;
+    protected String address;
 
     
 
-    public Customers() {
+    public AbstractUsers() {
     }
 
-    public Customers(Integer id) {
+    public AbstractUsers(Integer id) {
         this.id = id;
     }
 
-    public Customers(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
+    public AbstractUsers(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
         this.id = id;
         this.email = email;
         this.pass = pass;
@@ -184,8 +176,7 @@ public class Customers implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -196,10 +187,10 @@ public class Customers implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Customers)) {
+        if (!(object instanceof AbstractUsers)) {
             return false;
         }
-        Customers other = (Customers) object;
+        AbstractUsers other = (AbstractUsers) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -208,7 +199,9 @@ public class Customers implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.Customers[ id=" + id + " ]";
+        return "Users{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
     }
+
+    
     
 }
