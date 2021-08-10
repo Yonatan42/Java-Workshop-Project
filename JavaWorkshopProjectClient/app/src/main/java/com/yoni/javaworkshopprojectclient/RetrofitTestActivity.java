@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.CustomersAPIService;
+import com.yoni.javaworkshopprojectclient.datatransfer.CustomersService;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.remote.ApiUtils;
+import com.yoni.javaworkshopprojectclient.remote.RemoteService;
 import com.yoni.javaworkshopprojectclient.remote.ServerCallback;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class RetrofitTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_retrofit_tester);
 
-        CustomersAPIService productsAPIService = ApiUtils.getCustomersAPIService();
+        CustomersService productsAPIService = RemoteService.getInstance().getCustomersService();
 //        productsAPIService.getAllCustomers().enqueue(new ServerCallback<List<Customer>>() {
 //                 @Override
 //                 public void onResponseSuccess(Call<ServerResponse<List<Customer>>> call, Response<ServerResponse<List<Customer>>> response, List<Customer> result) {
@@ -66,7 +66,7 @@ public class RetrofitTestActivity extends AppCompatActivity {
 
             @Override
             public void onResponseError(Call<ServerResponse<String>> call, ServerResponse.ServerResponseError responseError) {
-                Log.e("RetrofitTester", "Got error:"+responseError.getMessage() );
+                Log.e("RetrofitTester", "Got error: "+responseError.getMessage() );
             }
 
             @Override

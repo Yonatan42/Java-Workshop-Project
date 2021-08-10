@@ -43,9 +43,6 @@ import javax.ws.rs.core.Response;
 @Path("customers")
 public class CustomersFacadeREST extends AbstractFacade<Customers> {
 
-//    @PersistenceContext(unitName = "my_persistence_unit")
-//    private EntityManager em;
-
     public CustomersFacadeREST() {
         super(Customers.class);
     }
@@ -137,29 +134,23 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
             @FormParam("address") String address) {
         
         return ResponseUtil.RespondSafe(() -> {
+                if(findByEmail(email) != null){
+                    return Response
+                            .status(Response.Status.CONFLICT)
+                            .entity(JsonUtil.createResponseJson("customer already exists", ResponseErrorCodes.USERS_USER_ALREADY_EXISTS))
+                            .build();
+                }
                 getEntityManager().getTransaction().begin();
                 
-                try{
-                    
-                    Customers c = new Customers();
-                    c.setFirstName(firstName);
-                    c.setLastName(lastName);
-                    c.setPhone(phone);
-                    c.setEmail(email);
-                    c.setAddress(address);
-                    c.setPass(BcryptUtil.encrypt(pass));
-                    super.create(c);
+                Customers c = new Customers();
+                c.setFirstName(firstName);
+                c.setLastName(lastName);
+                c.setPhone(phone);
+                c.setEmail(email);
+                c.setAddress(address);
+                c.setPass(BcryptUtil.encrypt(pass));
+                super.create(c);
 
-                }
-                catch(EntityExistsException e){// java.sql.SQLIntegrityConstraintViolationException
-                    e.printStackTrace(System.err);
-                    
-                    return Response
-                        .status(Response.Status.CONFLICT)
-                        .entity(JsonUtil.createResponseJson("customer already exists", ResponseErrorCodes.USERS_USER_ALREADY_EXISTS))
-                        .build();
-                }
-                
                 getEntityManager().getTransaction().commit();
                                    
                 return Response
@@ -183,15 +174,15 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
 
         return ResponseUtil.RespondSafe(() -> {
             
-            List<Customers> resutls = getEntityManager().createNamedQuery("Customers.findByEmail", Customers.class).setParameter("email", email).getResultList();
-            if(resutls.isEmpty()){
+            Customers c = findByEmail(email);
+            if(c == null){
                 return Response
                         .status(Response.Status.UNAUTHORIZED)
                         .entity(JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
             else{
-                if(!BcryptUtil.checkEq(pass, resutls.get(0).getPass())){
+                if(!BcryptUtil.checkEq(pass, c.getPass())){
                     return Response
                         .status(Response.Status.FORBIDDEN)
                         .entity(JsonUtil.createResponseJson("login failed", ResponseErrorCodes.USERS_PASSWORD_MISSMATCH))
@@ -206,13 +197,12 @@ public class CustomersFacadeREST extends AbstractFacade<Customers> {
             }
         });
     }
-
-//    @Override
-//    protected EntityManager getEntityManager() {
-////        if(em == null){
-////            em = Persistence.createEntityManagerFactory("my_persistence_unit").createEntityManager();
-////        }
-//        return em;
-//    }
-//    
+    
+    private Customers findByEmail(String email){
+            List<Customers> results = getEntityManager().createNamedQuery("Customers.findByEmail", Customers.class).setParameter("email", email).getResultList();
+            if(results.isEmpty()){
+                return null;
+            }
+            return results.get(0);
+    } 
 }

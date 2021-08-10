@@ -14,7 +14,7 @@ public abstract class ServerCallback<T> implements Callback<ServerResponse<T>> {
         if(!response.isSuccessful()) {
             try {
                 String errorBodyContent = response.errorBody().string();
-                ServerResponse res = ApiUtils.GSON.fromJson(errorBodyContent, ServerResponse.class);
+                ServerResponse res = RemoteService.getInstance().getGson().fromJson(errorBodyContent, ServerResponse.class);
                 onResponseError(call, res.getError());
                 return;
             }
