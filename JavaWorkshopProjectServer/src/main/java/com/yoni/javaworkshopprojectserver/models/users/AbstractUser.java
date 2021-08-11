@@ -54,12 +54,10 @@ private static final long serialVersionUID = 1L;
     @Expose
     protected String email;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 60, max = 60)
     @Column(name = "pass")
     protected String pass;
     @Basic(optional = false)
-    @NotNull
     @Size(min = 64, max = 64)
     @Column(name = "secret_key")
     protected String secretKey;

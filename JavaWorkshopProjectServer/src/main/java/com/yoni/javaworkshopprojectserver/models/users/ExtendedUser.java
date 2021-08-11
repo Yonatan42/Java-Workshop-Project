@@ -36,7 +36,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "ExtendedUsers.findByAdmin", query = "SELECT e FROM ExtendedUsers e WHERE e.isAdmin = :isAdmin")})
 @NamedStoredProcedureQuery(name = "ExtendedUsers.refreshSecretKey", 
   procedureName = "refresh_secret_key", parameters = {
-    @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_email", type = String.class)})
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "email", type = String.class)})
 public class ExtendedUser extends AbstractUser implements Serializable {
  
     

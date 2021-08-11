@@ -155,14 +155,18 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
                 c.setEmail(email);
                 c.setAddress(address);
                 c.setPass(BcryptUtil.encrypt(pass));
-                super.create(c);
+                AbstractUser u = super.edit(c);
 
                 getEntityManager().getTransaction().commit();
                 
-                String token = JwtUtil.create(email, ""); // will update the second value
+                getEntityManager().refresh(u);
+                
+                System.out.println("registered customer: "+u);
+                
+                String token = JwtUtil.create(email, u.getSecretKey()); 
                 return Response
                     .status(Response.Status.CREATED)
-                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(c, token)))
+                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, token)))
                     .build();
 
         });
@@ -196,7 +200,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
                         .build();
                 }
                 else{
-                    String token = JwtUtil.create(email,""); // will update the second value
+                    String token = JwtUtil.create(email,u.getSecretKey()); 
                     return Response
                         .status(Response.Status.OK)
                         .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, token)))
@@ -263,8 +267,9 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     public String refreshToken(@PathParam("email") String email) {
         AbstractUser u = findByEmail(email);
         String before = u.getSecretKey();
-        getEntityManager().createNamedStoredProcedureQuery("ExtendedUsers.refreshSecretKey").execute();
-         u = findByEmail(email);
+        getEntityManager().createNamedStoredProcedureQuery("ExtendedUsers.refreshSecretKey").setParameter("email", email).execute();
+        getEntityManager().refresh(u);
+//         u = findByEmail(email);
          String after = u.getSecretKey();
          return "before:\n"+before+"\nafter:\n"+after;
     }
