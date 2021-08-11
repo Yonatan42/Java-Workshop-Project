@@ -54,7 +54,7 @@ FOR EACH ROW
 SET NEW.secret_key = generate_secret_key();
 
 # test category
-INSERT INTO customers (email, pass, first_name, last_name) VALUES ('admin3@admin.admin', 'mysuperpass', 'admin2', 'administrator2');
+INSERT INTO admins (email, pass, first_name, last_name) VALUES ('admin3@admin.admin', 'mysuperpass', 'admin2', 'administrator2');
 
 #test update
 # UPDATE customers  SET name = 'cat2' WHERE id = 1;
@@ -137,6 +137,8 @@ DELIMITER ;
 
 
 CALL refresh_secret_key('y@y.y');
+
+
 
 
 
