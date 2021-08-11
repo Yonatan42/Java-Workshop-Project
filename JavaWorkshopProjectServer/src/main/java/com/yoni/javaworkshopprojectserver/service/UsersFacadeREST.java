@@ -8,19 +8,27 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.users.AbstractUser;
 import com.yoni.javaworkshopprojectserver.models.users.Customer;
 import com.yoni.javaworkshopprojectserver.models.users.ExtendedUser;
 import com.yoni.javaworkshopprojectserver.utils.BcryptUtil;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
 import com.yoni.javaworkshopprojectserver.utils.JwtUtil;
-import com.yoni.javaworkshopprojectserver.utils.ResponseErrorCodes;
+import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtil;
+import com.yoni.javaworkshopprojectserver.utils.Result;
+import com.yoni.javaworkshopprojectserver.utils.UserService;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.SignatureException;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.spi.Producer;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -49,6 +57,10 @@ import javax.ws.rs.core.Response;
 @Path("users")
 public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
 
+    @EJB
+    private UserService userService;
+    
+    
     public UsersFacadeREST() {
         super(AbstractUser.class);
     }
@@ -83,7 +95,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response find(@PathParam("id") Integer id) {
-        return ResponseUtil.RespondSafe(() -> {
+        return ResponseUtil.respondSafe(() -> {
             try{
                 AbstractUser c = super.find(id);
                 return Response
@@ -95,7 +107,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
                 e.printStackTrace(System.err);
                 return Response
                         .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtil.createResponseJson("no customer found to provided id", ResponseErrorCodes.USERS_NO_SUCH_USER))
+                        .entity(JsonUtil.createResponseJson("no customer found to provided id", ErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
         });
@@ -105,7 +117,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllRes() {
-        return ResponseUtil.RespondSafe(() -> {
+        return ResponseUtil.respondSafe(() -> {
             return Response
                     .status(Response.Status.OK)
                     .entity(JsonUtil.createResponseJson(JsonUtil.convertToJson(super.findAll())))
@@ -118,7 +130,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     @Path("count")
     @Produces(MediaType.APPLICATION_JSON)
     public Response countRes() {
-        return ResponseUtil.RespondSafe(() -> {
+        return ResponseUtil.respondSafe(() -> {
             return Response
                     .status(Response.Status.OK)
                     .entity(JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject(String.valueOf(super.count()))))
@@ -139,11 +151,11 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
             @FormParam("phone") String phone, 
             @FormParam("address") String address) {
         
-        return ResponseUtil.RespondSafe(() -> {
-                if(findByEmail(email) != null){
+        return ResponseUtil.respondSafe(() -> {
+                if(userService.findByEmail(email) != null){
                     return Response
                             .status(Response.Status.CONFLICT)
-                            .entity(JsonUtil.createResponseJson("user already exists", ResponseErrorCodes.USERS_USER_ALREADY_EXISTS))
+                            .entity(JsonUtil.createResponseJson("user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
                             .build();
                 }
                 getEntityManager().getTransaction().begin();
@@ -183,20 +195,20 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
             @FormParam("email") String email, 
             @FormParam("pass") String pass) {
 
-        return ResponseUtil.RespondSafe(() -> {
+        return ResponseUtil.respondSafe(() -> {
             
-            AbstractUser u = findByEmail(email);
+            AbstractUser u = userService.findByEmail(email);
             if(u == null){
                 return Response
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity(JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.USERS_NO_SUCH_USER))
+                        .entity(JsonUtil.createResponseJson("provided email doesn't exist", ErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
             else{
                 if(!BcryptUtil.checkEq(pass, u.getPass())){
                     return Response
                         .status(Response.Status.FORBIDDEN)
-                        .entity(JsonUtil.createResponseJson("login failed", ResponseErrorCodes.USERS_PASSWORD_MISSMATCH))
+                        .entity(JsonUtil.createResponseJson("login failed", ErrorCodes.USERS_PASSWORD_MISSMATCH))
                         .build();
                 }
                 else{
@@ -216,47 +228,22 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login( 
             @HeaderParam("authorization") String token) {
-        // todo - make auth check fucntion and use here
-        return ResponseUtil.RespondSafe(() -> {
-            if(JwtUtil.isExpired(token)){
-                // do refresh token thing
-                return Response
-                        .status(Response.Status.FORBIDDEN)
-                        .entity(JsonUtil.createResponseJson("login failed", ResponseErrorCodes.TOKEN_EXPIRED))
-                        .build();
-            }
-            String email = JwtUtil.getEmail(token);
-            AbstractUser u = findByEmail(email);
-            if(u == null){
-                return Response
-                        .status(Response.Status.FORBIDDEN)
-                        .entity(JsonUtil.createResponseJson("provided email doesn't exist", ResponseErrorCodes.TOKEN_INVALID))
-                        .build();
-            }
-            else{
+        return ResponseUtil.respondSafe(() -> {
+            return userService.authenticateEncapsulated(token, (u, t) -> {
                 return Response
                     .status(Response.Status.OK)
-                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, token)))
+                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, t)))
                     .build();
-            }
+            });
         });
     }
     
     private JsonElement getLoginResponseJson(AbstractUser u, String token){
-//        return JsonUtil.createSimpleMessageObject("login successful");
         JsonObject root = new JsonObject();
         root.addProperty("token", token);
         root.add("user", JsonUtil.convertToJson(u));
         // add any other data we may need later
         return root;
-    } 
-    
-    private AbstractUser findByEmail(String email){
-            List<ExtendedUser> results = getEntityManager().createNamedQuery("ExtendedUsers.findByEmail", ExtendedUser.class).setParameter("email", email).getResultList();
-            if(results.isEmpty()){
-                return null;
-            }
-            return results.get(0);
     } 
     
     
@@ -265,7 +252,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     @Path("token/refresh/{email}")
     @Produces(MediaType.TEXT_PLAIN)
     public String refreshToken(@PathParam("email") String email) {
-        AbstractUser u = findByEmail(email);
+        AbstractUser u = userService.findByEmail(email);
         String before = u.getSecretKey();
         getEntityManager().createNamedStoredProcedureQuery("ExtendedUsers.refreshSecretKey").setParameter("email", email).execute();
         getEntityManager().refresh(u);
@@ -273,6 +260,8 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
          String after = u.getSecretKey();
          return "before:\n"+before+"\nafter:\n"+after;
     }
+    // todo - need to make a refresh endpoint that takes a token that of an admin in the header along wth the customer's email as a param
+    // first authenticates the admin before refreshing the customer's token
     
     
     @GET
@@ -282,14 +271,15 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
         return JwtUtil.create(email,""); // will update the second value
     }
     
-    @GET
-    @Path("token/validate/{email}/{token}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public boolean testToken(@PathParam("email") String email, @PathParam("token") String token) {
-        return JwtUtil.isValid(token, email);
-    }
+//    @GET
+//    @Path("token/validate/{email}/{token}")
+//    @Produces(MediaType.TEXT_PLAIN)
+//    public boolean testToken(@PathParam("email") String email, @PathParam("token") String token) {
+//        return JwtUtil.isValid(token, email);
+//    }
     
-    
+
+
 
 //    private boolean checkAuth(
 //            /*@HeaderParam("authorization") */String token) {
@@ -306,3 +296,4 @@ todo -
 I have renamed this to UsersFacadeREST
 the intention is to have the entire user service here including customers, admins, both together (users), as well as token endpoints 
 */
+

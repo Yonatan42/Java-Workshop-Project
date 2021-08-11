@@ -66,15 +66,15 @@ public class JwtUtil {
                 .compact();
     }
     
-    public static boolean isValid(String token, String email){
-        try{
-            return !isExpired(token) && getEmail(token).equals(email);
-        }
-        catch(SignatureException e){
-            e.printStackTrace(System.err);
-            return false;
-        }
-    }
+//    public static boolean isValid(String token, String email){
+//        try{
+//            return !isExpired(token) && getEmail(token).equals(email);
+//        }
+//        catch(SignatureException e){
+//            e.printStackTrace(System.err);
+//            return false;
+//        }
+//    }
     
     private static Claims getClaims(String token){
         return Jwts

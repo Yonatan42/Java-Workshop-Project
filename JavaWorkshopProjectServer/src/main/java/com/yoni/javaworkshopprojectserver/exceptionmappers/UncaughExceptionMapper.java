@@ -6,7 +6,7 @@
 package com.yoni.javaworkshopprojectserver.exceptionmappers;
 
 import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
-import com.yoni.javaworkshopprojectserver.utils.ResponseErrorCodes;
+import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -25,7 +25,7 @@ public class UncaughExceptionMapper implements ExceptionMapper<Throwable> {
         t.printStackTrace(System.err);
         return Response
                 .status(Response.Status.NOT_FOUND)
-                .entity(JsonUtil.createResponseJson("page not found", ResponseErrorCodes.UNKNOWN))
+                .entity(JsonUtil.createResponseJson("page not found", ErrorCodes.UNKNOWN))
                 .build();
     }
     

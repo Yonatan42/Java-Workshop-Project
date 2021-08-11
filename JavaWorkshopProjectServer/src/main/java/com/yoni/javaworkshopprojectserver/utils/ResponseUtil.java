@@ -5,9 +5,14 @@
  */
 package com.yoni.javaworkshopprojectserver.utils;
 
+import com.yoni.javaworkshopprojectserver.models.users.AbstractUser;
+import com.yoni.javaworkshopprojectserver.models.users.ExtendedUser;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 /**
  *
@@ -15,7 +20,7 @@ import javax.ws.rs.core.Response;
  */
 public class ResponseUtil {
     
-    public static Response RespondSafe(Supplier<Response> action){
+    public static Response respondSafe(Supplier<Response> action){
         try{
             return action.get();
         }
@@ -23,16 +28,27 @@ public class ResponseUtil {
             e.printStackTrace(System.err);
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(JsonUtil.createResponseJson("a persistence error occurred", ResponseErrorCodes.PERSISTENCE_GENERAL))
+                    .entity(JsonUtil.createResponseJson("a persistence error occurred", ErrorCodes.PERSISTENCE_GENERAL))
                     .build();
         }
         catch(Exception e){
             e.printStackTrace(System.err);
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(JsonUtil.createResponseJson("unexpected error occurred", ResponseErrorCodes.UNKNOWN))
+                    .entity(JsonUtil.createResponseJson("unexpected error occurred", ErrorCodes.UNKNOWN))
                     .build();
         }
+    }
+    
+    public static Response createSimpleErrorResponse(String message, Status status, int errorCode){
+        return createSimpleErrorResponse(message, status.getStatusCode(), errorCode);
+    }
+    
+    public static Response createSimpleErrorResponse(String message, int status, int errorCode){
+        return Response
+                    .status(status)
+                    .entity(JsonUtil.createResponseJson(message, errorCode))
+                    .build();
     }
     
 }

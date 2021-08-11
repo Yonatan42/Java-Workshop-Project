@@ -24,7 +24,7 @@ public abstract class AbstractFacade<T> {
 
     
     @EJB
-    private EntityManagerSingleton resourceManagerBean;
+    private EntityManagerSingleton entityManagerBean;
     
     private Class<T> entityClass;
 
@@ -33,7 +33,7 @@ public abstract class AbstractFacade<T> {
     }
 
     protected EntityManager getEntityManager(){
-          return resourceManagerBean.getEntityManager();
+          return entityManagerBean.getEntityManager();
     }
     
 //    protected abstract EntityManager getEntityManager();
