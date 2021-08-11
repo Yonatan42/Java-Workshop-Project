@@ -21,6 +21,9 @@ CREATE TABLE admins (
 # made pass work with recommendations for bcrypt
 ALTER TABLE admins MODIFY pass CHAR(60) NOT NULL;
 
+# add secret key
+ALTER TABLE admins ADD secret_key CHAR(64) NOT NULL AFTER address;
+
 */
 
 
@@ -33,6 +36,7 @@ CREATE TABLE admins (
     last_name VARCHAR(32) NOT NULL,
     phone VARCHAR(20),
     address TEXT,
+    secret_key CHAR(64) NOT NULL,
 	created TIMESTAMP DEFAULT NOW(),
 	modified TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
@@ -82,6 +86,57 @@ SELECT * FROM users;
 
 
 
+
+DROP FUNCTION generate_secret_key;
+
+DELIMITER $$
+
+CREATE FUNCTION generate_secret_key() 
+RETURNS CHAR(64)
+NOT DETERMINISTIC
+BEGIN
+    RETURN  SHA2(UUID(), 256);
+END$$
+DELIMITER ;
+
+
+SELECT generate_secret_key();
+
+
+
+
+
+
+
+
+
+
+DROP PROCEDURE refresh_secret_key;
+
+DELIMITER $$
+CREATE PROCEDURE refresh_secret_key(
+	IN p_email VARCHAR(320)
+)
+BEGIN
+    DECLARE p_id INT;
+    DECLARE p_is_admin TINYINT(1);
+    
+    SELECT id, is_admin INTO p_id, p_is_admin FROM users WHERE email = p_email;
+    
+    IF p_is_admin THEN
+		UPDATE admins SET secret_key = generate_secret_key() WHERE id = p_id;
+	ELSE
+		UPDATE customers SET secret_key = generate_secret_key() WHERE id = p_id;
+	END IF;
+
+    
+END$$
+
+DELIMITER ;
+
+
+
+CALL refresh_secret_key('y@y.y');
 
 
 

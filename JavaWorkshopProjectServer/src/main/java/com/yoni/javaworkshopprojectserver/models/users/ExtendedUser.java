@@ -13,6 +13,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +34,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "ExtendedUsers.findByCreated", query = "SELECT e FROM ExtendedUsers e WHERE e.created = :created"),
     @NamedQuery(name = "ExtendedUsers.findByModified", query = "SELECT e FROM ExtendedUsers e WHERE e.modified = :modified"),
     @NamedQuery(name = "ExtendedUsers.findByAdmin", query = "SELECT e FROM ExtendedUsers e WHERE e.isAdmin = :isAdmin")})
+@NamedStoredProcedureQuery(name = "ExtendedUsers.refreshSecretKey", 
+  procedureName = "refresh_secret_key", parameters = {
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "p_email", type = String.class)})
 public class ExtendedUser extends AbstractUser implements Serializable {
  
     
@@ -50,8 +56,8 @@ private static final long serialVersionUID = 1L;
         super(id);
     }
 
-    public ExtendedUser(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified, boolean isAdmin) {
-        super(id, email, pass, firstName, lastName, created, modified);
+    public ExtendedUser(Integer id, String email, String pass, String secretKey, String firstName, String lastName, Date created, Date modified, boolean isAdmin) {
+        super(id, email, pass, secretKey, firstName, lastName, created, modified);
         this.isAdmin = isAdmin;
     }
 
@@ -85,7 +91,7 @@ private static final long serialVersionUID = 1L;
 
     @Override
     public String toString() {
-        return "ExtendedUser{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", isAdmin=" + isAdmin + '}';
+        return "ExtendedUser{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", secretKey=" + secretKey + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + ", isAdmin=" + isAdmin + '}';
     }
 
     
