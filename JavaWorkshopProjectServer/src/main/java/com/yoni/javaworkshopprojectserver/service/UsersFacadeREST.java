@@ -158,10 +158,11 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
                 super.create(c);
 
                 getEntityManager().getTransaction().commit();
-                                   
+                
+                String token = JwtUtil.create(email, ""); // will update the second value
                 return Response
                     .status(Response.Status.CREATED)
-                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(c, null)))
+                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(c, token)))
                     .build();
 
         });
@@ -195,9 +196,10 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
                         .build();
                 }
                 else{
+                    String token = JwtUtil.create(email,""); // will update the second value
                     return Response
                         .status(Response.Status.OK)
-                        .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, null))) // will need to make a token in this case (don' leave null) 
+                        .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, token)))
                         .build();
                 }
             }
@@ -258,7 +260,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     @Path("token/create/{email}")
     @Produces(MediaType.TEXT_PLAIN)
     public String testToken(@PathParam("email") String email) {
-        return JwtUtil.create(email);
+        return JwtUtil.create(email,""); // will update the second value
     }
     
     @GET

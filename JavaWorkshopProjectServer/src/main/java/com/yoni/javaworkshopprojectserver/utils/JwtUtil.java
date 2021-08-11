@@ -17,10 +17,27 @@ import java.util.Date;
  */
 public class JwtUtil {
     private static final String SECRET_KEY = "$ydKctHLiYqz{:da8PgppSc)n5=:WGGK+khd-,v5#e,4Q6tKRMT}Vn!vJ;yd";
+    private static final int SECURITY_STRING_LENGTH = 64;
     private static final long DEFAULT_EXPIRATION_OFFSET = 10 * 60 * 60 * 1000;// 10 minutes 
     
     public static String getEmail(String token){
-       return getClaims(token).getSubject();
+        String subject = getSubject(token);
+        return subject.substring(0, subject.length()-SECURITY_STRING_LENGTH);
+    }
+    
+    public static String getSecurityString(String token){
+        String subject = getSubject(token);
+        return subject.substring(subject.length()-SECURITY_STRING_LENGTH);
+    }
+    
+    // todo - the plan is to make another table that maps email to security string (same algorithm with make a random 64 char string)
+    // that security string is part of the subject 
+    // by changing the security string in the database we can invalidate a token
+    // need to change several more of these methods to do this.
+    // need to re-add the db changes but for a new table
+    
+    private static String getSubject(String token){
+        return getClaims(token).getSubject();
     }
     
     public static Date getExpiration(String token){
@@ -31,15 +48,18 @@ public class JwtUtil {
        return getClaims(token).getExpiration().before(new Date());
     }
     
-    public static String create(String email){
-        return create(email, DEFAULT_EXPIRATION_OFFSET);
+    public static String create(String email, String securityString){
+        return create(email, securityString, DEFAULT_EXPIRATION_OFFSET);
     }
     
-    public static String create(String email, long expirationOffsetMillis){
+    public static String create(String email, String securityString, long expirationOffsetMillis){
+        if(securityString.length() != SECURITY_STRING_LENGTH){
+            throw new IllegalArgumentException("extra string must be exactly 64 characters");
+        }
         Date now = new Date();
         return Jwts
                 .builder()
-                .setSubject(email)
+                .setSubject(email+securityString)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime()+expirationOffsetMillis))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
