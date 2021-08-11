@@ -254,20 +254,6 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     } 
     
     
-    
-    @GET
-    @Path("token/refresh/{email}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String refreshToken(@PathParam("email") String email) {
-        AbstractUser u = findByEmail(email);
-        String before = u.getSecretKey();
-        getEntityManager().createNamedStoredProcedureQuery("ExtendedUsers.refreshSecretKey").execute();
-         u = findByEmail(email);
-         String after = u.getSecretKey();
-         return "before:\n"+before+"\nafter:\n"+after;
-    }
-    
-    
     @GET
     @Path("token/create/{email}")
     @Produces(MediaType.TEXT_PLAIN)

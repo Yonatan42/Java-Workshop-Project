@@ -37,12 +37,12 @@ public class Admin extends AbstractUser implements Serializable {
         super(id);
     }
 
-    public Admin(Integer id, String email, String pass, String secretKey, String firstName, String lastName, Date created, Date modified) {
-        super(id, email, pass, secretKey, firstName, lastName, created, modified);
+    public Admin(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
+        super(id, email, pass, firstName, lastName, created, modified);
     }
     
    @Override
     public String toString() {
-        return "Admin{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", secretKey=" + secretKey + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
+        return "Admin{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
     }
 }

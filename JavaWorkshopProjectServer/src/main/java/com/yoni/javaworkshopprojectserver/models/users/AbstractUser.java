@@ -60,11 +60,6 @@ private static final long serialVersionUID = 1L;
     protected String pass;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 64, max = 64)
-    @Column(name = "secret_key")
-    protected String secretKey;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "first_name")
     @Expose
@@ -95,7 +90,7 @@ private static final long serialVersionUID = 1L;
         this.id = id;
     }
 
-    public AbstractUser(Integer id, String email, String pass, String secretKey, String firstName, String lastName, Date created, Date modified) {
+    public AbstractUser(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
         this.id = id;
         this.email = email;
         this.pass = pass;
@@ -163,16 +158,6 @@ private static final long serialVersionUID = 1L;
         this.pass = pass;
     }
 
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-    
-    
-
     public String getPhone() {
         return phone;
     }
@@ -211,7 +196,7 @@ private static final long serialVersionUID = 1L;
 
     @Override
     public String toString() {
-        return "AbstractUser{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", secretKey=" + secretKey + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
+        return "AbstractUser{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
     }
 
     

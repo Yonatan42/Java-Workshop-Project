@@ -28,10 +28,6 @@ ALTER TABLE customers MODIFY last_name VARCHAR(32) NOT NULL AFTER first_name;
 # made pass work with recommendations for bcrypt
 ALTER TABLE customers MODIFY pass CHAR(60) NOT NULL;
 
-#
-add secret key
-ALTER TABLE customers ADD secret_key CHAR(64) NOT NULL AFTER address;
-
 */
 
 
@@ -46,7 +42,6 @@ CREATE TABLE customers (
     last_name VARCHAR(32) NOT NULL,
     phone VARCHAR(20),
     address TEXT,
-    secret_key CHAR(64) NOT NULL,
 	created TIMESTAMP DEFAULT NOW(),
 	modified TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
@@ -56,11 +51,6 @@ CREATE TRIGGER trigger_customers_update
 BEFORE UPDATE ON customers
 FOR EACH ROW
 SET NEW.modified = NOW();
-
-CREATE TRIGGER trigger_customers_insert
-BEFORE INSERT ON customers 
-FOR EACH ROW
-SET NEW.secret_key = generate_secret_key();
 
 # test category
 INSERT INTO customers (email, pass, first_name, last_name) VALUES ('sqwe@s.s', 'mysuperpass', 'Steve', 'Anderson');

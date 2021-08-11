@@ -36,13 +36,13 @@ public class Customer extends AbstractUser implements Serializable {
         super(id);
     }
 
-    public Customer(Integer id, String email, String pass, String secretKey, String firstName, String lastName, Date created, Date modified) {
-        super(id, email, pass, firstName, secretKey, lastName, created, modified);
+    public Customer(Integer id, String email, String pass, String firstName, String lastName, Date created, Date modified) {
+        super(id, email, pass, firstName, lastName, created, modified);
     }
 
     @Override
     public String toString() {
-        return "Customer{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", secretKey=" + secretKey + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
+        return "Customer{" + "id=" + id + ", created=" + created + ", modified=" + modified + ", email=" + email + ", pass=" + pass + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", address=" + address + '}';
     }
     
     
