@@ -6,6 +6,7 @@
 package com.yoni.javaworkshopprojectserver.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
@@ -18,7 +19,7 @@ import java.util.Date;
 public class JwtUtil {
     private static final String SECRET_KEY = "$ydKctHLiYqz{:da8PgppSc)n5=:WGGK+khd-,v5#e,4Q6tKRMT}Vn!vJ;yd";
     private static final int SECURITY_STRING_LENGTH = 64;
-    private static final long DEFAULT_EXPIRATION_OFFSET = 10 * 60 * 60 * 1000;// 10 minutes 
+    private static final long DEFAULT_EXPIRATION_OFFSET = 5 * 50 * 1000; // 5 minutes//10 * 60 * 1000;// 10 minutes 
     
     public static String getEmail(String token){
         String subject = getSubject(token);
@@ -77,11 +78,16 @@ public class JwtUtil {
 //    }
     
     private static Claims getClaims(String token){
-        return Jwts
+        try{
+            return Jwts
                 .parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody();
+        }
+        catch(ExpiredJwtException e){
+            return e.getClaims();
+        }
     }
     
 }
