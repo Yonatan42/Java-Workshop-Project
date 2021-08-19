@@ -1,15 +1,18 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.Product;
 
@@ -20,22 +23,24 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView txtTitle;
+        private final ImageView ivImage;
 
         public ViewHolder(View itemView){
             super(itemView);
 
             txtTitle = itemView.findViewById(R.id.products_cell_txt_title);
+            ivImage = itemView.findViewById(R.id.products_cell_iv);
         }
 
     }
 
 
     private List<Product> products;
-//    private Context context;
+    private Context context;
 
 
-    public ProductsAdapter(/*Context context,*/ List<Product> products){
-//        this.context = context;
+    public ProductsAdapter(Context context, List<Product> products){
+        this.context = context;
         this.products = products;
     }
 
@@ -54,6 +59,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
         TextView txtTitle = holder.txtTitle;
         txtTitle.setText(product.getTitle());
+
+        ImageView ivImage = holder.ivImage;
+        String imageData = product.getImageData();
+        byte[] imageByteArray = imageData != null ?
+                Base64.decode(imageData, Base64.DEFAULT) :
+                null;
+        Glide.with(context)
+                .load(imageByteArray)
+                .placeholder(R.drawable.ic_product_placeholder)
+                .into(ivImage);
 
     }
 

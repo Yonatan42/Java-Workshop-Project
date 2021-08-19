@@ -47,7 +47,7 @@ public class ProductsFragment extends BaseFragment {
 
         loadProducts(products -> {
 
-            ProductsAdapter adapter = new ProductsAdapter(products);
+            ProductsAdapter adapter = new ProductsAdapter(getContext(), products);
             rvProducts.setAdapter(adapter);
             rvProducts.setLayoutManager(new GridLayoutManager(getContext(),2));
         });
