@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
  *
  * @author 
  */
-@Path("oing")
+@Path("ping")
 public class PingTestResource {
     
     @GET

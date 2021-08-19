@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient;
+package com.yoni.javaworkshopprojectclient.ui;
 
 
 import android.content.ContentResolver;
@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.yoni.javaworkshopprojectclient.FileUtil;
+import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.CustomersService;
 import com.yoni.javaworkshopprojectclient.remote.RemoteService;
-import com.yoni.javaworkshopprojectclient.remote.ServerCallback;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 
 import java.io.File;

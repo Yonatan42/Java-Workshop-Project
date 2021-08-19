@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.ui;
+package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,7 +13,7 @@ public class Loader extends AlertDialog {
     public Loader(Context context, String title, String message){
         super(context);
 
-        View layout = LayoutInflater.from(context).inflate(R.layout.layout_loader, null, false);
+        View layout = LayoutInflater.from(context).inflate(R.layout.popup_loader, null, false);
         TextView txtTitle = layout.findViewById(R.id.loader_txt_title);
         TextView txtMessage = layout.findViewById(R.id.loader_txt_message);
 

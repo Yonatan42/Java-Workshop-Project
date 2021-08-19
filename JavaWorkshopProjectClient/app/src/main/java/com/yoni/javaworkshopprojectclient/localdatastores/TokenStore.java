@@ -34,4 +34,8 @@ public class TokenStore {
         }
         return token;
     }
+
+    public boolean hasToken(){
+        return getToken() != null;
+    }
 }
