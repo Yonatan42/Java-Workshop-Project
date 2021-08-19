@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.yoni.javaworkshopprojectserver.service;
+package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import java.util.Iterator;

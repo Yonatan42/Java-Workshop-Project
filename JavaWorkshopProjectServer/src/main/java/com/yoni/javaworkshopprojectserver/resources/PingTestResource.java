@@ -8,13 +8,13 @@ import javax.ws.rs.core.Response;
  *
  * @author 
  */
-@Path("javaee8")
-public class JavaEE8Resource {
+@Path("oing")
+public class PingTestResource {
     
     @GET
     public Response ping(){
         return Response
-                .ok("ping")
+                .ok("pong")
                 .build();
     }
 }

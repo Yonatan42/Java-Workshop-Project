@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.yoni.javaworkshopprojectserver.service;
+package com.yoni.javaworkshopprojectserver.resources;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -18,7 +18,7 @@ import com.yoni.javaworkshopprojectserver.utils.JwtUtil;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtil;
 import com.yoni.javaworkshopprojectserver.utils.Result;
-import com.yoni.javaworkshopprojectserver.utils.UserService;
+import com.yoni.javaworkshopprojectserver.service.UserService;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.SignatureException;
 import java.util.Date;
