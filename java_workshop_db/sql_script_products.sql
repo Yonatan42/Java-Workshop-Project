@@ -190,3 +190,42 @@ DELIMITER ;
 CALL insert_some_products(10);
 
 
+
+
+
+
+DROP VIEW products_with_categories;
+
+CREATE VIEW products_with_categories AS
+SELECT 
+pc.product_id, 
+p.title, 
+p.description, 
+p.image_data, 
+pc.category_id, 
+c.title AS category 
+FROM products AS p 
+INNER JOIN products_categories AS pc ON p.id = pc.product_id 
+INNER JOIN categories AS c ON pc.category_id = c.id;
+
+
+
+
+
+DROP VIEW products_catalog;
+
+CREATE VIEW products_catalog AS
+SELECT 
+p.*,
+s.id AS stock_id,
+s.quantity,
+s.price,
+s.is_enabled
+FROM products_with_categories AS p 
+INNER JOIN stock AS s ON p.product_id = s.product_id;
+
+
+SELECT * FROM products_catalog;
+
+SELECT * FROM stock;
+
