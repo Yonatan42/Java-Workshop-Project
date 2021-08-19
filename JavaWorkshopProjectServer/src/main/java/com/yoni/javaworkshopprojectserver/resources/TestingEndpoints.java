@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -64,15 +65,20 @@ public class TestingEndpoints{
     @GET
     @Path("users/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public String loginTest() throws IOException {
+    public String loginTest(
+    @HeaderParam("Authorization") String token
+    ) throws IOException {
         return readFileContents("login.json");
     }
     
+            
     @GET
-    @Path("current-dir")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String currentDir() {
-        return System.getProperty("user.dir");
+    @Path("products/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String allProductsTest(    
+            @HeaderParam("Authorization") String token
+        ) throws IOException {
+        return readFileContents("products_catalog.json");
     }
     
 }

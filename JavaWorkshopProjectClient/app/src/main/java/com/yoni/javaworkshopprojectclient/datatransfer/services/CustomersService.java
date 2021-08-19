@@ -1,6 +1,7 @@
-package com.yoni.javaworkshopprojectclient.datatransfer;
+package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.Customer;
 
 import java.util.List;

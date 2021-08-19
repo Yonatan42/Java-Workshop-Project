@@ -227,7 +227,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login( 
-            @HeaderParam("authorization") String token) {
+            @HeaderParam("Authorization") String token) {
         return ResponseUtil.respondSafe(() -> {
             return userService.authenticateEncapsulated(token, (u, t) -> {
                 return Response
@@ -239,11 +239,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
     }
     
     private JsonElement getLoginResponseJson(AbstractUser u, String token){
-        JsonObject root = new JsonObject();
-        root.addProperty("token", token);
-        root.add("user", JsonUtil.convertToJson(u));
-        // add any other data we may need later
-        return root;
+        return JsonUtil.createStandardTokennedJson(token, JsonUtil.convertToJson(u));
     } 
     
     

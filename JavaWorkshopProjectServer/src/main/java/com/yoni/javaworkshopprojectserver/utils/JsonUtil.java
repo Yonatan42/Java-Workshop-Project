@@ -49,6 +49,13 @@ public class JsonUtil {
         return new JsonPrimitive(message);
     }
     
+    public static JsonElement createStandardTokennedJson(String token, JsonElement data){
+        JsonObject root = new JsonObject();
+        root.addProperty("token", token);
+        root.add("data", data);
+        return root;
+    }
+    
     public static JsonElement convertToJson(Object entity){
         return GSON.toJsonTree(entity);
     }
