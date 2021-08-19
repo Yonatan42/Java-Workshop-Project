@@ -27,7 +27,8 @@ public class RemoteService {
     private RemoteService() {}
 
 
-    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/";
+//    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/";
+    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/testing/";
 
     public final Gson gson = new Gson();
     public CustomersService customersService;
