@@ -1,5 +1,9 @@
 package com.yoni.javaworkshopprojectclient.localdatastores;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+
 public class TokenStore {
 
     private static TokenStore instance;
@@ -15,27 +19,56 @@ public class TokenStore {
         return instance;
     }
 
-    private TokenStore(){}
+    private final static String TOKEN_KEY = "token";
 
-    // todo - implement shared preferences
-
+    private SharedPreferences sharedPrefs;
+    private SharedPreferences.Editor sharedPrefsEditor;
+    private boolean isInitialized;
     private String token;
 
+    private TokenStore(){}
+
+    public void initialize(Context context){
+        sharedPrefs = context.getSharedPreferences("TokenStore", Context.MODE_PRIVATE);
+        sharedPrefsEditor = sharedPrefs.edit();
+        isInitialized = true;
+    }
+
+    public boolean isInitialized(){
+        return isInitialized;
+    }
+
     public void storeToken (String token){
-        // todo - fill this in once we have shared preferences
-        // will check if the token is equal to the field, if not, save to shared preferences and update field
+        throwIfUninitialized();
+        if(token.equals(this.token)){
+            return;
+        }
+        if(sharedPrefsEditor.putString(TOKEN_KEY, token).commit()){
+            this.token = token;
+        }
     }
 
     public String getToken (){
+        throwIfUninitialized();
         if(token == null){
-            // todo - fill this in once we have shared preferences
-            // get token from share preferences and set it to the field
-            token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJteWVtYWlsN0BteS5lbWFpbGQ0OTBjODdhMjYyZDVkODhlMzRmNTY5ZWM2NGMxZjMxYjg0ZDg4ODIyM2UxZjQwYzg1NWU0MGU3YmEyYjE3N2MiLCJpYXQiOjE2MjkzODQ2OTIsImV4cCI6MTYyOTM4NDk0Mn0.6G2peVjWbA6XQalp6jQgg1yA6tPIBqv7F6FkEanThFY";
+            token = sharedPrefs.getString(TOKEN_KEY, null);
         }
         return token;
     }
 
     public boolean hasToken(){
         return getToken() != null;
+    }
+
+    public void clearToken(){
+        if(sharedPrefsEditor.clear().commit()){
+            token = null;
+        }
+    }
+
+    private void throwIfUninitialized(){
+        if(!isInitialized){
+            throw new IllegalStateException("initialize() must be called before using this method");
+        }
     }
 }
