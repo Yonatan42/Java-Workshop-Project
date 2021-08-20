@@ -19,6 +19,7 @@ import com.yoni.javaworkshopprojectclient.remote.RemoteService;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.LoginPopup;
+import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -46,7 +47,7 @@ public class SplashFragment extends BaseFragment {
                 public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
                     // todo - perhaps have the different fragments saved in the parent
                     DataSets.getInstance().userLiveData.postValue(result);
-                    getParentActivity().makeFragmentTransition(new ProductsFragment(), false);
+                    getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
                 }
 
                 @Override

@@ -3,6 +3,7 @@ package com.yoni.javaworkshopprojectclient.ui;
 import androidx.annotation.IntDef;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,7 +18,10 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.ui.fragments.BaseFragment;
+import com.yoni.javaworkshopprojectclient.ui.fragments.ProductsFragment;
+import com.yoni.javaworkshopprojectclient.ui.fragments.RegisterFragment;
 import com.yoni.javaworkshopprojectclient.ui.fragments.SplashFragment;
+import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -39,6 +43,10 @@ public class ParentActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private TabLayout tabLayout;
 
+    private RegisterFragment registerFragment;
+    private ProductsFragment productsFragment;
+    private SplashFragment splashFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +67,38 @@ public class ParentActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         fragmentManager.beginTransaction()
-                .add(R.id.main_frag_holder, new SplashFragment())
+                .add(R.id.main_frag_holder, AppScreen.SPLASH.getFragment())
                 .commit();
     }
 
+
     private void initializeTabLayout(){
         tabLayout = findViewById(R.id.main_tab_layout);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tabPos = tab.getPosition();
+                switch (tabPos){
+                    case TAB_PRODUCTS:
+                        break;
+                    case TAB_ORDERS:
+                        break;
+                    case TAB_CART:
+                        break;
+                    case TAB_PROFILE:
+                        break;
+                    case TAB_ADMIN:
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
 
         ViewGroup tabs = ((ViewGroup) tabLayout.getChildAt(0));
         for (int i = 0; i < tabs.getChildCount(); i++){
@@ -80,6 +114,10 @@ public class ParentActivity extends AppCompatActivity {
         makeFragmentTransition(frag, true);
     }
     public void makeFragmentTransition(BaseFragment frag, boolean addToBackStack){
+        Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size()-1);
+        if(currentFragment instanceof BaseFragment && ((BaseFragment)currentFragment).getIdentifier().equals(frag.getIdentifier())){
+            return;
+        }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_frag_holder, frag);
         if(addToBackStack){

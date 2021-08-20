@@ -16,6 +16,7 @@ import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.fragments.ProductsFragment;
 import com.yoni.javaworkshopprojectclient.ui.fragments.RegisterFragment;
+import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -41,9 +42,8 @@ public class LoginPopup extends AlertDialog {
                 @Override
                 public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
                     dismiss();
-                    // todo - perhaps have the different fragments saved in the parent
                     DataSets.getInstance().userLiveData.postValue(result);
-                    parentActivity.makeFragmentTransition(new ProductsFragment(), false);
+                    parentActivity.makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
                 }
 
                 @Override
@@ -62,8 +62,7 @@ public class LoginPopup extends AlertDialog {
 
         btnReg.setOnClickListener(v -> {
             dismiss();
-            // todo - perhaps have the different fragments saved in the parent
-            parentActivity.makeFragmentTransition(new RegisterFragment());
+            parentActivity.makeFragmentTransition(AppScreen.REGISTER.getFragment());
         });
 
 
