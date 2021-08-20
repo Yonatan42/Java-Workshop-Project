@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.ui.fragments.BaseFragment;
 import com.yoni.javaworkshopprojectclient.ui.fragments.SplashFragment;
@@ -27,6 +28,7 @@ public class ParentActivity extends AppCompatActivity {
 
     private void initializeLocalStores(){
         TokenStore.getInstance().initialize(this);
+        CartStore.getInstance().initialize(this);
     }
 
     private void initializeFragments(){

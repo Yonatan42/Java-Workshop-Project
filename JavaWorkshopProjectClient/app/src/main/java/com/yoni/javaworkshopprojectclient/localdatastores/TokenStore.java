@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-public class TokenStore {
+public class TokenStore extends InitializedStore{
 
     private static TokenStore instance;
 
@@ -23,19 +23,13 @@ public class TokenStore {
 
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor sharedPrefsEditor;
-    private boolean isInitialized;
     private String token;
 
     private TokenStore(){}
 
-    public void initialize(Context context){
+    protected void privateInitialize(Context context){
         sharedPrefs = context.getSharedPreferences("TokenStore", Context.MODE_PRIVATE);
         sharedPrefsEditor = sharedPrefs.edit();
-        isInitialized = true;
-    }
-
-    public boolean isInitialized(){
-        return isInitialized;
     }
 
     public void storeToken (String token){
@@ -66,9 +60,5 @@ public class TokenStore {
         }
     }
 
-    private void throwIfUninitialized(){
-        if(!isInitialized){
-            throw new IllegalStateException("initialize() must be called before using this method");
-        }
-    }
+
 }
