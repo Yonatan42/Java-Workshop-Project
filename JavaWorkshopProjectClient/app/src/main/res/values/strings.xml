@@ -7,4 +7,8 @@
     <string name="login_btn_register">register</string>
     <string name="error_txt_title">An Error Occurred</string>
     <string name="error_btn_ok">ok</string>
+    <string name="filter_products_popup_txt_text">filter text</string>
+    <string name="filter_products_btn_cancel">cancel</string>
+    <string name="filter_products_btn_filter">filter</string>
+    <string name="filter_products_btn_clear">clear</string>
 </resources>
