@@ -111,13 +111,13 @@ public class ProductsFragment extends BaseFragment {
 
 
     private void loadProducts(){
-        Loader loader = new Loader(getContext(), "Loading Products", "please wait...");
-        loader.show();
+//        Loader loader = new Loader(getContext(), "Loading Products", "please wait...");
+//        loader.show();
 
         RemoteService.getInstance().getProductsService().getAllProducts(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<List<Product>>() {
             @Override
             public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<List<Product>>>> call, Response<ServerResponse<TokennedResult<List<Product>>>> response, List<Product> result) {
-                loader.dismiss();
+//                loader.dismiss();
                 // note a paged response so change the whole thing
                 
                 DataSets.getInstance().productsLiveData.postValue(result);
@@ -127,14 +127,14 @@ public class ProductsFragment extends BaseFragment {
 
             @Override
             public void onResponseError(Call<ServerResponse<TokennedResult<List<Product>>>> call, ServerResponse.ServerResponseError responseError) {
-                loader.dismiss();
+//                loader.dismiss();
                 // todo - change this
                 new ErrorPopup(getContext(), "death");
             }
 
             @Override
             public void onFailure(Call<ServerResponse<TokennedResult<List<Product>>>> call, Throwable t) {
-                loader.dismiss();
+//                loader.dismiss();
                 // todo - change this
                 new ErrorPopup(getContext(), "more death");
             }

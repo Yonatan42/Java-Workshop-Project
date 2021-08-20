@@ -1,9 +1,7 @@
 package com.yoni.javaworkshopprojectclient.ui;
 
 import androidx.annotation.IntDef;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
@@ -42,10 +41,6 @@ public class ParentActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private TabLayout tabLayout;
-
-    private RegisterFragment registerFragment;
-    private ProductsFragment productsFragment;
-    private SplashFragment splashFragment;
 
 
     @Override
@@ -109,7 +104,7 @@ public class ParentActivity extends AppCompatActivity {
         for (int i = 0; i < tabs.getChildCount(); i++){
             tabLayout.getTabAt(i).getIcon().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
         }
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, android.R.color.transparent));
+        tabLayout.setSelectedTabIndicatorColor(((MaterialShapeDrawable)tabLayout.getBackground()).getFillColor().getDefaultColor());
         tabLayout.setTabRippleColorResource(android.R.color.darker_gray);
 
         setAdminTabVisible(false);
