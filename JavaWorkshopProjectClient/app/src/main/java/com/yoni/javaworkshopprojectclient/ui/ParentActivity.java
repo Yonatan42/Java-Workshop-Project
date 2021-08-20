@@ -81,14 +81,19 @@ public class ParentActivity extends AppCompatActivity {
                 int tabPos = tab.getPosition();
                 switch (tabPos){
                     case TAB_PRODUCTS:
+                        makeFragmentTransition(AppScreen.PRODUCTS.getFragment());
                         break;
                     case TAB_ORDERS:
+                        makeFragmentTransition(AppScreen.ORDERS.getFragment());
                         break;
                     case TAB_CART:
+                        makeFragmentTransition(AppScreen.CART.getFragment());
                         break;
                     case TAB_PROFILE:
+                        makeFragmentTransition(AppScreen.PROFILE.getFragment());
                         break;
                     case TAB_ADMIN:
+                        makeFragmentTransition(AppScreen.ADMIN.getFragment());
                         break;
                 }
             }
@@ -114,8 +119,7 @@ public class ParentActivity extends AppCompatActivity {
         makeFragmentTransition(frag, true);
     }
     public void makeFragmentTransition(BaseFragment frag, boolean addToBackStack){
-        Fragment currentFragment = fragmentManager.getFragments().get(fragmentManager.getFragments().size()-1);
-        if(currentFragment instanceof BaseFragment && ((BaseFragment)currentFragment).getIdentifier().equals(frag.getIdentifier())){
+        if(fragmentManager.getFragments().lastIndexOf(frag) == fragmentManager.getFragments().size()-1){
             return;
         }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
