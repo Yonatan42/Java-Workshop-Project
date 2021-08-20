@@ -1,10 +1,10 @@
 package com.yoni.javaworkshopprojectclient.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +12,8 @@ import androidx.annotation.Nullable;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.Customer;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteService;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
@@ -37,22 +38,24 @@ public class SplashFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         if(TokenStore.getInstance().hasToken()){
             // todo - try to login
-            RemoteService.getInstance().getCustomersService().login(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<Customer>() {
+            RemoteService.getInstance().getUsersService().login(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<User>() {
                 @Override
-                public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<Customer>>> call, Response<ServerResponse<TokennedResult<Customer>>> response, Customer result) {
+                public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
                     // todo - perhaps have the different fragments saved in the parent
+                    DataSets.getInstance().userLiveData.postValue(result);
                     getParentActivity().makeFragmentTransition(new ProductsFragment(), false);
                 }
 
                 @Override
-                public void onResponseError(Call<ServerResponse<TokennedResult<Customer>>> call, ServerResponse.ServerResponseError responseError) {
+                public void onResponseError(Call<ServerResponse<TokennedResult<User>>> call, ServerResponse.ServerResponseError responseError) {
                     new LoginPopup(getParentActivity()).show();
                 }
 
                 @Override
-                public void onFailure(Call<ServerResponse<TokennedResult<Customer>>> call, Throwable t) {
+                public void onFailure(Call<ServerResponse<TokennedResult<User>>> call, Throwable t) {
                     // todo - change this
                     new ErrorPopup(getContext(), "more death").show();
                 }

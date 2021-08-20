@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductCategory;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesAdapter;

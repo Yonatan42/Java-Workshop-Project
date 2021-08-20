@@ -1,7 +1,7 @@
 package com.yoni.javaworkshopprojectclient.remote;
 
 import com.google.gson.Gson;
-import com.yoni.javaworkshopprojectclient.datatransfer.services.CustomersService;
+import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersService;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.ProductsService;
 
 import java.io.File;
@@ -32,7 +32,7 @@ public class RemoteService {
     public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/testing/";
 
     public final Gson gson = new Gson();
-    public CustomersService customersService;
+    public UsersService usersService;
     public ProductsService productsService;
 
 
@@ -42,15 +42,15 @@ public class RemoteService {
 //        return RetrofitClient.getClient(BASE_URL).create(ProductsRemoteService.class);
 //    }
 
-    public CustomersService getCustomersService() {
-        if(customersService == null){
+    public UsersService getUsersService() {
+        if(usersService == null){
             synchronized (this){
-                if(customersService == null) {
-                    customersService = RetrofitClient.getClient(BASE_URL).create(CustomersService.class);
+                if(usersService == null) {
+                    usersService = RetrofitClient.getClient(BASE_URL).create(UsersService.class);
                 }
             }
         }
-        return customersService;
+        return usersService;
     }
 
     public ProductsService getProductsService() {

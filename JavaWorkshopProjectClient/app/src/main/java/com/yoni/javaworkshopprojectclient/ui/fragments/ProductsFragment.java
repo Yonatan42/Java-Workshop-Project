@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.arch.core.util.Function;
 import androidx.core.util.Consumer;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,8 +18,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductCategory;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteService;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
@@ -27,8 +28,10 @@ import com.yoni.javaworkshopprojectclient.ui.listadapters.ProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.FilterProductsPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
+import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,6 +40,18 @@ import retrofit2.Response;
 public class ProductsFragment extends BaseFragment {
 
     private View view;
+    private RecyclerView rvProducts;
+    private List<Product> products = new ArrayList<>();
+
+    private final Observer<List<Product>> productsObserver = new Observer<List<Product>>() {
+        @Override
+        public void onChanged(List<Product> productList) {
+            // todo - for paging on the response we will make the larger data set and then post the entire thing
+            products.clear();
+            products.addAll(productList);
+            rvProducts.getAdapter().notifyDataSetChanged();
+        }
+    };
 
     @Nullable
     @Override
@@ -50,7 +65,13 @@ public class ProductsFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView rvProducts = view.findViewById(R.id.products_rv);
+        rvProducts = view.findViewById(R.id.products_rv);
+
+        ProductsAdapter adapter = new ProductsAdapter(getContext(), products);
+        rvProducts.setAdapter(adapter);
+        rvProducts.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+
         FloatingActionButton fabFilter = view.findViewById(R.id.products_btn_filter);
 
         fabFilter.setOnClickListener(v -> {
@@ -83,18 +104,13 @@ public class ProductsFragment extends BaseFragment {
             return false;
         });
 
-        loadProducts(products -> {
-
-            ProductsAdapter adapter = new ProductsAdapter(getContext(), products);
-            rvProducts.setAdapter(adapter);
-            rvProducts.setLayoutManager(new GridLayoutManager(getContext(),2));
-        });
-
-
+        loadProducts();
     }
 
 
-    private void loadProducts(Consumer<List<Product>> callback){
+
+
+    private void loadProducts(){
         Loader loader = new Loader(getContext(), "Loading Products", "please wait...");
         loader.show();
 
@@ -102,7 +118,11 @@ public class ProductsFragment extends BaseFragment {
             @Override
             public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<List<Product>>>> call, Response<ServerResponse<TokennedResult<List<Product>>>> response, List<Product> result) {
                 loader.dismiss();
-                callback.accept(result);
+                // note a paged response so change the whole thing
+                
+                DataSets.getInstance().productsLiveData.postValue(result);
+                // todo - this sort of thing for paging
+//                DataSets.getInstance().productsLiveData.postValue(ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId())));
             }
 
             @Override
@@ -119,5 +139,17 @@ public class ProductsFragment extends BaseFragment {
                 new ErrorPopup(getContext(), "more death");
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DataSets.getInstance().productsLiveData.observe(getParentActivity(), productsObserver);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        DataSets.getInstance().productsLiveData.removeObserver(productsObserver);
     }
 }

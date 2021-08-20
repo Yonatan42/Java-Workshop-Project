@@ -11,8 +11,8 @@ import com.yoni.javaworkshopprojectclient.FileUtil;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.services.CustomersService;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersService;
 import com.yoni.javaworkshopprojectclient.remote.RemoteService;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 
@@ -56,7 +56,7 @@ public class RetrofitTestActivity extends AppCompatActivity {
 
         });
 
-        CustomersService productsAPIService = RemoteService.getInstance().getCustomersService();
+        UsersService productsAPIService = RemoteService.getInstance().getUsersService();
 //        productsAPIService.getAllCustomers().enqueue(new ServerCallback<List<Customer>>() {
 //                 @Override
 //                 public void onResponseSuccess(Call<ServerResponse<List<Customer>>> call, Response<ServerResponse<List<Customer>>> response, List<Customer> result) {

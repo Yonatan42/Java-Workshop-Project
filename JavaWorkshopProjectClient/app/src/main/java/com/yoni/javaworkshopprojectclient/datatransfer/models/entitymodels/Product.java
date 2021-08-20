@@ -1,9 +1,9 @@
-package com.yoni.javaworkshopprojectclient.datatransfer.models;
+package com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class Product {
 
@@ -12,7 +12,7 @@ public class Product {
     private int productId;
     @SerializedName("categories")
     @Expose
-    private ProductCategory[] categories;
+    private List<ProductCategory> categories;
     @SerializedName("stockId")
     @Expose
     private int stockId;
@@ -111,11 +111,11 @@ public class Product {
         isEnabled = enabled;
     }
 
-    public ProductCategory[] getCategories() {
+    public List<ProductCategory> getCategories() {
         return categories;
     }
 
-    public void setCategories(ProductCategory[] categories) {
+    public void setCategories(List<ProductCategory> categories) {
         this.categories = categories;
     }
 
@@ -123,7 +123,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "productId=" + productId +
-                ", categories=" + Arrays.toString(categories) +
+                ", categories=" + categories +
                 ", stockId=" + stockId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

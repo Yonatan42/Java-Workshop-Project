@@ -1,11 +1,11 @@
-package com.yoni.javaworkshopprojectclient.datatransfer.models;
+package com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Customer {
+public class User {
 
     @SerializedName("id")
     @Expose
@@ -28,12 +28,6 @@ public class Customer {
     @SerializedName("address")
     @Expose
     private String address;
-    @SerializedName("created")
-    @Expose
-    private Date created;
-    @SerializedName("modified")
-    @Expose
-    private Date modified;
 
     public Integer getId() {
         return id;
@@ -91,25 +85,9 @@ public class Customer {
         this.address = address;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getModified() {
-        return modified;
-    }
-
-    public void setModified(Date modified) {
-        this.modified = modified;
-    }
-
     @Override
     public String toString() {
-        return "Customer{" +
+        return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", pass='" + pass + '\'' +
@@ -117,8 +95,6 @@ public class Customer {
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", created=" + created +
-                ", modified=" + modified +
                 '}';
     }
 }

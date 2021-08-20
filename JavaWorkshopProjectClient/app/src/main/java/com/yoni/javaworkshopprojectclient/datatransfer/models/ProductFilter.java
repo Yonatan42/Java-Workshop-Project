@@ -1,5 +1,7 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.models;
 
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
+
 public class ProductFilter {
     private String text;
     private ProductCategory category;

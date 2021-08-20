@@ -3,7 +3,7 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.Product;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Path;
 
 public interface ProductsService {
 
