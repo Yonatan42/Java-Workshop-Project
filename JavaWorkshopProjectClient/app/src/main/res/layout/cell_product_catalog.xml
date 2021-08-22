@@ -59,7 +59,7 @@
 
 
                 <Button
-                    android:id="@+id/cell_products_btn_increase"
+                    android:id="@+id/products_cell_btn_increase"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:minWidth="0dp"
@@ -67,6 +67,7 @@
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <EditText
+                    android:id="@+id/products_cell_txt_quantity"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
@@ -78,7 +79,7 @@
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <Button
-                    android:id="@+id/cell_products_btn_decrease"
+                    android:id="@+id/products_cell_btn_decrease"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:minWidth="0dp"
@@ -91,7 +92,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/cell_products_btn_add"
+                android:id="@+id/products_cell_btn_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="add to cart"

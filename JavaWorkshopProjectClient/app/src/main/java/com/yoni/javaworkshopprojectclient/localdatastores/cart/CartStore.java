@@ -54,7 +54,13 @@ public class CartStore extends InitializedStore implements ICartStore{
     @Override
     public void update(int productId, int quantity) {
         throwIfUninitialized();
-        db.update(productId, quantity);
+        CartProduct product = db.get(productId);
+        if(product == null){
+            db.insert(productId, quantity);
+        }
+        else{
+            db.update(productId, product.getQuantity() + quantity);
+        }
     }
 
     @Override
