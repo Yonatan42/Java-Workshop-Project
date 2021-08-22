@@ -87,21 +87,21 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.btnIncrease.setOnClickListener(v -> {
             String quantityText = holder.txtQuantity.getText().toString().trim();
             int quantity = InputUtils.tryParseInt(quantityText, 1);
-            holder.txtQuantity.setText(quantity + 1);
+            holder.txtQuantity.setText(Integer.toString(quantity + 1));
         });
 
         holder.btnDecrease.setOnClickListener(v -> {
             String quantityText = holder.txtQuantity.getText().toString().trim();
             int quantity = InputUtils.tryParseInt(quantityText, 1);
             if(quantity > 1) {
-                holder.txtQuantity.setText(quantity - 1);
+                holder.txtQuantity.setText(Integer.toString(quantity - 1));
             }
         });
 
         holder.btnAdd.setOnClickListener(v -> {
             String quantityText = holder.txtQuantity.getText().toString().trim();
             int quantity = InputUtils.tryParseInt(quantityText, 1);
-            holder.txtQuantity.setText(quantity); // make sure the user sees what is being added
+            holder.txtQuantity.setText(Integer.toString(quantity)); // make sure the user sees what is being added
             CartStore.getInstance().update(product.getProductId(), quantity);
         });
 
