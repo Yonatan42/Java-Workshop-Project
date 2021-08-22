@@ -1,72 +1,45 @@
 package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
-import com.yoni.javaworkshopprojectclient.remote.RemoteService;
-import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
-import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.ui.fragments.ProductsFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.RegisterFragment;
-import com.yoni.javaworkshopprojectclient.utils.AppScreen;
-
-import retrofit2.Call;
-import retrofit2.Response;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 
 public class ProductDetailsPopup extends AlertDialog {
 
-    public ProductDetailsPopup(ParentActivity parentActivity){
-        super(parentActivity);
+    public ProductDetailsPopup(Context context, Product product){
+        super(context);
 
-        View layout = LayoutInflater.from(parentActivity).inflate(R.layout.popup_product_details, null, false);
-        TextView txtEmail = layout.findViewById(R.id.login_txt_email);
-        TextView txtPass = layout.findViewById(R.id.login_txt_pass);
-        Button btnSignin = layout.findViewById(R.id.login_btn_signin);
-        Button btnReg = layout.findViewById(R.id.login_btn_register);
+        View layout = LayoutInflater.from(context).inflate(R.layout.popup_product_details, null, false);
+        ImageView ivImage = layout.findViewById(R.id.products_details_popup_iv);
+        TextView txtTitle = layout.findViewById(R.id.products_details_popup_txt_title);
+        TextView txtDesc = layout.findViewById(R.id.products_details_popup_txt_desc);
+        Button btnBack = layout.findViewById(R.id.products_details_popup_btn_back);
 
+        txtTitle.setText(product.getTitle());
+        txtDesc.setText(product.getDescription());
 
-        btnSignin.setOnClickListener(v -> {
-            // todo - validate forms - make validation utils class
-            String email = txtEmail.getText().toString().toLowerCase().trim();
-            String pass = txtPass.getText().toString();
+        String imageData = product.getImageData();
+        byte[] imageByteArray = imageData != null ?
+                Base64.decode(imageData, Base64.DEFAULT) :
+                null;
+        Glide.with(context)
+                .load(imageByteArray)
+                .placeholder(R.drawable.ic_product_placeholder)
+                .into(ivImage);
 
-            RemoteService.getInstance().getUsersService().login(email, pass).enqueue(new TokennedServerCallback<User>() {
-                @Override
-                public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
-                    dismiss();
-                    parentActivity.makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
-                }
-
-                @Override
-                public void onResponseError(Call<ServerResponse<TokennedResult<User>>> call, ServerResponse.ServerResponseError responseError) {
-                    // todo - change this
-                    new ErrorPopup(parentActivity, "some death").show();
-                }
-
-                @Override
-                public void onFailure(Call<ServerResponse<TokennedResult<User>>> call, Throwable t) {
-                    // todo - change this
-                    new ErrorPopup(parentActivity, "some more death").show();
-                }
-            });
-        });
-
-        btnReg.setOnClickListener(v -> {
-            dismiss();
-            parentActivity.makeFragmentTransition(AppScreen.REGISTER.getFragment());
-        });
-
-
+        btnBack.setOnClickListener(v -> dismiss());
 
         setView(layout);
-        setCancelable(false);
     }
 
 

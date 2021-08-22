@@ -1,7 +1,6 @@
 package com.yoni.javaworkshopprojectclient.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,33 +38,36 @@ public class SplashFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getParentActivity().setTabBarVisibility(false);
 
         if(TokenStore.getInstance().hasToken()){
-            // todo - try to login
-            RemoteService.getInstance().getUsersService().login(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<User>() {
-                @Override
-                public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
-                    // todo - perhaps have the different fragments saved in the parent
-                    DataSets.getInstance().userLiveData.postValue(result);
-                    getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
-                }
-
-                @Override
-                public void onResponseError(Call<ServerResponse<TokennedResult<User>>> call, ServerResponse.ServerResponseError responseError) {
-                    new LoginPopup(getParentActivity()).show();
-                }
-
-                @Override
-                public void onFailure(Call<ServerResponse<TokennedResult<User>>> call, Throwable t) {
-                    // todo - change this
-                    new ErrorPopup(getContext(), "more death").show();
-                }
-            });
+            attemptLogin();
         }
         else{
             // todo - possibly delay to show splash page
             new LoginPopup(getParentActivity()).show();
         }
+    }
+
+    private void attemptLogin() {
+        RemoteService.getInstance().getUsersService().login(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<User>() {
+            @Override
+            public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
+                // todo - perhaps have the different fragments saved in the parent
+                DataSets.getInstance().userLiveData.postValue(result);
+                getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
+            }
+
+            @Override
+            public void onResponseError(Call<ServerResponse<TokennedResult<User>>> call, ServerResponse.ServerResponseError responseError) {
+                new LoginPopup(getParentActivity()).show();
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse<TokennedResult<User>>> call, Throwable t) {
+                new ErrorPopup(getContext(), "Please check your internet connection.", SplashFragment.this::attemptLogin).show();
+            }
+        });
     }
 
 

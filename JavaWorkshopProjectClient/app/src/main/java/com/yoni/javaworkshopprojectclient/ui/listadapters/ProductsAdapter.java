@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
+import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.InputUtils;
 
 import java.util.List;
@@ -78,6 +79,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 .into(holder.ivImage);
 
         holder.txtQuantity.setText("1");
+
+        holder.itemView.setOnClickListener(v -> {
+            new ProductDetailsPopup(context, product).show();
+        });
 
         holder.btnIncrease.setOnClickListener(v -> {
             String quantityText = holder.txtQuantity.getText().toString().trim();

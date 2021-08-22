@@ -52,9 +52,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/cell_products_btn_add"
-                app:layout_constraintEnd_toEndOf="@+id/cell_products_btn_add"
-                app:layout_constraintStart_toStartOf="@+id/cell_products_btn_add"
+                app:layout_constraintBottom_toTopOf="@+id/products_cell_btn_add"
+                app:layout_constraintEnd_toEndOf="@+id/products_cell_btn_add"
+                app:layout_constraintStart_toStartOf="@+id/products_cell_btn_add"
                 app:layout_constraintTop_toBottomOf="@+id/products_cell_txt_title">
 
 

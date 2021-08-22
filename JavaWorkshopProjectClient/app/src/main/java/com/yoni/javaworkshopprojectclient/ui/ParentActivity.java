@@ -25,6 +25,7 @@ import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+
 public class ParentActivity extends AppCompatActivity {
 
     public static final int TAB_PRODUCTS = 0;
@@ -128,6 +129,11 @@ public class ParentActivity extends AppCompatActivity {
     public void setAdminTabVisible(boolean isVisible){
         int visibility = isVisible ? View.VISIBLE : View.GONE;
         ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(TAB_ADMIN).setVisibility(visibility);
+    }
+
+    public void setTabBarVisibility(boolean isVisible){
+        int visibility = isVisible ? View.VISIBLE : View.GONE;
+        tabLayout.setVisibility(visibility);
     }
 
     public void setSelectedTab(@TabIndex int tabIndex){
