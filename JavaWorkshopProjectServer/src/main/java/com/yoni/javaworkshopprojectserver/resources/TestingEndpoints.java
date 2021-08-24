@@ -17,6 +17,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -87,13 +88,23 @@ public class TestingEndpoints{
     }
     
             
+//    @GET
+//    @Path("products/")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String allProductsTest(    
+//            @HeaderParam("Authorization") String token
+//        ) throws IOException {
+//        return readFileContents("products_catalog.json");
+//    }
+    
     @GET
-    @Path("products/")
+    @Path("products/page/{pageNum}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String allProductsTest(    
-            @HeaderParam("Authorization") String token
+    public String pagedProductsTest(    
+            @HeaderParam("Authorization") String token,
+            @PathParam("pageNum") int pageNum
         ) throws IOException {
-        return readFileContents("products_catalog.json");
+        return readFileContents(String.format("products_catalog_page_%d.json", pageNum));
     }
     
 }

@@ -1,15 +1,12 @@
 package com.yoni.javaworkshopprojectclient.ui.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Consumer;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,11 +24,9 @@ import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.ProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.FilterProductsPopup;
-import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,6 +37,8 @@ public class ProductsFragment extends BaseFragment {
     private View view;
     private RecyclerView rvProducts;
     private List<Product> products = new ArrayList<>();
+    private int currentPage = 0;
+    private boolean loadInProgress = false;
 
     private final Observer<List<Product>> productsObserver = new Observer<List<Product>>() {
         @Override
@@ -60,7 +57,6 @@ public class ProductsFragment extends BaseFragment {
         return view;
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -93,15 +89,21 @@ public class ProductsFragment extends BaseFragment {
             new FilterProductsPopup(getParentActivity(), null, categories, newFilter -> {}, () -> {}).show();
         });
 
-        rvProducts.setOnTouchListener((v, motionEvent) -> {
-            if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                fabFilter.show();
-            }
-            else{
-                fabFilter.hide();
-            }
+        rvProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE){
+                    fabFilter.show();
+                }
+                else{
+                    fabFilter.hide();
+                }
 
-            return false;
+                if (!loadInProgress && !recyclerView.canScrollVertically(RecyclerView.SCROLL_AXIS_VERTICAL)) {
+                    loadProducts();
+                }
+            }
         });
 
         loadProducts();
@@ -113,21 +115,20 @@ public class ProductsFragment extends BaseFragment {
     private void loadProducts(){
 //        Loader loader = new Loader(getContext(), "Loading Products", "please wait...");
 //        loader.show();
-
-        RemoteService.getInstance().getProductsService().getAllProducts(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<List<Product>>() {
+        loadInProgress = true;
+        RemoteService.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage).enqueue(new TokennedServerCallback<List<Product>>() {
             @Override
             public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<List<Product>>>> call, Response<ServerResponse<TokennedResult<List<Product>>>> response, List<Product> result) {
 //                loader.dismiss();
-                // note a paged response so change the whole thing
-                
-                DataSets.getInstance().productsLiveData.postValue(result);
-                // todo - this sort of thing for paging
-//                DataSets.getInstance().productsLiveData.postValue(ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId())));
+                loadInProgress = false;
+                currentPage++;
+                DataSets.getInstance().productsLiveData.postValue(ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId())));
             }
 
             @Override
             public void onResponseError(Call<ServerResponse<TokennedResult<List<Product>>>> call, ServerResponse.ServerResponseError responseError) {
 //                loader.dismiss();
+                loadInProgress = false;
                 // todo - change this
                 new ErrorPopup(getContext(), "death");
             }
@@ -135,6 +136,7 @@ public class ProductsFragment extends BaseFragment {
             @Override
             public void onFailure(Call<ServerResponse<TokennedResult<List<Product>>>> call, Throwable t) {
 //                loader.dismiss();
+                loadInProgress = false;
                 // todo - change this
                 new ErrorPopup(getContext(), "more death");
             }
