@@ -52,9 +52,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/products_cell_btn_add"
-                app:layout_constraintEnd_toEndOf="@+id/products_cell_btn_add"
-                app:layout_constraintStart_toStartOf="@+id/products_cell_btn_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/products_cell_txt_title">
 
 
@@ -86,19 +86,8 @@
                     android:text="-"
                     tools:ignore="TouchTargetSizeCheck" />
 
-
-
-
             </LinearLayout>
 
-            <Button
-                android:id="@+id/products_cell_btn_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="add to cart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

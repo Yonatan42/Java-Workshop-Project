@@ -9,7 +9,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartP
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ICartStore {
+public interface CartTransactable {
     void insert(int productId, int quantity);
     List<CartProduct> getAll();
     CartProduct get(int productId);

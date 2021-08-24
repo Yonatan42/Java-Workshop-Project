@@ -53,7 +53,6 @@ public class SplashFragment extends BaseFragment {
         RemoteService.getInstance().getUsersService().login(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<User>() {
             @Override
             public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
-                // todo - perhaps have the different fragments saved in the parent
                 DataSets.getInstance().userLiveData.postValue(result);
                 getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
             }

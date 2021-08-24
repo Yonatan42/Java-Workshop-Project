@@ -30,13 +30,15 @@ public class Product {
     private String categoryName;
     @SerializedName("quantity")
     @Expose
-    private int quantity;
+    private int stock;
     @SerializedName("price")
     @Expose
     private float price;
     @SerializedName("isEnabled")
     @Expose
     private boolean isEnabled;
+
+    private int cartQuantity = -1;
 
 
     public int getProductId() {
@@ -87,12 +89,12 @@ public class Product {
         this.categoryName = categoryName;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getStock() {
+        return stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public float getPrice() {
@@ -119,6 +121,14 @@ public class Product {
         this.categories = categories;
     }
 
+    public int getCartQuantity() {
+        return cartQuantity;
+    }
+
+    public void setCartQuantity(int cartQuantity) {
+        this.cartQuantity = cartQuantity;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -129,9 +139,10 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", imageData='" + imageData + '\'' +
                 ", categoryName='" + categoryName + '\'' +
-                ", quantity=" + quantity +
+                ", stock=" + stock +
                 ", price=" + price +
                 ", isEnabled=" + isEnabled +
+                ", cartQuantity=" + cartQuantity +
                 '}';
     }
 

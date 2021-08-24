@@ -12,7 +12,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartP
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartDB extends SQLiteOpenHelper implements ICartStore {
+public class CartDB extends SQLiteOpenHelper implements CartTransactable {
 
     private static final String DB_NAME = "cart.db";
     private static final int DB_VERSION = 1;

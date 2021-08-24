@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsPopup;
+import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 import com.yoni.javaworkshopprojectclient.utils.InputUtils;
 
 import java.util.List;
@@ -25,11 +28,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView txtTitle;
-        private final TextView txtQuantity;
+        private final EditText txtQuantity;
         private final ImageView ivImage;
         private final Button btnIncrease;
         private final Button btnDecrease;
-        private final Button btnAdd;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -39,7 +41,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             txtQuantity = itemView.findViewById(R.id.products_cell_txt_quantity);
             btnIncrease = itemView.findViewById(R.id.products_cell_btn_increase);
             btnDecrease = itemView.findViewById(R.id.products_cell_btn_decrease);
-            btnAdd = itemView.findViewById(R.id.products_cell_btn_add);
         }
 
     }
@@ -66,46 +67,48 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = products.get(position);
+        loadCartQuantityIfNeeded(product); // lazy load quantities from cart
 
         holder.txtTitle.setText(product.getTitle());
 
-        String imageData = product.getImageData();
-        byte[] imageByteArray = imageData != null ?
-                Base64.decode(imageData, Base64.DEFAULT) :
-                null;
-        Glide.with(context)
-                .load(imageByteArray)
-                .placeholder(R.drawable.ic_product_placeholder)
-                .into(holder.ivImage);
+        GlideUtils.loadBase64IntoImage(product.getImageData(),
+                                        context,
+                                        R.drawable.ic_product_placeholder,
+                                        holder.ivImage);
 
-        holder.txtQuantity.setText("1");
 
-        holder.itemView.setOnClickListener(v -> {
-            new ProductDetailsPopup(context, product).show();
-        });
+        holder.txtQuantity.setText(Integer.toString(product.getCartQuantity()));
 
-        holder.btnIncrease.setOnClickListener(v -> {
-            String quantityText = holder.txtQuantity.getText().toString().trim();
-            int quantity = InputUtils.tryParseInt(quantityText, 1);
-            holder.txtQuantity.setText(Integer.toString(quantity + 1));
-        });
+        holder.itemView.setOnClickListener(v -> new ProductDetailsPopup(context, product).show());
 
-        holder.btnDecrease.setOnClickListener(v -> {
-            String quantityText = holder.txtQuantity.getText().toString().trim();
-            int quantity = InputUtils.tryParseInt(quantityText, 1);
-            if(quantity > 1) {
-                holder.txtQuantity.setText(Integer.toString(quantity - 1));
-            }
-        });
+        holder.btnIncrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, true));
 
-        holder.btnAdd.setOnClickListener(v -> {
-            String quantityText = holder.txtQuantity.getText().toString().trim();
-            int quantity = InputUtils.tryParseInt(quantityText, 1);
-            holder.txtQuantity.setText(Integer.toString(quantity)); // make sure the user sees what is being added
-            CartStore.getInstance().update(product.getProductId(), quantity);
-        });
+        holder.btnDecrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, false));
 
     }
+
+    private void amountChangeButtonClick(EditText txtQuantity, Product product, boolean increase){
+        int oldQuantity = product.getCartQuantity();
+        int newQuantity;
+        if(increase){
+            newQuantity = ++oldQuantity;
+        }
+        else {
+            newQuantity = --oldQuantity;
+        }
+        newQuantity = Math.max(newQuantity, 0);
+        txtQuantity.setText(Integer.toString(newQuantity));
+        product.setCartQuantity(newQuantity);
+        CartStore.getInstance().set(product.getProductId(), newQuantity);
+    }
+
+    private void loadCartQuantityIfNeeded(Product product){
+        if(product.getCartQuantity() == -1){
+            CartProduct cartProduct = CartStore.getInstance().get(product.getProductId());
+            product.setCartQuantity(cartProduct != null ? cartProduct.getQuantity() : 0);
+        }
+    }
+
 
     @Override
     public int getItemCount() {

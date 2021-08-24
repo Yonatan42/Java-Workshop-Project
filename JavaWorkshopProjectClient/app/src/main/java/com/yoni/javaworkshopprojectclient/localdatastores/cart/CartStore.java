@@ -8,7 +8,7 @@ import com.yoni.javaworkshopprojectclient.localdatastores.InitializedStore;
 
 import java.util.List;
 
-public class CartStore extends InitializedStore implements ICartStore{
+public class CartStore extends InitializedStore implements CartTransactable {
 
     private static CartStore instance;
 
@@ -54,12 +54,20 @@ public class CartStore extends InitializedStore implements ICartStore{
     @Override
     public void update(int productId, int quantity) {
         throwIfUninitialized();
-        CartProduct product = db.get(productId);
-        if(product == null){
-            db.insert(productId, quantity);
+        db.update(productId, quantity);
+    }
+
+    public void set(int productId, int quantity) {
+        throwIfUninitialized();
+        CartProduct product = get(productId);
+        if(product == null && quantity > 0){
+            insert(productId, quantity);
         }
-        else{
-            db.update(productId, product.getQuantity() + quantity);
+        else if(quantity > 0 && product.getQuantity() != quantity){
+            update(productId, quantity);
+        }
+        else { // a product exists but we want 0 quantity - so remove it from the cart
+            delete(productId);
         }
     }
 
