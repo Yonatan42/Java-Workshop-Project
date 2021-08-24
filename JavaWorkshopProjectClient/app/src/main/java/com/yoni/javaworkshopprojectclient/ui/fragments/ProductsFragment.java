@@ -44,9 +44,11 @@ public class ProductsFragment extends BaseFragment {
         @Override
         public void onChanged(List<Product> productList) {
             // todo - for paging on the response we will make the larger data set and then post the entire thing
+            int startIndex = products.size();
             products.clear();
             products.addAll(productList);
-            rvProducts.getAdapter().notifyDataSetChanged();
+//            rvProducts.getAdapter().notifyDataSetChanged();
+            rvProducts.getAdapter().notifyItemRangeInserted(startIndex, productList.size() - startIndex);
         }
     };
 
@@ -99,7 +101,11 @@ public class ProductsFragment extends BaseFragment {
                 else{
                     fabFilter.hide();
                 }
+            }
 
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
                 if (!loadInProgress && !recyclerView.canScrollVertically(RecyclerView.SCROLL_AXIS_VERTICAL)) {
                     loadProducts();
                 }
@@ -116,7 +122,7 @@ public class ProductsFragment extends BaseFragment {
 //        Loader loader = new Loader(getContext(), "Loading Products", "please wait...");
 //        loader.show();
         loadInProgress = true;
-        RemoteService.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage).enqueue(new TokennedServerCallback<List<Product>>() {
+        RemoteService.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage, null, null).enqueue(new TokennedServerCallback<List<Product>>() {
             @Override
             public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<List<Product>>>> call, Response<ServerResponse<TokennedResult<List<Product>>>> response, List<Product> result) {
 //                loader.dismiss();

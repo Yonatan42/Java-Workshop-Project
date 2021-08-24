@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class ProductDetailsPopup extends AlertDialog {
 
@@ -22,20 +24,15 @@ public class ProductDetailsPopup extends AlertDialog {
         View layout = LayoutInflater.from(context).inflate(R.layout.popup_product_details, null, false);
         ImageView ivImage = layout.findViewById(R.id.products_details_popup_iv);
         TextView txtTitle = layout.findViewById(R.id.products_details_popup_txt_title);
+        TextView txtPrice = layout.findViewById(R.id.products_details_popup_txt_price);
         TextView txtDesc = layout.findViewById(R.id.products_details_popup_txt_desc);
         Button btnBack = layout.findViewById(R.id.products_details_popup_btn_back);
 
         txtTitle.setText(product.getTitle());
         txtDesc.setText(product.getDescription());
+        txtPrice.setText(String.format(UIUtils.PRICE_FORMAT, product.getPrice()));
 
-        String imageData = product.getImageData();
-        byte[] imageByteArray = imageData != null ?
-                Base64.decode(imageData, Base64.DEFAULT) :
-                null;
-        Glide.with(context)
-                .load(imageByteArray)
-                .placeholder(R.drawable.ic_product_placeholder)
-                .into(ivImage);
+        GlideUtils.loadBase64IntoImage(product.getImageData(), context, R.drawable.ic_product_placeholder, ivImage);
 
         btnBack.setOnClickListener(v -> dismiss());
 

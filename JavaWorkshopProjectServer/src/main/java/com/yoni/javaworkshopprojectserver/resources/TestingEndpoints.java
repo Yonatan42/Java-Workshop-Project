@@ -5,11 +5,17 @@
  */
 package com.yoni.javaworkshopprojectserver.resources;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;  
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -19,6 +25,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -102,9 +109,26 @@ public class TestingEndpoints{
     @Produces(MediaType.APPLICATION_JSON)
     public String pagedProductsTest(    
             @HeaderParam("Authorization") String token,
-            @PathParam("pageNum") int pageNum
+            @PathParam("pageNum") int pageNum,
+            @QueryParam("filterText") String filterText,
+            @QueryParam("filterCategoryId") Integer filterCategoryId
         ) throws IOException {
-        return readFileContents(String.format("products_catalog_page_%d.json", pageNum));
+        if(filterText == null && filterCategoryId == null){
+            return readFileContents(String.format("products_catalog_page_%d.json", pageNum));
+        }
+        else{
+            Map<String, Object> retMap = new Gson().fromJson(readFileContents(String.format("products_catalog_page_%d.json", pageNum)), new TypeToken<HashMap<String, Object>>() {}.getType());
+            List<Map<String,Object>> productMaps = ((List<Map<String,Object>>)((Map<String,Object>)retMap.get("result")).get("data"));
+             List<Map<String,Object>> filtered = productMaps.stream().filter(map -> {
+                 if(filterCategoryId != null){
+                     if(!((List<Map<String,Object>>)map.get("categories")).stream().anyMatch(catMap -> ((double)catMap.get("id")) == filterCategoryId)) return false;
+                 }
+                 if(!((String)map.get("title")).contains(filterText))return false;
+                 return true;
+                }).collect(Collectors.toList());
+             ((Map<String,Object>)retMap.get("result")).put("data", filtered);
+             return new Gson().toJson(retMap);
+        }
     }
     
 }

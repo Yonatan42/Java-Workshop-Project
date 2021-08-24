@@ -13,6 +13,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ProductsService {
 
@@ -30,7 +31,9 @@ public interface ProductsService {
     @GET(URL+"page/{pageNum}")
     Call<ServerResponse<TokennedResult<List<Product>>>> getPagedProducts(
             @Header("Authorization") String token,
-            @Path("pageNum") int pageNum
+            @Path("pageNum") int pageNum,
+            @Query("filterText") String filterText,
+            @Query("filterCategoryId") Integer filterCategoryId
     );
 
     @GET(URL+"filter/")
