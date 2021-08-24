@@ -20,17 +20,18 @@ import java.util.List;
 
 public class FilterProductsPopup extends AlertDialog {
 
-    public FilterProductsPopup(ParentActivity parentActivity, ProductFilter existingFilter, List<ProductCategory> categories, Consumer<ProductFilter> onFilter, Runnable onClear){
+    public FilterProductsPopup(ParentActivity parentActivity, ProductFilter existingFilter, List<ProductCategory> categories, Consumer<ProductFilter> onFilterChanged){
         super(parentActivity);
 
         View layout = LayoutInflater.from(parentActivity).inflate(R.layout.popup_filter_products, null, false);
         TextView txtText = layout.findViewById(R.id.filter_products_txt_text);
         Spinner spinnerCategories = layout.findViewById(R.id.filter_products_spinner_categories);
+        categories.add(0, new ProductCategory(0, "any"));
         CategoriesAdapter adapter = new CategoriesAdapter(parentActivity, categories);
         spinnerCategories.setAdapter(adapter);
 
         if(existingFilter != null){
-            String filterText = existingFilter.toString();
+            String filterText = existingFilter.getText();
             ProductCategory filterCategory = existingFilter.getCategory();
             txtText.setText(filterText != null ? filterText : "");
 
@@ -56,7 +57,9 @@ public class FilterProductsPopup extends AlertDialog {
             String text = txtText.getText().toString().toLowerCase().trim();
             ProductCategory category = ((ProductCategory)spinnerCategories.getSelectedItem());
             ProductFilter newFilter = new ProductFilter(text, category);
-            onFilter.accept(newFilter);
+            if(!newFilter.equals(existingFilter)) {
+                onFilterChanged.accept(newFilter);
+            }
             dismiss();
 
 //            int categoryId = 0;
@@ -91,7 +94,9 @@ public class FilterProductsPopup extends AlertDialog {
         });
 
         btnClear.setOnClickListener(v -> {
-            onClear.run();
+            if(existingFilter != null){
+                onFilterChanged.accept(null);
+            }
             dismiss();
         });
 

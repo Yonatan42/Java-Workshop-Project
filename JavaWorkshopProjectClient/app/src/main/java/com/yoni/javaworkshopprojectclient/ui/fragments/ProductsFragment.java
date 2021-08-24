@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
@@ -36,21 +38,12 @@ public class ProductsFragment extends BaseFragment {
 
     private View view;
     private RecyclerView rvProducts;
+    private TextView txtNoResults;
     private List<Product> products = new ArrayList<>();
     private int currentPage = 0;
     private boolean loadInProgress = false;
+    private ProductFilter productsFilter = null;
 
-    private final Observer<List<Product>> productsObserver = new Observer<List<Product>>() {
-        @Override
-        public void onChanged(List<Product> productList) {
-            // todo - for paging on the response we will make the larger data set and then post the entire thing
-            int startIndex = products.size();
-            products.clear();
-            products.addAll(productList);
-//            rvProducts.getAdapter().notifyDataSetChanged();
-            rvProducts.getAdapter().notifyItemRangeInserted(startIndex, productList.size() - startIndex);
-        }
-    };
 
     @Nullable
     @Override
@@ -63,6 +56,7 @@ public class ProductsFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        txtNoResults = view.findViewById(R.id.products_txt_no_results);
         rvProducts = view.findViewById(R.id.products_rv);
 
         ProductsAdapter adapter = new ProductsAdapter(getContext(), products);
@@ -88,7 +82,14 @@ public class ProductsFragment extends BaseFragment {
             categories.add(new ProductCategory(11, "cat11"));
             ////////////////////////////////////////////////////
 
-            new FilterProductsPopup(getParentActivity(), null, categories, newFilter -> {}, () -> {}).show();
+            new FilterProductsPopup(getParentActivity(), productsFilter, categories, newFilter -> {
+                productsFilter = newFilter;
+                currentPage = 0;
+                int oldCount = products.size();
+                products.clear();
+                rvProducts.getAdapter().notifyItemRangeRemoved(0, oldCount);
+                loadProducts();
+            }).show();
         });
 
         rvProducts.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -111,8 +112,6 @@ public class ProductsFragment extends BaseFragment {
                 }
             }
         });
-
-        loadProducts();
     }
 
 
@@ -122,13 +121,22 @@ public class ProductsFragment extends BaseFragment {
 //        Loader loader = new Loader(getContext(), "Loading Products", "please wait...");
 //        loader.show();
         loadInProgress = true;
-        RemoteService.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage, null, null).enqueue(new TokennedServerCallback<List<Product>>() {
+        String filterText = productsFilter != null ? productsFilter.getText() : null;
+        Integer filterCategoryId = productsFilter != null && productsFilter.getCategory() != null ? productsFilter.getCategory().getId() : null;
+        RemoteService.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage, filterText, filterCategoryId).enqueue(new TokennedServerCallback<List<Product>>() {
             @Override
             public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<List<Product>>>> call, Response<ServerResponse<TokennedResult<List<Product>>>> response, List<Product> result) {
 //                loader.dismiss();
                 loadInProgress = false;
                 currentPage++;
-                DataSets.getInstance().productsLiveData.postValue(ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId())));
+                int startIndex = products.size();
+                List<Product> mergedList = ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId()));
+                products.clear();
+                products.addAll(mergedList);
+                rvProducts.getAdapter().notifyItemRangeInserted(startIndex, products.size() - startIndex);
+
+                txtNoResults.setVisibility(products.isEmpty() ? View.VISIBLE : View.GONE);
+
             }
 
             @Override
@@ -136,7 +144,7 @@ public class ProductsFragment extends BaseFragment {
 //                loader.dismiss();
                 loadInProgress = false;
                 // todo - change this
-                new ErrorPopup(getContext(), "death");
+                new ErrorPopup(getContext(), "death").show();
             }
 
             @Override
@@ -144,7 +152,7 @@ public class ProductsFragment extends BaseFragment {
 //                loader.dismiss();
                 loadInProgress = false;
                 // todo - change this
-                new ErrorPopup(getContext(), "more death");
+                new ErrorPopup(getContext(), "more death").show();
             }
         });
     }
@@ -152,12 +160,10 @@ public class ProductsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        DataSets.getInstance().productsLiveData.observe(getParentActivity(), productsObserver);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        DataSets.getInstance().productsLiveData.removeObserver(productsObserver);
+        products.clear();
+        currentPage = 0;
+        loadInProgress = false;
+        productsFilter = null;
+        loadProducts();
     }
 }

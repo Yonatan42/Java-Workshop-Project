@@ -113,6 +113,10 @@ public class TestingEndpoints{
             @QueryParam("filterText") String filterText,
             @QueryParam("filterCategoryId") Integer filterCategoryId
         ) throws IOException {
+        if(pageNum > 2){
+            return readFileContents("products_catalog_page_exceed.json");
+        }
+        
         if(filterText == null && filterCategoryId == null){
             return readFileContents(String.format("products_catalog_page_%d.json", pageNum));
         }
@@ -123,7 +127,9 @@ public class TestingEndpoints{
                  if(filterCategoryId != null){
                      if(!((List<Map<String,Object>>)map.get("categories")).stream().anyMatch(catMap -> ((double)catMap.get("id")) == filterCategoryId)) return false;
                  }
-                 if(!((String)map.get("title")).contains(filterText))return false;
+                 if(filterText != null){
+                    if(!((String)map.get("title")).toLowerCase().contains(filterText.toLowerCase()))return false;
+                 }
                  return true;
                 }).collect(Collectors.toList());
              ((Map<String,Object>)retMap.get("result")).put("data", filtered);
