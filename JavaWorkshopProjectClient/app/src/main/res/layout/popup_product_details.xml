@@ -88,15 +88,14 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_separating_margin"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toTopOf="@+id/products_details_popup_btn_back"
+        app:layout_constraintBottom_toTopOf="@+id/products_details_popup_admin_buttons_group"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        android:layout_marginTop="@dimen/standard_separating_margin"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,13 +103,13 @@
             android:orientation="vertical">
 
             <EditText
-                style="@style/EditTextAdminToggle"
                 android:id="@+id/products_details_popup_txt_desc"
+                style="@style/EditTextAdminToggle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
-                android:textSize="@dimen/standard_text_size"
                 android:textColor="@color/text_color_light"
+                android:textSize="@dimen/standard_text_size"
                 tools:text="this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. " />
 
         </LinearLayout>
@@ -125,5 +124,45 @@
         app:srcCompat="@drawable/ic_edit"
         android:visibility="gone"
         tools:ignore="SpeakableTextPresentCheck" />
+
+
+    <LinearLayout
+        android:id="@+id/products_details_popup_admin_buttons_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/products_details_popup_btn_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2">
+
+        <Button
+            android:id="@+id/products_details_popup_btn_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/standard_separating_margin"
+            android:layout_weight="1"
+            android:text="@string/products_details_popup_btn_delete" />
+
+        <Button
+            android:id="@+id/products_details_popup_btn_save"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/standard_separating_margin"
+            android:layout_weight="1"
+            android:text="@string/products_details_popup_btn_save" />
+
+        <Button
+            android:id="@+id/products_details_popup_btn_reset"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/standard_separating_margin"
+            android:layout_weight="1"
+            android:text="@string/products_details_popup_btn_reset" />
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
