@@ -9,6 +9,4 @@ public class UIUtils {
 //            return defaultVal;
 //        }
 //    }
-
-    public static final String PRICE_FORMAT = "$%.2f";
 }

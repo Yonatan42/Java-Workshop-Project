@@ -74,7 +74,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                                         context,
                                         R.drawable.ic_product_placeholder,
                                         holder.ivImage);
-        holder.txtPrice.setText(String.format(UIUtils.PRICE_FORMAT, product.getPrice()));
+        holder.txtPrice.setText(String.format("$%.2f", product.getPrice()));
         holder.txtQuantity.setText(Integer.toString(product.getCartQuantity()));
         holder.itemView.setOnClickListener(v -> new ProductDetailsPopup(context, product).show());
         holder.btnIncrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, true));

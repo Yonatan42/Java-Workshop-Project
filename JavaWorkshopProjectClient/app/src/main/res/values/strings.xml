@@ -14,4 +14,5 @@
     <string name="filter_products_btn_clear">clear</string>
     <string name="products_details_popup_btn_back">back</string>
     <string name="products_txt_no_results">No Results Found</string>
+    <string name="dollar_sign">$</string>
 </resources>

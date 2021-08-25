@@ -14,18 +14,20 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@mipmap/ic_launcher" />
 
-    <TextView
+    <EditText
         android:id="@+id/products_details_popup_txt_title"
+        style="@style/EditTextAdminToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/standard_separating_margin"
+        android:gravity="center"
+        android:textColor="@color/text_color_dark"
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/products_details_popup_iv"
-        android:layout_marginTop="@dimen/standard_separating_margin"
+        tools:ignore="TouchTargetSizeCheck"
         tools:text="the title" />
 
     <TextView
@@ -35,23 +37,41 @@
         android:textSize="@dimen/small_text_size"
         android:textStyle="bold"
         android:gravity="center"
+        android:textColor="@color/text_color_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/products_details_popup_txt_title"
         android:layout_marginTop="@dimen/standard_separating_margin"
         tools:text="category1, category2, category3" />
 
-    <TextView
-        android:id="@+id/products_details_popup_txt_price"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="@dimen/standard_text_size"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/products_details_popup_txt_categories"
         android:layout_marginTop="@dimen/standard_separating_margin"
-        tools:text="$4.99" />
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/standard_text_size"
+            android:text="@string/dollar_sign" />
+
+        <EditText
+            android:id="@+id/products_details_popup_txt_price"
+            style="@style/EditTextAdminToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/standard_text_size"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:text="4.99" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/products_details_popup_btn_back"
@@ -74,7 +94,7 @@
         app:layout_constraintBottom_toTopOf="@+id/products_details_popup_btn_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/products_details_popup_txt_price"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         android:layout_marginTop="@dimen/standard_separating_margin"
         >
 
@@ -83,15 +103,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <EditText
+                style="@style/EditTextAdminToggle"
                 android:id="@+id/products_details_popup_txt_desc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 android:textSize="@dimen/standard_text_size"
+                android:textColor="@color/text_color_light"
                 tools:text="this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. this is the kind of long description of the product titled above. Let's write a few sentences to see how it looks. That should just about do it. " />
 
         </LinearLayout>
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/products_details_popup_btn_edit_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/products_details_popup_iv"
+        app:layout_constraintEnd_toEndOf="@+id/products_details_popup_iv"
+        app:srcCompat="@drawable/ic_edit"
+        android:visibility="gone"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

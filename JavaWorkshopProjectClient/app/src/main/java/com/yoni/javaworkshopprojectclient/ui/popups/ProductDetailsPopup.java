@@ -34,7 +34,7 @@ public class ProductDetailsPopup extends AlertDialog {
         txtTitle.setText(product.getTitle());
         txtCategories.setText(ListUtils.mapJoin(product.getCategories(), ",", ProductCategory::getTitle));
         txtDesc.setText(product.getDescription());
-        txtPrice.setText(String.format(UIUtils.PRICE_FORMAT, product.getPrice()));
+        txtPrice.setText(String.format("%.2f", product.getPrice()));
 
         GlideUtils.loadBase64IntoImage(product.getImageData(), context, R.drawable.ic_product_placeholder, ivImage);
 
