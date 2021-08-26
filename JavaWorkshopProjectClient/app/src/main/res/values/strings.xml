@@ -18,4 +18,8 @@
     <string name="products_details_popup_btn_delete">delete</string>
     <string name="products_details_popup_btn_save">save</string>
     <string name="products_details_popup_btn_reset">reset</string>
+    <string name="products_details_popup_txt_title_hint">title</string>
+    <string name="products_details_popup_txt_price_hint">price</string>
+    <string name="products_details_popup_txt_desc_hint">description...</string>
+    <string name="products_details_popup_txt_categories_hint">categories</string>
 </resources>

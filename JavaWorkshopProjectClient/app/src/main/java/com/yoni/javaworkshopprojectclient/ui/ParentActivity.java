@@ -1,10 +1,17 @@
 package com.yoni.javaworkshopprojectclient.ui;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -14,16 +21,18 @@ import android.view.ViewGroup;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.events.Event;
+import com.yoni.javaworkshopprojectclient.events.OnActivityResultListener;
+import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.ui.fragments.BaseFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.ProductsFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.RegisterFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.SplashFragment;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ParentActivity extends AppCompatActivity {
@@ -39,9 +48,11 @@ public class ParentActivity extends AppCompatActivity {
     public @interface TabIndex {}
 
 
-
     private FragmentManager fragmentManager;
     private TabLayout tabLayout;
+
+    private final Event<OnActivityResultListener> onActivityResultEvent = new Event<>();
+    private Event<OnRequestPermissionResultListener> onPermissionResultEvent = new Event<>();
 
 
     @Override
@@ -124,6 +135,51 @@ public class ParentActivity extends AppCompatActivity {
             transaction.addToBackStack(null);
         }
         transaction.commit();
+    }
+
+
+    public void addOnPermissionsResultListener(OnRequestPermissionResultListener listener){
+        onPermissionResultEvent.addListener(listener);
+    }
+
+    public void removeOnPermissionsResultListener(OnRequestPermissionResultListener listener){
+        onPermissionResultEvent.removeListener(listener);
+    }
+
+    public void requestPermissions(int requestCode, String... permissions){
+        List<String> permissionToRequest = null;
+        for(String permission: permissions){
+            if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                if(permissionToRequest == null){
+                    permissionToRequest = new ArrayList<>();
+                }
+                permissionToRequest.add(permission);
+            }
+        }
+
+        if(permissionToRequest != null){
+            ActivityCompat.requestPermissions(this, permissionToRequest.toArray(new String[0]), requestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        onPermissionResultEvent.fire(requestCode, permissions, grantResults);
+    }
+
+    public void addOnActivityResultListener(OnActivityResultListener listener){
+        onActivityResultEvent.addListener(listener);
+    }
+
+    public void removeOnActivityResultListener(OnActivityResultListener listener){
+        onActivityResultEvent.removeListener(listener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        onActivityResultEvent.fire(resultCode, resultCode, data);
     }
 
     public void setAdminTabVisible(boolean isVisible){

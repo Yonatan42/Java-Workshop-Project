@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,25 +19,55 @@ import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
+import java.util.List;
+
 public class ProductDetailsPopup extends AlertDialog {
 
-    public ProductDetailsPopup(Context context, Product product){
+    protected Product product;
+
+    protected View layout;
+    protected ImageView ivImage;
+    protected EditText txtTitle;
+    protected EditText txtCategories;
+    protected EditText txtPrice;
+    protected EditText txtDesc;
+    protected Button btnBack;
+
+
+
+    public ProductDetailsPopup(Context context, Product product) {
         super(context);
+        this.product = product;
+        setUp();
+    }
 
-        View layout = LayoutInflater.from(context).inflate(R.layout.popup_product_details, null, false);
-        ImageView ivImage = layout.findViewById(R.id.products_details_popup_iv);
-        TextView txtTitle = layout.findViewById(R.id.products_details_popup_txt_title);
-        TextView txtCategories = layout.findViewById(R.id.products_details_popup_txt_categories);
-        TextView txtPrice = layout.findViewById(R.id.products_details_popup_txt_price);
-        TextView txtDesc = layout.findViewById(R.id.products_details_popup_txt_desc);
-        Button btnBack = layout.findViewById(R.id.products_details_popup_btn_back);
+    protected void setUp(){
+        layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_product_details, null, false);
+        ivImage = layout.findViewById(R.id.products_details_popup_iv);
+        txtTitle = layout.findViewById(R.id.products_details_popup_txt_title);
+        txtCategories = layout.findViewById(R.id.products_details_popup_txt_categories);
+        txtPrice = layout.findViewById(R.id.products_details_popup_txt_price);
+        txtDesc = layout.findViewById(R.id.products_details_popup_txt_desc);
+        btnBack = layout.findViewById(R.id.products_details_popup_btn_back);
 
-        txtTitle.setText(product.getTitle());
-        txtCategories.setText(ListUtils.mapJoin(product.getCategories(), ",", ProductCategory::getTitle));
-        txtDesc.setText(product.getDescription());
-        txtPrice.setText(String.format("%.2f", product.getPrice()));
+        if (product != null) {
 
-        GlideUtils.loadBase64IntoImage(product.getImageData(), context, R.drawable.ic_product_placeholder, ivImage);
+            String pTitle = product.getTitle();
+            String title = pTitle != null ? pTitle : "";
+            List<ProductCategory> pCategories = product.getCategories();
+            String categories = pCategories != null && !pCategories.isEmpty() ? ListUtils.mapJoin(pCategories, ",", ProductCategory::getTitle) : "";
+            String pDesc = product.getDescription();
+            String desc = pDesc != null ? pDesc : "";
+            float pPrice = product.getPrice();
+            String price = String.format("%.2f", pPrice);
+
+            txtTitle.setText(title);
+            txtCategories.setText(categories);
+            txtDesc.setText(desc);
+            txtPrice.setText(price);
+
+            GlideUtils.loadBase64IntoImage(product.getImageData(), getContext(), R.drawable.ic_product_placeholder, ivImage);
+        }
 
         btnBack.setOnClickListener(v -> dismiss());
 
