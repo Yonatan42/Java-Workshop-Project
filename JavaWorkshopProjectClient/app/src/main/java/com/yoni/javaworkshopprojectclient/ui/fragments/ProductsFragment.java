@@ -59,7 +59,7 @@ public class ProductsFragment extends BaseFragment {
         txtNoResults = view.findViewById(R.id.products_txt_no_results);
         rvProducts = view.findViewById(R.id.products_rv);
 
-        ProductsAdapter adapter = new ProductsAdapter(getContext(), products);
+        ProductsAdapter adapter = new ProductsAdapter(getParentActivity(), products);
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new GridLayoutManager(getContext(),2));
 
@@ -158,12 +158,14 @@ public class ProductsFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+        int oldCount = products.size();
         products.clear();
         currentPage = 0;
         loadInProgress = false;
         productsFilter = null;
+        rvProducts.getAdapter().notifyItemRangeRemoved(0, oldCount);
         loadProducts();
     }
 }

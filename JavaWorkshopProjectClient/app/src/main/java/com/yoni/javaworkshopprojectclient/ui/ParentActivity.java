@@ -146,7 +146,7 @@ public class ParentActivity extends AppCompatActivity {
         onPermissionResultEvent.removeListener(listener);
     }
 
-    public void requestPermissions(int requestCode, String... permissions){
+    public boolean requestPermissions(int requestCode, String... permissions){
         List<String> permissionToRequest = null;
         for(String permission: permissions){
             if(ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
@@ -159,7 +159,9 @@ public class ParentActivity extends AppCompatActivity {
 
         if(permissionToRequest != null){
             ActivityCompat.requestPermissions(this, permissionToRequest.toArray(new String[0]), requestCode);
+            return true;
         }
+        return false;
     }
 
     @Override

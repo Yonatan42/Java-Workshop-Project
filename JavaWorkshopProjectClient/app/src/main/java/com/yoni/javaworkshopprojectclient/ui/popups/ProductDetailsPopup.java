@@ -23,8 +23,6 @@ import java.util.List;
 
 public class ProductDetailsPopup extends AlertDialog {
 
-    protected Product product;
-
     protected View layout;
     protected ImageView ivImage;
     protected EditText txtTitle;
@@ -37,11 +35,10 @@ public class ProductDetailsPopup extends AlertDialog {
 
     public ProductDetailsPopup(Context context, Product product) {
         super(context);
-        this.product = product;
-        setUp();
+        setUp(product);
     }
 
-    protected void setUp(){
+    private void setUp(Product product){
         layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_product_details, null, false);
         ivImage = layout.findViewById(R.id.products_details_popup_iv);
         txtTitle = layout.findViewById(R.id.products_details_popup_txt_title);

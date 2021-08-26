@@ -16,9 +16,9 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
-import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsPopup;
+import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
-import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
 
@@ -47,11 +47,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
 
     private List<Product> products;
-    private Context context;
+    private ParentActivity parentActivity;
 
 
-    public ProductsAdapter(Context context, List<Product> products){
-        this.context = context;
+    public ProductsAdapter(ParentActivity parentActivity, List<Product> products){
+        this.parentActivity = parentActivity;
         this.products = products;
     }
 
@@ -71,12 +71,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
         holder.txtTitle.setText(product.getTitle());
         GlideUtils.loadBase64IntoImage(product.getImageData(),
-                                        context,
+                parentActivity,
                                         R.drawable.ic_product_placeholder,
                                         holder.ivImage);
         holder.txtPrice.setText(String.format("$%.2f", product.getPrice()));
         holder.txtQuantity.setText(Integer.toString(product.getCartQuantity()));
-        holder.itemView.setOnClickListener(v -> new ProductDetailsPopup(context, product).show());
+        holder.itemView.setOnClickListener(v -> new ProductDetailsAdminPopup(parentActivity, product).show());//ProductDetailsPopup(context, product).show()); // todo - check if admin and show correct one
         holder.btnIncrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, true));
         holder.btnDecrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, false));
     }
