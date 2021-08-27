@@ -59,7 +59,7 @@ public class GetImagePopup extends AlertDialog {
                 }
             }
             else {
-                Toast.makeText(parentActivity, parentActivity.getString(R.string.permission_denied_mesage), Toast.LENGTH_SHORT).show();
+                Toast.makeText(parentActivity, parentActivity.getString(R.string.permission_denied_message), Toast.LENGTH_SHORT).show();
             }
         }
     };
