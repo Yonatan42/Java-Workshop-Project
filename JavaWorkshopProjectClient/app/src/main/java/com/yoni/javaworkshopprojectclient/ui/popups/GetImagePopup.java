@@ -2,6 +2,7 @@ package com.yoni.javaworkshopprojectclient.ui.popups;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -66,20 +67,20 @@ public class GetImagePopup extends AlertDialog {
         }
     };
 
-    private OnActivityResultListener onActivtyResultListener = new OnActivityResultListener() {
+    private OnActivityResultListener onActivityResultListener = new OnActivityResultListener() {
         @Override
         public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             Log.i("ACTIVITY_TEST", String.format("requestCode: %d, resultCode: %d, data: %s", requestCode, resultCode, data));
-//            if(resultCode == Activity.RESULT_OK) {
+            if(resultCode == Activity.RESULT_OK) {
                 switch (requestCode) {
                     case RequestCodes.ActivityCodes.GET_IMAGE_CAMERA:
-                        getCameraData();
+                        handleCameraData();
                         break;
                     case RequestCodes.ActivityCodes.GET_IMAGE_STORAGE:
-                        // todo - got storage data
+                        handleStorageData(data != null ? data.getData() : null);
                         break;
                 }
-//            }
+            }
         }
     };
 
@@ -99,7 +100,7 @@ public class GetImagePopup extends AlertDialog {
         }
 
         parentActivity.addOnPermissionsResultListener(onPermissionResultListener);
-        parentActivity.addOnActivityResultListener(onActivtyResultListener);
+        parentActivity.addOnActivityResultListener(onActivityResultListener);
 
         btnCamera.setOnClickListener(v -> {
             if(!requestPermissionForCamera()){
@@ -126,7 +127,7 @@ public class GetImagePopup extends AlertDialog {
     }
 
     private void chooseFromCamera() {
-         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         File imageFile = new File(parentActivity.getFilesDir(), cameraSaveImageFileName);
         cameraImageUri = FileProvider.getUriForFile(parentActivity, BuildConfig.APPLICATION_ID+".provider", imageFile);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
@@ -134,29 +135,26 @@ public class GetImagePopup extends AlertDialog {
     }
 
     private void chooseFromStorage(){
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.setType("image/*");
+        Intent storageIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        storageIntent.setType("image/*");
 
-        Intent pickIntent = new Intent(Intent.ACTION_PICK);
-        pickIntent.setDataAndType( android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        Intent pickerIntent = new Intent(Intent.ACTION_PICK);
+        pickerIntent.setDataAndType( android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
 
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+        Intent chooseIntent = Intent.createChooser(storageIntent, "Select Image");
+        chooseIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickerIntent});
 
-
-        parentActivity.startActivityForResult(chooserIntent, RequestCodes.ActivityCodes.GET_IMAGE_CAMERA);
+        parentActivity.startActivityForResult(chooseIntent, RequestCodes.ActivityCodes.GET_IMAGE_STORAGE);
 
     }
 
-    private void getCameraData(){
-
+    private void handleData(Uri uri){
         ContentResolver contentResolver = parentActivity.getContentResolver();
 
         Bitmap bitmap;
 
         try {
-
-            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(contentResolver, cameraImageUri);
+            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
             bitmap = BitmapUtils.scaleBitmap(originalBitmap, 512, 512);
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -172,9 +170,22 @@ public class GetImagePopup extends AlertDialog {
         dismiss();
     }
 
+    private void handleCameraData(){
+        handleData(cameraImageUri);
+    }
+
+    private void handleStorageData(Uri uri){
+        if(uri == null) {
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.load_image_error), Toast.LENGTH_SHORT).show();
+            dismiss();
+            return;
+        }
+        handleData(uri);
+    }
+
     @Override
     public void dismiss() {
-        parentActivity.removeOnActivityResultListener(onActivtyResultListener);
+        parentActivity.removeOnActivityResultListener(onActivityResultListener);
         parentActivity.removeOnPermissionsResultListener(onPermissionResultListener);
         super.dismiss();
     }

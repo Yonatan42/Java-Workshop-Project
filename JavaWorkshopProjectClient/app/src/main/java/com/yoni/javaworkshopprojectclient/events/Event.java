@@ -10,7 +10,7 @@ public class Event<T extends EventListener> {
     }
 
     public void removeListener(T listener){
-        listeners.add(listener);
+        listeners.remove(listener);
     }
 
     public void clearListeners(){
