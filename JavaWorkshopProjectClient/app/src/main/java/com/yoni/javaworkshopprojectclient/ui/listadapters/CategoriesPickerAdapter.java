@@ -1,9 +1,11 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.SelectableCategory;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
 
@@ -39,7 +42,9 @@ public class CategoriesPickerAdapter extends RecyclerView.Adapter<CategoriesPick
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         CheckBox checkBox = new CheckBox(context);
-        checkBox.setTextSize(context.getResources().getDimension(R.dimen.standard_text_size));
+//        float textSize = context.getResources().getDimension(R.dimen.standard_text_size);
+//        checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+        UIUtils.setSpText(checkBox, R.dimen.standard_text_size);
         ViewHolder viewHolder = new ViewHolder(checkBox);
         return viewHolder;
     }
@@ -49,6 +54,9 @@ public class CategoriesPickerAdapter extends RecyclerView.Adapter<CategoriesPick
         SelectableCategory category = categories.get(position);
         holder.checkBox.setChecked(category.isSelected());
         holder.checkBox.setText(category.getTitle());
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            category.setSelected(isChecked);
+        });
     }
 
     @Override

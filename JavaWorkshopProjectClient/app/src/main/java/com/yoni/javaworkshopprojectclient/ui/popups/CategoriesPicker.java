@@ -19,27 +19,39 @@ import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesPickerAdapter;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesPicker extends AlertDialog {
 
-    protected CategoriesPicker(Context context, List<ProductCategory> categories, Consumer<List<ProductCategory>> onCategoriesSelected) {
+    protected CategoriesPicker(Context context, List<ProductCategory> existingSelectedCategories, Consumer<List<ProductCategory>> onCategoriesSelected) {
         super(context, R.style.WrapContentDialog);
 
         View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_categories_picker, null, false);
         Button btnBack = layout.findViewById(R.id.categories_picker_popup_btn_back);
         Button btnOk = layout.findViewById(R.id.categories_picker_popup_btn_ok);
         Button btnNew = layout.findViewById(R.id.categories_picker_popup_btn_new);
-        EditText newTitle = layout.findViewById(R.id.categories_picker_popup_txt_new);
+        EditText txtTitle = layout.findViewById(R.id.categories_picker_popup_txt_new);
         RecyclerView rvCategories = layout.findViewById(R.id.categories_picker_popup_rv);
 
-        List<SelectableCategory> selectableCategories = SelectableCategory.fromProductCategories(categories);
+        List<SelectableCategory> selectableCategories = SelectableCategory.fromProductCategories(DataSets.getInstance().getCategories());
+        List<ProductCategory> existingSelectedCategoriesClone = new ArrayList<>(existingSelectedCategories);
+        for (SelectableCategory selectableCategory: selectableCategories){
+            ProductCategory match = ListUtils.getFirstWhere(existingSelectedCategoriesClone, category -> category.getId() == selectableCategory.getProductCategory().getId());
+            if(match != null){
+                existingSelectedCategoriesClone.remove(match);
+                selectableCategory.setSelected(true);
+            }
+            if(existingSelectedCategoriesClone.isEmpty()){
+                break;
+            }
+        }
         CategoriesPickerAdapter adapter = new CategoriesPickerAdapter(selectableCategories);
         rvCategories.setAdapter(adapter);
         rvCategories.setLayoutManager(new LinearLayoutManager(context));
 
         btnNew.setOnClickListener(v -> {
-            String title = newTitle.getText().toString().trim();
+            String title = txtTitle.getText().toString().trim();
             // todo - server request for new category
             Toast.makeText(context, "new category: "+title, Toast.LENGTH_SHORT).show();
             // on successful response
@@ -49,6 +61,7 @@ public class CategoriesPicker extends AlertDialog {
             int nextIndex = selectableCategories.size();
             selectableCategories.add(selectableCategory);
             adapter.notifyItemInserted(nextIndex);
+            txtTitle.setText("");
         });
 
         btnBack.setOnClickListener(v -> dismiss());
@@ -58,5 +71,6 @@ public class CategoriesPicker extends AlertDialog {
             dismiss();
         });
 
+        setView(layout);
     }
 }

@@ -68,7 +68,7 @@ public class ProductDetailsPopup extends AlertDialog {
     }
 
     protected String getCategoriesText(List<ProductCategory> categories){
-        return ListUtils.mapJoin(categories, ",", ProductCategory::getTitle);
+        return ListUtils.mapJoin(categories, ", ", ProductCategory::getTitle);
     }
 
 

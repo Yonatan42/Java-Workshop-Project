@@ -61,4 +61,17 @@ public class ListUtils {
         }
         return filteredList;
     }
+
+    public static <T> boolean containsWhere(List<T> list, Function<T, Boolean> predicate){
+        return getFirstWhere(list, predicate) != null;
+    }
+
+    public static <T> T getFirstWhere(List<T> list, Function<T, Boolean> predicate){
+        for (T elem: list){
+            if(predicate.apply(elem)){
+                return elem;
+            }
+        }
+        return null;
+    }
 }

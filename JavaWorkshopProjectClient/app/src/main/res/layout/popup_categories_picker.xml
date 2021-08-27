@@ -56,7 +56,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/btn_generic_back"
+        android:text="@string/btn_generic_ok"
         android:layout_margin="@dimen/standard_separating_margin"/>
 
     </LinearLayout>

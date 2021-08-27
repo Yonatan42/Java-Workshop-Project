@@ -63,14 +63,9 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         setVisibleViews(buttonsHolder, btnEditImage);
 
         txtCategories.setOnClickListener(v -> {
-            // todo - make picker for categories (popup with add new category and recycler of all categories with checkboxes next to them)
-            AlertDialog errorDialog = new ErrorPopup(parentActivity, "coming soon");
-            errorDialog.setOnDismissListener(d -> {
-                new CategoriesPicker(parentActivity, DataSets.getInstance().getCategories(), selectedCategories -> {
-                    txtCategories.setText(getCategoriesText(selectedCategories));
-                });
-            });
-            errorDialog.show();
+            new CategoriesPicker(parentActivity, product.getCategories(), selectedCategories -> {
+                txtCategories.setText(getCategoriesText(selectedCategories));
+            }).show();
         });
 
         btnEditImage.setOnClickListener(v -> new GetImagePopup(parentActivity, base42Image -> GlideUtils.loadBase64IntoImage(base42Image, parentActivity, R.drawable.ic_product_placeholder, ivImage)).show());
