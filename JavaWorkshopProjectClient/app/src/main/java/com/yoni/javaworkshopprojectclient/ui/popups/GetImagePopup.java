@@ -136,11 +136,12 @@ public class GetImagePopup extends AlertDialog {
     }
 
     private void chooseFromStorage(){
+        final String imageMimeType = "image/*";
         Intent storageIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        storageIntent.setType("image/*");
+        storageIntent.setType(imageMimeType);
 
         Intent pickerIntent = new Intent(Intent.ACTION_PICK);
-        pickerIntent.setDataAndType( android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        pickerIntent.setDataAndType( android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, imageMimeType);
 
         Intent chooseIntent = Intent.createChooser(storageIntent, "Select Image");
         chooseIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickerIntent});
