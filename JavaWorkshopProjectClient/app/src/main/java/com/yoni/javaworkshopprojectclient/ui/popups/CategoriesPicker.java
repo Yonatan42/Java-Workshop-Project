@@ -35,17 +35,9 @@ public class CategoriesPicker extends AlertDialog {
         RecyclerView rvCategories = layout.findViewById(R.id.categories_picker_popup_rv);
 
         List<SelectableCategory> selectableCategories = SelectableCategory.fromProductCategories(DataSets.getInstance().getCategories());
-        List<ProductCategory> existingSelectedCategoriesClone = new ArrayList<>(existingSelectedCategories);
-        for (SelectableCategory selectableCategory: selectableCategories){
-            ProductCategory match = ListUtils.getFirstWhere(existingSelectedCategoriesClone, category -> category.getId() == selectableCategory.getProductCategory().getId());
-            if(match != null){
-                existingSelectedCategoriesClone.remove(match);
-                selectableCategory.setSelected(true);
-            }
-            if(existingSelectedCategoriesClone.isEmpty()){
-                break;
-            }
-        }
+
+        selectInitialCategories(existingSelectedCategories, selectableCategories);
+
         CategoriesPickerAdapter adapter = new CategoriesPickerAdapter(selectableCategories);
         rvCategories.setAdapter(adapter);
         rvCategories.setLayoutManager(new LinearLayoutManager(context));
@@ -72,5 +64,21 @@ public class CategoriesPicker extends AlertDialog {
         });
 
         setView(layout);
+    }
+
+    private void selectInitialCategories(List<ProductCategory> existingSelectedCategories, List<SelectableCategory> selectableCategories) {
+        if(existingSelectedCategories != null && !existingSelectedCategories.isEmpty()) {
+            List<ProductCategory> existingSelectedCategoriesClone = new ArrayList<>(existingSelectedCategories);
+            for (SelectableCategory selectableCategory : selectableCategories) {
+                ProductCategory match = ListUtils.getFirstWhere(existingSelectedCategoriesClone, category -> category.getId() == selectableCategory.getProductCategory().getId());
+                if (match != null) {
+                    existingSelectedCategoriesClone.remove(match);
+                    selectableCategory.setSelected(true);
+                }
+                if (existingSelectedCategoriesClone.isEmpty()) {
+                    break;
+                }
+            }
+        }
     }
 }

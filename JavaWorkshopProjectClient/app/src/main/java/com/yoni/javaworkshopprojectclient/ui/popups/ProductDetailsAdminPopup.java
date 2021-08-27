@@ -18,12 +18,14 @@ import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 public class ProductDetailsAdminPopup extends ProductDetailsPopup {
@@ -62,11 +64,12 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         enableEditTexts(txtTitle, txtPrice, txtDesc, txtCategories);
         setVisibleViews(buttonsHolder, btnEditImage);
 
-        txtCategories.setOnClickListener(v -> {
-            new CategoriesPicker(parentActivity, product.getCategories(), selectedCategories -> {
-                txtCategories.setText(getCategoriesText(selectedCategories));
-            }).show();
-        });
+        List<ProductCategory> selectedCategories = product.getCategories();
+        txtCategories.setOnClickListener(v -> new CategoriesPicker(parentActivity, selectedCategories, newSelectedCategories -> {
+            txtCategories.setText(getCategoriesText(newSelectedCategories));
+            selectedCategories.clear();
+            selectedCategories.addAll(newSelectedCategories);
+        }).show());
 
         btnEditImage.setOnClickListener(v -> new GetImagePopup(parentActivity, base42Image -> GlideUtils.loadBase64IntoImage(base42Image, parentActivity, R.drawable.ic_product_placeholder, ivImage)).show());
     }
