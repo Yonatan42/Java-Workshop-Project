@@ -48,7 +48,7 @@ public class ProductDetailsPopup extends AlertDialog {
             String pTitle = product.getTitle();
             String title = pTitle != null ? pTitle : "";
             List<ProductCategory> pCategories = product.getCategories();
-            String categories = pCategories != null && !pCategories.isEmpty() ? ListUtils.mapJoin(pCategories, ",", ProductCategory::getTitle) : "";
+            String categories = pCategories != null && !pCategories.isEmpty() ? getCategoriesText(pCategories) : "";
             String pDesc = product.getDescription();
             String desc = pDesc != null ? pDesc : "";
             float pPrice = product.getPrice();
@@ -65,6 +65,10 @@ public class ProductDetailsPopup extends AlertDialog {
         btnBack.setOnClickListener(v -> dismiss());
 
         setView(layout);
+    }
+
+    protected String getCategoriesText(List<ProductCategory> categories){
+        return ListUtils.mapJoin(categories, ",", ProductCategory::getTitle);
     }
 
 

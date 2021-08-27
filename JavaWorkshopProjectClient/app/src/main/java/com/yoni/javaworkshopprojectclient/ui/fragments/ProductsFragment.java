@@ -67,22 +67,7 @@ public class ProductsFragment extends BaseFragment {
         FloatingActionButton fabFilter = view.findViewById(R.id.products_btn_filter);
 
         fabFilter.setOnClickListener(v -> {
-            /// fake categories - todo - get real ones later ///
-            List<ProductCategory> categories = new ArrayList<>();
-            categories.add(new ProductCategory(1, "cat1"));
-            categories.add(new ProductCategory(2, "cat2"));
-            categories.add(new ProductCategory(3, "cat3"));
-            categories.add(new ProductCategory(4, "cat4"));
-            categories.add(new ProductCategory(5, "cat5"));
-            categories.add(new ProductCategory(6, "cat6"));
-            categories.add(new ProductCategory(7, "cat7"));
-            categories.add(new ProductCategory(8, "cat8"));
-            categories.add(new ProductCategory(9, "cat9"));
-            categories.add(new ProductCategory(10, "cat10"));
-            categories.add(new ProductCategory(11, "cat11"));
-            ////////////////////////////////////////////////////
-
-            new FilterProductsPopup(getParentActivity(), productsFilter, categories, newFilter -> {
+            new FilterProductsPopup(getParentActivity(), productsFilter, DataSets.getInstance().getCategories(), newFilter -> {
                 productsFilter = newFilter;
                 currentPage = 0;
                 int oldCount = products.size();

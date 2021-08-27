@@ -17,7 +17,7 @@ public class ListUtils {
     private ListUtils(){}
 
     public static <T> List<T> combineLists(List<T> oldList, List<T> newList, Comparator<T> comparator){
-        Set<T> set = new TreeSet<T>(comparator);
+        Set<T> set = new TreeSet<>(comparator);
         set.addAll(newList);
         set.addAll(oldList);
         return new ArrayList<>(set);

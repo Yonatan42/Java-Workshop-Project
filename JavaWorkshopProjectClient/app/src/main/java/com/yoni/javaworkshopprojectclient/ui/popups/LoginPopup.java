@@ -40,7 +40,7 @@ public class LoginPopup extends AlertDialog {
                 @Override
                 public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
                     dismiss();
-                    DataSets.getInstance().userLiveData.postValue(result);
+                    DataSets.getInstance().setCurrentUser(result);
                     parentActivity.makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
                 }
 

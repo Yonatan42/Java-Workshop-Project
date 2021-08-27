@@ -21,9 +21,11 @@ import android.view.ViewGroup;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.events.Event;
 import com.yoni.javaworkshopprojectclient.events.OnActivityResultListener;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.ui.fragments.BaseFragment;
@@ -63,6 +65,26 @@ public class ParentActivity extends AppCompatActivity {
         initializeLocalStores();
         initializeFragments();
         initializeTabLayout();
+
+
+
+        /// todo - fake categories -> get real ones from server on login ///
+        List<ProductCategory> categories = new ArrayList<>();
+        categories.add(new ProductCategory(1, "cat1"));
+        categories.add(new ProductCategory(2, "cat2"));
+        categories.add(new ProductCategory(3, "cat3"));
+        categories.add(new ProductCategory(4, "cat4"));
+        categories.add(new ProductCategory(5, "cat5"));
+        categories.add(new ProductCategory(6, "cat6"));
+        categories.add(new ProductCategory(7, "cat7"));
+        categories.add(new ProductCategory(8, "cat8"));
+        categories.add(new ProductCategory(9, "cat9"));
+        categories.add(new ProductCategory(10, "cat10"));
+        categories.add(new ProductCategory(11, "cat11"));
+
+        DataSets.getInstance().addCategories(categories);
+        ////////////////////////////////////////////////////
+
     }
 
     private void initializeLocalStores(){

@@ -53,7 +53,7 @@ public class SplashFragment extends BaseFragment {
         RemoteService.getInstance().getUsersService().login(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<User>() {
             @Override
             public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
-                DataSets.getInstance().userLiveData.postValue(result);
+                DataSets.getInstance().setCurrentUser(result);
                 getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
             }
 

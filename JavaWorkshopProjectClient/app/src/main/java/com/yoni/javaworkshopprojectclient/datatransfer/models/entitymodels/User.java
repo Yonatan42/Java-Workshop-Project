@@ -13,9 +13,6 @@ public class User {
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("pass")
-    @Expose
-    private String pass;
     @SerializedName("firstName")
     @Expose
     private String firstName;
@@ -43,14 +40,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public String getFirstName() {
@@ -85,12 +74,20 @@ public class User {
         this.address = address;
     }
 
+    public void replaceUser(User user){
+        this.id = user.id;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.email = user.email;
+        this.phone = user.phone;
+        this.address = user.address;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", pass='" + pass + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +

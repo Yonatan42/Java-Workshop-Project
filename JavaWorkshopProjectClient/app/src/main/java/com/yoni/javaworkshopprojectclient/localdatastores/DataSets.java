@@ -7,8 +7,10 @@ import androidx.lifecycle.Observer;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DataSets {
@@ -27,10 +29,38 @@ public class DataSets {
 
     private DataSets(){}
 
-    public final MutableLiveData<User> userLiveData = new MutableLiveData<>();
-    public final MutableLiveData<List<Product>> productsLiveData = new MutableLiveData<>(new ArrayList<>());
-    public final MutableLiveData<List<ProductCategory>> categoriesLiveData = new MutableLiveData<>(new ArrayList<>());
+    private User currentUser = new User();
+    private List<ProductCategory> categories = new ArrayList<>();
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
+    public void setCurrentUser(User user) {
+        currentUser.replaceUser(user);
+    }
 
+    public List<ProductCategory> getCategories(){
+        return new ArrayList<>(categories);
+    }
+
+    public void setCategories(List<ProductCategory> newCategories){
+        categories.clear();
+        if(newCategories != null){
+            categories.addAll(newCategories);
+        }
+    }
+
+    public void addCategories(ProductCategory... newCategories){
+        addCategories(Arrays.asList(newCategories));
+    }
+
+    public void addCategories(List<ProductCategory> newCategories){
+        List<ProductCategory> mergedCategories = ListUtils.combineLists(categories, newCategories, (o1, o2) -> Integer.compare(o1.getId(), o2.getId()));
+        setCategories(mergedCategories);
+    }
+
+    public void clearCategories(){
+        categories.clear();
+    }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.SelectableCategory;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesPickerAdapter;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
@@ -44,7 +45,7 @@ public class CategoriesPicker extends AlertDialog {
             // on successful response
             ProductCategory productCategory = new ProductCategory(11111,title); // will the the product category returned
             SelectableCategory selectableCategory = new SelectableCategory(productCategory);
-            categories.add(productCategory);
+            DataSets.getInstance().addCategories(productCategory);
             int nextIndex = selectableCategories.size();
             selectableCategories.add(selectableCategory);
             adapter.notifyItemInserted(nextIndex);

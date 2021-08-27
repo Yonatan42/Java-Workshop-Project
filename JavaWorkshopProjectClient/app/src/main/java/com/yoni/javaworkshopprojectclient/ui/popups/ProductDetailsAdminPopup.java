@@ -19,6 +19,7 @@ import androidx.core.util.Consumer;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 
@@ -65,7 +66,9 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
             // todo - make picker for categories (popup with add new category and recycler of all categories with checkboxes next to them)
             AlertDialog errorDialog = new ErrorPopup(parentActivity, "coming soon");
             errorDialog.setOnDismissListener(d -> {
-                txtCategories.setText("");
+                new CategoriesPicker(parentActivity, DataSets.getInstance().getCategories(), selectedCategories -> {
+                    txtCategories.setText(getCategoriesText(selectedCategories));
+                });
             });
             errorDialog.show();
         });
