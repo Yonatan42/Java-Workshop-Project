@@ -6,13 +6,13 @@
     <string name="login_btn_signin">sign in</string>
     <string name="login_btn_register">register</string>
     <string name="error_txt_title">An Error Occurred</string>
-    <string name="error_btn_ok">ok</string>
+    <string name="btn_generic_ok">ok</string>
     <string name="error_btn_retry">retry</string>
     <string name="filter_products_popup_txt_text">filter text</string>
     <string name="filter_products_btn_cancel">cancel</string>
     <string name="filter_products_btn_filter">filter</string>
     <string name="filter_products_btn_clear">clear</string>
-    <string name="products_details_popup_btn_back">back</string>
+    <string name="btn_generic_back">back</string>
     <string name="products_txt_no_results">No Results Found</string>
     <string name="dollar_sign">$</string>
     <string name="products_details_popup_btn_delete">delete</string>

@@ -76,10 +76,11 @@
     </LinearLayout>
 
     <Button
+        android:backgroundTint="@color/standard_btn_bg"
         android:id="@+id/products_details_popup_btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/products_details_popup_btn_back"
+        android:text="@string/btn_generic_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,6 +126,8 @@
         app:layout_constraintEnd_toEndOf="@+id/products_details_popup_iv"
         app:srcCompat="@drawable/ic_edit"
         android:visibility="gone"
+        android:scaleType="fitCenter"
+        android:backgroundTint="@android:color/transparent"
         tools:ignore="SpeakableTextPresentCheck" />
 
 
@@ -140,6 +143,7 @@
         app:layout_constraintTop_toBottomOf="@+id/scrollView2">
 
         <Button
+            android:backgroundTint="@color/standard_btn_bg"
             android:id="@+id/products_details_popup_btn_delete"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -148,6 +152,7 @@
             android:text="@string/products_details_popup_btn_delete" />
 
         <Button
+            android:backgroundTint="@color/standard_btn_bg"
             android:id="@+id/products_details_popup_btn_save"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -156,6 +161,7 @@
             android:text="@string/products_details_popup_btn_save" />
 
         <Button
+            android:backgroundTint="@color/standard_btn_bg"
             android:id="@+id/products_details_popup_btn_reset"
             android:layout_width="0dp"
             android:layout_height="match_parent"

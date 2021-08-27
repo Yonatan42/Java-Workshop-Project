@@ -4,16 +4,14 @@ package com.yoni.javaworkshopprojectclient.ui.popups;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -30,9 +28,7 @@ import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.utils.BitmapUtils;
 import com.yoni.javaworkshopprojectclient.utils.RequestCodes;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -45,13 +41,13 @@ public class GetImagePopup extends AlertDialog {
 
     private Consumer<String> onNewImage; // param is a base64 image
 
-    private String cameraSaveImageFileName = "photo.jpg";
+    private static final String CAMERA_SAVE_IMAGE_FILE_NAME = "photo.jpg";
     private Uri cameraImageUri;
 
-    private OnRequestPermissionResultListener onPermissionResultListener = new OnRequestPermissionResultListener() {
+    private final OnRequestPermissionResultListener onPermissionResultListener = new OnRequestPermissionResultListener() {
         @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            Log.i("PERMISSION_TEST", String.format("requestCode: %d, permissions: %s, grandResults: %s", requestCode, Arrays.toString(permissions), Arrays.toString(grantResults)));
+            Log.i(TAG, String.format("onRequestPermissionsResult - requestCode: %d, permissions: %s, grandResults: %s", requestCode, Arrays.toString(permissions), Arrays.toString(grantResults)));
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 switch (requestCode) {
                     case RequestCodes.PermissionCodes.GET_IMAGE_CAMERA_PERMISSION:
@@ -68,10 +64,10 @@ public class GetImagePopup extends AlertDialog {
         }
     };
 
-    private OnActivityResultListener onActivityResultListener = new OnActivityResultListener() {
+    private final OnActivityResultListener onActivityResultListener = new OnActivityResultListener() {
         @Override
         public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            Log.i("ACTIVITY_TEST", String.format("requestCode: %d, resultCode: %d, data: %s", requestCode, resultCode, data));
+            Log.i(TAG, String.format("onActivityResult - requestCode: %d, resultCode: %d, data: %s", requestCode, resultCode, data));
             if(resultCode == Activity.RESULT_OK) {
                 switch (requestCode) {
                     case RequestCodes.ActivityCodes.GET_IMAGE_CAMERA:
@@ -93,6 +89,7 @@ public class GetImagePopup extends AlertDialog {
 
         View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_get_image, null, false);
 
+        Button btnBack = layout.findViewById(R.id.get_image_popup_btn_back);
         ImageButton btnCamera = layout.findViewById(R.id.get_image_popup_btn_camera);
         ImageButton btnFile = layout.findViewById(R.id.get_image_popup_btn_storage);
 
@@ -115,6 +112,7 @@ public class GetImagePopup extends AlertDialog {
             }
         });
 
+        btnBack.setOnClickListener(v -> dismiss());
 
         setView(layout);
     }
@@ -129,7 +127,7 @@ public class GetImagePopup extends AlertDialog {
 
     private void chooseFromCamera() {
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        File imageFile = new File(parentActivity.getFilesDir(), cameraSaveImageFileName);
+        File imageFile = new File(parentActivity.getFilesDir(), CAMERA_SAVE_IMAGE_FILE_NAME);
         cameraImageUri = FileProvider.getUriForFile(parentActivity, BuildConfig.APPLICATION_ID+".provider", imageFile);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
         parentActivity.startActivityForResult(cameraIntent, RequestCodes.ActivityCodes.GET_IMAGE_CAMERA);

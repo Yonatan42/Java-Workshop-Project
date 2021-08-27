@@ -70,6 +70,7 @@
 
 
                 <Button
+                    android:backgroundTint="@color/standard_btn_bg"
                     android:id="@+id/products_cell_btn_increase"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -90,6 +91,7 @@
                     tools:ignore="TouchTargetSizeCheck" />
 
                 <Button
+                    android:backgroundTint="@color/standard_btn_bg"
                     android:id="@+id/products_cell_btn_decrease"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"

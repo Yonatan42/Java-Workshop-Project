@@ -14,8 +14,6 @@ import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteService;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.ui.fragments.ProductsFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.RegisterFragment;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 import retrofit2.Call;

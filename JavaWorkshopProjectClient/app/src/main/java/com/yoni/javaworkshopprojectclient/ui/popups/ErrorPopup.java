@@ -4,9 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.content.res.AppCompatResources;
 
@@ -17,7 +14,7 @@ public class ErrorPopup extends AlertDialog {
     public ErrorPopup(Context context, String message){
         super(context);
         commonSetUp(context, message);
-        setButton(BUTTON_NEGATIVE, context.getString(R.string.error_btn_ok), (OnClickListener) null);
+        setButton(BUTTON_NEGATIVE, context.getString(R.string.btn_generic_ok), (OnClickListener) null);
         setCancelable(false);
     }
 

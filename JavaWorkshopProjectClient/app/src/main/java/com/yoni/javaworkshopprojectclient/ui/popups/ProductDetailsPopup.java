@@ -2,22 +2,17 @@ package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
-import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
 
