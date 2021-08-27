@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -57,22 +58,23 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         txtDesc.setHint(R.string.products_details_popup_txt_desc_hint);
         txtCategories.setHint(R.string.products_details_popup_txt_categories_hint);
 
-        enableEditTexts(txtTitle, txtPrice, txtDesc);
+        enableEditTexts(txtTitle, txtPrice, txtDesc, txtCategories);
         setVisibleViews(buttonsHolder, btnEditImage);
 
         txtCategories.setOnClickListener(v -> {
             // todo - make picker for categories (popup with add new category and recycler of all categories with checkboxes next to them)
             AlertDialog errorDialog = new ErrorPopup(parentActivity, "coming soon");
             errorDialog.setOnDismissListener(d -> {
-                txtCategories.setText("made up category - implementation coming soon");
+                txtCategories.setText("");
             });
+            errorDialog.show();
         });
 
         btnEditImage.setOnClickListener(v -> new GetImagePopup(parentActivity, base42Image -> GlideUtils.loadBase64IntoImage(base42Image, parentActivity, R.drawable.ic_product_placeholder, ivImage)).show());
     }
 
-    private void enableEditTexts(EditText... editTexts){
-        for (EditText txt: editTexts){
+    private void enableEditTexts(View... views){
+        for (View txt: views){
             txt.setEnabled(true);
         }
     }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
@@ -21,7 +22,7 @@ public class ProductDetailsPopup extends AlertDialog {
     protected View layout;
     protected ImageView ivImage;
     protected EditText txtTitle;
-    protected EditText txtCategories;
+    protected TextView txtCategories;
     protected EditText txtPrice;
     protected EditText txtDesc;
     protected Button btnBack;
