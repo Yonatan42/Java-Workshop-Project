@@ -3,36 +3,48 @@ package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.core.util.Consumer;
 
+import com.yoni.javaworkshopprojectclient.BuildConfig;
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.events.OnActivityResultListener;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.utils.BitmapUtils;
 import com.yoni.javaworkshopprojectclient.utils.RequestCodes;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 
 public class GetImagePopup extends AlertDialog {
 
+    private static final String TAG = "GetImagePopup";
+
     private ParentActivity parentActivity;
 
-    private Consumer<Product> onNewImage;
+    private Consumer<String> onNewImage; // param is a base64 image
+
+    private String cameraSaveImageFileName = "photo.jpg";
+    private Uri cameraImageUri;
 
     private OnRequestPermissionResultListener onPermissionResultListener = new OnRequestPermissionResultListener() {
         @Override
@@ -44,7 +56,7 @@ public class GetImagePopup extends AlertDialog {
                         chooseFromCamera();
                         break;
                     case RequestCodes.PermissionCodes.GET_IMAGE_READ_STORAGE_PERMISSION:
-                        chooseFromFileSystem();
+                        chooseFromStorage();
                         break;
                 }
             }
@@ -53,58 +65,117 @@ public class GetImagePopup extends AlertDialog {
             }
         }
     };
-    private OnActivityResultListener onActivityResultListener = new OnActivityResultListener() {
+
+    private OnActivityResultListener onActivtyResultListener = new OnActivityResultListener() {
         @Override
         public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             Log.i("ACTIVITY_TEST", String.format("requestCode: %d, resultCode: %d, data: %s", requestCode, resultCode, data));
-            switch (requestCode){
-                case RequestCodes.ActivityCodes.GET_IMAGE_CAMERA:
-                    break;
-                case RequestCodes.ActivityCodes.GET_IMAGE_FILE:
-                    break;
-            }
+//            if(resultCode == Activity.RESULT_OK) {
+                switch (requestCode) {
+                    case RequestCodes.ActivityCodes.GET_IMAGE_CAMERA:
+                        getCameraData();
+                        break;
+                    case RequestCodes.ActivityCodes.GET_IMAGE_STORAGE:
+                        // todo - got storage data
+                        break;
+                }
+//            }
         }
     };
 
 
-    public GetImagePopup(ParentActivity parentActivity, Consumer<Product> onNewProductCreated){
-        super(parentActivity);
+    public GetImagePopup(ParentActivity parentActivity, Consumer<String> onNewImage){
+        super(parentActivity, R.style.WrapContentDialog);
         this.parentActivity = parentActivity;
+        this.onNewImage = onNewImage;
 
-        View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_product_details, null, false);
+        View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_get_image, null, false);
 
-        Button btnCamera = layout.findViewById(R.id.products_details_popup_admin_buttons_group);
-        Button btnFile = layout.findViewById(R.id.products_details_popup_btn_edit_image);
+        ImageButton btnCamera = layout.findViewById(R.id.get_image_popup_btn_camera);
+        ImageButton btnFile = layout.findViewById(R.id.get_image_popup_btn_storage);
 
+        if(!parentActivity.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)){
+            btnCamera.setVisibility(View.GONE);
+        }
 
         parentActivity.addOnPermissionsResultListener(onPermissionResultListener);
+        parentActivity.addOnActivityResultListener(onActivtyResultListener);
 
         btnCamera.setOnClickListener(v -> {
-            // todo - get image from gallery or camera, convert to base64 and display
-            if(requestPermissionForCamera()){
-                // permission was requested
-            }
-            else{
+            if(!requestPermissionForCamera()){
                 chooseFromCamera();
             }
         });
+
+        btnFile.setOnClickListener(v -> {
+            if(!requestPermissionForStorage()){
+                chooseFromStorage();
+            }
+        });
+
+
+        setView(layout);
     }
 
     private boolean requestPermissionForCamera(){
         return parentActivity.requestPermissions(RequestCodes.PermissionCodes.GET_IMAGE_CAMERA_PERMISSION, Manifest.permission.CAMERA);
     }
 
-    private void chooseFromCamera(){
+    private boolean requestPermissionForStorage(){
+        return parentActivity.requestPermissions(RequestCodes.PermissionCodes.GET_IMAGE_READ_STORAGE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
+    private void chooseFromCamera() {
+         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        File imageFile = new File(parentActivity.getFilesDir(), cameraSaveImageFileName);
+        cameraImageUri = FileProvider.getUriForFile(parentActivity, BuildConfig.APPLICATION_ID+".provider", imageFile);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraImageUri);
+        parentActivity.startActivityForResult(cameraIntent, RequestCodes.ActivityCodes.GET_IMAGE_CAMERA);
+    }
+
+    private void chooseFromStorage(){
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK);
+        pickIntent.setDataAndType( android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+
+        parentActivity.startActivityForResult(chooserIntent, RequestCodes.ActivityCodes.GET_IMAGE_CAMERA);
 
     }
 
-    private void chooseFromFileSystem(){
+    private void getCameraData(){
 
+        ContentResolver contentResolver = parentActivity.getContentResolver();
+
+        Bitmap bitmap;
+
+        try {
+
+            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(contentResolver, cameraImageUri);
+            bitmap = BitmapUtils.scaleBitmap(originalBitmap, 512, 512);
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] byteArray = byteArrayOutputStream .toByteArray();
+            String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+            onNewImage.accept(base64Image);
+        } catch (IOException e) {
+            Log.e(TAG, "getCameraData() file not found", e);
+            Toast.makeText(parentActivity, parentActivity.getString(R.string.load_image_error), Toast.LENGTH_SHORT).show();
+        }
+        dismiss();
     }
 
     @Override
     public void dismiss() {
-        super.dismiss();
+        parentActivity.removeOnActivityResultListener(onActivtyResultListener);
         parentActivity.removeOnPermissionsResultListener(onPermissionResultListener);
+        super.dismiss();
     }
 }

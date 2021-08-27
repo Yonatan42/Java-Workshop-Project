@@ -7,6 +7,6 @@ public class RequestCodes {
     }
     public static class ActivityCodes {
         public static final int GET_IMAGE_CAMERA = 100;
-        public static final int GET_IMAGE_FILE = 101;
+        public static final int GET_IMAGE_STORAGE = 101;
     }
 }

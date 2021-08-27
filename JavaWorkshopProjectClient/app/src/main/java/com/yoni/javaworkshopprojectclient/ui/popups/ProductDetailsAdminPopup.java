@@ -19,6 +19,7 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 
 import java.util.Arrays;
 
@@ -31,8 +32,6 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
 
     private ViewGroup buttonsHolder;
     private ImageButton btnEditImage;
-
-    private OnRequestPermissionResultListener onPermissionResultListener;
 
     // new product
     public ProductDetailsAdminPopup(ParentActivity parentActivity, Consumer<Product> onNewProductCreated){
@@ -69,27 +68,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
             });
         });
 
-
-
-         this.onPermissionResultListener = new OnRequestPermissionResultListener() {
-            @Override
-            public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-                Toast.makeText(parentActivity, "permission result", Toast.LENGTH_SHORT).show();
-                Log.i("PERMISSION_TEST", String.format("requestCode: %d, permissions: %s, grandResults: %s", requestCode, Arrays.toString(permissions), Arrays.toString(grantResults)));
-            }
-        };
-
-        parentActivity.addOnPermissionsResultListener(onPermissionResultListener);
-
-        btnEditImage.setOnClickListener(v -> {
-            // todo - get image from gallery or camera, convert to base64 and display
-            if(parentActivity.requestPermissions(100, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)){
-                // permission was requested
-            }
-            else{
-                // already have permission
-            }
-        });
+        btnEditImage.setOnClickListener(v -> new GetImagePopup(parentActivity, base42Image -> GlideUtils.loadBase64IntoImage(base42Image, parentActivity, R.drawable.ic_product_placeholder, ivImage)).show());
     }
 
     private void enableEditTexts(EditText... editTexts){
@@ -104,9 +83,4 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         }
     }
 
-    @Override
-    public void dismiss() {
-        super.dismiss();
-        parentActivity.removeOnPermissionsResultListener(onPermissionResultListener);
-    }
 }

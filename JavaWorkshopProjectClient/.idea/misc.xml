@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/layout/layout_loader.xml" value="0.25677083333333334" />
         <entry key="app/src/main/res/layout/popup_error.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/layout/popup_filter_products.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/popup_get_image.xml" value="0.2515625" />
         <entry key="app/src/main/res/layout/popup_loader.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/layout/popup_login.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/popup_product_details.xml" value="0.2314633189486073" />

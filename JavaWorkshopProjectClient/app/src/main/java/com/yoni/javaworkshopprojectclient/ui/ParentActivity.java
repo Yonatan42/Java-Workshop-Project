@@ -52,7 +52,7 @@ public class ParentActivity extends AppCompatActivity {
     private TabLayout tabLayout;
 
     private final Event<OnActivityResultListener> onActivityResultEvent = new Event<>();
-    private Event<OnRequestPermissionResultListener> onPermissionResultEvent = new Event<>();
+    private final Event<OnRequestPermissionResultListener> onPermissionResultEvent = new Event<>();
 
 
     @Override
@@ -181,7 +181,7 @@ public class ParentActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        onActivityResultEvent.fire(resultCode, resultCode, data);
+        onActivityResultEvent.fire(requestCode, resultCode, data);
     }
 
     public void setAdminTabVisible(boolean isVisible){

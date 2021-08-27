@@ -23,4 +23,5 @@
     <string name="products_details_popup_txt_desc_hint">description...</string>
     <string name="products_details_popup_txt_categories_hint">categories</string>
     <string name="permission_denied_mesage">Action cannot be completed without user permission</string>
+    <string name="load_image_error">error loading image</string>
 </resources>

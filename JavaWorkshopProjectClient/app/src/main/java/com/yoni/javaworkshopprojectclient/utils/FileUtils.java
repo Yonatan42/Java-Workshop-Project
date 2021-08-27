@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient;
+package com.yoni.javaworkshopprojectclient.utils;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,21 +6,20 @@ import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Scanner;
 
-// todo - verify if there's anything here we need then remove this
-public class FileUtil {
+// todo - verify what needs to be removed from here
+public class FileUtils {
     private static final int EOF = -1;
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
-
-    private FileUtil() {
-
-    }
 
     public static File from(Context context, Uri uri) throws IOException {
         InputStream inputStream = context.getContentResolver().openInputStream(uri);
@@ -106,5 +105,23 @@ public class FileUtil {
             count += n;
         }
         return count;
+    }
+
+    public static String readEntireFile(String path) throws FileNotFoundException {
+        File file = new File(path);
+        if(!file.exists()){
+            return null;
+        }
+        Scanner scanner = new Scanner(file);
+        StringBuilder stringBuilder = new StringBuilder();
+        while(scanner.hasNextLine()){
+            stringBuilder.append(scanner.nextLine());
+        }
+        return stringBuilder.toString();
+    }
+
+    public static boolean createEmptyFile(String path) throws IOException {
+        File file = new File(path);
+        return file.createNewFile();
     }
 }
