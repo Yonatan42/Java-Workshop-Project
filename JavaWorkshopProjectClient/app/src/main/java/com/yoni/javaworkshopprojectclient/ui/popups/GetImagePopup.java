@@ -39,6 +39,7 @@ import java.util.Arrays;
 public class GetImagePopup extends AlertDialog {
 
     private static final String TAG = "GetImagePopup";
+    private static final int MAX_IMAGE_DIMEN = 512;
 
     private ParentActivity parentActivity;
 
@@ -145,26 +146,19 @@ public class GetImagePopup extends AlertDialog {
         chooseIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickerIntent});
 
         parentActivity.startActivityForResult(chooseIntent, RequestCodes.ActivityCodes.GET_IMAGE_STORAGE);
-
     }
 
     private void handleData(Uri uri){
-        ContentResolver contentResolver = parentActivity.getContentResolver();
+        String base64Image = BitmapUtils.readBase64ImageFromUri(
+                parentActivity.getContentResolver(),
+                uri,
+                MAX_IMAGE_DIMEN,
+                MAX_IMAGE_DIMEN);
 
-        Bitmap bitmap;
-
-        try {
-            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri);
-            bitmap = BitmapUtils.scaleBitmap(originalBitmap, 512, 512);
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-            byte[] byteArray = byteArrayOutputStream .toByteArray();
-            String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
+        if(base64Image != null) {
             onNewImage.accept(base64Image);
-        } catch (IOException e) {
-            Log.e(TAG, "getCameraData() file not found", e);
+        }
+        else {
             Toast.makeText(parentActivity, parentActivity.getString(R.string.load_image_error), Toast.LENGTH_SHORT).show();
         }
         dismiss();
