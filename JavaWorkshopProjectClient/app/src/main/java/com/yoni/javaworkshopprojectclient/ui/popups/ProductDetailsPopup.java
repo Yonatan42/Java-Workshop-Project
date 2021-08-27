@@ -43,6 +43,14 @@ public class ProductDetailsPopup extends AlertDialog {
         txtDesc = layout.findViewById(R.id.products_details_popup_txt_desc);
         btnBack = layout.findViewById(R.id.products_details_popup_btn_back);
 
+        setViews(product);
+
+        btnBack.setOnClickListener(v -> dismiss());
+
+        setView(layout);
+    }
+
+    protected void setViews(Product product) {
         if (product != null) {
 
             String pTitle = product.getTitle();
@@ -61,15 +69,13 @@ public class ProductDetailsPopup extends AlertDialog {
 
             GlideUtils.loadBase64IntoImage(product.getImageData(), getContext(), R.drawable.ic_product_placeholder, ivImage);
         }
-
-        btnBack.setOnClickListener(v -> dismiss());
-
-        setView(layout);
     }
 
     protected String getCategoriesText(List<ProductCategory> categories){
         return ListUtils.mapJoin(categories, ", ", ProductCategory::getTitle);
     }
+
+
 
 
 }

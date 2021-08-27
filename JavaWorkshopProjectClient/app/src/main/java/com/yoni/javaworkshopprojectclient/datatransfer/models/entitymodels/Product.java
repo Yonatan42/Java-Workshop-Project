@@ -25,9 +25,6 @@ public class Product {
     @SerializedName("imageData")
     @Expose
     private String imageData; // base64
-    @SerializedName("categoryName")
-    @Expose
-    private String categoryName;
     @SerializedName("quantity")
     @Expose
     private int stock;
@@ -81,14 +78,6 @@ public class Product {
         this.imageData = imageData;
     }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
     public int getStock() {
         return stock;
     }
@@ -138,7 +127,6 @@ public class Product {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", imageData='" + imageData + '\'' +
-                ", categoryName='" + categoryName + '\'' +
                 ", stock=" + stock +
                 ", price=" + price +
                 ", isEnabled=" + isEnabled +

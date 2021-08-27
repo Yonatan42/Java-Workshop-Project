@@ -30,6 +30,7 @@ import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.ui.fragments.BaseFragment;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -207,15 +208,14 @@ public class ParentActivity extends AppCompatActivity {
     }
 
     public void setAdminTabVisible(boolean isVisible){
-        int visibility = isVisible ? View.VISIBLE : View.GONE;
-        ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(TAB_ADMIN).setVisibility(visibility);
+        UIUtils.setViewsVisible(isVisible, ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(TAB_ADMIN));
     }
 
     public void setTabBarVisibility(boolean isVisible){
-        int visibility = isVisible ? View.VISIBLE : View.GONE;
-        tabLayout.setVisibility(visibility);
+        UIUtils.setViewsVisible(isVisible, tabLayout);
     }
 
+    // todo - remove this if it's never used
     public void setSelectedTab(@TabIndex int tabIndex){
         tabLayout.selectTab(tabLayout.getTabAt(tabIndex));
     }
