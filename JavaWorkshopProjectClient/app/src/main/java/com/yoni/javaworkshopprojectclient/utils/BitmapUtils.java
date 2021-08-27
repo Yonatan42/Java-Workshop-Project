@@ -17,6 +17,7 @@ public class BitmapUtils {
 
     private static final String TAG = "BitmapUtils";
 
+    private BitmapUtils(){}
 
     public static String readBase64ImageFromUri(ContentResolver resolver, Uri uri, int maxWidth, int maxHeight){
         Bitmap bitmap;

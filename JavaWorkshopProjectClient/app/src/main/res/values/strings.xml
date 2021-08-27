@@ -24,4 +24,6 @@
     <string name="products_details_popup_txt_categories_hint">categories…</string>
     <string name="permission_denied_message">Action cannot be completed without user permission</string>
     <string name="load_image_error">error loading image</string>
+    <string name="categories_picker_txt_new_hint">new category…</string>
+    <string name="btn_generic_add">add</string>
 </resources>

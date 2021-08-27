@@ -9,6 +9,8 @@ import com.bumptech.glide.Glide;
 
 public class GlideUtils {
 
+    private GlideUtils(){}
+
     public static void loadBase64IntoImage(String base64, Context context, int placeholderRes, ImageView iv){
         byte[] imageByteArray = base64 != null ?
                 Base64.decode(base64, Base64.DEFAULT) :

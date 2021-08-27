@@ -14,11 +14,11 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Produ
 
 import java.util.List;
 
-public class CategoriesAdapter extends ArrayAdapter<ProductCategory> {
+public class CategoriesFilterAdapter extends ArrayAdapter<ProductCategory> {
 
     private final List<ProductCategory> categories;
 
-    public CategoriesAdapter(Context context, List<ProductCategory> categories) {
+    public CategoriesFilterAdapter(Context context, List<ProductCategory> categories) {
         super(context, 0, android.R.layout.simple_spinner_item, categories);
         this.categories = categories;
         setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:orientation="vertical"
+    android:padding="@dimen/standard_spacing"
+    >
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/categories_picker_popup_txt_new"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/standard_text_size"
+                android:hint="@string/categories_picker_txt_new_hint"
+                android:textAlignment="center"/>
+
+            <Button
+                android:id="@+id/categories_picker_popup_btn_new"
+                android:backgroundTint="@color/standard_btn_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/btn_generic_add"/>
+
+        </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_picker_popup_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/categories_picker_popup_btn_back"
+        android:backgroundTint="@color/standard_btn_bg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/btn_generic_back"
+        android:layout_margin="@dimen/standard_separating_margin"/>
+    <Button
+        android:id="@+id/categories_picker_popup_btn_ok"
+        android:backgroundTint="@color/standard_btn_bg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/btn_generic_back"
+        android:layout_margin="@dimen/standard_separating_margin"/>
+
+    </LinearLayout>
+
+</LinearLayout>

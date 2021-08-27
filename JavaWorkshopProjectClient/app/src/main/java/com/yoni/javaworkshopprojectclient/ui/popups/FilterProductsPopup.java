@@ -13,7 +13,7 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesAdapter;
+import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesFilterAdapter;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class FilterProductsPopup extends AlertDialog {
         TextView txtText = layout.findViewById(R.id.filter_products_txt_text);
         Spinner spinnerCategories = layout.findViewById(R.id.filter_products_spinner_categories);
         categories.add(0, new ProductCategory(0, "any"));
-        CategoriesAdapter adapter = new CategoriesAdapter(parentActivity, categories);
+        CategoriesFilterAdapter adapter = new CategoriesFilterAdapter(parentActivity, categories);
         spinnerCategories.setAdapter(adapter);
 
         if(existingFilter != null){
