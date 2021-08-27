@@ -67,11 +67,17 @@ public class ListUtils {
     }
 
     public static <T> T getFirstWhere(List<T> list, Function<T, Boolean> predicate){
-        for (T elem: list){
+        int index = getFirstIndexWhere(list, predicate);
+        return index >= 0 ? list.get(index) : null;
+    }
+
+    public static <T> int getFirstIndexWhere(List<T> list, Function<T, Boolean> predicate){
+        for (int i = 0; i < list.size(); i++){
+            T elem = list.get(i);
             if(predicate.apply(elem)){
-                return elem;
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 }

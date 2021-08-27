@@ -25,6 +25,9 @@ public class User {
     @SerializedName("address")
     @Expose
     private String address;
+    @SerializedName("isAdmin")
+    @Expose
+    private boolean isAdmin;
 
     public Integer getId() {
         return id;
@@ -74,6 +77,14 @@ public class User {
         this.address = address;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
     public void replaceUser(User user){
         this.id = user.id;
         this.firstName = user.firstName;
@@ -81,12 +92,14 @@ public class User {
         this.email = user.email;
         this.phone = user.phone;
         this.address = user.address;
+        this.isAdmin = user.isAdmin;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", isAdmin=" + isAdmin +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

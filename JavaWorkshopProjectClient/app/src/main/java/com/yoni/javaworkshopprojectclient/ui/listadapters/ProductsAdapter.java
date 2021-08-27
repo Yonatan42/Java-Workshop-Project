@@ -1,6 +1,6 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
-import android.content.Context;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
+import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
+import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.List;
 
@@ -75,9 +78,34 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                                         holder.ivImage);
         holder.txtPrice.setText(String.format("$%.2f", product.getPrice()));
         holder.txtQuantity.setText(Integer.toString(product.getCartQuantity()));
-        holder.itemView.setOnClickListener(v -> new ProductDetailsAdminPopup(parentActivity, product).show());//ProductDetailsPopup(context, product).show()); // todo - check if admin and show correct one
+        holder.itemView.setOnClickListener(v -> getDetailsPopup(product).show());
         holder.btnIncrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, true));
         holder.btnDecrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, false));
+    }
+
+    private AlertDialog getDetailsPopup(Product product){
+        // todo - remove this later // //
+        DataSets.getInstance().getCurrentUser().setAdmin(true);
+        // // // // // // / // // // // //
+
+        if(DataSets.getInstance().getCurrentUser().isAdmin()) {
+            return new ProductDetailsAdminPopup(parentActivity, product, changedProduct -> {
+                int changedIndex = ListUtils.getFirstIndexWhere(products, p -> p.getProductId() == changedProduct.getProductId());
+                if (changedIndex >= 0) {
+                    products.set(changedIndex, changedProduct);
+                    notifyItemChanged(changedIndex);
+                }
+            }, deletedProductId -> {
+                int deletedIndex = ListUtils.getFirstIndexWhere(products, p -> p.getProductId() == deletedProductId);
+                if (deletedIndex >= 0) {
+                    products.remove(deletedIndex);
+                    notifyItemRemoved(deletedIndex);
+                }
+            });
+        }
+        else{
+            return new ProductDetailsPopup(parentActivity, product);
+        }
     }
 
     private void amountChangeButtonClick(EditText txtQuantity, Product product, boolean increase){

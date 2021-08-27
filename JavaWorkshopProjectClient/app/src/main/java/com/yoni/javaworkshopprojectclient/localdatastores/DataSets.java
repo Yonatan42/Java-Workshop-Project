@@ -1,10 +1,5 @@
 package com.yoni.javaworkshopprojectclient.localdatastores;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
@@ -29,8 +24,8 @@ public class DataSets {
 
     private DataSets(){}
 
-    private User currentUser = new User();
-    private List<ProductCategory> categories = new ArrayList<>();
+    private final User currentUser = new User();
+    private final List<ProductCategory> categories = new ArrayList<>();
 
     public User getCurrentUser() {
         return currentUser;
@@ -41,7 +36,7 @@ public class DataSets {
     }
 
     public List<ProductCategory> getCategories(){
-        return new ArrayList<>(categories);
+        return categories;
     }
 
     public void setCategories(List<ProductCategory> newCategories){
