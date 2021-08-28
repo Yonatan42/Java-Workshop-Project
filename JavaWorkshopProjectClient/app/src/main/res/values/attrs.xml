@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Stepper">
+        <attr name="titleText" format="string" />
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="amountHint" format="string" />
+        <attr name="amountTextSize" format="dimension" />
+        <attr name="amountTextColor" format="color" />
+        <attr name="buttonTextSize" format="dimension" />
+        <attr name="buttonBackgroundColor" format="color" />
+        <attr name="buttonTextColor" format="color" />
+        <attr name="minValue" format="float" />
+        <attr name="maxValue" format="float" />
+        <attr name="initialValue" format="float" />
+        <attr name="step" format="float" />
+        <attr name="decimalPrecision" format="integer" />
+        <attr name="android:inputType"/>
+    </declare-styleable>
+
+</resources>
