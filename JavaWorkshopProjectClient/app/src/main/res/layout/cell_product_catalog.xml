@@ -61,7 +61,7 @@
                 tools:text="$4.99" />
 
             <com.yoni.javaworkshopprojectclient.ui.customviews.Stepper
-                android:id="@+id/products_cell_stepper"
+                android:id="@+id/products_cell_stepper_cart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 custom:titleText="cart:"

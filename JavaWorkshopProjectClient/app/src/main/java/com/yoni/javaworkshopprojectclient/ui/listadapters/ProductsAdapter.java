@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +31,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         private final TextView txtTitle;
         private final TextView txtPrice;
         private final ImageView ivImage;
-        private final Stepper stepper;
+        private final Stepper stepperCart;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -41,7 +39,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             txtTitle = itemView.findViewById(R.id.products_cell_txt_title);
             ivImage = itemView.findViewById(R.id.products_cell_iv);
             txtPrice = itemView.findViewById(R.id.products_cell_txt_price);
-            stepper = itemView.findViewById(R.id.products_cell_stepper);
+            stepperCart = itemView.findViewById(R.id.products_cell_stepper_cart);
         }
 
     }
@@ -78,11 +76,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> getDetailsPopup(product).show());
 
         // todo - add stepper to admin product details for stock
-        Stepper stepper = holder.stepper;
-        UIUtils.setViewsVisible(!DataSets.getInstance().getCurrentUser().isAdminModeActive(), stepper);
-        stepper.setMaxValue(product.getStock());
-        stepper.setValue(product.getCartQuantity());
-        stepper.setOnValueChangedListener((v, newValue, oldValue) -> {
+        Stepper stepperCart = holder.stepperCart;
+        UIUtils.setViewsVisible(!DataSets.getInstance().getCurrentUser().isAdminModeActive(), stepperCart);
+        stepperCart.setMaxValue(product.getStock());
+        stepperCart.setValue(product.getCartQuantity());
+        stepperCart.setOnValueChangedListener((v, newValue, oldValue) -> {
             handleAmountChange(product, newValue);
         });
     }

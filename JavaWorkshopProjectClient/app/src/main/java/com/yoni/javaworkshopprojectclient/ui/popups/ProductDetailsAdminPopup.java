@@ -12,6 +12,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Produ
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
@@ -33,8 +34,10 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
     private Button btnReset;
     private Button btnSave;
     private Button btnDelete;
+    private Stepper stepperStock;
     private List<ProductCategory> selectedCategories;
     private String newBase64Image;
+    private int newStock;
 
     // new product
     public ProductDetailsAdminPopup(ParentActivity parentActivity, Consumer<Product> onProductCreated){
@@ -60,6 +63,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         btnSave = layout.findViewById(R.id.products_details_popup_btn_save);
         btnDelete = layout.findViewById(R.id.products_details_popup_btn_delete);
         btnEditImage = layout.findViewById(R.id.products_details_popup_btn_edit_image);
+        stepperStock = layout.findViewById(R.id.products_details_popup_stepper_stock);
     }
 
     private void setUp(ParentActivity parentActivity, Product product){
@@ -71,7 +75,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         txtCategories.setHint(R.string.products_details_popup_txt_categories_hint);
 
         UIUtils.setViewsEnabled(true, txtTitle, txtPrice, txtDesc, txtCategories);
-        UIUtils.setViewsVisible(true, buttonsHolder, btnEditImage);
+        UIUtils.setViewsVisible(true, buttonsHolder, btnEditImage, stepperStock);
 
         selectedCategories = product != null && product.getCategories() != null
                 ? new ArrayList<>(product.getCategories())
@@ -81,12 +85,21 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
             selectedCategories = newSelectedCategories;
         }).show());
 
+        newBase64Image = product != null ? product.getImageData() : null;
         btnEditImage.setOnClickListener(v -> new GetImagePopup(parentActivity, base64Image -> {
             newBase64Image = base64Image;
             GlideUtils.loadBase64IntoImage(newBase64Image, parentActivity, R.drawable.ic_product_placeholder, ivImage);
         }).show());
 
+        newStock = product != null ? product.getStock() : 0;
+        stepperStock.setValue(newStock);
+        stepperStock.setOnValueChangedListener((v, newValue, oldValue) -> {
+            newStock = (int)newValue;
+        });
+
         btnReset.setOnClickListener(v -> {
+            newStock = product != null ? product.getStock() : 0;
+            stepperStock.setValue(newStock);
             newBase64Image = product != null ? product.getImageData() : null;
             selectedCategories = product != null && product.getCategories() != null
                     ? new ArrayList<>(product.getCategories())
@@ -102,6 +115,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
             String desc = UIUtils.getTrimmedText(txtDesc);
             float price = UIUtils.tryGetFloatValue(txtPrice, -1); // todo verify that the value is > 0
             // we have the base64 string in newBase64Image
+            // we have the stock string in newStock
             // that should be everything we need for a product
 
             if(onProductCreated != null){
