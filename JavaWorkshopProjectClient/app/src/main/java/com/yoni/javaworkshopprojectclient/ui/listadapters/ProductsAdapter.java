@@ -18,10 +18,12 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Produ
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
 
@@ -30,10 +32,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView txtTitle;
         private final TextView txtPrice;
-        private final EditText txtQuantity;
         private final ImageView ivImage;
-        private final Button btnIncrease;
-        private final Button btnDecrease;
+        private final Stepper stepper;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -41,9 +41,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
             txtTitle = itemView.findViewById(R.id.products_cell_txt_title);
             ivImage = itemView.findViewById(R.id.products_cell_iv);
             txtPrice = itemView.findViewById(R.id.products_cell_txt_price);
-            txtQuantity = itemView.findViewById(R.id.products_cell_txt_quantity);
-            btnIncrease = itemView.findViewById(R.id.products_cell_btn_increase);
-            btnDecrease = itemView.findViewById(R.id.products_cell_btn_decrease);
+            stepper = itemView.findViewById(R.id.products_cell_stepper);
         }
 
     }
@@ -77,10 +75,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                                         R.drawable.ic_product_placeholder,
                                         holder.ivImage);
         holder.txtPrice.setText(String.format("$%.2f", product.getPrice()));
-        holder.txtQuantity.setText(Integer.toString(product.getCartQuantity()));
         holder.itemView.setOnClickListener(v -> getDetailsPopup(product).show());
-        holder.btnIncrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, true));
-        holder.btnDecrease.setOnClickListener(v -> amountChangeButtonClick(holder.txtQuantity, product, false));
+
+        // todo - add stepper to admin product details for stock
+        Stepper stepper = holder.stepper;
+        UIUtils.setViewsVisible(!DataSets.getInstance().getCurrentUser().isAdminModeActive(), stepper);
+        stepper.setMaxValue(product.getStock());
+        stepper.setValue(product.getCartQuantity());
+        stepper.setOnValueChangedListener((v, newValue, oldValue) -> {
+            handleAmountChange(product, newValue);
+        });
     }
 
     private AlertDialog getDetailsPopup(Product product){
@@ -104,17 +108,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         }
     }
 
-    private void amountChangeButtonClick(EditText txtQuantity, Product product, boolean increase){
-        int oldQuantity = product.getCartQuantity();
-        int newQuantity;
-        if(increase){
-            newQuantity = ++oldQuantity;
-        }
-        else {
-            newQuantity = --oldQuantity;
-        }
-        newQuantity = Math.max(newQuantity, 0);
-        txtQuantity.setText(Integer.toString(newQuantity));
+    private void handleAmountChange(Product product, float newAmount){
+        int newQuantity = (int)newAmount;
         product.setCartQuantity(newQuantity);
         CartStore.getInstance().set(product.getProductId(), newQuantity);
     }
