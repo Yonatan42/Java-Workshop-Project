@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 
 public abstract class BaseFragment extends Fragment {
@@ -19,5 +20,9 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getParentActivity().setTabBarVisibility(true);
+
+        // todo - remove this later // //
+        DataSets.getInstance().getCurrentUser().setAdmin(true);
+        // // // // // // / // // // // //
     }
 }

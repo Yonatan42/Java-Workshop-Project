@@ -84,11 +84,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     }
 
     private AlertDialog getDetailsPopup(Product product){
-        // todo - remove this later // //
-        DataSets.getInstance().getCurrentUser().setAdmin(true);
-        // // // // // // / // // // // //
-
-        if(DataSets.getInstance().getCurrentUser().isAdmin()) {
+        if(DataSets.getInstance().getCurrentUser().isAdminModeActive()) {
             return new ProductDetailsAdminPopup(parentActivity, product, changedProduct -> {
                 int changedIndex = ListUtils.getFirstIndexWhere(products, p -> p.getProductId() == changedProduct.getProductId());
                 if (changedIndex >= 0) {

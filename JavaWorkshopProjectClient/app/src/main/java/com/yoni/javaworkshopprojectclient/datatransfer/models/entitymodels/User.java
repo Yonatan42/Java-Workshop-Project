@@ -29,6 +29,8 @@ public class User {
     @Expose
     private boolean isAdmin;
 
+    private boolean isAdminModeActive;
+
     public Integer getId() {
         return id;
     }
@@ -83,6 +85,17 @@ public class User {
 
     public void setAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public boolean isAdminModeActive() {
+        return isAdminModeActive;
+    }
+
+    public void setAdminModeActive(boolean isAdminModeActive) {
+        if(!isAdmin && isAdminModeActive){
+            throw new IllegalStateException("cannot set admin mode to active for a non-admin user");
+        }
+        this.isAdminModeActive = isAdminModeActive;
     }
 
     public void replaceUser(User user){

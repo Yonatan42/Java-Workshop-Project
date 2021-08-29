@@ -142,7 +142,7 @@ public class ParentActivity extends AppCompatActivity {
         tabLayout.setSelectedTabIndicatorColor(((MaterialShapeDrawable)tabLayout.getBackground()).getFillColor().getDefaultColor());
         tabLayout.setTabRippleColorResource(android.R.color.darker_gray);
 
-        setAdminTabVisible(false);
+        setAdminTabVisible(DataSets.getInstance().getCurrentUser().isAdminModeActive());
     }
 
     public void makeFragmentTransition(BaseFragment frag){
