@@ -4,14 +4,40 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 
 import java.util.List;
 
 public class LoginResponse {
-    @SerializedName("products")
+    @SerializedName("user")
     @Expose
-    private List<Product> products;
+    private User user;
     @SerializedName("categories")
     @Expose
     private List<ProductCategory> categories;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<ProductCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<ProductCategory> categories) {
+        this.categories = categories;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginResponse{" +
+                "user=" + user +
+                ", categories=" + categories +
+                '}';
+    }
 }

@@ -37,12 +37,21 @@ public class ServerResponse<T> {
     }
 
     public static class ServerResponseError {
+        public static final int UNKNOWN_ERROR_CODE = 0;
+
         @SerializedName("message")
         @Expose
         private String message;
         @SerializedName("code")
         @Expose
         private int code;
+
+        public ServerResponseError(){}
+
+        public ServerResponseError(String message, int code){
+            this.message = message;
+            this.code = code;
+        }
 
         public String getMessage() {
             return message;

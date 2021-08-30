@@ -57,7 +57,6 @@ public class ParentActivity extends AppCompatActivity {
     private final Event<OnActivityResultListener> onActivityResultEvent = new Event<>();
     private final Event<OnRequestPermissionResultListener> onPermissionResultEvent = new Event<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,26 +65,6 @@ public class ParentActivity extends AppCompatActivity {
         initializeLocalStores();
         initializeFragments();
         initializeTabLayout();
-
-
-
-        /// todo - fake categories -> get real ones from server on login ///
-        List<ProductCategory> categories = new ArrayList<>();
-        categories.add(new ProductCategory(1, "cat1"));
-        categories.add(new ProductCategory(2, "cat2"));
-        categories.add(new ProductCategory(3, "cat3"));
-        categories.add(new ProductCategory(4, "cat4"));
-        categories.add(new ProductCategory(5, "cat5"));
-        categories.add(new ProductCategory(6, "cat6"));
-        categories.add(new ProductCategory(7, "cat7"));
-        categories.add(new ProductCategory(8, "cat8"));
-        categories.add(new ProductCategory(9, "cat9"));
-        categories.add(new ProductCategory(10, "cat10"));
-        categories.add(new ProductCategory(11, "cat11"));
-
-        DataSets.getInstance().addCategories(categories);
-        ////////////////////////////////////////////////////
-
     }
 
     private void initializeLocalStores(){

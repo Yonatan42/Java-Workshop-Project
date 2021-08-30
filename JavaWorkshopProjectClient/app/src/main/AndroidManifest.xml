@@ -16,6 +16,7 @@
         android:theme="@style/Theme.JavaWorkshopProjectClient"
         android:usesCleartextTraffic="true" >
 
+<!--        <activity android:name=".ui.TesterActivity"-->
         <activity android:name=".ui.ParentActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">

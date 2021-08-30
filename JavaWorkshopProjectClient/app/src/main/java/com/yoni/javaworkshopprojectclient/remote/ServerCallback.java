@@ -1,5 +1,7 @@
 package com.yoni.javaworkshopprojectclient.remote;
 
+import androidx.annotation.NonNull;
+
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 
 import java.io.IOException;
@@ -8,13 +10,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class ServerCallback<T> implements Callback<ServerResponse<T>> {
+public abstract class ServerCallback<T> implements Callback<ServerResponse<T>>, ResponseSuccessCallback<T>, ResponseErrorCallback<T> {
     @Override
-    public void onResponse(Call<ServerResponse<T>> call, Response<ServerResponse<T>> response) {
+    public final void onResponse(@NonNull Call<ServerResponse<T>> call, Response<ServerResponse<T>> response) {
         if(!response.isSuccessful()) {
             try {
                 String errorBodyContent = response.errorBody().string();
-                ServerResponse res = RemoteService.getInstance().getGson().fromJson(errorBodyContent, ServerResponse.class);
+                ServerResponse res = RemoteServiceManager.getInstance().getGson().fromJson(errorBodyContent, ServerResponse.class);
                 onResponseError(call, res.getError());
                 return;
             }
@@ -36,9 +38,7 @@ public abstract class ServerCallback<T> implements Callback<ServerResponse<T>> {
             onResponseSuccess(call, response, res.getResult());
         }
     }
-
-    public abstract void onResponseSuccess(Call<ServerResponse<T>> call, Response<ServerResponse<T>> response, T result);
-    public abstract void onResponseError(Call<ServerResponse<T>> call, ServerResponse.ServerResponseError responseError);
-    @Override
-    public abstract void onFailure(Call<ServerResponse<T>> call, Throwable t);
+    public final void onFailure(@NonNull Call<ServerResponse<T>> call, Throwable t){
+        onResponseError(call, new ServerResponse.ServerResponseError(t.getMessage(), ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE));
+    }
 }

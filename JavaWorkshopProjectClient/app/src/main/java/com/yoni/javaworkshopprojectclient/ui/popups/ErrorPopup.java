@@ -11,6 +11,10 @@ import com.yoni.javaworkshopprojectclient.R;
 
 public class ErrorPopup extends AlertDialog {
 
+    public static ErrorPopup createGenericOneOff(Context context){
+        return new ErrorPopup(context, null);
+    }
+
     public ErrorPopup(Context context, String message){
         super(context);
         commonSetUp(context, message);
@@ -32,7 +36,9 @@ public class ErrorPopup extends AlertDialog {
         icon.setTint(Color.RED);
         setIcon(icon);
         setTitle(context.getString(R.string.error_txt_title));
-        setMessage(message);
+        if(message != null && !message.isEmpty()) {
+            setMessage(message);
+        }
     }
 
 

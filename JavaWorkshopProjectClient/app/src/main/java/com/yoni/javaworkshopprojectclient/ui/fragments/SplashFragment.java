@@ -12,9 +12,12 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
-import com.yoni.javaworkshopprojectclient.remote.RemoteService;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.LoginPopup;
@@ -50,22 +53,17 @@ public class SplashFragment extends BaseFragment {
     }
 
     private void attemptLogin() {
-        RemoteService.getInstance().getUsersService().login(TokenStore.getInstance().getToken()).enqueue(new TokennedServerCallback<User>() {
-            @Override
-            public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
-                DataSets.getInstance().setCurrentUser(result);
-                getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
+        RemoteServiceManager.getInstance().getUsersService().login(TokenStore.getInstance().getToken(),
+                (call, response, result) -> {
+            DataSets.getInstance().setCurrentUser(result.getUser());
+            DataSets.getInstance().setCategories(result.getCategories());
+            getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
+        },
+                (call, responseError) -> {
+            if (responseError.getCode() == ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE) {
+                new ErrorPopup(getContext(), getString(R.string.error_check_internet), SplashFragment.this::attemptLogin).show();
             }
-
-            @Override
-            public void onResponseError(Call<ServerResponse<TokennedResult<User>>> call, ServerResponse.ServerResponseError responseError) {
-                new LoginPopup(getParentActivity()).show();
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponse<TokennedResult<User>>> call, Throwable t) {
-                new ErrorPopup(getContext(), "Please check your internet connection.", SplashFragment.this::attemptLogin).show();
-            }
+            new LoginPopup(getParentActivity()).show();
         });
     }
 

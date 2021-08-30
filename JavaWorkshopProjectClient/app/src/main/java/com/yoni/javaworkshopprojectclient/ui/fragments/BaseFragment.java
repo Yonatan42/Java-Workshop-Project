@@ -20,9 +20,5 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getParentActivity().setTabBarVisibility(true);
-
-        // todo - remove this later // //
-        DataSets.getInstance().getCurrentUser().setAdmin(true);
-        // // // // // // / // // // // //
     }
 }

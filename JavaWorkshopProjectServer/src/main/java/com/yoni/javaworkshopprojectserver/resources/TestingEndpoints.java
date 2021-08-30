@@ -95,14 +95,26 @@ public class TestingEndpoints{
     }
     
             
-//    @GET
-//    @Path("products/")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public String allProductsTest(    
-//            @HeaderParam("Authorization") String token
-//        ) throws IOException {
-//        return readFileContents("products_catalog.json");
-//    }
+    @GET
+    @Path("products/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String allProductsTest(    
+            @HeaderParam("Authorization") String token,
+            @QueryParam("productIds") List<Integer> productIds
+        ) throws IOException {
+        if(productIds == null || productIds.isEmpty()){
+            return readFileContents("products_catalog.json");
+        }
+        else{
+            Map<String, Object> retMap = new Gson().fromJson(readFileContents("products_catalog.json"), new TypeToken<HashMap<String, Object>>() {}.getType());
+            List<Map<String,Object>> productMaps = ((List<Map<String,Object>>)((Map<String,Object>)retMap.get("result")).get("data"));
+             List<Map<String,Object>> filtered = productMaps.stream().filter(map -> {
+                return productIds.contains((int)((double)map.get("productId")));
+                }).collect(Collectors.toList());
+             ((Map<String,Object>)retMap.get("result")).put("data", filtered);
+             return new Gson().toJson(retMap);
+        }
+    }
     
     @GET
     @Path("products/page/{pageNum}")

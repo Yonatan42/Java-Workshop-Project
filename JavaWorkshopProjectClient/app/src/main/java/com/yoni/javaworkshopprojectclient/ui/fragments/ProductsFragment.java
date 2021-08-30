@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,10 +17,11 @@ import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
-import com.yoni.javaworkshopprojectclient.remote.RemoteService;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.ProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
@@ -108,38 +108,27 @@ public class ProductsFragment extends BaseFragment {
         loadInProgress = true;
         String filterText = productsFilter != null ? productsFilter.getText() : null;
         Integer filterCategoryId = productsFilter != null && productsFilter.getCategory() != null ? productsFilter.getCategory().getId() : null;
-        RemoteService.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage, filterText, filterCategoryId).enqueue(new TokennedServerCallback<List<Product>>() {
-            @Override
-            public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<List<Product>>>> call, Response<ServerResponse<TokennedResult<List<Product>>>> response, List<Product> result) {
-//                loader.dismiss();
-                loadInProgress = false;
-                currentPage++;
-                int startIndex = products.size();
-                List<Product> mergedList = ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId()));
-                products.clear();
-                products.addAll(mergedList);
-                rvProducts.getAdapter().notifyItemRangeInserted(startIndex, products.size() - startIndex);
+        RemoteServiceManager.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage, filterText, filterCategoryId,
+                (call, response, result) -> {
+//                    loader.dismiss();
+                    loadInProgress = false;
+                    currentPage++;
+                    int startIndex = products.size();
+                    List<Product> mergedList = ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId()));
+                    products.clear();
+                    products.addAll(mergedList);
+                    rvProducts.getAdapter().notifyItemRangeInserted(startIndex, products.size() - startIndex);
 
-                txtNoResults.setVisibility(products.isEmpty() ? View.VISIBLE : View.GONE);
+                    txtNoResults.setVisibility(products.isEmpty() ? View.VISIBLE : View.GONE);
 
-            }
 
-            @Override
-            public void onResponseError(Call<ServerResponse<TokennedResult<List<Product>>>> call, ServerResponse.ServerResponseError responseError) {
-//                loader.dismiss();
-                loadInProgress = false;
-                // todo - change this
-                new ErrorPopup(getContext(), "death").show();
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponse<TokennedResult<List<Product>>>> call, Throwable t) {
-//                loader.dismiss();
-                loadInProgress = false;
-                // todo - change this
-                new ErrorPopup(getContext(), "more death").show();
-            }
-        });
+                },
+                (call, responseError) -> {
+//                    loader.dismiss();
+                    loadInProgress = false;
+                    // todo - change this - perhaps
+                    ErrorPopup.createGenericOneOff(getContext()).show();
+                });
     }
 
     @Override

@@ -5,12 +5,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
@@ -19,6 +23,9 @@ import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 
 public class ProductDetailsAdminPopup extends ProductDetailsPopup {
@@ -138,4 +145,16 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
             onProductDeleted.accept(id); // will do notify removed
         });
     }
+
+    private TokennedServerCallback<Product> createServerResponse = new TokennedServerCallback<Product>() {
+        @Override
+        public void onResponseSuccessTokenned(@NonNull Call<ServerResponse<TokennedResult<Product>>> call, Response<ServerResponse<TokennedResult<Product>>> response, Product result) {
+
+        }
+
+        @Override
+        public void onResponseError(Call<ServerResponse<TokennedResult<Product>>> call, ServerResponse.ServerResponseError responseError) {
+
+        }
+    };
 }

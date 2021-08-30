@@ -6,14 +6,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
-import com.yoni.javaworkshopprojectclient.remote.RemoteService;
+import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.fragments.SplashFragment;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 import retrofit2.Call;
@@ -36,26 +40,16 @@ public class LoginPopup extends AlertDialog {
             String email = txtEmail.getText().toString().toLowerCase().trim();
             String pass = txtPass.getText().toString();
 
-            RemoteService.getInstance().getUsersService().login(email, pass).enqueue(new TokennedServerCallback<User>() {
-                @Override
-                public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<User>>> call, Response<ServerResponse<TokennedResult<User>>> response, User result) {
-                    dismiss();
-                    DataSets.getInstance().setCurrentUser(result);
-                    parentActivity.makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
-                }
-
-                @Override
-                public void onResponseError(Call<ServerResponse<TokennedResult<User>>> call, ServerResponse.ServerResponseError responseError) {
-                    // todo - change this
-                    new ErrorPopup(parentActivity, "some death").show();
-                }
-
-                @Override
-                public void onFailure(Call<ServerResponse<TokennedResult<User>>> call, Throwable t) {
-                    // todo - change this
-                    new ErrorPopup(parentActivity, "some more death").show();
-                }
-            });
+            RemoteServiceManager.getInstance().getUsersService().login(email, pass,
+                    (call, response, result) -> {
+                        DataSets.getInstance().setCurrentUser(result.getUser());
+                        DataSets.getInstance().setCategories(result.getCategories());
+                        parentActivity.makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
+                    },
+                    (call, responseError) -> {
+                        // todo - change this - perhaps
+                        ErrorPopup.createGenericOneOff(parentActivity).show();
+                    });
         });
 
         btnReg.setOnClickListener(v -> {

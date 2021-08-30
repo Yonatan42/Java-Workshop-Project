@@ -15,7 +15,7 @@
     <string name="btn_generic_back">back</string>
     <string name="products_txt_no_results">No Results Found</string>
     <string name="dollar_sign">$</string>
-    <string name="products_details_popup_btn_delete">delete</string>
+    <string name="products_details_popup_btn_delete">disable</string>
     <string name="products_details_popup_btn_save">save</string>
     <string name="products_details_popup_btn_reset">reset</string>
     <string name="products_details_popup_txt_title_hint">title…</string>
@@ -27,4 +27,5 @@
     <string name="categories_picker_txt_new_hint">new category…</string>
     <string name="btn_generic_add">add</string>
     <string name="profile_switch_admin_mode">admin mode</string>
+    <string name="error_check_internet">Please check your internet connection.</string>
 </resources>

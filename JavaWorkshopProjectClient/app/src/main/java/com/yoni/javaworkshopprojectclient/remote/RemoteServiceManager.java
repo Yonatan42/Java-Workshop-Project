@@ -1,8 +1,10 @@
 package com.yoni.javaworkshopprojectclient.remote;
 
 import com.google.gson.Gson;
+import com.yoni.javaworkshopprojectclient.datatransfer.services.ProductsServiceFacade;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersService;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.ProductsService;
+import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersServiceFacade;
 
 import java.io.File;
 
@@ -10,30 +12,30 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class RemoteService {
+public class RemoteServiceManager {
 
-    private static RemoteService instance;
+    private static RemoteServiceManager instance;
 
-    public static RemoteService getInstance(){
+    public static RemoteServiceManager getInstance(){
         if(instance == null){
-            synchronized (RemoteService.class) {
+            synchronized (RemoteServiceManager.class) {
                 if(instance == null) {
-                    instance = new RemoteService();
+                    instance = new RemoteServiceManager();
                 }
             }
         }
         return instance;
     }
 
-    private RemoteService() {}
+    private RemoteServiceManager() {}
 
 
 //    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/";
     public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/testing/";
 
     public final Gson gson = new Gson();
-    public UsersService usersService;
-    public ProductsService productsService;
+    public UsersServiceFacade usersServiceFacade;
+    public ProductsServiceFacade productsServiceFacade;
 
 
 
@@ -42,26 +44,26 @@ public class RemoteService {
 //        return RetrofitClient.getClient(BASE_URL).create(ProductsRemoteService.class);
 //    }
 
-    public UsersService getUsersService() {
-        if(usersService == null){
+    public UsersServiceFacade getUsersService() {
+        if(usersServiceFacade == null){
             synchronized (this){
-                if(usersService == null) {
-                    usersService = RetrofitClient.getClient(BASE_URL).create(UsersService.class);
+                if(usersServiceFacade == null) {
+                    usersServiceFacade = new UsersServiceFacade(RetrofitClient.getClient(BASE_URL).create(UsersService.class));
                 }
             }
         }
-        return usersService;
+        return usersServiceFacade;
     }
 
-    public ProductsService getProductsService() {
-        if(productsService == null){
+    public ProductsServiceFacade getProductsService() {
+        if(productsServiceFacade == null){
             synchronized (this){
-                if(productsService == null) {
-                    productsService = RetrofitClient.getClient(BASE_URL).create(ProductsService.class);
+                if(productsServiceFacade == null) {
+                    productsServiceFacade = new ProductsServiceFacade(RetrofitClient.getClient(BASE_URL).create(ProductsService.class));
                 }
             }
         }
-        return productsService;
+        return productsServiceFacade;
     }
 
     public Gson getGson(){

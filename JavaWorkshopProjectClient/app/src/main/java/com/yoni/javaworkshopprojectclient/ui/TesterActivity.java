@@ -1,8 +1,7 @@
 package com.yoni.javaworkshopprojectclient.ui;
 
 
-import android.content.ContentResolver;
-import android.net.Uri;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,19 +10,17 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersService;
-import com.yoni.javaworkshopprojectclient.remote.RemoteService;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
-import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class RetrofitTestActivity extends AppCompatActivity {
+public class TesterActivity extends AppCompatActivity {
 
     private static final String TAG = "RetrofitTest";
 
@@ -36,20 +33,30 @@ public class RetrofitTestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_retrofit_tester);
+        setContentView(R.layout.activity_tester);
 
-        Stepper stepper = findViewById(R.id.stepper);
-        stepper.setInitialValue(15);
-        stepper.setMaxValue(50);
-        stepper.setMinValue(-50);
-        stepper.setStep(10);
-        stepper.setDecimalPrecision(0);
-        stepper.setOnValueChangedListener(new Stepper.OnValueChangedListener() {
-            @Override
-            public void onValueChanged(Stepper view, float newValue, float oldValue) {
-                Log.i("STEPPER_TEST", String.format("oldValue: %s, newValue %s", oldValue, newValue));
-            }
-        });
+//        RemoteServiceManager.getInstance().getProductsService().getProducts("sdafdas", Arrays.asList(1, 2, 3, 4),
+//                (call, response, result) -> {
+//            int x = 3;
+//        },
+//                (call, responseError) -> {
+//            int x = 3;
+//        });
+
+
+
+//        Stepper stepper = findViewById(R.id.stepper);
+//        stepper.setInitialValue(15);
+//        stepper.setMaxValue(50);
+//        stepper.setMinValue(-50);
+//        stepper.setStep(10);
+//        stepper.setDecimalPrecision(0);
+//        stepper.setOnValueChangedListener(new Stepper.OnValueChangedListener() {
+//            @Override
+//            public void onValueChanged(Stepper view, float newValue, float oldValue) {
+//                Log.i("STEPPER_TEST", String.format("oldValue: %s, newValue %s", oldValue, newValue));
+//            }
+//        });
 
 //        RemoteService.getInstance().getProductsService().getAllProducts(TEST_TOKEN).enqueue(new TokennedServerCallback<List<Product>>() {
 //            @Override

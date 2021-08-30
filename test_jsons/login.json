@@ -3,15 +3,95 @@
     "result": {
         "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJteWVtYWlsN0BteS5lbWFpbGQ0OTBjODdhMjYyZDVkODhlMzRmNTY5ZWM2NGMxZjMxYjg0ZDg4ODIyM2UxZjQwYzg1NWU0MGU3YmEyYjE3N2MiLCJpYXQiOjE2MjkzODQ2OTIsImV4cCI6MTYyOTM4NDk0Mn0.6G2peVjWbA6XQalp6jQgg1yA6tPIBqv7F6FkEanThFY",
         "data": {
-            "isAdmin": false,
-            "id": 19,
-            "created": "Aug 8, 2021 6:40:13 PM",
-            "modified": "Aug 19, 2021 5:51:32 PM",
-            "email": "myemail7@my.email",
-            "firstName": "fn42",
-            "lastName": "ln42",
-            "phone": "0547989315",
-            "address": "man of the post"
+            "user": {
+                "isAdmin": true,
+                "id": 19,
+                "created": "Aug 8, 2021 6:40:13 PM",
+                "modified": "Aug 19, 2021 5:51:32 PM",
+                "email": "myemail7@my.email",
+                "firstName": "fn42",
+                "lastName": "ln42",
+                "phone": "0547989315",
+                "address": "man of the post"
+            },
+            "categories": [
+                {
+                    "id": 1,
+                    "title": "cat1"
+                },
+                {
+                    "id": 2,
+                    "title": "cat2"
+                },
+                {
+                    "id": 3,
+                    "title": "cat3"
+                },
+                {
+                    "id": 4,
+                    "title": "cat4"
+                },
+                {
+                    "id": 5,
+                    "title": "cat5"
+                },
+                {
+                    "id": 6,
+                    "title": "cat6"
+                },
+                {
+                    "id": 7,
+                    "title": "cat7"
+                },
+                {
+                    "id": 8,
+                    "title": "cat8"
+                },
+                {
+                    "id": 9,
+                    "title": "cat9"
+                },
+                {
+                    "id": 10,
+                    "title": "cat10"
+                },
+                {
+                    "id": 11,
+                    "title": "cat11"
+                },
+                {
+                    "id": 12,
+                    "title": "cat12"
+                },
+                {
+                    "id": 13,
+                    "title": "cat13"
+                },
+                {
+                    "id": 14,
+                    "title": "cat14"
+                },
+                {
+                    "id": 15,
+                    "title": "cat15"
+                },
+                {
+                    "id": 16,
+                    "title": "cat16"
+                },
+                {
+                    "id": 17,
+                    "title": "cat17"
+                },
+                {
+                    "id": 18,
+                    "title": "cat18"
+                },
+                {
+                    "id": 19,
+                    "title": "cat19"
+                }
+            ]
         }
     }
 }
