@@ -16,7 +16,7 @@
         android:textSize="@dimen/title_text_size"/>
 
     <fragment
-        android:id="@+id/profile_details_fragment"
+        android:id="@+id/register_profile_details_fragment"
         android:name="com.yoni.javaworkshopprojectclient.ui.areafragments.ProfileDetailsFragment"
         class="com.yoni.javaworkshopprojectclient.ui.areafragments.ProfileDetailsFragment"
         layout="@layout/layout_profile_details"
