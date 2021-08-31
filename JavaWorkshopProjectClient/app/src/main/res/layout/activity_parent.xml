@@ -15,12 +15,18 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:icon="@drawable/ic_profile" />
+
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:icon="@drawable/ic_product_catalog"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_orders_area" />
+            android:icon="@drawable/ic_prev_orders" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -30,12 +36,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_profile" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/ic_admin_area" />
+            android:icon="@drawable/ic_add_admin" />
     </com.google.android.material.tabs.TabLayout>
 
     <FrameLayout

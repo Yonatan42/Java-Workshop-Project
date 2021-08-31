@@ -17,7 +17,7 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class ProfileDetailsFragment extends Fragment {
-    
+
     private EditText txtFName;
     private EditText txtLName;
     private EditText txtEmail;

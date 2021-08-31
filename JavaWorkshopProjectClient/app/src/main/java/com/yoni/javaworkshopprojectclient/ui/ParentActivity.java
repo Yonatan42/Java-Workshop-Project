@@ -37,10 +37,11 @@ import java.util.List;
 
 public class ParentActivity extends AppCompatActivity {
 
-    public static final int TAB_PRODUCTS = 0;
-    public static final int TAB_ORDERS = 1;
-    public static final int TAB_CART = 2;
-    public static final int TAB_PROFILE = 3;
+
+    public static final int TAB_PROFILE = 0;
+    public static final int TAB_PRODUCTS = 1;
+    public static final int TAB_ORDERS = 2;
+    public static final int TAB_CART = 3;
     public static final int TAB_ADMIN = 4;
 
     @IntDef({TAB_PRODUCTS, TAB_ORDERS, TAB_CART, TAB_PROFILE, TAB_ADMIN})
@@ -118,7 +119,8 @@ public class ParentActivity extends AppCompatActivity {
         tabLayout.setSelectedTabIndicatorColor(((MaterialShapeDrawable)tabLayout.getBackground()).getFillColor().getDefaultColor());
         tabLayout.setTabRippleColorResource(android.R.color.darker_gray);
 
-        setAdminTabVisible(DataSets.getInstance().getCurrentUser().isAdminModeActive());
+        setAdminModeTabs(DataSets.getInstance().getCurrentUser().isAdminModeActive());
+        setSelectedTab(TAB_ORDERS);
     }
 
     public void makeFragmentTransition(BaseFragment frag){
@@ -183,8 +185,10 @@ public class ParentActivity extends AppCompatActivity {
         onActivityResultEvent.fire(requestCode, resultCode, data);
     }
 
-    public void setAdminTabVisible(boolean isVisible){
-        UIUtils.setViewsVisible(isVisible, ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(TAB_ADMIN));
+    public void setAdminModeTabs(boolean isAdminMode){
+        ViewGroup tabs =  ((ViewGroup) tabLayout.getChildAt(0));
+        UIUtils.setViewsVisible(isAdminMode, tabs.getChildAt(TAB_ADMIN));
+        UIUtils.setViewsVisible(!isAdminMode, tabs.getChildAt(TAB_CART));
     }
 
     public void setTabBarVisibility(boolean isVisible){

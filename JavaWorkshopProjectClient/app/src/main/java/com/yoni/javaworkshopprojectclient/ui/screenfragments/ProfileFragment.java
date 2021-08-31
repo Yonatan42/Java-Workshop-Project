@@ -38,7 +38,7 @@ public class ProfileFragment extends BaseFragment {
 
         switchAdminMode.setOnCheckedChangeListener((v, isChecked) -> {
             currentUser.setAdminModeActive(isChecked);
-            getParentActivity().setAdminTabVisible(isChecked);
+            getParentActivity().setAdminModeTabs(isChecked);
         });
 
         switchAdminMode.setOnFocusChangeListener((v, hasFocus) -> {
