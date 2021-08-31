@@ -12,13 +12,10 @@ import com.yoni.javaworkshopprojectclient.R;
 
 public class OrdersFragment extends BaseFragment {
 
-    private View view;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_orders, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_orders, container, false);
     }
 
     @Override

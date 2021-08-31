@@ -30,7 +30,6 @@ import java.util.List;
 
 public class ProductsFragment extends BaseFragment {
 
-    private View view;
     private Button btnNew;
     private RecyclerView rvProducts;
     private TextView txtNoResults;
@@ -43,8 +42,7 @@ public class ProductsFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_products, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_products, container, false);
     }
 
     @Override

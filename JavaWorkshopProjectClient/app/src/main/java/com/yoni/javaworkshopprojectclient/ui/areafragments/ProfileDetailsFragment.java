@@ -17,8 +17,7 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class ProfileDetailsFragment extends Fragment {
-
-    private View view;
+    
     private EditText txtFName;
     private EditText txtLName;
     private EditText txtEmail;
@@ -32,8 +31,7 @@ public class ProfileDetailsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.layout_profile_details, container, false);
-        return view;
+        return inflater.inflate(R.layout.layout_profile_details, container, false);
     }
 
     @Override

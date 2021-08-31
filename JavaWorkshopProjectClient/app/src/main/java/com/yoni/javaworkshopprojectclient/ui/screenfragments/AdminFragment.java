@@ -12,13 +12,10 @@ import com.yoni.javaworkshopprojectclient.R;
 
 public class AdminFragment extends BaseFragment {
 
-    private View view;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_admin, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_admin, container, false);
     }
 
     @Override

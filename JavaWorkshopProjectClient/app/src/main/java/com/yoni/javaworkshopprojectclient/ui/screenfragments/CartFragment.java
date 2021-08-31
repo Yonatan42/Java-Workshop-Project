@@ -17,13 +17,10 @@ import java.util.List;
 
 public class CartFragment extends BaseFragment {
 
-    private View view;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_cart, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_cart, container, false);
     }
 
     @Override

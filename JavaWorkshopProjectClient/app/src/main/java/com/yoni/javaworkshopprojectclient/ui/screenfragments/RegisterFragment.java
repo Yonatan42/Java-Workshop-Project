@@ -18,13 +18,11 @@ import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 public class RegisterFragment extends BaseFragment {
 
-    private View view;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_register, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
     @Override
