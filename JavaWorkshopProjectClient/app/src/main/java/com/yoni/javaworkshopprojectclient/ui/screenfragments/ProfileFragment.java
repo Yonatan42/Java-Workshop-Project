@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.ui.fragments;
+package com.yoni.javaworkshopprojectclient.ui.screenfragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

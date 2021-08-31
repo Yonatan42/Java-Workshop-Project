@@ -1,13 +1,13 @@
 package com.yoni.javaworkshopprojectclient.utils;
 
-import com.yoni.javaworkshopprojectclient.ui.fragments.AdminFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.BaseFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.CartFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.OrdersFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.ProductsFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.ProfileFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.RegisterFragment;
-import com.yoni.javaworkshopprojectclient.ui.fragments.SplashFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.AdminFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.BaseFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.CartFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.OrdersFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.ProductsFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.ProfileFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.RegisterFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.SplashFragment;
 
 public enum AppScreen {
     SPLASH(new SplashFragment()),

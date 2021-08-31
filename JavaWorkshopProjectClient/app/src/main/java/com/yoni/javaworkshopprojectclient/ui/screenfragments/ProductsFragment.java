@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.ui.fragments;
+package com.yoni.javaworkshopprojectclient.ui.screenfragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,16 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
-import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
-import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.ProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.FilterProductsPopup;
@@ -33,9 +27,6 @@ import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class ProductsFragment extends BaseFragment {
 

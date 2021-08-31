@@ -9,26 +9,23 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.events.Event;
 import com.yoni.javaworkshopprojectclient.events.OnActivityResultListener;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
-import com.yoni.javaworkshopprojectclient.ui.fragments.BaseFragment;
+import com.yoni.javaworkshopprojectclient.ui.screenfragments.BaseFragment;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 

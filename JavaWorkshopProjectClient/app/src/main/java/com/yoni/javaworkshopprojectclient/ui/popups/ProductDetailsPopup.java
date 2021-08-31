@@ -14,6 +14,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Produ
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class ProductDetailsPopup extends AlertDialog {
         txtDesc = layout.findViewById(R.id.products_details_popup_txt_desc);
         btnBack = layout.findViewById(R.id.products_details_popup_btn_back);
 
+        UIUtils.setViewsEnabled(false, txtTitle, txtPrice, txtDesc, txtCategories);
         setViews(product);
 
         btnBack.setOnClickListener(v -> dismiss());

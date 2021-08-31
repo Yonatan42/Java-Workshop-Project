@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -14,13 +15,17 @@
         android:textColor="@color/text_color_dark"
         android:textSize="@dimen/title_text_size"/>
 
-    <!-- // todo - didn't do dimens/strings/colors and so on yet in the included layout also -->
-    <include
+    <fragment
+        android:id="@+id/profile_details_fragment"
+        android:name="com.yoni.javaworkshopprojectclient.ui.areafragments.ProfileDetailsFragment"
+        class="com.yoni.javaworkshopprojectclient.ui.areafragments.ProfileDetailsFragment"
         layout="@layout/layout_profile_details"
         android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
-        android:layout_margin="@dimen/standard_separating_margin"/>
+        android:layout_margin="@dimen/standard_separating_margin"
+        custom:showPasswords="true"
+        custom:isEditable="true"/>
 
 
     <LinearLayout

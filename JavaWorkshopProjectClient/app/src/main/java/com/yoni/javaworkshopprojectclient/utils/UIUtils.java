@@ -1,20 +1,21 @@
 package com.yoni.javaworkshopprojectclient.utils;
 
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.yoni.javaworkshopprojectclient.R;
 
 import java.util.Optional;
 
 public class UIUtils {
 
     private UIUtils(){}
-
-    public static void setViewsEnabled(boolean isEnabled, View... views){
-        for (View txt: views){
-            txt.setEnabled(isEnabled);
-        }
-    }
 
     public static void setViewsVisible(boolean isVisible, View...views){
         int visibility = isVisible ? View.VISIBLE : View.GONE;
@@ -49,6 +50,24 @@ public class UIUtils {
         }
         catch(NumberFormatException e){
             return defaultVal;
+        }
+    }
+
+    public static void setViewsEnabled(boolean isEnabled, View... views){
+        for(View txt: views){
+            txt.setEnabled(isEnabled);
+            if(!isEnabled){
+                if(txt.getTag() == null) {
+                    txt.setTag(txt.getBackground());
+                }
+                txt.setBackground(null);
+            }
+            else {
+                Drawable backgroundDrawable = (Drawable) txt.getTag();
+                if(backgroundDrawable != null) {
+                    txt.setBackground(backgroundDrawable);
+                }
+            }
         }
     }
 }

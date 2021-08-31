@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.ui.fragments;
+package com.yoni.javaworkshopprojectclient.ui.screenfragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 
 public abstract class BaseFragment extends Fragment {

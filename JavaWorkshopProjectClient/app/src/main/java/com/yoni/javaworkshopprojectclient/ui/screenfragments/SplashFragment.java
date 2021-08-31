@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.ui.fragments;
+package com.yoni.javaworkshopprojectclient.ui.screenfragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,21 +10,12 @@ import androidx.annotation.Nullable;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
-import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.LoginPopup;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 public class SplashFragment extends BaseFragment {
 

@@ -1,32 +1,26 @@
 package com.yoni.javaworkshopprojectclient.ui.popups;
 
 
+import android.annotation.SuppressLint;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
-import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
-import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 
 public class ProductDetailsAdminPopup extends ProductDetailsPopup {
@@ -72,6 +66,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         stepperStock = layout.findViewById(R.id.products_details_popup_stepper_stock);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setUp(ParentActivity parentActivity, Product product){
 
         txtTitle.setHint(R.string.products_details_popup_txt_title_hint);
@@ -85,10 +80,15 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         selectedCategories = product != null && product.getCategories() != null
                 ? new ArrayList<>(product.getCategories())
                 : new ArrayList<>();
-        txtCategories.setOnClickListener(v -> new CategoriesPicker(parentActivity, selectedCategories, newSelectedCategories -> {
-            txtCategories.setText(getCategoriesText(newSelectedCategories));
-            selectedCategories = newSelectedCategories;
-        }).show());
+        txtCategories.setOnTouchListener((v, event) -> {
+            if(event.getAction() == MotionEvent.ACTION_UP) {
+                new CategoriesPicker(parentActivity, selectedCategories, newSelectedCategories -> {
+                    txtCategories.setText(getCategoriesText(newSelectedCategories));
+                    selectedCategories = newSelectedCategories;
+                }).show();
+            }
+            return true; // don't propagate
+        });
 
         newBase64Image = product != null ? product.getImageData() : null;
         btnEditImage.setOnClickListener(v -> new GetImagePopup(parentActivity, base64Image -> {
