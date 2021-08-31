@@ -21,22 +21,20 @@ public class ProductsServiceFacade extends BaseRemoteServiceFacade<ProductsServi
         super(service);
     }
 
-    public void getPagedProducts(String token,
-                      int pageNum,
-                      String filterText,
-                      Integer filterCategoryId,
-                      ResponseSuccessTokennedCallback<List<Product>> onSuccess,
-                      ResponseErrorCallback<TokennedResult<List<Product>>> onError){
-        enqueueTokenned(service.getPagedProducts(token, pageNum, filterText, filterCategoryId), onSuccess, onError);
+    public void getPagedProducts(int pageNum,
+                                String filterText,
+                                Integer filterCategoryId,
+                                ResponseSuccessTokennedCallback<List<Product>> onSuccess,
+                                ResponseErrorCallback<TokennedResult<List<Product>>> onError){
+        enqueueTokenned(service.getPagedProducts(getToken(), pageNum, filterText, filterCategoryId), onSuccess, onError);
     }
 
-    public void insertUpdateProduct(String token,
-                                    Product product,
+    public void insertUpdateProduct(Product product,
                                     ResponseSuccessTokennedCallback<Product> onSuccess,
                                     ResponseErrorCallback<TokennedResult<Product>> onError){
         if(product.getProductId() <= 0){
             enqueueTokenned(service.insertProduct(
-                    token,
+                    getToken(),
                     product.getTitle(),
                     product.getDescription(),
                     product.getImageData(),
@@ -46,22 +44,20 @@ public class ProductsServiceFacade extends BaseRemoteServiceFacade<ProductsServi
             ), onSuccess, onError);
         }
         else{
-            enqueueTokenned(service.updateProduct(token, product.getProductId(), product), onSuccess, onError);
+            enqueueTokenned(service.updateProduct(getToken(), product.getProductId(), product), onSuccess, onError);
         }
     }
 
-    public void disableProduct(String token,
-                                 int productId,
-                                 ResponseSuccessTokennedCallback<Integer> onSuccess,
-                                 ResponseErrorCallback<TokennedResult<Integer>> onError){
-        enqueueTokenned(service.setProductEnabled(token, productId, false), onSuccess, onError);
+    public void disableProduct(int productId,
+                               ResponseSuccessTokennedCallback<Integer> onSuccess,
+                               ResponseErrorCallback<TokennedResult<Integer>> onError){
+        enqueueTokenned(service.setProductEnabled(getToken(), productId, false), onSuccess, onError);
     }
 
-    public void getProducts(String token,
-                            List<Integer> productIds,
+    public void getProducts(List<Integer> productIds,
                             ResponseSuccessTokennedCallback<List<Product>> onSuccess,
                             ResponseErrorCallback<TokennedResult<List<Product>>> onError){
-        enqueueTokenned(service.getProductsByIds(token, productIds), onSuccess, onError);
+        enqueueTokenned(service.getProductsByIds(getToken(), productIds), onSuccess, onError);
     }
 
 

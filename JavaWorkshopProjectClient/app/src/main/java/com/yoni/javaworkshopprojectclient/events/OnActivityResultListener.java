@@ -16,7 +16,7 @@ public abstract class OnActivityResultListener implements EventListener {
         else if(!(params[1] instanceof Integer)){
             throw new IllegalArgumentException("OnActivityResultListener cannot be fired - second argument must be an Integer");
         }
-        else if(!(params[2] instanceof Intent)){
+        else if(params[2] != null && !(params[2] instanceof Intent)){
             throw new IllegalArgumentException("OnActivityResultListener cannot be fired - third argument must be an Intent");
         }
         onActivityResult((Integer) params[0], (Integer) params[1], (Intent) params[2]);

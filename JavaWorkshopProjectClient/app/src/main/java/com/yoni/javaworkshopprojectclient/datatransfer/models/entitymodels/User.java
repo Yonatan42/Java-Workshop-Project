@@ -98,7 +98,7 @@ public class User {
         this.isAdminModeActive = isAdminModeActive;
     }
 
-    public void replaceUser(User user){
+    public void replace(User user){
         this.id = user.id;
         this.firstName = user.firstName;
         this.lastName = user.lastName;

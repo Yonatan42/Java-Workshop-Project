@@ -32,7 +32,7 @@ public class DataSets {
     }
 
     public void setCurrentUser(User user) {
-        currentUser.replaceUser(user);
+        currentUser.replace(user);
     }
 
     public List<ProductCategory> getCategories(){

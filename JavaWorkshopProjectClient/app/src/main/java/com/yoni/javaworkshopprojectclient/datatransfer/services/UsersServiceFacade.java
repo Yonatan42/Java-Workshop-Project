@@ -25,8 +25,8 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
         enqueueTokenned(service.login(email, pass), onSuccess, onError);
     }
 
-    public void login(String token, ResponseSuccessTokennedCallback<LoginResponse> onSuccess, ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
-        enqueueTokenned(service.login(token), onSuccess, onError);
+    public void login(ResponseSuccessTokennedCallback<LoginResponse> onSuccess, ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
+        enqueueTokenned(service.login(getToken()), onSuccess, onError);
     }
 
     public void register(String email,

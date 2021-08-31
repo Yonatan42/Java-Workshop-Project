@@ -37,6 +37,12 @@ public class Product {
 
     private int cartQuantity = -1;
 
+    public Product(){}
+
+    public Product(Product other){
+        replace(other);
+    }
+
 
     public int getProductId() {
         return productId;
@@ -117,6 +123,22 @@ public class Product {
     public void setCartQuantity(int cartQuantity) {
         this.cartQuantity = cartQuantity;
     }
+
+
+    public void replace(Product product){
+        this.productId = product.productId;
+        this.stockId = product.stockId;
+        this.stock = product.stock;
+        this.isEnabled = product.isEnabled;
+        this.categories = product.categories;
+        this.price = product.price;
+        this.title = product.title;
+        this.description = product.description;
+        this.imageData = product.imageData;
+        this.cartQuantity = product.cartQuantity;
+    }
+
+
 
     @Override
     public String toString() {

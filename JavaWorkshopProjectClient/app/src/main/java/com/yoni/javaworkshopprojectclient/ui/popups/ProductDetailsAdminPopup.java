@@ -14,6 +14,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
@@ -29,8 +30,6 @@ import retrofit2.Response;
 
 
 public class ProductDetailsAdminPopup extends ProductDetailsPopup {
-
-    private ParentActivity parentActivity;
 
     private Consumer<Product> onProductCreated;
     private Consumer<Product> onProductChanged;
@@ -74,7 +73,6 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
     }
 
     private void setUp(ParentActivity parentActivity, Product product){
-        this.parentActivity = parentActivity;
 
         txtTitle.setHint(R.string.products_details_popup_txt_title_hint);
         txtPrice.setHint(R.string.products_details_popup_txt_price_hint);
@@ -115,46 +113,59 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         });
 
         btnSave.setOnClickListener(v -> {
-            // todo take current values and upload to server
-
-            List<Integer> selectedCategoryIds = ListUtils.map(selectedCategories, ProductCategory::getId);
+            // todo - remove comments after testing
+            //List<Integer> selectedCategoryIds = ListUtils.map(selectedCategories, ProductCategory::getId);
             String title = UIUtils.getTrimmedText(txtTitle);
             String desc = UIUtils.getTrimmedText(txtDesc);
             float price = UIUtils.tryGetFloatValue(txtPrice, -1); // todo verify that the value is > 0
+            // we have selected categories
             // we have the base64 string in newBase64Image
             // we have the stock string in newStock
             // that should be everything we need for a product
 
-            if(onProductCreated != null){
+
+            Consumer<Product> callback;
+            Product insertUpdateProduct;
+            if(product == null){
                 // create mode
-                Product newProduct = new Product(); // todo - this is actually gotten from server
-                // -> upload
-                onProductCreated.accept(newProduct); // will do notify inserted
+                insertUpdateProduct = new Product();
+                callback = onProductCreated; // will do notify inserted
+
             }
             else {
                 // edit mode
-                Product updatedProduct = new Product(); // todo - this is actually gotten from server
-                onProductChanged.accept(updatedProduct); // will do notify changed
+                insertUpdateProduct = new Product(product);
+                callback = onProductChanged;  // will do notify changed
             }
+
+            insertUpdateProduct.setTitle(title);
+            insertUpdateProduct.setDescription(desc);
+            insertUpdateProduct.setPrice(price);
+            insertUpdateProduct.setCategories(selectedCategories);
+            insertUpdateProduct.setImageData(newBase64Image);
+            insertUpdateProduct.setStock(newStock);
+
+            RemoteServiceManager.getInstance().getProductsService().insertUpdateProduct(insertUpdateProduct,
+                    (call, response, result) -> {
+                        insertUpdateProduct.replace(result);
+                        callback.accept(insertUpdateProduct);
+                        dismiss();
+                    },
+                    (call, responseError) -> {
+                        ErrorPopup.createGenericOneOff(parentActivity).show();
+                    });
         });
 
         btnDelete.setOnClickListener(v -> {
-            // todo - server request to delete passing in the id
-            // server will return the id of the deleted product
-            int id = 0;// todo - this is actually gotten from server
-            onProductDeleted.accept(id); // will do notify removed
+            RemoteServiceManager.getInstance().getProductsService().disableProduct(product.getProductId(),
+                    (call, response, result) -> {
+                        onProductDeleted.accept(result); // will do notify removed
+                        dismiss();
+                    },
+                    (call, responseError) -> {
+                        ErrorPopup.createGenericOneOff(parentActivity).show();
+                    });
         });
     }
 
-    private TokennedServerCallback<Product> createServerResponse = new TokennedServerCallback<Product>() {
-        @Override
-        public void onResponseSuccessTokenned(@NonNull Call<ServerResponse<TokennedResult<Product>>> call, Response<ServerResponse<TokennedResult<Product>>> response, Product result) {
-
-        }
-
-        @Override
-        public void onResponseError(Call<ServerResponse<TokennedResult<Product>>> call, ServerResponse.ServerResponseError responseError) {
-
-        }
-    };
 }

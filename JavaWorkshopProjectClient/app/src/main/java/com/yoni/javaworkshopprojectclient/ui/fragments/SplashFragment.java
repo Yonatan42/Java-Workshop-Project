@@ -53,7 +53,7 @@ public class SplashFragment extends BaseFragment {
     }
 
     private void attemptLogin() {
-        RemoteServiceManager.getInstance().getUsersService().login(TokenStore.getInstance().getToken(),
+        RemoteServiceManager.getInstance().getUsersService().login(
                 (call, response, result) -> {
             DataSets.getInstance().setCurrentUser(result.getUser());
             DataSets.getInstance().setCategories(result.getCategories());

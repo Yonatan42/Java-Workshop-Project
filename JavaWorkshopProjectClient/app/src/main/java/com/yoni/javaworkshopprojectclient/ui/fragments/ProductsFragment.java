@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,7 +27,9 @@ import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.ProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.FilterProductsPopup;
+import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +40,10 @@ import retrofit2.Response;
 public class ProductsFragment extends BaseFragment {
 
     private View view;
+    private Button btnNew;
     private RecyclerView rvProducts;
     private TextView txtNoResults;
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
     private int currentPage = 0;
     private boolean loadInProgress = false;
     private ProductFilter productsFilter = null;
@@ -58,13 +62,18 @@ public class ProductsFragment extends BaseFragment {
 
         txtNoResults = view.findViewById(R.id.products_txt_no_results);
         rvProducts = view.findViewById(R.id.products_rv);
+        btnNew = view.findViewById(R.id.products_btn_new);
+        FloatingActionButton fabFilter = view.findViewById(R.id.products_btn_filter);
 
         ProductsAdapter adapter = new ProductsAdapter(getParentActivity(), products);
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new GridLayoutManager(getContext(),2));
 
-
-        FloatingActionButton fabFilter = view.findViewById(R.id.products_btn_filter);
+        UIUtils.setViewsVisible(DataSets.getInstance().getCurrentUser().isAdminModeActive(), btnNew);
+        btnNew.setOnClickListener(v -> new ProductDetailsAdminPopup(getParentActivity(), newProduct -> {
+            products.add(newProduct);
+            adapter.notifyItemInserted(products.size()-2);
+        }).show());
 
         fabFilter.setOnClickListener(v -> {
             new FilterProductsPopup(getParentActivity(), productsFilter, DataSets.getInstance().getCategories(), newFilter -> {
@@ -108,7 +117,7 @@ public class ProductsFragment extends BaseFragment {
         loadInProgress = true;
         String filterText = productsFilter != null ? productsFilter.getText() : null;
         Integer filterCategoryId = productsFilter != null && productsFilter.getCategory() != null ? productsFilter.getCategory().getId() : null;
-        RemoteServiceManager.getInstance().getProductsService().getPagedProducts(TokenStore.getInstance().getToken(), currentPage, filterText, filterCategoryId,
+        RemoteServiceManager.getInstance().getProductsService().getPagedProducts(currentPage, filterText, filterCategoryId,
                 (call, response, result) -> {
 //                    loader.dismiss();
                     loadInProgress = false;

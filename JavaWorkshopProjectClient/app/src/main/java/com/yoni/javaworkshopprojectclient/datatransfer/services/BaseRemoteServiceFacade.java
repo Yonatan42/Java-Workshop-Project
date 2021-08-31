@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
 import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
@@ -54,6 +55,10 @@ public abstract class BaseRemoteServiceFacade<T extends BaseRemoveService> {
                 }
             }
         });
+    }
+
+    protected String getToken(){
+        return TokenStore.getInstance().getToken();
     }
 
 }
