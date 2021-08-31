@@ -81,7 +81,7 @@ public class ProductsFragment extends BaseFragment {
                 currentPage = 0;
                 int oldCount = products.size();
                 products.clear();
-                rvProducts.getAdapter().notifyItemRangeRemoved(0, oldCount);
+                adapter.notifyItemRangeRemoved(0, oldCount);
                 loadProducts();
             }).show();
         });
@@ -106,6 +106,8 @@ public class ProductsFragment extends BaseFragment {
                 }
             }
         });
+
+        initialProductsLoad();
     }
 
 
@@ -140,9 +142,8 @@ public class ProductsFragment extends BaseFragment {
                 });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+
+    private void initialProductsLoad() {
         int oldCount = products.size();
         products.clear();
         currentPage = 0;
