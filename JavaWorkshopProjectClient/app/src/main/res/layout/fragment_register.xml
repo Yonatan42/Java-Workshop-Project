@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="temp - register"
-        android:textSize="40sp"/>
+        android:layout_marginTop="@dimen/standard_spacing"
+        android:text="@string/register_txt_title"
+        android:textColor="@color/text_color_dark"
+        android:textSize="@dimen/title_text_size"/>
+
+    <!-- // todo - didn't do dimens/strings/colors and so on yet in the included layout also -->
+    <include
+        layout="@layout/layout_profile_details"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/standard_separating_margin"/>
+
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/register_btn_back"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/btn_generic_back"
+            android:layout_margin="@dimen/standard_separating_margin"/>
+
+        <Button
+            android:id="@+id/register_btn_register"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/btn_register"
+            android:layout_margin="@dimen/standard_separating_margin"/>
+
+    </LinearLayout>
 </LinearLayout>
