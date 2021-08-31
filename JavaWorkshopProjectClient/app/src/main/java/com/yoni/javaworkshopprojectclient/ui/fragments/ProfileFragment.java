@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +13,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class ProfileFragment extends BaseFragment {
@@ -32,6 +33,7 @@ public class ProfileFragment extends BaseFragment {
 
 
         SwitchCompat switchAdminMode = view.findViewById(R.id.profile_switch_admin_mode);
+        Button btnLogout = view.findViewById(R.id.profile_btn_logout);
 
         User currentUser = DataSets.getInstance().getCurrentUser();
         UIUtils.setViewsVisible(currentUser.isAdmin(), switchAdminMode);
@@ -46,6 +48,11 @@ public class ProfileFragment extends BaseFragment {
             if(hasFocus){
                 switchAdminMode.setChecked(!switchAdminMode.isChecked());
             }
+        });
+
+        btnLogout.setOnClickListener(v -> {
+            TokenStore.getInstance().clearToken();
+            getParentActivity().finish();
         });
     }
 }

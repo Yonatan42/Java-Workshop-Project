@@ -28,4 +28,5 @@
     <string name="btn_generic_add">add</string>
     <string name="profile_switch_admin_mode">admin mode</string>
     <string name="error_check_internet">Please check your internet connection.</string>
+    <string name="profile_btn_logout">logout</string>
 </resources>

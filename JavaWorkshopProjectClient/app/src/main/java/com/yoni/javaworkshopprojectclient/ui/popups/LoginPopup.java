@@ -25,8 +25,11 @@ import retrofit2.Response;
 
 public class LoginPopup extends AlertDialog {
 
+    private ParentActivity parentActivity;
+
     public LoginPopup(ParentActivity parentActivity){
         super(parentActivity);
+        this.parentActivity = parentActivity;
 
         View layout = LayoutInflater.from(parentActivity).inflate(R.layout.popup_login, null, false);
         TextView txtEmail = layout.findViewById(R.id.login_txt_email);
@@ -45,6 +48,7 @@ public class LoginPopup extends AlertDialog {
                         DataSets.getInstance().setCurrentUser(result.getUser());
                         DataSets.getInstance().setCategories(result.getCategories());
                         parentActivity.makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
+                        dismiss();
                     },
                     (call, responseError) -> {
                         // todo - change this - perhaps
@@ -63,5 +67,8 @@ public class LoginPopup extends AlertDialog {
         setCancelable(false);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        parentActivity.finish();
+    }
 }
