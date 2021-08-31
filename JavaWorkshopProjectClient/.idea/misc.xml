@@ -20,7 +20,7 @@
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/layout/layout_loader.xml" value="0.25677083333333334" />
-        <entry key="app/src/main/res/layout/layout_profile_details.xml" value="0.42592592592592593" />
+        <entry key="app/src/main/res/layout/layout_profile_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_stepper.xml" value="0.25" />
         <entry key="app/src/main/res/layout/popup_categories_picker.xml" value="0.27447916666666666" />
         <entry key="app/src/main/res/layout/popup_error.xml" value="0.43802083333333336" />
