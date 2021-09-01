@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,6 +48,16 @@ public class OrdersFragment extends BaseFragment {
         rvOrders.setLayoutManager(new LinearLayoutManager(getParentActivity()));
 
         UIUtils.setViewsVisible(DataSets.getInstance().getCurrentUser().isAdminModeActive(), layoutAdmin);
+
+        btnSearch.setOnClickListener(v -> {
+            int userId = UIUtils.tryGetIntValue(txtUserId, -1);
+            if(userId < 0){
+                Toast.makeText(getParentActivity(), getString(R.string.orders_invalid_search_user_id), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // todo - server call with user id parameter
+        });
 
         // todo - add paging for the orders
     }
