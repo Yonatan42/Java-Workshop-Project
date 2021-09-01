@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/standard_spacing"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/standard_cell_card_bg_color"
+        app:cardCornerRadius="@dimen/standard_cell_card_corner_radius"
+        app:cardElevation="@dimen/standard_cell_card_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="@dimen/standard_spacing">
+
+
+            <TextView
+                android:id="@+id/order_details_product_cell_txt_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/standard_text_size"
+                android:layout_margin="@dimen/standard_separating_margin"
+                tools:text="title" />
+
+            <TextView
+                android:id="@+id/order_details_product_cell_txt_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/standard_text_size"
+                android:layout_margin="@dimen/standard_separating_margin"
+                tools:text="$4.99" />
+
+            <TextView
+                android:id="@+id/order_details_product_cell_txt_quantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/standard_text_size"
+                android:layout_margin="@dimen/standard_separating_margin"
+                tools:text="5" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
