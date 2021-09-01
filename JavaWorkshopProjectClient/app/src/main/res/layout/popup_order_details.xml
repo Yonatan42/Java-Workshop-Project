@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="@dimen/standard_spacing">
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categories_picker_popup_rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:id="@+id/order_details_popup_btn_back"
+        android:backgroundTint="@color/standard_btn_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_separating_margin"
+        tools:text="total: $399.45"/>
+
+
+    <Button
+        android:id="@+id/categories_picker_popup_btn_back"
+        android:backgroundTint="@color/standard_btn_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_generic_back"
+        android:layout_margin="@dimen/standard_separating_margin"/>
+
+</LinearLayout>
