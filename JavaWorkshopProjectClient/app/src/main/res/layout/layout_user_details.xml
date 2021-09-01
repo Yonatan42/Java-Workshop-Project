@@ -8,90 +8,90 @@
 
 
     <EditText
-        android:id="@+id/profile_details_txt_fname"
+        android:id="@+id/user_details_txt_fname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/standard_separating_margin"
-        android:hint="@string/profile_details_txt_fname_hint"
+        android:hint="@string/user_details_txt_fname_hint"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/profile_details_txt_email"
-        app:layout_constraintEnd_toStartOf="@+id/profile_details_txt_lname"
+        app:layout_constraintBottom_toTopOf="@+id/user_details_txt_email"
+        app:layout_constraintEnd_toStartOf="@+id/user_details_txt_lname"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/profile_details_txt_lname"
+        android:id="@+id/user_details_txt_lname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/standard_separating_margin"
-        android:hint="@string/profile_details_txt_lname_hint"
+        android:hint="@string/user_details_txt_lname_hint"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/profile_details_txt_fname"
+        app:layout_constraintBottom_toBottomOf="@+id/user_details_txt_fname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/profile_details_txt_fname"
-        app:layout_constraintTop_toTopOf="@+id/profile_details_txt_fname" />
+        app:layout_constraintStart_toEndOf="@+id/user_details_txt_fname"
+        app:layout_constraintTop_toTopOf="@+id/user_details_txt_fname" />
 
     <EditText
-        android:id="@+id/profile_details_txt_email"
+        android:id="@+id/user_details_txt_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/profile_details_txt_email_hint"
+        android:hint="@string/user_details_txt_email_hint"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/profile_details_txt_pass"
+        app:layout_constraintBottom_toTopOf="@+id/user_details_txt_pass"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_details_txt_fname" />
+        app:layout_constraintTop_toBottomOf="@+id/user_details_txt_fname" />
 
     <EditText
-        android:id="@+id/profile_details_txt_pass"
+        android:id="@+id/user_details_txt_pass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/profile_details_txt_pass_hint"
+        android:hint="@string/user_details_txt_pass_hint"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/profile_details_txt_pass2"
+        app:layout_constraintBottom_toTopOf="@+id/user_details_txt_pass2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_details_txt_email" />
+        app:layout_constraintTop_toBottomOf="@+id/user_details_txt_email" />
 
     <EditText
-        android:id="@+id/profile_details_txt_pass2"
+        android:id="@+id/user_details_txt_pass2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/profile_details_txt_pass2_hint"
+        android:hint="@string/user_details_txt_pass2_hint"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/profile_details_txt_phone"
+        app:layout_constraintBottom_toTopOf="@+id/user_details_txt_phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_details_txt_pass" />
+        app:layout_constraintTop_toBottomOf="@+id/user_details_txt_pass" />
 
     <EditText
-        android:id="@+id/profile_details_txt_phone"
+        android:id="@+id/user_details_txt_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/profile_details_txt_phone_hint"
+        android:hint="@string/user_details_txt_phone_hint"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/profile_details_txt_address"
+        app:layout_constraintBottom_toTopOf="@+id/user_details_txt_address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_details_txt_pass2" />
+        app:layout_constraintTop_toBottomOf="@+id/user_details_txt_pass2" />
 
     <EditText
-        android:id="@+id/profile_details_txt_address"
+        android:id="@+id/user_details_txt_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start|top"
-        android:hint="@string/profile_details_txt_address_hint"
+        android:hint="@string/user_details_txt_address_hint"
         android:inputType="textPostalAddress|textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_details_txt_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/user_details_txt_phone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

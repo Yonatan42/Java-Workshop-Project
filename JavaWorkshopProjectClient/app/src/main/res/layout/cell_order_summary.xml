@@ -2,7 +2,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -25,7 +24,7 @@
                 android:id="@+id/order_summary_cell_btn_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="details"
+                                android:text="@string/order_summary_btn_details"
                 app:layout_constraintBottom_toBottomOf="@+id/order_summary_cell_txt_address"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/order_summary_cell_txt_address" />

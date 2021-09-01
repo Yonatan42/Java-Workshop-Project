@@ -31,7 +31,7 @@ public class UserInfoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_profile_details, container, false);
+        return inflater.inflate(R.layout.layout_user_details, container, false);
     }
 
     @Override
@@ -47,13 +47,13 @@ public class UserInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        txtFName = view.findViewById(R.id.profile_details_txt_fname);
-        txtLName = view.findViewById(R.id.profile_details_txt_lname);
-        txtEmail = view.findViewById(R.id.profile_details_txt_email);
-        txtPass = view.findViewById(R.id.profile_details_txt_pass);
-        txtPass2 = view.findViewById(R.id.profile_details_txt_pass2);
-        txtPhone = view.findViewById(R.id.profile_details_txt_phone);
-        txtAddress = view.findViewById(R.id.profile_details_txt_address);
+        txtFName = view.findViewById(R.id.user_details_txt_fname);
+        txtLName = view.findViewById(R.id.user_details_txt_lname);
+        txtEmail = view.findViewById(R.id.user_details_txt_email);
+        txtPass = view.findViewById(R.id.user_details_txt_pass);
+        txtPass2 = view.findViewById(R.id.user_details_txt_pass2);
+        txtPhone = view.findViewById(R.id.user_details_txt_phone);
+        txtAddress = view.findViewById(R.id.user_details_txt_address);
 
         setShowPasswordsInternal(showPasswords, true);
         setIsEditableInternal(isEditable, true);

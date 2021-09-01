@@ -30,11 +30,12 @@
     <string name="error_check_internet">Please check your internet connection.</string>
     <string name="profile_btn_logout">logout</string>
     <string name="register_txt_title">Registration</string>
-    <string name="profile_details_txt_fname_hint">first name…</string>
-    <string name="profile_details_txt_lname_hint">last name…</string>
-    <string name="profile_details_txt_email_hint">email…</string>
-    <string name="profile_details_txt_pass_hint">password…</string>
-    <string name="profile_details_txt_pass2_hint">confirm password…</string>
-    <string name="profile_details_txt_phone_hint">phone number…</string>
-    <string name="profile_details_txt_address_hint">address…</string>
+    <string name="user_details_txt_fname_hint">first name…</string>
+    <string name="user_details_txt_lname_hint">last name…</string>
+    <string name="user_details_txt_email_hint">email…</string>
+    <string name="user_details_txt_pass_hint">password…</string>
+    <string name="user_details_txt_pass2_hint">confirm password…</string>
+    <string name="user_details_txt_phone_hint">phone number…</string>
+    <string name="user_details_txt_address_hint">address…</string>
+    <string name="order_summary_btn_details">details</string>
 </resources>
