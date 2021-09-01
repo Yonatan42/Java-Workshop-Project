@@ -13,7 +13,7 @@
     <string name="filter_products_btn_filter">filter</string>
     <string name="filter_products_btn_clear">clear</string>
     <string name="btn_generic_back">back</string>
-    <string name="products_txt_no_results">No Results Found</string>
+    <string name="generic_no_results">No Results Found</string>
     <string name="dollar_sign">$</string>
     <string name="products_details_popup_btn_delete">disable</string>
     <string name="products_details_popup_btn_save">save</string>
@@ -38,4 +38,6 @@
     <string name="user_details_txt_phone_hint">phone number…</string>
     <string name="user_details_txt_address_hint">address…</string>
     <string name="order_summary_btn_details">details</string>
+    <string name="generic_search">search</string>
+    <string name="orders_txt_userid_hint">user id</string>
 </resources>

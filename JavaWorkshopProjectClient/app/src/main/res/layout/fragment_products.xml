@@ -48,6 +48,6 @@
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:textSize="@dimen/standard_text_size"
-      android:text="@string/products_txt_no_results"
+      android:text="@string/generic_no_results"
       android:visibility="gone"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
