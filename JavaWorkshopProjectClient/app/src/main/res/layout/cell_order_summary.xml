@@ -100,7 +100,7 @@
                 tools:text="date" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/order_summary_cell_expand_group"
+                android:id="@+id/order_summary_cell_grp_expand"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="order_summary_cell_btn_details,order_summary_cell_txt_address,order_summary_cell_txt_name,order_summary_cell_txt_email,order_summary_cell_txt_phone"

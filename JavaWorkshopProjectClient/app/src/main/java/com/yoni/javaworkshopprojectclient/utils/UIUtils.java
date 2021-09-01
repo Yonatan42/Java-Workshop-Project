@@ -1,5 +1,6 @@
 package com.yoni.javaworkshopprojectclient.utils;
 
+import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 
 import com.yoni.javaworkshopprojectclient.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 
 public class UIUtils {
@@ -69,5 +73,21 @@ public class UIUtils {
                 }
             }
         }
+    }
+
+    public static String formatPrice(float price) {
+        return formatPrice(price, "");
+    }
+    public static String formatPrice(float price, String currencySymbol){
+        return String.format(Locale.getDefault(), "%s%.2f", currencySymbol, price);
+    }
+
+    public static String formatDate(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
+        return formatter.format(date);
+    }
+
+    public static String getDollarSign(Context context) {
+        return context.getResources().getString(R.string.dollar_sign);
     }
 }

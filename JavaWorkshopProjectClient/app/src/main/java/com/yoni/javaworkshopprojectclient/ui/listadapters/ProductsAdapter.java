@@ -24,6 +24,7 @@ import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
 
@@ -72,10 +73,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 parentActivity,
                                         R.drawable.ic_product_placeholder,
                                         holder.ivImage);
-        holder.txtPrice.setText(String.format("$%.2f", product.getPrice()));
+        holder.txtPrice.setText(UIUtils.formatPrice(product.getPrice(), UIUtils.getDollarSign(parentActivity)));
         holder.itemView.setOnClickListener(v -> getDetailsPopup(product).show());
 
-        // todo - add stepper to admin product details for stock
         Stepper stepperCart = holder.stepperCart;
         UIUtils.setViewsVisible(!DataSets.getInstance().getCurrentUser().isAdminModeActive(), stepperCart);
         stepperCart.setMaxValue(product.getStock());

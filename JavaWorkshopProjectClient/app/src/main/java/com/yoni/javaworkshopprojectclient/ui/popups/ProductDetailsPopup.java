@@ -62,7 +62,7 @@ public class ProductDetailsPopup extends AlertDialog {
             String pDesc = product.getDescription();
             String desc = pDesc != null ? pDesc : "";
             float pPrice = product.getPrice();
-            String price = String.format("%.2f", pPrice);
+            String price = UIUtils.formatPrice(pPrice);
 
             txtTitle.setText(title);
             txtCategories.setText(categories);
