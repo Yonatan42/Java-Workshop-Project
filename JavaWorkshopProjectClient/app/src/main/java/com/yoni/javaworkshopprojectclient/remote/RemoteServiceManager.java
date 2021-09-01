@@ -1,6 +1,8 @@
 package com.yoni.javaworkshopprojectclient.remote;
 
 import com.google.gson.Gson;
+import com.yoni.javaworkshopprojectclient.datatransfer.services.OrdersService;
+import com.yoni.javaworkshopprojectclient.datatransfer.services.OrdersServiceFacade;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.ProductsServiceFacade;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersService;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.ProductsService;
@@ -36,6 +38,7 @@ public class RemoteServiceManager {
     public final Gson gson = new Gson();
     private UsersServiceFacade usersServiceFacade;
     private ProductsServiceFacade productsServiceFacade;
+    private OrdersServiceFacade ordersServiceFacade;
 
 
 
@@ -64,6 +67,17 @@ public class RemoteServiceManager {
             }
         }
         return productsServiceFacade;
+    }
+
+    public OrdersServiceFacade getOrdersService() {
+        if(ordersServiceFacade == null){
+            synchronized (this){
+                if(ordersServiceFacade == null) {
+                    ordersServiceFacade = new OrdersServiceFacade(RetrofitClient.getClient(BASE_URL).create(OrdersService.class));
+                }
+            }
+        }
+        return ordersServiceFacade;
     }
 
     public Gson getGson(){
