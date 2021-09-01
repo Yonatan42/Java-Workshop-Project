@@ -14,4 +14,5 @@
     <color name="text_color_light">#707070</color>
     <color name="text_color_dark">@color/black</color>
     <color name="standard_btn_bg">#3D3D3D</color>
+    <color name="standard_cell_card_bg_color">#DEDEDE</color>
 </resources>

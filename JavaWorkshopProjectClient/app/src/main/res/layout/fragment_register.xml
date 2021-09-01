@@ -17,8 +17,8 @@
 
     <fragment
         android:id="@+id/register_profile_details_fragment"
-        android:name="com.yoni.javaworkshopprojectclient.ui.areafragments.ProfileDetailsFragment"
-        class="com.yoni.javaworkshopprojectclient.ui.areafragments.ProfileDetailsFragment"
+        android:name="com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment"
+        class="com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment"
         layout="@layout/layout_profile_details"
         android:layout_height="0dp"
         android:layout_width="match_parent"

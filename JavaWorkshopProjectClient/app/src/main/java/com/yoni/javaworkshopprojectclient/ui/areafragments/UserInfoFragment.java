@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
-public class ProfileDetailsFragment extends Fragment {
+public class UserInfoFragment extends Fragment {
 
     private EditText txtFName;
     private EditText txtLName;

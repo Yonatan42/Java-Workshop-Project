@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/layout/activity_parent.xml" value="0.26197916666666665" />
         <entry key="app/src/main/res/layout/activity_retrofit_tester.xml" value="0.2490740740740741" />
         <entry key="app/src/main/res/layout/cell_categories_picker.xml" value="0.27447916666666666" />
+        <entry key="app/src/main/res/layout/cell_order_summary.xml" value="0.25" />
         <entry key="app/src/main/res/layout/cell_product.xml" value="0.296195652173913" />
         <entry key="app/src/main/res/layout/cell_product_catalog.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/fragment_admin.xml" value="0.43802083333333336" />

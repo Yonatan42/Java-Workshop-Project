@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.ui.areafragments.ProfileDetailsFragment;
+import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
@@ -33,7 +33,7 @@ public class RegisterFragment extends BaseFragment {
 
         Button btnReg = view.findViewById(R.id.register_btn_register);
         Button btnBack = view.findViewById(R.id.register_btn_back);
-        ProfileDetailsFragment profileDetailsFrag = (ProfileDetailsFragment) getChildFragmentManager().findFragmentById(R.id.register_profile_details_fragment);
+        UserInfoFragment profileDetailsFrag = (UserInfoFragment) getChildFragmentManager().findFragmentById(R.id.register_profile_details_fragment);
 
         btnBack.setOnClickListener(v -> getParentActivity().onBackPressed());
 
@@ -46,7 +46,7 @@ public class RegisterFragment extends BaseFragment {
         });
     }
 
-    private void attemptRegister(ProfileDetailsFragment profileDetailsFrag) {
+    private void attemptRegister(UserInfoFragment profileDetailsFrag) {
         profileDetailsFrag.setIsEditable(false);
         RemoteServiceManager.getInstance().getUsersService().register(
                 profileDetailsFrag.getEmail(),

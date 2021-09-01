@@ -10,19 +10,16 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#BABABA"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/standard_spacing"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="#DEDEDE"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="9dp">
+        app:cardBackgroundColor="@color/standard_cell_card_bg_color"
+        app:cardCornerRadius="@dimen/standard_cell_card_corner_radius"
+        app:cardElevation="@dimen/standard_cell_card_elevation">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="10dp">
+            android:padding="@dimen/standard_spacing">
 
             <ImageView
                 android:id="@+id/products_cell_iv"
