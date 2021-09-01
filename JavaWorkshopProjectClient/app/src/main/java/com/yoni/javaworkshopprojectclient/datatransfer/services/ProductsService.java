@@ -88,4 +88,11 @@ public interface ProductsService extends BaseRemoveService {
 
      */
 
+    @POST(URL+"/categories")
+    @FormUrlEncoded
+    Call<ServerResponse<TokennedResult<ProductCategory>>> createCategory(
+            @Header("Authorization") String token,
+            @Field("title") String title
+    );
+
 }

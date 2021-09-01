@@ -1,19 +1,12 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.Header;
-import retrofit2.http.Path;
 
 public class ProductsServiceFacade extends BaseRemoteServiceFacade<ProductsService> {
 
@@ -58,6 +51,12 @@ public class ProductsServiceFacade extends BaseRemoteServiceFacade<ProductsServi
                             ResponseSuccessTokennedCallback<List<Product>> onSuccess,
                             ResponseErrorCallback<TokennedResult<List<Product>>> onError){
         enqueueTokenned(service.getProductsByIds(getToken(), productIds), onSuccess, onError);
+    }
+
+    public void createCategory(String title,
+                            ResponseSuccessTokennedCallback<ProductCategory> onSuccess,
+                            ResponseErrorCallback<TokennedResult<ProductCategory>> onError){
+        enqueueTokenned(service.createCategory(getToken(), title), onSuccess, onError);
     }
 
 
