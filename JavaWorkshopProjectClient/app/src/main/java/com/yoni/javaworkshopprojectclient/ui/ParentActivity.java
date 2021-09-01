@@ -120,7 +120,7 @@ public class ParentActivity extends AppCompatActivity {
         tabLayout.setTabRippleColorResource(android.R.color.darker_gray);
 
         setAdminModeTabs(DataSets.getInstance().getCurrentUser().isAdminModeActive());
-        setSelectedTab(TAB_ORDERS);
+        setSelectedTab(TAB_PRODUCTS);
     }
 
     public void makeFragmentTransition(BaseFragment frag){

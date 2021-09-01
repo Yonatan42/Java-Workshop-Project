@@ -33,6 +33,19 @@ public class OrderSummary {
     private Date transactionDate; // todo - add to view in db (creation date)
 
 
+    // todo - delete constructors once we are connected to server
+    public OrderSummary(){}
+    public OrderSummary(int orderId, int userId, String fullName, String email, String phone, String address, float totalPrice, Date transactionDate) {
+        this.orderId = orderId;
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.totalPrice = totalPrice;
+        this.transactionDate = transactionDate;
+    }
+
     public int getOrderId() {
         return orderId;
     }

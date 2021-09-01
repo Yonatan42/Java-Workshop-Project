@@ -14,101 +14,107 @@
         app:cardCornerRadius="@dimen/standard_cell_card_corner_radius"
         app:cardElevation="@dimen/standard_cell_card_elevation">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:padding="@dimen/standard_spacing">
 
-
-            <Button
-                android:id="@+id/order_summary_cell_btn_details"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                                android:text="@string/order_summary_btn_details"
-                app:layout_constraintBottom_toBottomOf="@+id/order_summary_cell_txt_address"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_summary_cell_txt_address" />
+                android:layout_width="match_parent">
+                <TextView
+                    android:id="@+id/order_summary_cell_txt_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/standard_text_size"
+                    android:layout_margin="@dimen/standard_separating_margin"
+                    tools:text="date" />
+                <TextView
+                    android:id="@+id/order_summary_cell_txt_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/standard_text_size"
+                    android:layout_margin="@dimen/standard_separating_margin"
+                    tools:text="price" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/order_summary_cell_txt_price"
-                android:layout_width="0dp"
+
+            <LinearLayout
+                android:id="@+id/order_summary_cell_expand_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/standard_text_size"
-                app:layout_constraintBottom_toBottomOf="@+id/order_summary_cell_txt_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/order_summary_cell_txt_date"
-                app:layout_constraintTop_toTopOf="@+id/order_summary_cell_txt_date"
-                tools:text="price" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/order_summary_cell_txt_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="@dimen/standard_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_summary_cell_txt_date"
-                tools:text="mail@mail.mail" />
-
-            <TextView
-                android:id="@+id/order_summary_cell_txt_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="@dimen/standard_text_size"
-                app:layout_constraintEnd_toStartOf="@+id/order_summary_cell_txt_phone"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_summary_cell_txt_email"
-                tools:text="fname lname" />
-
-            <TextView
-                android:id="@+id/order_summary_cell_txt_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="@dimen/standard_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/order_summary_cell_txt_name"
-                app:layout_constraintTop_toBottomOf="@+id/order_summary_cell_txt_email"
-                tools:text="0505050505" />
-
-            <TextView
-                android:id="@+id/order_summary_cell_txt_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="@dimen/standard_text_size"
-                app:layout_constraintEnd_toStartOf="@+id/order_summary_cell_btn_details"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/order_summary_cell_txt_name"
-                tools:text="the place" />
-
-            <TextView
-                android:id="@+id/order_summary_cell_txt_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/standard_text_size"
-                app:layout_constraintEnd_toStartOf="@+id/order_summary_cell_txt_price"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="date" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/order_summary_cell_grp_expand"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="order_summary_cell_btn_details,order_summary_cell_txt_address,order_summary_cell_txt_name,order_summary_cell_txt_email,order_summary_cell_txt_phone"
-                android:visibility="gone"
-                tools:visibility="visible"
-                />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:id="@+id/order_summary_cell_txt_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/standard_text_size"
+                        android:layout_margin="@dimen/standard_separating_margin"
+                        tools:text="mail@mail.mail" />
+                </LinearLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+                    <TextView
+                        android:id="@+id/order_summary_cell_txt_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/standard_text_size"
+                        android:layout_margin="@dimen/standard_separating_margin"
+                        tools:text="fname lname" />
+
+                    <TextView
+                        android:id="@+id/order_summary_cell_txt_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/standard_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/order_summary_cell_txt_name"
+                        app:layout_constraintTop_toBottomOf="@+id/order_summary_cell_txt_email"
+                        android:layout_margin="@dimen/standard_separating_margin"
+                        tools:text="0505050505" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent">
+
+                    <TextView
+                        android:id="@+id/order_summary_cell_txt_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/standard_text_size"
+                        android:layout_margin="@dimen/standard_separating_margin"
+                        tools:text="the place\nline 2\nline 3\nline 4" />
+
+                    <Button
+                        android:id="@+id/order_summary_cell_btn_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="@string/order_summary_btn_details" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

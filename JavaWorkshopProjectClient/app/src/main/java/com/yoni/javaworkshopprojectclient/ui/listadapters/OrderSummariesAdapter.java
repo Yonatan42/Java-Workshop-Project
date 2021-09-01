@@ -29,7 +29,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
         private final TextView txtAddress;
         private final TextView txtEmail;
         private final Button btnDetails;
-        private final Group grpExpand;
+        private final ViewGroup grpExpand;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -41,7 +41,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
             txtAddress = itemView.findViewById(R.id.order_summary_cell_txt_address);
             txtEmail = itemView.findViewById(R.id.order_summary_cell_txt_email);
             btnDetails = itemView.findViewById(R.id.order_summary_cell_btn_details);
-            grpExpand = itemView.findViewById(R.id.order_summary_cell_grp_expand);
+            grpExpand = itemView.findViewById(R.id.order_summary_cell_expand_layout);
         }
 
     }
