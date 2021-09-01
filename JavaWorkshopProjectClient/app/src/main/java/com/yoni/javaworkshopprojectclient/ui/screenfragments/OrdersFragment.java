@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.OrderSummariesAdapter;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
+import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -26,6 +29,15 @@ import java.util.Date;
 import java.util.List;
 
 public class OrdersFragment extends BaseFragment {
+
+    private RecyclerView rvOrders;
+    private TextView txtUserId;
+    private TextView txtNoResults;
+    private ViewGroup layoutAdmin;
+    private Button btnSearch;
+    private final List<ExpandableOrder> orders = new ArrayList<>();
+    private int currentPage = 0;
+    private boolean loadInProgress = false;
 
     @Nullable
     @Override
@@ -37,17 +49,27 @@ public class OrdersFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView rvOrders = view.findViewById(R.id.orders_rv);
-        ViewGroup layoutAdmin = view.findViewById(R.id.orders_admin_layout);
-        Button btnSearch = view.findViewById(R.id.orders_btn_search_user);
-        EditText txtUserId = view.findViewById(R.id.orders_txt_userid);
-        TextView txtNoResults = view.findViewById(R.id.orders_txt_no_results);
+        rvOrders = view.findViewById(R.id.orders_rv);
+        layoutAdmin = view.findViewById(R.id.orders_admin_layout);
+        btnSearch = view.findViewById(R.id.orders_btn_search_user);
+        txtUserId = view.findViewById(R.id.orders_txt_userid);
+        txtNoResults = view.findViewById(R.id.orders_txt_no_results);
 
-        OrderSummariesAdapter adapter = new OrderSummariesAdapter(getParentActivity(), fakeOrders());
+        OrderSummariesAdapter adapter = new OrderSummariesAdapter(getParentActivity(), orders);
         rvOrders.setAdapter(adapter);
         rvOrders.setLayoutManager(new LinearLayoutManager(getParentActivity()));
 
         UIUtils.setViewsVisible(DataSets.getInstance().getCurrentUser().isAdminModeActive(), layoutAdmin);
+
+        rvOrders.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!loadInProgress && !recyclerView.canScrollVertically(RecyclerView.SCROLL_AXIS_VERTICAL)) {
+                    loadOrders();
+                }
+            }
+        });
 
         btnSearch.setOnClickListener(v -> {
             int userId = UIUtils.tryGetIntValue(txtUserId, -1);
@@ -55,27 +77,55 @@ public class OrdersFragment extends BaseFragment {
                 Toast.makeText(getParentActivity(), getString(R.string.orders_invalid_search_user_id), Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            // todo - server call with user id parameter
+            currentPage = 0;
+            int oldCount = orders.size();
+            orders.clear();
+            adapter.notifyItemRangeRemoved(0, oldCount);
+            loadOrders();
+            txtUserId.setText("");
         });
 
-        // todo - add paging for the orders
+        initialOrdersLoad();
     }
 
-    // todo - delete this and get data from server
-    private List<ExpandableOrder> fakeOrders(){
-        List<ExpandableOrder> orders = new ArrayList<>();
-        for (int i = 1; i <= 20; i++ ) {
-            orders.add(new ExpandableOrder(new OrderSummary(
-                    i,
-                    1,
-                    "fname"+i+" "+"lname"+i,
-                    "email"+i+"@mail.mail",
-                    String.format("%d%d%d%d%d%d%d%d%d", i, i, i, i, i, i, i, i, i),
-                    "the place "+i+"\nsome more place no."+i,
-                    4.59f*i,
-                    new Date(new Date().getTime()+(i*1000*60*60*24)))));
-        }
-        return orders;
+    private void setLoadInProgress(boolean isInProgress){
+        loadInProgress = isInProgress;
+        btnSearch.setEnabled(!isInProgress);
     }
+
+    private void loadOrders(){
+        setLoadInProgress(true);
+        User currentUser = DataSets.getInstance().getCurrentUser();
+        int filterUserId = currentUser.isAdminModeActive() ? UIUtils.tryGetIntValue(txtUserId, 0) : currentUser.getId();
+        RemoteServiceManager.getInstance().getOrdersService().getPagedOrderSummaries(filterUserId, currentPage,
+                (call, response, result) -> {
+                    setLoadInProgress(false);
+                    currentPage++;
+                    int startIndex = orders.size();
+                    List<ExpandableOrder> mergedList = ListUtils.combineLists(orders, ExpandableOrder.fromOrderSummaries(result), (o1, o2) -> o1.getOrderSummary().getTransactionDate().compareTo(o2.getOrderSummary().getTransactionDate()));
+                    orders.clear();
+                    orders.addAll(mergedList);
+                    rvOrders.getAdapter().notifyItemRangeInserted(startIndex, orders.size() - startIndex);
+
+                    txtNoResults.setVisibility(orders.isEmpty() ? View.VISIBLE : View.GONE);
+
+
+                },
+                (call, responseError) -> {
+                    setLoadInProgress(false);
+                    // todo - change this - perhaps
+                    // todo - check the error code - we want to know if the user id doesn't exist
+                    ErrorPopup.createGenericOneOff(getContext()).show();
+                });
+    }
+
+    private void initialOrdersLoad() {
+        int oldCount = orders.size();
+        orders.clear();
+        currentPage = 0;
+        setLoadInProgress(false);
+        rvOrders.getAdapter().notifyItemRangeRemoved(0, oldCount);
+        loadOrders();
+    }
+
 }
