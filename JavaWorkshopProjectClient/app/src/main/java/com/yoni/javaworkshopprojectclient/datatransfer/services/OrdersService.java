@@ -3,6 +3,7 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
@@ -24,12 +25,20 @@ public interface OrdersService extends BaseRemoveService {
 
     String URL = "orders";
 
-    @GET(URL+"{userId}/page/{pageNum}")
+    @GET(URL+"{userId}/summaries/page/{pageNum}")
     Call<ServerResponse<TokennedResult<List<OrderSummary>>>> getPagedOrderSummaries(
             @Header("Authorization") String token,
             @Path("userId") int userId,
             @Path("pageNum") int pageNum
     );
+
+    @GET(URL+"/details/{productId}")
+    Call<ServerResponse<TokennedResult<OrderDetails>>> getOrderDetails(
+            @Header("Authorization") String token,
+            @Path("productId") int productId
+    );
+
+
 
 //    @POST(URL)
 //    @FormUrlEncoded

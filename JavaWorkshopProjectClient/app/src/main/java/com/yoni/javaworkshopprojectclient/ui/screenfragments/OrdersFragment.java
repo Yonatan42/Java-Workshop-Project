@@ -55,7 +55,7 @@ public class OrdersFragment extends BaseFragment {
         txtUserId = view.findViewById(R.id.orders_txt_userid);
         txtNoResults = view.findViewById(R.id.orders_txt_no_results);
 
-        OrderSummariesAdapter adapter = new OrderSummariesAdapter(getParentActivity(), orders);
+        OrderSummariesAdapter adapter = new OrderSummariesAdapter(orders);
         rvOrders.setAdapter(adapter);
         rvOrders.setLayoutManager(new LinearLayoutManager(getParentActivity()));
 

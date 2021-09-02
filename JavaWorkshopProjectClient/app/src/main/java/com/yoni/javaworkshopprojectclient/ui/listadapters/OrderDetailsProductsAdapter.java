@@ -1,5 +1,6 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,27 +38,27 @@ public class OrderDetailsProductsAdapter extends RecyclerView.Adapter<OrderDetai
 
 
     private List<OrderDetailsProduct> products;
-    private ParentActivity parentActivity;
 
 
-    public OrderDetailsProductsAdapter(ParentActivity parentActivity, List<OrderDetailsProduct> products){
-        this.parentActivity = parentActivity;
+    public OrderDetailsProductsAdapter(List<OrderDetailsProduct> products){
         this.products = products;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parentActivity).inflate(R.layout.cell_order_details_product, parent, false);
+        Context context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.cell_order_details_product, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         OrderDetailsProduct product = products.get(position);
         holder.txtQuantity.setText(Integer.toString(product.getQuantity()));
-        holder.txtPrice.setText(UIUtils.formatPrice(product.getPrice(), UIUtils.getDollarSign(parentActivity)));
+        holder.txtPrice.setText(UIUtils.formatPrice(product.getPrice(), UIUtils.getDollarSign(context)));
         holder.txtTitle.setText(product.getProductTitle());
     }
 

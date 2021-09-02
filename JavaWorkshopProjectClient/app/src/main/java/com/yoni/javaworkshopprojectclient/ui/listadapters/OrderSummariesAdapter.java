@@ -1,5 +1,6 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
+import com.yoni.javaworkshopprojectclient.ui.popups.OrderDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
@@ -22,6 +26,7 @@ import java.util.List;
 public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
+        private final TextView txtOrderNumber;
         private final TextView txtDate;
         private final TextView txtPrice;
         private final TextView txtName;
@@ -34,6 +39,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
         public ViewHolder(View itemView){
             super(itemView);
 
+            txtOrderNumber = itemView.findViewById(R.id.order_summary_cell_txt_order_number);
             txtDate = itemView.findViewById(R.id.order_summary_cell_txt_date);
             txtPrice = itemView.findViewById(R.id.order_summary_cell_txt_price);
             txtName = itemView.findViewById(R.id.order_summary_cell_txt_name);
@@ -48,37 +54,47 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
 
 
     private List<ExpandableOrder> orders;
-    private ParentActivity parentActivity;
 
 
-    public OrderSummariesAdapter(ParentActivity parentActivity, List<ExpandableOrder> orders){
-        this.parentActivity = parentActivity;
+    public OrderSummariesAdapter(List<ExpandableOrder> orders){
         this.orders = orders;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parentActivity).inflate(R.layout.cell_order_summary, parent, false);
+        Context context = parent.getContext();
+        View view = LayoutInflater.from(context).inflate(R.layout.cell_order_summary, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         ExpandableOrder order = orders.get(position);
         OrderSummary orderSummary = order.getOrderSummary();
+        holder.txtOrderNumber.setText(Integer.toString(orderSummary.getOrderId()));
         holder.txtDate.setText(UIUtils.formatDate(orderSummary.getTransactionDate()));
-        holder.txtPrice.setText(UIUtils.formatPrice(orderSummary.getTotalPrice(), UIUtils.getDollarSign(parentActivity)));
+        holder.txtPrice.setText(UIUtils.formatPrice(orderSummary.getTotalPrice(), UIUtils.getDollarSign(context)));
         holder.txtName.setText(orderSummary.getFullName());
         holder.txtPhone.setText(orderSummary.getPhone());
         holder.txtAddress .setText(orderSummary.getAddress());
         holder.txtEmail.setText(orderSummary.getEmail());
         UIUtils.setViewsVisible(order.isExpanded(), holder.grpExpand);
         holder.btnDetails.setOnClickListener(v -> {
-            // todo - open order details popup
-            // todo - remove this
-            Toast.makeText(parentActivity, "details....", Toast.LENGTH_SHORT).show();
+            ViewGroup parent = (ViewGroup)holder.itemView.getParent();
+            parent.setEnabled(false);
+            RemoteServiceManager.getInstance().getOrdersService().getOrderDetails(orderSummary.getOrderId(),
+                    (call, response, result) -> {
+                        parent.setEnabled(true);
+                        new OrderDetailsPopup(context, result).show();
+                    },
+                    (call, responseError) -> {
+                        parent.setEnabled(true);
+                        // todo - perhaps change this
+                        ErrorPopup.createGenericOneOff(context).show();
+                    });
         });
         holder.itemView.setOnClickListener(v -> {
             order.setExpanded(!order.isExpanded());

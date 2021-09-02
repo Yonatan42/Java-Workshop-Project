@@ -7,10 +7,11 @@
     android:gravity="center"
     android:padding="@dimen/standard_spacing">
 
+    <!--  // todo - this is not done - need other details and title for the order number -->
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories_picker_popup_rv"
+        android:id="@+id/order_details_popup_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

@@ -2,6 +2,7 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
@@ -11,6 +12,8 @@ import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> {
 
@@ -51,6 +54,12 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
         }
 
         onSuccess.onResponseSuccessTokenned(null, null, orders);
+    }
+
+    public void getOrderDetails(int productId,
+                                ResponseSuccessTokennedCallback<OrderDetails> onSuccess,
+                                ResponseErrorCallback<TokennedResult<OrderDetails>> onError){
+        enqueueTokenned(service.getOrderDetails(getToken(), productId), onSuccess, onError);
     }
 
 //    public void createOrder(
