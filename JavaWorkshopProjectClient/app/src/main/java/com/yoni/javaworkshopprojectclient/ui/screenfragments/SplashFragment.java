@@ -13,6 +13,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.LoginPopup;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
@@ -45,7 +46,7 @@ public class SplashFragment extends BaseFragment {
                 (call, response, result) -> {
             DataSets.getInstance().setCurrentUser(result.getUser());
             DataSets.getInstance().setCategories(result.getCategories());
-            getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
+            getParentActivity().setSelectedTab(ParentActivity.INITIAL_TAB);
         },
                 (call, responseError) -> {
             if (responseError.getCode() == ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE) {

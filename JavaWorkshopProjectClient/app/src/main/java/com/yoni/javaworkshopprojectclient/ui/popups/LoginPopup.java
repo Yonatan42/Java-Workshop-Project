@@ -36,7 +36,7 @@ public class LoginPopup extends AlertDialog {
                     (call, response, result) -> {
                         DataSets.getInstance().setCurrentUser(result.getUser());
                         DataSets.getInstance().setCategories(result.getCategories());
-                        parentActivity.makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false);
+                        parentActivity.setSelectedTab(ParentActivity.INITIAL_TAB);
                         dismiss();
                     },
                     (call, responseError) -> {
@@ -47,7 +47,7 @@ public class LoginPopup extends AlertDialog {
 
         btnReg.setOnClickListener(v -> {
             dismiss();
-            parentActivity.makeFragmentTransition(AppScreen.REGISTER.getFragment());
+            parentActivity.makeFragmentTransition(AppScreen.REGISTER.getFragment(), true);
         });
 
 

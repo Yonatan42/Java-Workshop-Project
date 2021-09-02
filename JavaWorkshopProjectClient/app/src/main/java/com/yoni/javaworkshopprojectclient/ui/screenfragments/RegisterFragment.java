@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
@@ -55,7 +56,7 @@ public class RegisterFragment extends BaseFragment {
                 profileDetailsFrag.getLastName(),
                 profileDetailsFrag.getPhone(),
                 profileDetailsFrag.getAddress(),
-                (call, response, result) -> getParentActivity().makeFragmentTransition(AppScreen.PRODUCTS.getFragment(), false),
+                (call, response, result) -> getParentActivity().setSelectedTab(ParentActivity.INITIAL_TAB),
                 (call, responseError) -> {
                     if (responseError.getCode() == ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE) {
                         new ErrorPopup(getContext(), getString(R.string.error_check_internet), () -> attemptRegister(profileDetailsFrag)).show();
@@ -65,5 +66,4 @@ public class RegisterFragment extends BaseFragment {
                 }
         );
     }
-
 }

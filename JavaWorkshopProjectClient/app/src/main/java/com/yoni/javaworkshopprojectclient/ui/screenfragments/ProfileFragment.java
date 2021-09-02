@@ -14,6 +14,8 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
+import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
+import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class ProfileFragment extends BaseFragment {
@@ -49,7 +51,8 @@ public class ProfileFragment extends BaseFragment {
 
         btnLogout.setOnClickListener(v -> {
             TokenStore.getInstance().clearToken();
-            getParentActivity().finish();
+            CartStore.getInstance().clear();
+            getParentActivity().makeFragmentTransition(AppScreen.SPLASH.getFragment());
         });
     }
 }

@@ -48,6 +48,7 @@ public class ParentActivity extends AppCompatActivity {
     @Retention(RetentionPolicy.SOURCE)
     public @interface TabIndex {}
 
+    @TabIndex public static final int INITIAL_TAB = TAB_PRODUCTS;
 
     private FragmentManager fragmentManager;
     private TabLayout tabLayout;
@@ -120,24 +121,24 @@ public class ParentActivity extends AppCompatActivity {
         tabLayout.setTabRippleColorResource(android.R.color.darker_gray);
 
         setAdminModeTabs(DataSets.getInstance().getCurrentUser().isAdminModeActive());
-        setSelectedTab(TAB_PRODUCTS);
     }
 
     public void makeFragmentTransition(BaseFragment frag){
-        makeFragmentTransition(frag, true);
+        makeFragmentTransition(frag, false);
     }
+
     public void makeFragmentTransition(BaseFragment frag, boolean addToBackStack){
         if(fragmentManager.getFragments().lastIndexOf(frag) == fragmentManager.getFragments().size()-1){
             return;
         }
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_frag_holder, frag);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         if(addToBackStack){
             transaction.addToBackStack(null);
         }
         transaction.commit();
     }
-
 
     public void addOnPermissionsResultListener(OnRequestPermissionResultListener listener){
         onPermissionResultEvent.addListener(listener);
