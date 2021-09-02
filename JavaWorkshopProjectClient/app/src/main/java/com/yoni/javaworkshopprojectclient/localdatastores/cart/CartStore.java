@@ -76,4 +76,9 @@ public class CartStore extends InitializedStore implements CartTransactable {
         throwIfUninitialized();
         db.delete(productId);
     }
+
+    public void clear(){
+        throwIfUninitialized();
+        db.clear();
+    }
 }

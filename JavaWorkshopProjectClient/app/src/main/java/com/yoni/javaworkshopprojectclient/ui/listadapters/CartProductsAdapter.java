@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.functionalintefaces.TriConsumer;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
@@ -19,8 +21,13 @@ import java.util.List;
 
 public class CartProductsAdapter extends BaseProductsAdapter<CartProductsAdapter.ViewHolder> {
 
-    public CartProductsAdapter(ParentActivity parentActivity, List<Product> products){
+    private final TriConsumer<Product, Float, Float> onProductQuantityChanged;
+    private final Consumer<Product> onProductRemoved;
+
+    public CartProductsAdapter(ParentActivity parentActivity, List<Product> products, TriConsumer<Product, Float, Float> onProductQuantityChanged, Consumer<Product> onProductRemoved){
         super(parentActivity, products);
+        this.onProductQuantityChanged = onProductQuantityChanged;
+        this.onProductRemoved = onProductRemoved;
     }
 
     public static class ViewHolder extends BaseProductsAdapter.ViewHolder{
@@ -51,6 +58,9 @@ public class CartProductsAdapter extends BaseProductsAdapter<CartProductsAdapter
         holder.btnRemove.setOnClickListener(v -> {
             CartStore.getInstance().delete(product.getProductId());
             notifyItemRemoved(position);
+            if(onProductRemoved != null){
+                onProductRemoved.accept(product);
+            }
         });
     }
 
@@ -61,5 +71,11 @@ public class CartProductsAdapter extends BaseProductsAdapter<CartProductsAdapter
 
     private AlertDialog getDetailsPopup(Product product){
         return new ProductDetailsPopup(parentActivity, product);
+    }
+
+    @Override
+    protected void handleAmountChange(Product product, float newAmount, float oldAmount) {
+        super.handleAmountChange(product, newAmount, oldAmount);
+        onProductQuantityChanged.accept(product, newAmount, oldAmount);
     }
 }

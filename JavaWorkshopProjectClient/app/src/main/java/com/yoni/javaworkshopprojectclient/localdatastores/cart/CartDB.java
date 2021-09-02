@@ -50,6 +50,7 @@ public class CartDB extends SQLiteOpenHelper implements CartTransactable {
         db.execSQL(sqlString);
     }
 
+    @Override
     public void insert(int productId, int quantity) {
         ContentValues values = new ContentValues();
         values.put(FIELD_PRODUCT_ID, productId);
@@ -58,6 +59,7 @@ public class CartDB extends SQLiteOpenHelper implements CartTransactable {
         db.insert(TABLE_NAME, null, values);
     }
 
+    @Override
     public List<CartProduct> getAll() {
         List<CartProduct> productList = new ArrayList<>();
         String sqlString = "SELECT * FROM " + TABLE_NAME;
@@ -91,6 +93,7 @@ public class CartDB extends SQLiteOpenHelper implements CartTransactable {
         return product;
     }
 
+    @Override
     public void update(int productId, int quantity) {
         ContentValues values = new ContentValues();
         values.put(FIELD_QUANTITY, quantity);
@@ -98,9 +101,16 @@ public class CartDB extends SQLiteOpenHelper implements CartTransactable {
         db.update(TABLE_NAME, values, whereClause, null);
     }
 
-
+    @Override
     public void delete(int productId) {
         String sqlString = "DELETE FROM " + TABLE_NAME + " WHERE " + FIELD_PRODUCT_ID + "=" + productId;
+        SQLiteStatement sqLiteStatement = db.compileStatement(sqlString);
+        sqLiteStatement.executeUpdateDelete();
+    }
+
+    @Override
+    public void clear(){
+        String sqlString = "DELETE FROM " + TABLE_NAME;
         SQLiteStatement sqLiteStatement = db.compileStatement(sqlString);
         sqLiteStatement.executeUpdateDelete();
     }

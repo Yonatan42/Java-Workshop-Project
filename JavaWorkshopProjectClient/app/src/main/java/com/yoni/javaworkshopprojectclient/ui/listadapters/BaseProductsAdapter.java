@@ -79,13 +79,13 @@ public abstract class BaseProductsAdapter<T extends BaseProductsAdapter.ViewHold
         stepperCart.setMaxValue(product.getStock());
         stepperCart.setValue(product.getCartQuantity());
         stepperCart.setOnValueChangedListener((v, newValue, oldValue) -> {
-            handleAmountChange(product, newValue);
+            handleAmountChange(product, newValue, oldValue);
         });
     }
 
     protected abstract void onItemClicked(Product product);
 
-    private void handleAmountChange(Product product, float newAmount){
+    protected void handleAmountChange(Product product, float newAmount, float oldAmount){
         int newQuantity = (int)newAmount;
         product.setCartQuantity(newQuantity);
         CartStore.getInstance().set(product.getProductId(), newQuantity);

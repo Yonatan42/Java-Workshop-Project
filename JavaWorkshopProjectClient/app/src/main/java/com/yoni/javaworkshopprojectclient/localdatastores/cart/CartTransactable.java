@@ -15,4 +15,5 @@ public interface CartTransactable {
     CartProduct get(int productId);
     void update(int productId, int quantity);
     void delete(int productId);
+    void clear();
 }
