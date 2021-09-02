@@ -3,6 +3,7 @@ package com.yoni.javaworkshopprojectclient.ui.listadapters;
 import android.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
@@ -32,7 +33,7 @@ public class CartProductsAdapter extends BaseProductsAdapter<CartProductsAdapter
 
     public static class ViewHolder extends BaseProductsAdapter.ViewHolder{
 
-        private Button btnRemove;
+        private ImageButton btnRemove;
 
         public ViewHolder(View itemView) {
             super(itemView);
