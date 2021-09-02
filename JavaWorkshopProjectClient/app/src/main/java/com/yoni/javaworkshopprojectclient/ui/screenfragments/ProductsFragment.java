@@ -18,7 +18,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.ui.listadapters.ProductsAdapter;
+import com.yoni.javaworkshopprojectclient.ui.listadapters.CatalogProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.FilterProductsPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
@@ -54,7 +54,7 @@ public class ProductsFragment extends BaseFragment {
         btnNew = view.findViewById(R.id.products_btn_new);
         FloatingActionButton fabFilter = view.findViewById(R.id.products_btn_filter);
 
-        ProductsAdapter adapter = new ProductsAdapter(getParentActivity(), products);
+        CatalogProductsAdapter adapter = new CatalogProductsAdapter(getParentActivity(), products);
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new GridLayoutManager(getContext(),2));
 

@@ -1,6 +1,5 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
-import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,22 +16,18 @@ import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
-import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
-import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
-import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
-import java.util.Locale;
 
-public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHolder> {
+public abstract class BaseProductsAdapter<T extends BaseProductsAdapter.ViewHolder> extends RecyclerView.Adapter<T> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private final TextView txtTitle;
-        private final TextView txtPrice;
-        private final ImageView ivImage;
-        private final Stepper stepperCart;
+        protected final TextView txtTitle;
+        protected final TextView txtPrice;
+        protected final ImageView ivImage;
+        protected final Stepper stepperCart;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -46,25 +41,28 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     }
 
 
-    private List<Product> products;
-    private ParentActivity parentActivity;
+    protected List<Product> products;
+    protected ParentActivity parentActivity;
 
 
-    public ProductsAdapter(ParentActivity parentActivity, List<Product> products){
+    public BaseProductsAdapter(ParentActivity parentActivity, List<Product> products){
         this.parentActivity = parentActivity;
         this.products = products;
     }
 
+    protected abstract int getItemLayoutRes();
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parentActivity).inflate(R.layout.cell_product_catalog, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+    public T onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parentActivity).inflate(getItemLayoutRes(), parent, false);
+        return createViewHolder(view);
     }
 
+    protected abstract T createViewHolder(View itemView);
+
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull T holder, int position) {
         Product product = products.get(position);
         loadCartQuantityIfNeeded(product); // lazy load quantities from cart
 
@@ -74,7 +72,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                                         R.drawable.ic_product_placeholder,
                                         holder.ivImage);
         holder.txtPrice.setText(UIUtils.formatPrice(product.getPrice(), UIUtils.getDollarSign(parentActivity)));
-        holder.itemView.setOnClickListener(v -> getDetailsPopup(product).show());
+        holder.itemView.setOnClickListener(v -> onItemClicked(product));
 
         Stepper stepperCart = holder.stepperCart;
         UIUtils.setViewsVisible(!DataSets.getInstance().getCurrentUser().isAdminModeActive(), stepperCart);
@@ -85,26 +83,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         });
     }
 
-    private AlertDialog getDetailsPopup(Product product){
-        if(DataSets.getInstance().getCurrentUser().isAdminModeActive()) {
-            return new ProductDetailsAdminPopup(parentActivity, product, changedProduct -> {
-                int changedIndex = ListUtils.getFirstIndexWhere(products, p -> p.getProductId() == changedProduct.getProductId());
-                if (changedIndex >= 0) {
-                    products.set(changedIndex, changedProduct);
-                    notifyItemChanged(changedIndex);
-                }
-            }, deletedProductId -> {
-                int deletedIndex = ListUtils.getFirstIndexWhere(products, p -> p.getProductId() == deletedProductId);
-                if (deletedIndex >= 0) {
-                    products.remove(deletedIndex);
-                    notifyItemRemoved(deletedIndex);
-                }
-            });
-        }
-        else{
-            return new ProductDetailsPopup(parentActivity, product);
-        }
-    }
+    protected abstract void onItemClicked(Product product);
 
     private void handleAmountChange(Product product, float newAmount){
         int newQuantity = (int)newAmount;

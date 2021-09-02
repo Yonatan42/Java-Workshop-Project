@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/cell_order_details_product.xml" value="0.27708333333333335" />
         <entry key="app/src/main/res/layout/cell_order_summary.xml" value="0.25" />
         <entry key="app/src/main/res/layout/cell_product.xml" value="0.296195652173913" />
+        <entry key="app/src/main/res/layout/cell_product_cart.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/layout/cell_product_catalog.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/fragment_admin.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.43802083333333336" />
