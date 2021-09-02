@@ -60,6 +60,7 @@ public class OrderDetailsProductsAdapter extends RecyclerView.Adapter<OrderDetai
         holder.txtQuantity.setText(Integer.toString(product.getQuantity()));
         holder.txtPrice.setText(UIUtils.formatPrice(product.getPrice(), UIUtils.getDollarSign(context)));
         holder.txtTitle.setText(product.getProductTitle());
+        holder.txtTitle.setSelected(true);
     }
 
 

@@ -7,8 +7,15 @@
     android:gravity="center"
     android:padding="@dimen/standard_spacing">
 
-    <!--  // todo - this is not done - need other details and title for the order number -->
-
+    <TextView
+        android:id="@+id/order_details_popup_txt_order_number"
+        android:backgroundTint="@color/standard_btn_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_separating_margin"
+        android:textSize="@dimen/title_text_size"
+        android:textColor="@color/text_color_dark"
+        tools:text="Order #42"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/order_details_popup_rv"
@@ -18,16 +25,17 @@
         />
 
     <TextView
-        android:id="@+id/order_details_popup_btn_back"
+        android:id="@+id/order_details_popup_txt_total"
         android:backgroundTint="@color/standard_btn_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_separating_margin"
+        android:textSize="@dimen/standard_text_size"
         tools:text="total: $399.45"/>
 
 
     <Button
-        android:id="@+id/categories_picker_popup_btn_back"
+        android:id="@+id/order_details_popup_btn_back"
         android:backgroundTint="@color/standard_btn_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

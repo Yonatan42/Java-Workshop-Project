@@ -32,10 +32,10 @@ public interface OrdersService extends BaseRemoveService {
             @Path("pageNum") int pageNum
     );
 
-    @GET(URL+"/details/{productId}")
+    @GET(URL+"/details/{orderId}")
     Call<ServerResponse<TokennedResult<OrderDetails>>> getOrderDetails(
             @Header("Authorization") String token,
-            @Path("productId") int productId
+            @Path("orderId") int productId
     );
 
 

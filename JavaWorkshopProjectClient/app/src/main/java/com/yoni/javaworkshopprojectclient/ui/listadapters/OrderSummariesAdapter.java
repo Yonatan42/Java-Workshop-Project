@@ -6,17 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.OrderDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
@@ -74,7 +71,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
         Context context = holder.itemView.getContext();
         ExpandableOrder order = orders.get(position);
         OrderSummary orderSummary = order.getOrderSummary();
-        holder.txtOrderNumber.setText(Integer.toString(orderSummary.getOrderId()));
+        holder.txtOrderNumber.setText(String.format("%s%d", context.getString(R.string.order_number_prefix), orderSummary.getOrderId()));
         holder.txtDate.setText(UIUtils.formatDate(orderSummary.getTransactionDate()));
         holder.txtPrice.setText(UIUtils.formatPrice(orderSummary.getTotalPrice(), UIUtils.getDollarSign(context)));
         holder.txtName.setText(orderSummary.getFullName());

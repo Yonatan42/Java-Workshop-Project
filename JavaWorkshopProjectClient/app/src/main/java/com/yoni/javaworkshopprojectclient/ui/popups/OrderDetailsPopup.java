@@ -5,14 +5,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
-import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.OrderDetailsProductsAdapter;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class OrderDetailsPopup extends AlertDialog {
 
@@ -21,6 +22,8 @@ public class OrderDetailsPopup extends AlertDialog {
 
         View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_order_details, null, false);
         Button btnBack = layout.findViewById(R.id.order_details_popup_btn_back);
+        TextView txtTotalPrice = layout.findViewById(R.id.order_details_popup_txt_total);
+        TextView txtOrderNum = layout.findViewById(R.id.order_details_popup_txt_order_number);
         RecyclerView rvProducts = layout.findViewById(R.id.order_details_popup_rv);
 
 
@@ -28,8 +31,8 @@ public class OrderDetailsPopup extends AlertDialog {
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new LinearLayoutManager(context));
 
-
-        // todo - this is not done - need the total price txt and any others
+        txtOrderNum.setText(String.format("%s%d", context.getString(R.string.order_number_prefix), order.getOrderId()));
+        txtTotalPrice.setText(String.format("%s %s", context.getString(R.string.orders_details_txt_total_prefix), UIUtils.formatPrice(order.getTotalPrice(), UIUtils.getDollarSign(context))));
 
         btnBack.setOnClickListener(v -> dismiss());
 

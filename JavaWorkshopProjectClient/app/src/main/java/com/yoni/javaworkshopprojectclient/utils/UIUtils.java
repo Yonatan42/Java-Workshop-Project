@@ -83,7 +83,7 @@ public class UIUtils {
     }
 
     public static String formatDate(Date date){
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         return formatter.format(date);
     }
 

@@ -3,6 +3,7 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetailsProduct;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
@@ -56,10 +57,30 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
         onSuccess.onResponseSuccessTokenned(null, null, orders);
     }
 
-    public void getOrderDetails(int productId,
+    public void getOrderDetails(int orderId,
                                 ResponseSuccessTokennedCallback<OrderDetails> onSuccess,
                                 ResponseErrorCallback<TokennedResult<OrderDetails>> onError){
-        enqueueTokenned(service.getOrderDetails(getToken(), productId), onSuccess, onError);
+        /* // todo - uncomment once we are connected to the server
+        enqueueTokenned(service.getOrderDetails(getToken(), orderId), onSuccess, onError);
+         */
+        // todo - remove this once we are connected to server
+        OrderDetails order = new OrderDetails();
+        order.setOrderId(orderId);
+        order.setUserId(1);
+        List<OrderDetailsProduct> products = new ArrayList<>();
+        float total = 0;
+        for(int i=1; i<=10; i++){
+            OrderDetailsProduct product = new OrderDetailsProduct();
+            product.setProductId(i);
+            product.setPrice(i);
+            product.setQuantity(i);
+            total += i*i;
+            product.setProductTitle("product "+i);
+            products.add(product);
+        }
+        order.setProducts(products);
+        order.setTotalPrice(total);
+        onSuccess.onResponseSuccessTokenned(null, null, order);
     }
 
 //    public void createOrder(
