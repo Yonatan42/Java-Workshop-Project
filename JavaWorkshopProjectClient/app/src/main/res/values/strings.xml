@@ -9,7 +9,7 @@
     <string name="btn_generic_ok">ok</string>
     <string name="error_btn_retry">retry</string>
     <string name="filter_products_popup_txt_text">filter text</string>
-    <string name="filter_products_btn_cancel">cancel</string>
+    <string name="btn_generic_cancel">cancel</string>
     <string name="filter_products_btn_filter">filter</string>
     <string name="filter_products_btn_clear">clear</string>
     <string name="btn_generic_back">back</string>
@@ -45,4 +45,7 @@
     <string name="order_number_prefix">Order #</string>
     <string name="cart_btn_clear">clear</string>
     <string name="cart_btn_checkout">checkout</string>
+    <string name="checkout_txt_credit_card_hint">credit card number…</string>
+    <string name="checkout_txt_expiration_hint">expiration…</string>
+    <string name="checkout_txt_cvv_hint">CVV…</string>
 </resources>

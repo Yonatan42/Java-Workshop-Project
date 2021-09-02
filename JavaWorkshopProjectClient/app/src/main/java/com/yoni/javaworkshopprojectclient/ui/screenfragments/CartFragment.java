@@ -19,6 +19,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Produ
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CartProductsAdapter;
+import com.yoni.javaworkshopprojectclient.ui.popups.CheckoutPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
@@ -64,8 +65,7 @@ public class CartFragment extends BaseFragment {
         });
 
         btnCheckout.setOnClickListener(v -> {
-            // todo - remove this an open checkout popup
-            Toast.makeText(getParentActivity(), "checkout...", Toast.LENGTH_SHORT).show();
+            new CheckoutPopup(this).show();
         });
 
         setTotalText();

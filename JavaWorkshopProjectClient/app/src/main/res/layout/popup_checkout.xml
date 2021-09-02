@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <fragment
+        android:id="@+id/checkout_popup_user_details_fragment"
+        android:name="com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment"
+        class="com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment"
+        layout="@layout/layout_user_details"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/standard_separating_margin"
+        custom:showPasswords="false"
+        custom:isEditable="true"/>
+
+
+    <GridLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:rowCount="4"
+        android:columnCount="2">
+
+        <EditText
+            android:id="@+id/checkout_popup_txt_card"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:textSize="@dimen/standard_text_size"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:layout_columnWeight="1"
+            android:hint="@string/checkout_txt_credit_card_hint"
+            android:layout_margin="@dimen/standard_separating_margin"/>
+
+        <EditText
+            android:id="@+id/checkout_popup_txt_expiration"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:textSize="@dimen/standard_text_size"
+            android:layout_gravity="fill"
+            android:layout_columnWeight="1"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"            android:hint="@string/checkout_txt_expiration_hint"
+            android:layout_margin="@dimen/standard_separating_margin"/>
+
+        <EditText
+            android:id="@+id/checkout_popup_txt_cvv"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:textSize="@dimen/standard_text_size"
+            android:layout_gravity="fill"
+            android:layout_columnWeight="1"
+            android:hint="@string/checkout_txt_cvv_hint"
+            android:layout_margin="@dimen/standard_separating_margin"/>
+
+        <Button
+            android:id="@+id/checkout_popup_btn_cancel"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:layout_columnWeight="1"
+            android:text="@string/btn_generic_cancel"
+            android:layout_margin="@dimen/standard_separating_margin"/>
+
+        <Button
+            android:id="@+id/checkout_popup_btn_ok"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:layout_columnWeight="1"
+            android:text="@string/btn_generic_ok"
+            android:layout_margin="@dimen/standard_separating_margin"/>
+    </GridLayout>
+
+</LinearLayout>

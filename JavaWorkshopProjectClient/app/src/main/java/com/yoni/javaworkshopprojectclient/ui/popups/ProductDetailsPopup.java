@@ -23,7 +23,7 @@ public class ProductDetailsPopup extends AlertDialog {
     protected View layout;
     protected ImageView ivImage;
     protected EditText txtTitle;
-    protected TextView txtCategories;
+    protected EditText txtCategories;
     protected EditText txtPrice;
     protected EditText txtDesc;
     protected Button btnBack;

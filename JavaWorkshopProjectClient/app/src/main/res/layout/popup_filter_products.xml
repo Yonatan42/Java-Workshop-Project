@@ -39,7 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/filter_products_btn_cancel"
+                android:text="@string/btn_generic_cancel"
                 android:layout_margin="@dimen/standard_separating_margin"/>
 
             <Button

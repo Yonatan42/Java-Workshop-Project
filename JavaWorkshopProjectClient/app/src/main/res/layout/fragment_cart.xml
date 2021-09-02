@@ -29,6 +29,7 @@
 
         <Button
             android:id="@+id/cart_btn_clear"
+            android:backgroundTint="@color/standard_btn_bg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -38,6 +39,7 @@
 
         <Button
             android:id="@+id/cart_btn_checkout"
+            android:backgroundTint="@color/standard_btn_bg"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

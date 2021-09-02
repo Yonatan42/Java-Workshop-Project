@@ -66,7 +66,6 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         stepperStock = layout.findViewById(R.id.products_details_popup_stepper_stock);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void setUp(ParentActivity parentActivity, Product product){
 
         txtTitle.setHint(R.string.products_details_popup_txt_title_hint);
@@ -80,15 +79,11 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         selectedCategories = product != null && product.getCategories() != null
                 ? new ArrayList<>(product.getCategories())
                 : new ArrayList<>();
-        txtCategories.setOnTouchListener((v, event) -> {
-            if(event.getAction() == MotionEvent.ACTION_UP) {
-                new CategoriesPicker(parentActivity, selectedCategories, newSelectedCategories -> {
-                    txtCategories.setText(getCategoriesText(newSelectedCategories));
-                    selectedCategories = newSelectedCategories;
-                }).show();
-            }
-            return true; // don't propagate
-        });
+
+        txtCategories.setOnClickListener(v -> new CategoriesPicker(parentActivity, selectedCategories, newSelectedCategories -> {
+            txtCategories.setText(getCategoriesText(newSelectedCategories));
+            selectedCategories = newSelectedCategories;
+        }).show());
 
         newBase64Image = product != null ? product.getImageData() : null;
         btnEditImage.setOnClickListener(v -> new GetImagePopup(parentActivity, base64Image -> {
