@@ -6,6 +6,7 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.30625" />
         <entry key="../../../Library/Android/sdk/platforms/android-29/data/res/layout/simple_spinner_dropdown_item.xml" value="0.43802083333333336" />
         <entry key="../../../Library/Android/sdk/platforms/android-29/data/res/layout/simple_spinner_item.xml" value="0.43802083333333336" />
+        <entry key="app/src/main/res/drawable/disabled_form_text_color.xml" value="0.33240740740740743" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/activity_parent.xml" value="0.26197916666666665" />
         <entry key="app/src/main/res/layout/activity_retrofit_tester.xml" value="0.2490740740740741" />

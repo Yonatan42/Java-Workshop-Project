@@ -1,16 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/profile_user_details_fragment"
+        android:name="com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment"
+        class="com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment"
+        layout="@layout/layout_user_details"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/standard_separating_margin"
+        custom:showPasswords="false"
+        custom:isEditable="false"/>
+
+    <Button
+        android:id="@+id/profile_btn_edit"
+        android:backgroundTint="@color/standard_btn_bg"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="temp - profile"
-        android:textSize="40sp"/>
+        android:layout_margin="@dimen/standard_separating_margin"
+        android:text="@string/profile_btn_edit"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/profile_btn_save"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/standard_separating_margin"
+            android:text="@string/profile_btn_save"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/profile_btn_cancel"
+            android:backgroundTint="@color/standard_btn_bg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/standard_separating_margin"
+            android:text="@string/btn_generic_cancel"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </LinearLayout>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/profile_switch_admin_mode"

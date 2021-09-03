@@ -15,10 +15,13 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
+import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class ProfileFragment extends BaseFragment {
+
+    private UserInfoFragment userInfoFragment;
 
     @Nullable
     @Override
@@ -33,6 +36,11 @@ public class ProfileFragment extends BaseFragment {
 
         SwitchCompat switchAdminMode = view.findViewById(R.id.profile_switch_admin_mode);
         Button btnLogout = view.findViewById(R.id.profile_btn_logout);
+        Button btnEdit = view.findViewById(R.id.profile_btn_edit);
+        Button btnSave = view.findViewById(R.id.profile_btn_save);
+        Button btnCancel = view.findViewById(R.id.profile_btn_cancel);
+        userInfoFragment = (UserInfoFragment) getChildFragmentManager().findFragmentById(R.id.profile_user_details_fragment);
+
 
         User currentUser = DataSets.getInstance().getCurrentUser();
         UIUtils.setViewsVisible(currentUser.isAdmin(), switchAdminMode);
@@ -54,5 +62,38 @@ public class ProfileFragment extends BaseFragment {
             CartStore.getInstance().clear();
             getParentActivity().makeFragmentTransition(AppScreen.SPLASH.getFragment());
         });
+
+        btnEdit.setOnClickListener(v -> {
+            userInfoFragment.setIsEditable(true);
+            userInfoFragment.setShowPasswords(true);
+            UIUtils.setViewsVisible(false, btnEdit);
+            UIUtils.setViewsVisible(true, btnSave, btnCancel);
+        });
+
+        btnCancel.setOnClickListener(v -> {
+            setUserInfoDataToUser();
+            userInfoFragment.setIsEditable(false);
+            userInfoFragment.setShowPasswords(false);
+            UIUtils.setViewsVisible(true, btnEdit);
+            UIUtils.setViewsVisible(false, btnSave, btnCancel);
+        });
+
+        btnSave.setOnClickListener(v -> {
+            // todo - server call, on success, set to new user and close the form (make not editable)
+        });
+
+        setUserInfoDataToUser();
+    }
+
+
+    private void setUserInfoDataToUser(){
+        User currentUser = DataSets.getInstance().getCurrentUser();
+        userInfoFragment.setFirstName(currentUser.getFirstName());
+        userInfoFragment.setLastName(currentUser.getLastName());
+        userInfoFragment.setEmail(currentUser.getEmail());
+        userInfoFragment.setPhone(currentUser.getPhone());
+        userInfoFragment.setAddress(currentUser.getAddress());
+        userInfoFragment.setPassword("");
+        userInfoFragment.setPassword2("");
     }
 }
