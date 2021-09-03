@@ -83,7 +83,15 @@ public class UIUtils {
     }
 
     public static String formatDate(Date date){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        return formatDate(date, "dd/MM/yyyy HH:mm");
+    }
+
+    public static String formatDateCardExpiration(Date date){
+        return formatDate(date, "MM/yy");
+    }
+
+    private static String formatDate(Date date, String format){
+        SimpleDateFormat formatter = new SimpleDateFormat(format, Locale.getDefault());
         return formatter.format(date);
     }
 

@@ -6,4 +6,12 @@
         <item name="windowMinWidthMinor">0%</item>
     </style>
 
+    <style name="CardExpirationDatePickerSpinnerStyle" parent="android:Theme.Material.Dialog">
+        <item name="android:datePickerStyle">@style/CardExpirationDatePickerSpinner</item>
+    </style>
+
+    <style name="CardExpirationDatePickerSpinner" parent="android:Widget.Material.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+
 </resources>

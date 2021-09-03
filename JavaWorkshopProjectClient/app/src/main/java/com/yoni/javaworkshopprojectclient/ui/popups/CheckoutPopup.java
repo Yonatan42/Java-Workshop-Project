@@ -1,36 +1,84 @@
 package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.app.AlertDialog;
-import android.content.Context;
+import android.app.DatePickerDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
-import com.yoni.javaworkshopprojectclient.ui.listadapters.OrderDetailsProductsAdapter;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class CheckoutPopup extends AlertDialog {
+
+
+    private Calendar expirationCalendar;
+    private Button btnCancel;
+    private Button btnOk;
+    private EditText txtCreditCard;
+    private EditText txtCVV;
+    private EditText txtExpiration;
+    private UserInfoFragment userInfoFragment;
 
     public CheckoutPopup(Fragment fragment) {
         super(fragment.getContext());
 
         View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_checkout, null, false);
-        Button btnCancel = layout.findViewById(R.id.checkout_popup_btn_cancel);
-        Button btnOk = layout.findViewById(R.id.checkout_popup_btn_ok);
-        EditText txtCreditCard = layout.findViewById(R.id.checkout_popup_txt_card);
-        EditText txtCVV = layout.findViewById(R.id.checkout_popup_txt_cvv);
-        EditText txtExpiration = layout.findViewById(R.id.checkout_popup_txt_expiration);
-        UserInfoFragment userInfoFragment =  (UserInfoFragment) fragment.getChildFragmentManager().findFragmentById(R.id.checkout_popup_user_details_fragment);
+        btnCancel = layout.findViewById(R.id.checkout_popup_btn_cancel);
+        btnOk = layout.findViewById(R.id.checkout_popup_btn_ok);
+        txtCreditCard = layout.findViewById(R.id.checkout_popup_txt_card);
+        txtCVV = layout.findViewById(R.id.checkout_popup_txt_cvv);
+        txtExpiration = layout.findViewById(R.id.checkout_popup_txt_expiration);
+        userInfoFragment =  (UserInfoFragment) fragment.getParentFragmentManager().findFragmentById(R.id.checkout_popup_user_details_fragment);
+
+
+
+        setUpUserInfo();
+        setUpExpiration();
+        btnCancel.setOnClickListener(v -> dismiss());
+        btnOk.setOnClickListener(v -> makeOrder());
+
+
         setView(layout);
+    }
+
+    private void makeOrder() {
+
+    }
+
+    private void setUpUserInfo(){
+        User currentUser = DataSets.getInstance().getCurrentUser();
+        userInfoFragment.setFirstName(currentUser.getFirstName());
+        userInfoFragment.setLastName(currentUser.getLastName());
+        userInfoFragment.setEmail(currentUser.getEmail());
+        userInfoFragment.setPhone(currentUser.getPhone());
+        userInfoFragment.setAddress(currentUser.getAddress());
+    }
+
+    private void setUpExpiration() {
+        expirationCalendar = Calendar.getInstance();
+
+        txtExpiration.setOnClickListener(v -> {
+            AdjustableSpinnerDatePickerDialog datePickerDialog = new AdjustableSpinnerDatePickerDialog(getContext(),
+                    (view, year, monthOfYear, dayOfMonth) -> {
+                        expirationCalendar.set(Calendar.YEAR, year);
+                        expirationCalendar.set(Calendar.MONTH, monthOfYear);
+                        txtExpiration.setText(UIUtils.formatDateCardExpiration(expirationCalendar.getTime()));
+                    },
+                    expirationCalendar.get(Calendar.YEAR), expirationCalendar.get(Calendar.MONTH), expirationCalendar.get(Calendar.DAY_OF_MONTH));
+            datePickerDialog.setDayVisible(false);
+            datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
+            datePickerDialog.show();
+        });
     }
 }

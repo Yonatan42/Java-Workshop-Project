@@ -33,6 +33,7 @@
             android:layout_columnSpan="2"
             android:layout_gravity="fill"
             android:layout_columnWeight="1"
+            android:inputType="number"
             android:hint="@string/checkout_txt_credit_card_hint"
             android:layout_margin="@dimen/standard_separating_margin"/>
 
@@ -54,6 +55,7 @@
             android:textSize="@dimen/standard_text_size"
             android:layout_gravity="fill"
             android:layout_columnWeight="1"
+            android:inputType="number"
             android:hint="@string/checkout_txt_cvv_hint"
             android:layout_margin="@dimen/standard_separating_margin"/>
 
