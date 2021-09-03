@@ -24,11 +24,6 @@ public interface ProductsService extends BaseRemoveService {
 
     String URL = "products";
 
-//    @GET(URL)
-//    Call<ServerResponse<TokennedResult<List<Product>>>> getAllProducts(
-//            @Header("Authorization") String token
-//    );
-
     @GET(URL+"/page/{pageNum}")
     Call<ServerResponse<TokennedResult<List<Product>>>> getPagedProducts(
             @Header("Authorization") String token,
@@ -67,7 +62,7 @@ public interface ProductsService extends BaseRemoveService {
             @Field("isEnabled") boolean isEnabled
     );
 
-
+    // todo - implement in server/db
     // example of sql syntax for get all entities that are in a group of ids:
     // ->  SELECT * FROM java_workshop_db.products WHERE id IN (1,2,3,4);
     // for the cart page
@@ -77,16 +72,6 @@ public interface ProductsService extends BaseRemoveService {
             @Header("Authorization") String token,
             @Query("productIds") List<Integer> productIds
     );
-
-    /*
-
-    @GET(URL)
-    Call<ServerResponse<TokennedResult<List<Product>>>> getProductsByIds(
-            @Header("Authorization") String token,
-            @Query(encoded=true, value="productIds") String encodedProductIdsString
-    );
-
-     */
 
     @POST(URL+"/categories")
     @FormUrlEncoded

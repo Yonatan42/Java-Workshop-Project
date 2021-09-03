@@ -32,8 +32,9 @@ public class RemoteServiceManager {
     private RemoteServiceManager() {}
 
 
-//    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/";
-    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/testing/";
+    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/";
+//    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/testing/";
+// todo - remove test url when testing is done
 
     public final Gson gson = new Gson();
     private UsersServiceFacade usersServiceFacade;
