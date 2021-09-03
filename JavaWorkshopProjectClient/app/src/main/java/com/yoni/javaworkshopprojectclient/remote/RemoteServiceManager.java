@@ -41,12 +41,6 @@ public class RemoteServiceManager {
     private OrdersServiceFacade ordersServiceFacade;
 
 
-
-    // todo - to remove
-//    public ProductsRemoteService getProductsAPIService() {
-//        return RetrofitClient.getClient(BASE_URL).create(ProductsRemoteService.class);
-//    }
-
     public UsersServiceFacade getUsersService() {
         if(usersServiceFacade == null){
             synchronized (this){
@@ -83,14 +77,5 @@ public class RemoteServiceManager {
     public Gson getGson(){
         return gson;
     }
-
-    public static RequestBody makeTextPart(String text) {
-        return RequestBody.create(MediaType.parse("text/plain"), text);
-    }
-
-    public static MultipartBody.Part makeFilePart(File file, String field, String mime) {
-        return MultipartBody.Part.createFormData(field, file.getName()+"."+mime.substring(mime.indexOf('/')+1), RequestBody.create(MediaType.parse(mime), file));
-    }
-
 
 }

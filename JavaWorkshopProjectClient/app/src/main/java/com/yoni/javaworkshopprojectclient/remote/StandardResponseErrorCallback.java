@@ -45,5 +45,7 @@ public class StandardResponseErrorCallback<T> implements ResponseErrorCallback<T
     }
 
     public void onPreErrorResponse(){}
-    public void onUnhandledResponseError(@NonNull Call<ServerResponse<T>> call, ServerResponse.ServerResponseError responseError){}
+    public void onUnhandledResponseError(@NonNull Call<ServerResponse<T>> call, ServerResponse.ServerResponseError responseError){
+        ErrorPopup.createGenericOneOff(parentActivity).show();
+    }
 }
