@@ -38,6 +38,7 @@
         <entry key="app/src/main/res/layout/popup_order_details.xml" value="0.27708333333333335" />
         <entry key="app/src/main/res/layout/popup_payment_info.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/layout/popup_product_details.xml" value="0.2314633189486073" />
+        <entry key="app/src/main/res/xml/network_security_config.xml" value="0.43802083333333336" />
       </map>
     </option>
   </component>
