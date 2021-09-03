@@ -41,7 +41,6 @@ public class CartProductsAdapter extends BaseProductsAdapter<CartProductsAdapter
         }
     }
 
-    // todo - current the layout is the same as the catalog, needs to be changed
     @Override
     protected int getItemLayoutRes() {
         return R.layout.cell_product_cart;

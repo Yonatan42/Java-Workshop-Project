@@ -110,16 +110,9 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         });
 
         btnSave.setOnClickListener(v -> {
-            // todo - remove comments after testing
-            //List<Integer> selectedCategoryIds = ListUtils.map(selectedCategories, ProductCategory::getId);
             String title = UIUtils.getTrimmedText(txtTitle);
             String desc = UIUtils.getTrimmedText(txtDesc);
             float price = UIUtils.tryGetFloatValue(txtPrice, -1); // todo verify that the value is > 0
-            // we have selected categories
-            // we have the base64 string in newBase64Image
-            // we have the stock string in newStock
-            // that should be everything we need for a product
-
 
             Consumer<Product> callback;
             Product insertUpdateProduct;

@@ -61,36 +61,6 @@ public class FilterProductsPopup extends AlertDialog {
                 onFilterChanged.accept(newFilter);
             }
             dismiss();
-
-//            int categoryId = 0;
-//            if(category != null){
-//                categoryId = category.getId();
-//            }
-//
-//
-//            RemoteService.getInstance().getProductsService().getFilteredProducts(
-//                    TokenStore.getInstance().getToken(),
-//                    categoryId,
-//                    text
-//                    ).enqueue(new TokennedServerCallback<List<Product>>() {
-//                @Override
-//                public void onResponseSuccessTokenned(Call<ServerResponse<TokennedResult<List<Product>>>> call, Response<ServerResponse<TokennedResult<List<Product>>>> response, List<Product> result) {
-//                    onFilter.accept(result, existingFilter);
-//                    dismiss();
-//                }
-//
-//                @Override
-//                public void onResponseError(Call<ServerResponse<TokennedResult<List<Product>>>> call, ServerResponse.ServerResponseError responseError) {
-//                    // todo - change this
-//                    new ErrorPopup(parentActivity, "some death").show();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ServerResponse<TokennedResult<List<Product>>>> call, Throwable t) {
-//                    // todo - change this
-//                    new ErrorPopup(parentActivity, "some more death").show();
-//                }
-//            });
         });
 
         btnClear.setOnClickListener(v -> {

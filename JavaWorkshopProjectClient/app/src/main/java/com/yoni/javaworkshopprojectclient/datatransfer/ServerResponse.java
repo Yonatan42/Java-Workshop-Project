@@ -37,9 +37,10 @@ public class ServerResponse<T> {
     }
 
     public static class ServerResponseError {
+        // todo - create an error code class/enum
         public static final int UNKNOWN_ERROR_CODE = 0;
         public static final int PAGE_NOT_FOUND_CODE = 100;
-        public static final int INVALID_TOKEN_CODE = 1; // todo - get the correct number from the server code
+        public static final int INVALID_TOKEN_CODE = 502;
 
         @SerializedName("message")
         @Expose
