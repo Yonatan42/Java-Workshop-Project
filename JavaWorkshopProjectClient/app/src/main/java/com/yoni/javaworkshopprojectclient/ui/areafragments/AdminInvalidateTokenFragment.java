@@ -13,6 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
+import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class AdminInvalidateTokenFragment extends Fragment {
 
@@ -28,5 +32,26 @@ public class AdminInvalidateTokenFragment extends Fragment {
 
         Button btnInvalidate = view.findViewById(R.id.admin_invalidate_token_btn_invalidate);
         EditText txtUserId = view.findViewById(R.id.admin_invalidate_token_txt_userid);
+
+        btnInvalidate.setOnClickListener(v -> {
+            int userId = UIUtils.tryGetIntValue(txtUserId, -1);
+            if(userId < 0){
+                return;
+            }
+            btnInvalidate.setEnabled(false);
+            RemoteServiceManager.getInstance().getUsersService().invalidateToken(
+                    userId,
+                    (call, response, result) -> {
+                        btnInvalidate.setEnabled(true);
+                        txtUserId.setText("");
+                        SimpleMessagePopup.createGenericTimed(getContext(), "Token Invalidated", 1000).show();
+                    },
+                    (call, responseError) -> {
+                        btnInvalidate.setEnabled(true);
+                        // todo - maybe something with the error
+                        ErrorPopup.createGenericOneOff(getContext()).show();
+                    }
+            );
+        });
     }
 }

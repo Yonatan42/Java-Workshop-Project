@@ -93,7 +93,7 @@ public class ProfileFragment extends BaseFragment {
                     boolean adminMode = currentUser.isAdminModeActive();
                     currentUser.replace(result);
                     currentUser.setAdminModeActive(currentUser.isAdmin() && adminMode);
-                    new SimpleMessagePopup(getParentActivity(), getString(R.string.profile_update_complete), null, 1000).show();
+                    SimpleMessagePopup.createGenericTimed(getParentActivity(), getString(R.string.profile_update_complete), 1000).show();
                     btnCancel.callOnClick();
                 },
                 (call, responseError) -> {

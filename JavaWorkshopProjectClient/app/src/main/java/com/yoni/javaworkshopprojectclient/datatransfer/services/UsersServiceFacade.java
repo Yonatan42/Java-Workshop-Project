@@ -53,6 +53,7 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
         enqueueTokenned(service.register(email, pass, firstName, lastName, phone, address, isAdmin), onSuccess, onError);
     }
 
+    // todo - on server, since password is potentially changed, we need to create a new token
     public void updateInfo(int userId,
                            String email,
                            String pass,
@@ -73,5 +74,13 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
         currentUser.setPhone(phone);
         currentUser.setAddress(address);
         onSuccess.onResponseSuccessTokenned(null, null, currentUser);
+    }
+
+    public void invalidateToken(int userId, ResponseSuccessTokennedCallback<Void> onSuccess, ResponseErrorCallback<TokennedResult<Void>> onError){
+        /* // todo - uncomment this once we are connected to the server
+        enqueueTokenned(service.invalidateToken(getToken(), userId), onSuccess, onError);
+        */
+        // todo - remove this once we're connected to the server
+        onSuccess.onResponseSuccessTokenned(null, null ,null);
     }
 }

@@ -94,9 +94,12 @@ public class OrdersFragment extends BaseFragment {
     }
 
     private void loadOrders(){
-        setLoadInProgress(true);
         User currentUser = DataSets.getInstance().getCurrentUser();
-        int filterUserId = currentUser.isAdminModeActive() ? UIUtils.tryGetIntValue(txtUserId, 0) : currentUser.getId();
+        int filterUserId = currentUser.isAdminModeActive() ? UIUtils.tryGetIntValue(txtUserId, -1) : currentUser.getId();
+        if(filterUserId < 0){
+            return;
+        }
+        setLoadInProgress(true);
         RemoteServiceManager.getInstance().getOrdersService().getPagedOrderSummaries(filterUserId, currentPage,
                 (call, response, result) -> {
                     setLoadInProgress(false);

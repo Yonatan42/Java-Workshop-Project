@@ -20,4 +20,6 @@ public abstract class TokennedServerCallback<T> extends ServerCallback<TokennedR
         TokenStore.getInstance().storeToken(token);
         onResponseSuccessTokenned(call, response, result.getData());
     }
+
+    // todo - add something that checks if we get an error of invalid_token and transition to splash to allow logging in
 }
