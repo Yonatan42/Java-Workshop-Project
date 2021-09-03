@@ -89,7 +89,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
     }
 
 
-    @PATCH
+    @PUT
     @Path("{productId}/enabled")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)

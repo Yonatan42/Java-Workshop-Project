@@ -52,7 +52,7 @@ public interface UsersService extends BaseRemoveService {
                                                            @Field("address") String address
     );
 
-    @PATCH(URL+"/{userId}/invalidate")
+    @PUT(URL+"/{userId}/invalidate")
     Call<ServerResponse<TokennedResult<Void>>> invalidateToken(@Header("Authorization") String token,
                                                                @Path("userId") int userId);
     @POST(URL+"/remote-register")

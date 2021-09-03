@@ -54,7 +54,7 @@ public interface ProductsService extends BaseRemoveService {
     );
 
 
-    @PATCH(URL+"/{productId}/enabled")
+    @PUT(URL+"/{productId}/enabled")
     @FormUrlEncoded
     Call<ServerResponse<TokennedResult<Integer>>> setProductEnabled(
             @Header("Authorization") String token,

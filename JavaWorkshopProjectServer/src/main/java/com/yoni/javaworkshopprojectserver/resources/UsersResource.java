@@ -237,7 +237,7 @@ public class UsersResource extends AbstractRestResource<User> {
     
 
     
-    @PATCH
+    @PUT
     @Path("{userId}/invalidate")
     @Produces(MediaType.APPLICATION_JSON)
     public Response invalidateToken(
