@@ -9,6 +9,7 @@ import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.ProductCategory;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UserService;
+import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -30,6 +31,9 @@ public class ProductsResource extends AbstractRestResource<Product> {
     @EJB
     private ProductsService productsService;
 
+    @EJB
+    private UserService userService;
+
 
     public ProductsResource() {
         super(Product.class);
@@ -38,14 +42,16 @@ public class ProductsResource extends AbstractRestResource<Product> {
     @GET
     @Path("page/{pageNum}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response pagedProductsTest(
+    public Response getPagedProducts(
             @HeaderParam("Authorization") String token,
             @PathParam("pageNum") int pageNum,
             @QueryParam("filterText") String filterText,
             @QueryParam("filterCategoryId") Integer filterCategoryId
     ) {
-        // todo - fill in
-        return null;
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
     // when creating a new product we need to create a new stock row as well for it
@@ -61,8 +67,10 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("price") float price,
             @FormParam("stockQuantity") int stockQuantity
     ){
-        // todo - fill in
-        return null;
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
     @PUT
@@ -74,8 +82,10 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @PathParam("productId") int productId,
             @FormParam("product") Product product
     ){
-        // todo - fill in
-        return null;
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
 
@@ -88,8 +98,10 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @PathParam("productId") int productId,
             @FormParam("isEnabled") boolean isEnabled
     ){
-        // todo - fill in
-        return null;
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
 

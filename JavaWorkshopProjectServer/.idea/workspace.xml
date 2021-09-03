@@ -24,8 +24,8 @@
       <file leaf-file-name="ProductsResource.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="26" column="17" lean-forward="true" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+            <state relative-caret-position="969">
+              <caret line="103" column="12" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
               <folding>
                 <element signature="e#836#837#0" expanded="true" />
                 <element signature="e#869#870#0" expanded="true" />
@@ -57,8 +57,17 @@
       <file leaf-file-name="OrdersResource.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="622">
-              <caret line="39" column="2" lean-forward="true" selection-start-line="39" selection-start-column="2" selection-end-line="39" selection-end-column="2" />
+            <state relative-caret-position="832">
+              <caret line="92" column="12" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UsersResource.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="571">
+              <caret line="174" column="8" lean-forward="true" selection-start-line="174" selection-start-column="8" selection-end-line="177" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -68,15 +77,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="66">
               <caret line="2" column="17" lean-forward="true" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestingEndpoints.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/TestingEndpoints.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="91" column="22" selection-start-line="91" selection-start-column="13" selection-end-line="91" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -118,16 +118,16 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/users/AbstractUser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/users/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UserService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/users/Product.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/ProductsService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/ProductCategory.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/OrdersService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Order.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderSummary.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderDetails.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrderssResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java" />
       </list>
     </option>
@@ -357,16 +357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-          <folding>
-            <element signature="e#933#974#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/TestingEndpoints.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="417">
@@ -407,10 +397,17 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderDetails.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="571">
+          <caret line="174" column="8" lean-forward="true" selection-start-line="174" selection-start-column="8" selection-end-line="177" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="26" column="17" lean-forward="true" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+        <state relative-caret-position="969">
+          <caret line="103" column="12" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
           <folding>
             <element signature="e#836#837#0" expanded="true" />
             <element signature="e#869#870#0" expanded="true" />
@@ -420,8 +417,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="39" column="2" lean-forward="true" selection-start-line="39" selection-start-column="2" selection-end-line="39" selection-end-column="2" />
+        <state relative-caret-position="832">
+          <caret line="92" column="12" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
         </state>
       </provider>
     </entry>

@@ -171,8 +171,11 @@ public class UsersResource extends AbstractRestResource<User> {
               @FormParam("address") String address,
               @FormParam("isAdmin") boolean isAdmin){
 
-        // todo - fill in
-        return null;
+
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
 

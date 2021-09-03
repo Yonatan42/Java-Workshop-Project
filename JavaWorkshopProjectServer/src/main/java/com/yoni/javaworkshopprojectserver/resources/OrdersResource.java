@@ -10,6 +10,8 @@ import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.ProductCategory;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
+import com.yoni.javaworkshopprojectserver.service.UserService;
+import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -32,25 +34,14 @@ public class OrdersResource extends AbstractRestResource<Order> {
     @EJB
     private OrdersService ordersService;
 
+    @EJB
+    private UserService userService;
+
 
     public OrdersResource() {
         super(Order.class);
     }
 
-/*
-    @PUT
-    @Path("{productId}")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateProduct(
-            @HeaderParam("Authorization") String token,
-            @PathParam("productId") int productId,
-            @FormParam("product") Product product
-    ){
-        // todo - fill in
-        return null;
-    }
-*/
 
     @GET
     @Path("{userId}/summaries/page/{pageNum}")
@@ -60,8 +51,10 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @PathParam("userId") int userId,
             @PathParam("pageNum") int pageNum
     ){
-        // todo - fill in
-        return null;
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
     @GET
@@ -71,8 +64,10 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @HeaderParam("Authorization") String token,
             @PathParam("orderId") int orderId
     ){
-        // todo - fill in
-        return null;
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
 
@@ -92,8 +87,10 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @FormParam("cardExpiration") Date cardExpiration,
             @FormParam("cardCVV") String cardCVV
     ){
-        // todo - fill in
-        return null;
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+            // todo - fill in
+            return null;
+        }));
     }
 
 
