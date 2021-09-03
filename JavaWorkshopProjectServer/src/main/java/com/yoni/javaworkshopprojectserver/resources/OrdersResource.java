@@ -53,7 +53,9 @@ public class OrdersResource extends AbstractRestResource<Order> {
     ){
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 
@@ -66,7 +68,9 @@ public class OrdersResource extends AbstractRestResource<Order> {
     ){
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 
@@ -89,7 +93,9 @@ public class OrdersResource extends AbstractRestResource<Order> {
     ){
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 

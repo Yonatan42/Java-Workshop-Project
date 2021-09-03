@@ -174,7 +174,9 @@ public class UsersResource extends AbstractRestResource<User> {
 
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 

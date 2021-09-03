@@ -50,7 +50,9 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ) {
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 
@@ -63,13 +65,15 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("title") String title,
             @FormParam("description") String desc,
             @FormParam("imageData") String imageData,
-            @FormParam("categories") List<ProductCategory> categories,
+//            @FormParam("categories") List<ProductCategory> categories,  // todo - figure out why this doesn't work and then uncomment
             @FormParam("price") float price,
             @FormParam("stockQuantity") int stockQuantity
     ){
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 
@@ -79,12 +83,14 @@ public class ProductsResource extends AbstractRestResource<Product> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateProduct(
             @HeaderParam("Authorization") String token,
-            @PathParam("productId") int productId,
-            @FormParam("product") Product product
+            @PathParam("productId") int productId/*,
+            @FormParam("product") Product product*/ // todo - figure out why this doesn't work and then uncomment
     ){
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 
@@ -100,7 +106,9 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ){
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
-            return null;
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
         }));
     }
 
@@ -117,7 +125,9 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @QueryParam("productIds") List<Integer> productIds
     ){
         // todo - fill in
-        return null;
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("{\"message\":\"not implemented\"}")
+                .build();
     }
 
     @POST
@@ -129,6 +139,8 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("title") String title
     ){
         // todo - fill in
-        return null;
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity("{\"message\":\"not implemented\"}")
+                .build();
     }
 }
