@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
@@ -25,7 +24,6 @@ import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrdersFragment extends BaseFragment {
@@ -74,7 +72,7 @@ public class OrdersFragment extends BaseFragment {
         btnSearch.setOnClickListener(v -> {
             int userId = UIUtils.tryGetIntValue(txtUserId, -1);
             if(userId < 0){
-                Toast.makeText(getParentActivity(), getString(R.string.orders_invalid_search_user_id), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getParentActivity(), getString(R.string.invalid_search_user_id), Toast.LENGTH_SHORT).show();
                 return;
             }
             currentPage = 0;

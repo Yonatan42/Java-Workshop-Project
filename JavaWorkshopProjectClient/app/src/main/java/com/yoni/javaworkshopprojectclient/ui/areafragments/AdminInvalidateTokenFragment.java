@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,7 @@ public class AdminInvalidateTokenFragment extends Fragment {
         btnInvalidate.setOnClickListener(v -> {
             int userId = UIUtils.tryGetIntValue(txtUserId, -1);
             if(userId < 0){
+                Toast.makeText(getContext(), getString(R.string.invalid_search_user_id), Toast.LENGTH_SHORT).show();
                 return;
             }
             btnInvalidate.setEnabled(false);
@@ -44,7 +46,7 @@ public class AdminInvalidateTokenFragment extends Fragment {
                     (call, response, result) -> {
                         btnInvalidate.setEnabled(true);
                         txtUserId.setText("");
-                        SimpleMessagePopup.createGenericTimed(getContext(), "Token Invalidated", 1000).show();
+                        SimpleMessagePopup.createGenericTimed(getContext(), getString(R.string.admin_invalidate_token_success), 1000).show();
                     },
                     (call, responseError) -> {
                         btnInvalidate.setEnabled(true);
