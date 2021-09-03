@@ -8,6 +8,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Order
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,11 +41,19 @@ public interface OrdersService extends BaseRemoveService {
 
 
 
-//    @POST(URL)
-//    @FormUrlEncoded
-//    Call<ServerResponse<TokennedResult<OrderDetails>>> createOrder(
-//            @Header("Authorization") String token
-//            // todo - fill in order params
-//    );
+    @POST(URL)
+    @FormUrlEncoded
+    Call<ServerResponse<TokennedResult<OrderDetails>>> createOrder(
+            @Header("Authorization") String token,
+            @Field("userId") int userId,
+            @Field("email") String email,
+            @Field("firstName") String fname,
+            @Field("lastName") String lname,
+            @Field("phone") String phone,
+            @Field("address") String address,
+            @Field("creditCard") String creditCard,
+            @Field("cardExpiration") Date cardExpiration,
+            @Field("cardCVV") String cardCVV
+    );
 
 }

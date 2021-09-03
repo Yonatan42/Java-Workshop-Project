@@ -83,12 +83,26 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
         onSuccess.onResponseSuccessTokenned(null, null, order);
     }
 
-//    public void createOrder(
-//            String token,
-//            // todo - other params here
-//            ResponseSuccessTokennedCallback<OrderDetails> onSuccess,
-//            ResponseErrorCallback<TokennedResult<OrderDetails>> onError){
-//        enqueueTokenned(service.createOrder(getToken(), userId, pageNum), onSuccess, onError);
-//    }
+    public void createOrder(
+            int userId,
+            String email,
+            String fname,
+            String lname,
+            String phone,
+            String address,
+            String creditCard,
+            Date cardExpiration,
+            String cardCVV,
+            ResponseSuccessTokennedCallback<OrderDetails> onSuccess,
+            ResponseErrorCallback<TokennedResult<OrderDetails>> onError){
+        /* // todo - uncomment once we are connected to the server
+        enqueueTokenned(service.createOrder(getToken(), userId, email, fname, lname, phone, address, creditCard, cardExpiration, cardCVV), onSuccess, onError);
+        */
+        // todo - remove this once we are connected to server
+        OrderDetails orderDetails = new OrderDetails();
+        orderDetails.setOrderId(42);
+        onSuccess.onResponseSuccessTokenned(null, null, orderDetails);
+    }
+
 
 }

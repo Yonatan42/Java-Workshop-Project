@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -46,14 +47,42 @@ public class CheckoutPopup extends AlertDialog {
         setUpUserInfo();
         setUpExpiration();
         btnCancel.setOnClickListener(v -> dismiss());
-        btnOk.setOnClickListener(v -> makeOrder());
+        btnOk.setOnClickListener(v -> {
+            if(validateForm()) {
+                makeOrder();
+            }
+        });
 
 
         setView(layout);
     }
 
     private void makeOrder() {
+        RemoteServiceManager.getInstance().getOrdersService().createOrder(
+                DataSets.getInstance().getCurrentUser().getId(),
+                userInfoFragment.getEmail(),
+                userInfoFragment.getFirstName(),
+                userInfoFragment.getLastName(),
+                userInfoFragment.getPhone(),
+                userInfoFragment.getAddress(),
+                UIUtils.getTrimmedText(txtCreditCard),
+                expirationCalendar.getTime(),
+                UIUtils.getTrimmedText(txtCVV),
+                (call, response, result) -> {
+                    new SimpleMessagePopup(getContext(), "Your Order Number", String.format("#%d",result.getOrderId())).show();
+                    dismiss();
+                },
+                (call, responseError) -> {
+                    // todo - perhaps change this or be more specific
+                    ErrorPopup.createGenericOneOff(getContext()).show();
+                }
+        );
+    }
 
+    private boolean validateForm(){
+        // todo - validate - use userInfoFragment's validation + for the new stuff
+        // show error toast within this method
+        return true;
     }
 
     private void setUpUserInfo(){
