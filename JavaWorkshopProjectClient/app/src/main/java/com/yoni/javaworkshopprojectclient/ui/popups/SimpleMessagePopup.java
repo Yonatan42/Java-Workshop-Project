@@ -2,15 +2,14 @@ package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-
-import androidx.appcompat.content.res.AppCompatResources;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.yoni.javaworkshopprojectclient.R;
 
 public class SimpleMessagePopup extends AlertDialog {
 
+    private long displayMillis = -1;
     public SimpleMessagePopup(Context context, String title, String message){
         super(context);
         if(title != null && !title.isEmpty()){
@@ -22,8 +21,16 @@ public class SimpleMessagePopup extends AlertDialog {
         setButton(BUTTON_NEGATIVE, context.getString(R.string.btn_generic_ok), (OnClickListener) null);
     }
 
+    public SimpleMessagePopup(Context context, String title, String message, long displayMillis){
+        this(context, title, message);
+        this.displayMillis = displayMillis;
+    }
 
-
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (displayMillis > 0) {
+            new Handler(Looper.getMainLooper()).postDelayed(this::dismiss, displayMillis);
+        }
+    }
 }

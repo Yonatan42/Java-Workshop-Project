@@ -177,9 +177,9 @@ public class GetImagePopup extends AlertDialog {
     }
 
     @Override
-    public void dismiss() {
+    protected void onStop() {
+        super.onStop();
         parentActivity.removeOnActivityResultListener(onActivityResultListener);
         parentActivity.removeOnPermissionsResultListener(onPermissionResultListener);
-        super.dismiss();
     }
 }

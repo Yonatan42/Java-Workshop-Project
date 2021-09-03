@@ -42,8 +42,13 @@ public interface UsersService extends BaseRemoveService {
     @PUT(URL+"/{userId}")
     @FormUrlEncoded
     Call<ServerResponse<TokennedResult<User>>> updateInfo(@Header("Authorization") String token,
-                                                          @Path("userId") int userId,
-                                                          @Field("user") User user
+                                                           @Path("userId") int userId,
+                                                           @Field("email") String email,
+                                                           @Field("pass") String pass,
+                                                           @Field("firstName") String firstName,
+                                                           @Field("lastName") String lastName,
+                                                           @Field("phone") String phone,
+                                                           @Field("address") String address
     );
 
 }

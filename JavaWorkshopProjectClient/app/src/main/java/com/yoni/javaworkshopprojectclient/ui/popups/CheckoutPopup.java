@@ -69,7 +69,7 @@ public class CheckoutPopup extends AlertDialog {
                 expirationCalendar.getTime(),
                 UIUtils.getTrimmedText(txtCVV),
                 (call, response, result) -> {
-                    new SimpleMessagePopup(getContext(), "Your Order Number", String.format("#%d",result.getOrderId())).show();
+                    new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result.getOrderId())).show();
                     dismiss();
                 },
                 (call, responseError) -> {

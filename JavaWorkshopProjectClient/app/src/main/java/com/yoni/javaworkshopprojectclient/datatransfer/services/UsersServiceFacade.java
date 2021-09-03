@@ -6,6 +6,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
+import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
 import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
@@ -40,9 +41,25 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
         enqueueTokenned(service.register(email, pass, firstName, lastName, phone, address), onSuccess, onError);
     }
 
-    public void updateInfo(User user,
+    public void updateInfo(int userId,
+                           String email,
+                           String pass,
+                           String firstName,
+                           String lastName,
+                           String phone,
+                           String address,
                            ResponseSuccessTokennedCallback<User> onSuccess,
                            ResponseErrorCallback<TokennedResult<User>> onError){
-        enqueueTokenned(service.updateInfo(getToken(), user.getId(), user), onSuccess, onError);
+        /* // todo - uncomment this once we are connected to the server
+        enqueueTokenned(service.updateInfo(getToken(), userId, email, pass, firstName, lastName, phone, address), onSuccess, onError);
+         */
+        // todo - remove this once we're connected to the server
+        User currentUser = DataSets.getInstance().getCurrentUser();
+        currentUser.setEmail(email);
+        currentUser.setFirstName(firstName);
+        currentUser.setLastName(lastName);
+        currentUser.setPhone(phone);
+        currentUser.setAddress(address);
+        onSuccess.onResponseSuccessTokenned(null, null, currentUser);
     }
 }

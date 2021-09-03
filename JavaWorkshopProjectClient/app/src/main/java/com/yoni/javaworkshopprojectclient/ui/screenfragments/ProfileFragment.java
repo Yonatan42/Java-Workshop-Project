@@ -15,7 +15,10 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
+import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
+import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -42,7 +45,7 @@ public class ProfileFragment extends BaseFragment {
         userInfoFragment = (UserInfoFragment) getChildFragmentManager().findFragmentById(R.id.profile_user_details_fragment);
 
 
-        User currentUser = DataSets.getInstance().getCurrentUser();
+        User currentUser = getCurrentUser();
         UIUtils.setViewsVisible(currentUser.isAdmin(), switchAdminMode);
         switchAdminMode.setChecked(currentUser.isAdminModeActive());
 
@@ -78,16 +81,34 @@ public class ProfileFragment extends BaseFragment {
             UIUtils.setViewsVisible(false, btnSave, btnCancel);
         });
 
-        btnSave.setOnClickListener(v -> {
-            // todo - server call, on success, set to new user and close the form (make not editable)
-        });
+        btnSave.setOnClickListener(v -> RemoteServiceManager.getInstance().getUsersService().updateInfo(
+                currentUser.getId(),
+                userInfoFragment.getEmail(),
+                userInfoFragment.getPassword(),
+                userInfoFragment.getFirstName(),
+                userInfoFragment.getLastName(),
+                userInfoFragment.getPhone(),
+                userInfoFragment.getAddress(),
+                (call, response, result) -> {
+                    boolean adminMode = currentUser.isAdminModeActive();
+                    currentUser.replace(result);
+                    currentUser.setAdminModeActive(currentUser.isAdmin() && adminMode);
+                    new SimpleMessagePopup(getParentActivity(), getString(R.string.profile_update_complete), null, 1000).show();
+                    btnCancel.callOnClick();
+                },
+                (call, responseError) -> {
+                    // todo - perhaps react to specific cases
+                    ErrorPopup.createGenericOneOff(getParentActivity()).show();
+                }
+
+        ));
 
         setUserInfoDataToUser();
     }
 
 
     private void setUserInfoDataToUser(){
-        User currentUser = DataSets.getInstance().getCurrentUser();
+        User currentUser = getCurrentUser();
         userInfoFragment.setFirstName(currentUser.getFirstName());
         userInfoFragment.setLastName(currentUser.getLastName());
         userInfoFragment.setEmail(currentUser.getEmail());
@@ -95,5 +116,9 @@ public class ProfileFragment extends BaseFragment {
         userInfoFragment.setAddress(currentUser.getAddress());
         userInfoFragment.setPassword("");
         userInfoFragment.setPassword2("");
+    }
+
+    private User getCurrentUser(){
+        return DataSets.getInstance().getCurrentUser();
     }
 }
