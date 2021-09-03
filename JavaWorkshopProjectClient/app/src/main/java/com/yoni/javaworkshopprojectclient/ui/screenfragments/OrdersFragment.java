@@ -14,17 +14,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.OrderSummariesAdapter;
-import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class OrdersFragment extends BaseFragment {
 
@@ -53,7 +58,7 @@ public class OrdersFragment extends BaseFragment {
         txtUserId = view.findViewById(R.id.orders_txt_userid);
         txtNoResults = view.findViewById(R.id.orders_txt_no_results);
 
-        OrderSummariesAdapter adapter = new OrderSummariesAdapter(orders);
+        OrderSummariesAdapter adapter = new OrderSummariesAdapter(getParentActivity(), orders);
         rvOrders.setAdapter(adapter);
         rvOrders.setLayoutManager(new LinearLayoutManager(getParentActivity()));
 
@@ -112,11 +117,16 @@ public class OrdersFragment extends BaseFragment {
 
 
                 },
-                (call, responseError) -> {
-                    setLoadInProgress(false);
-                    // todo - change this - perhaps
-                    // todo - check the error code - we want to know if the user id doesn't exist
-                    ErrorPopup.createGenericOneOff(getContext()).show();
+                new StandardResponseErrorCallback<TokennedResult<List<OrderSummary>>>(getParentActivity()) {
+                    @Override
+                    public void onPreErrorResponse() {
+                        setLoadInProgress(false);
+                    }
+
+                    @Override
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<TokennedResult<List<OrderSummary>>>> call, ServerResponse.ServerResponseError responseError) {
+                        // todo - check the error code - we want to know if the user id doesn't exist
+                    }
                 });
     }
 

@@ -13,10 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.SelectableCategory;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesPickerAdapter;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
@@ -26,8 +29,10 @@ import java.util.List;
 
 public class CategoriesPicker extends AlertDialog {
 
-    protected CategoriesPicker(Context context, List<ProductCategory> existingSelectedCategories, Consumer<List<ProductCategory>> onCategoriesSelected) {
-        super(context, R.style.WrapContentDialog);
+    private ParentActivity parentActivity;
+    protected CategoriesPicker(ParentActivity parentActivity, List<ProductCategory> existingSelectedCategories, Consumer<List<ProductCategory>> onCategoriesSelected) {
+        super(parentActivity, R.style.WrapContentDialog);
+        this.parentActivity = parentActivity;
 
         View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_categories_picker, null, false);
         Button btnBack = layout.findViewById(R.id.categories_picker_popup_btn_back);
@@ -42,7 +47,7 @@ public class CategoriesPicker extends AlertDialog {
 
         CategoriesPickerAdapter adapter = new CategoriesPickerAdapter(selectableCategories);
         rvCategories.setAdapter(adapter);
-        rvCategories.setLayoutManager(new LinearLayoutManager(context));
+        rvCategories.setLayoutManager(new LinearLayoutManager(parentActivity));
 
         btnNew.setOnClickListener(v -> {
             String title = UIUtils.getTrimmedText(txtTitle);
@@ -50,18 +55,18 @@ public class CategoriesPicker extends AlertDialog {
             RemoteServiceManager.getInstance().getProductsService().createCategory(title,
                     (call, response, result) -> {
                         btnNew.setEnabled(true);
-                        ProductCategory productCategory = new ProductCategory(11111,title); // will the the product category returned
-                        SelectableCategory selectableCategory = new SelectableCategory(productCategory);
-                        DataSets.getInstance().addCategories(productCategory);
+                        SelectableCategory selectableCategory = new SelectableCategory(result);
+                        DataSets.getInstance().addCategories(result);
                         int nextIndex = selectableCategories.size();
                         selectableCategories.add(selectableCategory);
                         adapter.notifyItemInserted(nextIndex);
                         txtTitle.setText("");
                     },
-                    (call, responseError) -> {
-                        btnNew.setEnabled(true);
-                        // todo - change this perhaps
-                        ErrorPopup.createGenericOneOff(context).show();
+                    new StandardResponseErrorCallback<TokennedResult<ProductCategory>>(parentActivity) {
+                        @Override
+                        public void onPreErrorResponse() {
+                            btnNew.setEnabled(true);
+                        }
                     });
         });
 

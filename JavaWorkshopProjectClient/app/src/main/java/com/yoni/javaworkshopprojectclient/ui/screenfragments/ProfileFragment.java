@@ -11,9 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
@@ -89,10 +91,7 @@ public class ProfileFragment extends BaseFragment {
                     SimpleMessagePopup.createGenericTimed(getParentActivity(), getString(R.string.profile_update_complete)).show();
                     btnCancel.callOnClick();
                 },
-                (call, responseError) -> {
-                    // todo - perhaps react to specific cases
-                    ErrorPopup.createGenericOneOff(getParentActivity()).show();
-                }
+                new StandardResponseErrorCallback<TokennedResult<User>>(getParentActivity()) {}
 
         ));
 

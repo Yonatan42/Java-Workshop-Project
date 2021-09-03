@@ -11,10 +11,16 @@ import androidx.annotation.Nullable;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
+
+import java.util.List;
 
 public class RegisterFragment extends BaseFragment {
 
@@ -56,13 +62,11 @@ public class RegisterFragment extends BaseFragment {
                 profileDetailsFrag.getPhone(),
                 profileDetailsFrag.getAddress(),
                 (call, response, result) -> getParentActivity().setSelectedTab(ParentActivity.INITIAL_TAB),
-                (call, responseError) -> {
-                    if (responseError.getCode() == ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE) {
-                        new ErrorPopup(getContext(), getString(R.string.error_check_internet), () -> attemptRegister(profileDetailsFrag)).show();
+                new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(getParentActivity(), () -> attemptRegister(profileDetailsFrag)) {
+                    @Override
+                    public void onPreErrorResponse() {
+                        profileDetailsFrag.setEditable(true);
                     }
-                    ErrorPopup.createGenericOneOff(getParentActivity()).show();
-                    profileDetailsFrag.setEditable(true);
-                }
-        );
+                });
     }
 }

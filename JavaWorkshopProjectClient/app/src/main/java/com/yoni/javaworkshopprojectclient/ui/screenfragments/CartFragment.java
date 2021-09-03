@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CartProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.CheckoutPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
@@ -64,9 +66,7 @@ public class CartFragment extends BaseFragment {
             setTotalText();
         });
 
-        btnCheckout.setOnClickListener(v -> {
-            new CheckoutPopup(this).show();
-        });
+        btnCheckout.setOnClickListener(v -> new CheckoutPopup(getParentActivity(), this).show());
 
         setTotalText();
         loadProducts();
@@ -84,10 +84,7 @@ public class CartFragment extends BaseFragment {
                     totalPrice = calculateTotalPrice();
                     setTotalText();
                 },
-                (call, errorResponse) -> {
-                    // todo - do something else maybe
-                    ErrorPopup.createGenericOneOff(getParentActivity()).show();
-                });
+                new StandardResponseErrorCallback<TokennedResult<List<Product>>>(getParentActivity()) {});
     }
 
     private float calculateTotalPrice(){

@@ -10,13 +10,18 @@ import androidx.annotation.Nullable;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.LoginPopup;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
+
+import retrofit2.Call;
 
 public class SplashFragment extends BaseFragment {
 
@@ -48,12 +53,12 @@ public class SplashFragment extends BaseFragment {
             DataSets.getInstance().setCategories(result.getCategories());
             getParentActivity().setSelectedTab(ParentActivity.INITIAL_TAB);
         },
-                (call, responseError) -> {
-            if (responseError.getCode() == ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE) {
-                new ErrorPopup(getContext(), getString(R.string.error_check_internet), SplashFragment.this::attemptLogin).show();
-            }
-            new LoginPopup(getParentActivity()).show();
-        });
+                new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(getParentActivity(), SplashFragment.this::attemptLogin) {
+                    @Override
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<TokennedResult<LoginResponse>>> call, ServerResponse.ServerResponseError responseError) {
+                        new LoginPopup(getParentActivity()).show();
+                    }
+                });
     }
 
 

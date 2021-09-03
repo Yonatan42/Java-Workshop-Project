@@ -14,7 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
@@ -48,10 +52,11 @@ public class AdminInvalidateTokenFragment extends Fragment {
                         txtUserId.setText("");
                         SimpleMessagePopup.createGenericTimed(getContext(), getString(R.string.admin_invalidate_token_success)).show();
                     },
-                    (call, responseError) -> {
-                        btnInvalidate.setEnabled(true);
-                        // todo - maybe something with the error
-                        ErrorPopup.createGenericOneOff(getContext()).show();
+                    new StandardResponseErrorCallback<TokennedResult<Void>>((ParentActivity) getActivity()) {
+                        @Override
+                        public void onPreErrorResponse() {
+                            btnInvalidate.setEnabled(true);
+                        }
                     }
             );
         });

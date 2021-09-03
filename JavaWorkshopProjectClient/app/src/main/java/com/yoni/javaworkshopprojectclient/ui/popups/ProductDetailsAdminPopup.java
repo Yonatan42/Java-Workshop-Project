@@ -11,9 +11,11 @@ import android.widget.ImageButton;
 import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
@@ -146,9 +148,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                         callback.accept(insertUpdateProduct);
                         dismiss();
                     },
-                    (call, responseError) -> {
-                        ErrorPopup.createGenericOneOff(parentActivity).show();
-                    });
+                    new StandardResponseErrorCallback<TokennedResult<Product>>(parentActivity) {});
         });
 
         btnDelete.setOnClickListener(v -> {
@@ -157,9 +157,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                         onProductDeleted.accept(result); // will do notify removed
                         dismiss();
                     },
-                    (call, responseError) -> {
-                        ErrorPopup.createGenericOneOff(parentActivity).show();
-                    });
+                    new StandardResponseErrorCallback<TokennedResult<Integer>>(parentActivity) {});
         });
     }
 

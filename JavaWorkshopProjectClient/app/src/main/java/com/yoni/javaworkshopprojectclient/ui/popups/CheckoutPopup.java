@@ -11,9 +11,13 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -22,7 +26,7 @@ import java.util.Date;
 
 public class CheckoutPopup extends AlertDialog {
 
-
+    private ParentActivity parentActivity;
     private Calendar expirationCalendar;
     private Button btnCancel;
     private Button btnOk;
@@ -31,10 +35,11 @@ public class CheckoutPopup extends AlertDialog {
     private EditText txtExpiration;
     private UserInfoFragment userInfoFragment;
 
-    public CheckoutPopup(Fragment fragment) {
-        super(fragment.getContext());
+    public CheckoutPopup(ParentActivity parentActivity, Fragment fragment) {
+        super(parentActivity);
+        this.parentActivity = parentActivity;
 
-        View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_checkout, null, false);
+        View layout = LayoutInflater.from(parentActivity).inflate(R.layout.popup_checkout, null, false);
         btnCancel = layout.findViewById(R.id.checkout_popup_btn_cancel);
         btnOk = layout.findViewById(R.id.checkout_popup_btn_ok);
         txtCreditCard = layout.findViewById(R.id.checkout_popup_txt_card);
@@ -58,6 +63,7 @@ public class CheckoutPopup extends AlertDialog {
     }
 
     private void makeOrder() {
+        btnOk.setEnabled(false);
         RemoteServiceManager.getInstance().getOrdersService().createOrder(
                 DataSets.getInstance().getCurrentUser().getId(),
                 userInfoFragment.getEmail(),
@@ -72,9 +78,11 @@ public class CheckoutPopup extends AlertDialog {
                     new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result.getOrderId())).show();
                     dismiss();
                 },
-                (call, responseError) -> {
-                    // todo - perhaps change this or be more specific
-                    ErrorPopup.createGenericOneOff(getContext()).show();
+                new StandardResponseErrorCallback<TokennedResult<OrderDetails>>(parentActivity) {
+                    @Override
+                    public void onPreErrorResponse() {
+                        btnOk.setEnabled(true);
+                    }
                 }
         );
     }

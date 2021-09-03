@@ -11,9 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.OrderDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
@@ -51,9 +55,11 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
 
 
     private List<ExpandableOrder> orders;
+    private ParentActivity parentActivity;
 
 
-    public OrderSummariesAdapter(List<ExpandableOrder> orders){
+    public OrderSummariesAdapter(ParentActivity parentActivity, List<ExpandableOrder> orders){
+        this.parentActivity = parentActivity;
         this.orders = orders;
     }
 
@@ -80,19 +86,21 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
         holder.txtEmail.setText(orderSummary.getEmail());
         UIUtils.setViewsVisible(order.isExpanded(), holder.grpExpand);
         holder.btnDetails.setOnClickListener(v -> {
-            ViewGroup parent = (ViewGroup)holder.itemView.getParent();
+            ViewGroup parent = (ViewGroup) holder.itemView.getParent();
             parent.setEnabled(false);
             RemoteServiceManager.getInstance().getOrdersService().getOrderDetails(orderSummary.getOrderId(),
                     (call, response, result) -> {
                         parent.setEnabled(true);
                         new OrderDetailsPopup(context, result).show();
                     },
-                    (call, responseError) -> {
-                        parent.setEnabled(true);
-                        // todo - perhaps change this
-                        ErrorPopup.createGenericOneOff(context).show();
+                    new StandardResponseErrorCallback<TokennedResult<OrderDetails>>(parentActivity) {
+                        @Override
+                        public void onPreErrorResponse() {
+                            parent.setEnabled(true);
+                        }
                     });
         });
+
         holder.itemView.setOnClickListener(v -> {
             order.setExpanded(!order.isExpanded());
             notifyItemChanged(position);

@@ -7,8 +7,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
@@ -39,10 +42,7 @@ public class LoginPopup extends AlertDialog {
                         parentActivity.setSelectedTab(ParentActivity.INITIAL_TAB);
                         dismiss();
                     },
-                    (call, responseError) -> {
-                        // todo - change this - perhaps
-                        ErrorPopup.createGenericOneOff(parentActivity).show();
-                    });
+                    new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(parentActivity));
         });
 
         btnReg.setOnClickListener(v -> {
