@@ -38,19 +38,19 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
                          String address,
                          ResponseSuccessTokennedCallback<LoginResponse> onSuccess,
                          ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
-        register(email, pass, firstName, lastName, phone, address,false, onSuccess, onError);
+        enqueueTokenned(service.register(email, pass, firstName, lastName, phone, address), onSuccess, onError);
     }
 
-    public void register(String email,
+    public void remoteRegister(String email,
                          String pass,
                          String firstName,
                          String lastName,
                          String phone,
                          String address,
                          boolean isAdmin,
-                         ResponseSuccessTokennedCallback<LoginResponse> onSuccess,
-                         ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
-        enqueueTokenned(service.register(email, pass, firstName, lastName, phone, address, isAdmin), onSuccess, onError);
+                         ResponseSuccessTokennedCallback<User> onSuccess,
+                         ResponseErrorCallback<TokennedResult<User>> onError){
+        enqueueTokenned(service.remoteRegister(getToken(), email, pass, firstName, lastName, phone, address, isAdmin), onSuccess, onError);
     }
 
     // todo - on server, since password is potentially changed, we need to create a new token

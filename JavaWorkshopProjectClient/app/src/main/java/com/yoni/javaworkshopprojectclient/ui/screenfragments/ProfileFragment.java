@@ -13,13 +13,10 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
-import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
-import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
-import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class ProfileFragment extends BaseFragment {
@@ -60,14 +57,10 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
-        btnLogout.setOnClickListener(v -> {
-            TokenStore.getInstance().clearToken();
-            CartStore.getInstance().clear();
-            getParentActivity().makeFragmentTransition(AppScreen.SPLASH.getFragment());
-        });
+        btnLogout.setOnClickListener(v -> getParentActivity().logoutUser());
 
         btnEdit.setOnClickListener(v -> {
-            userInfoFragment.setIsEditable(true);
+            userInfoFragment.setEditable(true);
             userInfoFragment.setShowPasswords(true);
             UIUtils.setViewsVisible(false, btnEdit);
             UIUtils.setViewsVisible(true, btnSave, btnCancel);
@@ -75,7 +68,7 @@ public class ProfileFragment extends BaseFragment {
 
         btnCancel.setOnClickListener(v -> {
             userInfoFragment.set(getCurrentUser());
-            userInfoFragment.setIsEditable(false);
+            userInfoFragment.setEditable(false);
             userInfoFragment.setShowPasswords(false);
             UIUtils.setViewsVisible(true, btnEdit);
             UIUtils.setViewsVisible(false, btnSave, btnCancel);
@@ -93,7 +86,7 @@ public class ProfileFragment extends BaseFragment {
                     boolean adminMode = currentUser.isAdminModeActive();
                     currentUser.replace(result);
                     currentUser.setAdminModeActive(currentUser.isAdmin() && adminMode);
-                    SimpleMessagePopup.createGenericTimed(getParentActivity(), getString(R.string.profile_update_complete), 1000).show();
+                    SimpleMessagePopup.createGenericTimed(getParentActivity(), getString(R.string.profile_update_complete)).show();
                     btnCancel.callOnClick();
                 },
                 (call, responseError) -> {

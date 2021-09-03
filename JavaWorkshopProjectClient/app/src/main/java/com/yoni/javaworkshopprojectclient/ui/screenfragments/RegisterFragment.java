@@ -15,7 +15,6 @@ import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
-import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 public class RegisterFragment extends BaseFragment {
 
@@ -48,7 +47,7 @@ public class RegisterFragment extends BaseFragment {
     }
 
     private void attemptRegister(UserInfoFragment profileDetailsFrag) {
-        profileDetailsFrag.setIsEditable(false);
+        profileDetailsFrag.setEditable(false);
         RemoteServiceManager.getInstance().getUsersService().register(
                 profileDetailsFrag.getEmail(),
                 profileDetailsFrag.getPassword(),
@@ -62,7 +61,7 @@ public class RegisterFragment extends BaseFragment {
                         new ErrorPopup(getContext(), getString(R.string.error_check_internet), () -> attemptRegister(profileDetailsFrag)).show();
                     }
                     ErrorPopup.createGenericOneOff(getParentActivity()).show();
-                    profileDetailsFrag.setIsEditable(true);
+                    profileDetailsFrag.setEditable(true);
                 }
         );
     }

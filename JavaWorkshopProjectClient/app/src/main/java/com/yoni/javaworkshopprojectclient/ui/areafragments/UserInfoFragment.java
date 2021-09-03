@@ -83,11 +83,11 @@ public class UserInfoFragment extends Fragment {
         this.isEditable = isEditable;
     }
 
-    public void setIsEditable(boolean isEditable) {
+    public void setEditable(boolean isEditable) {
         setIsEditableInternal(isEditable, false);
     }
 
-    public boolean getIsEditable(){
+    public boolean isEditable(){
         return isEditable;
     }
 

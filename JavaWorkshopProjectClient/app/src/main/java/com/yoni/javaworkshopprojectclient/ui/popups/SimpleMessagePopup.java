@@ -9,8 +9,8 @@ import com.yoni.javaworkshopprojectclient.R;
 
 public class SimpleMessagePopup extends AlertDialog {
 
-    public static SimpleMessagePopup createGenericTimed(Context context, String title, long displayMillis){
-        return new SimpleMessagePopup(context, title, null, displayMillis);
+    public static SimpleMessagePopup createGenericTimed(Context context, String title){
+        return new SimpleMessagePopup(context, title, null, 1500);
     }
 
     private long displayMillis = -1;

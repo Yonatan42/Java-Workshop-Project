@@ -29,8 +29,7 @@ public interface UsersService extends BaseRemoveService {
                                                                  @Field("firstName") String firstName,
                                                                  @Field("lastName") String lastName,
                                                                  @Field("phone") String phone,
-                                                                 @Field("address") String address,
-                                                                 @Field("isAdmin") boolean isAdmin);
+                                                                 @Field("address") String address);
 
     @POST(URL+"/login")
     Call<ServerResponse<TokennedResult<LoginResponse>>> login(@Header("Authorization") String token);
@@ -57,4 +56,15 @@ public interface UsersService extends BaseRemoveService {
     @FormUrlEncoded
     Call<ServerResponse<TokennedResult<Void>>> invalidateToken(@Header("Authorization") String token,
                                                                @Path("userId") int userId);
+    @POST(URL+"/remote-register")
+    @FormUrlEncoded
+    Call<ServerResponse<TokennedResult<User>>> remoteRegister(@Header("Authorization") String token,
+                                                                       @Field("email") String email,
+                                                                       @Field("pass") String pass,
+                                                                       @Field("firstName") String firstName,
+                                                                       @Field("lastName") String lastName,
+                                                                       @Field("phone") String phone,
+                                                                       @Field("address") String address,
+                                                                       @Field("isAdmin") boolean isAdmin);
+
 }

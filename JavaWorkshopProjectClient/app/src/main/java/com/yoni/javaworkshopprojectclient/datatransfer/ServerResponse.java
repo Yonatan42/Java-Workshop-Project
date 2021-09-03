@@ -38,6 +38,8 @@ public class ServerResponse<T> {
 
     public static class ServerResponseError {
         public static final int UNKNOWN_ERROR_CODE = 0;
+        public static final int PAGE_NOT_FOUND_CODE = 100;
+        public static final int INVALID_TOKEN_CODE = 1; // todo - get the correct number from the server code
 
         @SerializedName("message")
         @Expose

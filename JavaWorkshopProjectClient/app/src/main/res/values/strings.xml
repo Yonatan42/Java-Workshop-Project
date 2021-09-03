@@ -60,4 +60,5 @@
     <string name="admin_invalidate_token_txt_userid">user id</string>
     <string name="admin_invalidate_token_btn_invalidate">invalidate</string>
     <string name="admin_invalidate_token_success">Token Invalidated</string>
+    <string name="admin_create_user_success">User Created</string>
 </resources>

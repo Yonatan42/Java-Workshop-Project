@@ -46,7 +46,7 @@ public class AdminInvalidateTokenFragment extends Fragment {
                     (call, response, result) -> {
                         btnInvalidate.setEnabled(true);
                         txtUserId.setText("");
-                        SimpleMessagePopup.createGenericTimed(getContext(), getString(R.string.admin_invalidate_token_success), 1000).show();
+                        SimpleMessagePopup.createGenericTimed(getContext(), getString(R.string.admin_invalidate_token_success)).show();
                     },
                     (call, responseError) -> {
                         btnInvalidate.setEnabled(true);

@@ -196,8 +196,13 @@ public class ParentActivity extends AppCompatActivity {
         UIUtils.setViewsVisible(isVisible, tabLayout);
     }
 
-    // todo - remove this if it's never used
     public void setSelectedTab(@TabIndex int tabIndex){
         tabLayout.selectTab(tabLayout.getTabAt(tabIndex));
+    }
+
+    public void logoutUser(){
+        TokenStore.getInstance().clearToken();
+        CartStore.getInstance().clear();
+        makeFragmentTransition(AppScreen.SPLASH.getFragment());
     }
 }
