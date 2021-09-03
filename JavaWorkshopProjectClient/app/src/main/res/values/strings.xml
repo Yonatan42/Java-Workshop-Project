@@ -26,7 +26,7 @@
     <string name="load_image_error">error loading image</string>
     <string name="categories_picker_txt_new_hint">new category…</string>
     <string name="btn_generic_add">add</string>
-    <string name="profile_switch_admin_mode">admin mode</string>
+    <string name="profile_switch_admin_mode">administration mode</string>
     <string name="error_check_internet">Please check your internet connection.</string>
     <string name="profile_btn_logout">logout</string>
     <string name="register_txt_title">Registration</string>
@@ -52,4 +52,11 @@
     <string name="profile_btn_save">save</string>
     <string name="order_complete_title">Your Order Number</string>
     <string name="profile_update_complete">Update Complete</string>
+    <string name="admin_create_user_title">Create New User</string>
+    <string name="admin_create_user_is_admin">administrator</string>
+    <string name="admin_invalidate_token">Invalidate User Token</string>
+    <string name="admin_create_user_create">create</string>
+    <string name="admin_create_user_clear">clear</string>
+    <string name="admin_invalidate_token_txt_userid">user id</string>
+    <string name="admin_invalidate_token_btn_invalidate">invalidate</string>
 </resources>

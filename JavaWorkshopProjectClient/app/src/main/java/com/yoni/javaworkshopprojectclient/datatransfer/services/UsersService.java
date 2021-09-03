@@ -28,7 +28,8 @@ public interface UsersService extends BaseRemoveService {
                                                                  @Field("firstName") String firstName,
                                                                  @Field("lastName") String lastName,
                                                                  @Field("phone") String phone,
-                                                                 @Field("address") String address);
+                                                                 @Field("address") String address,
+                                                                 @Field("isAdmin") boolean isAdmin);
 
     @POST(URL+"/login")
     Call<ServerResponse<TokennedResult<LoginResponse>>> login(@Header("Authorization") String token);
