@@ -7,6 +7,7 @@ package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.ProductCategory;
+import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UserService;
 
 import javax.ejb.EJB;
@@ -23,11 +24,11 @@ import java.util.List;
  * @author Yoni
  */
 @Stateless
-@Path("users")
+@Path("products")
 public class ProductsResource extends AbstractRestResource<Product> {
 
     @EJB
-    private UserService userService;
+    private ProductsService productsService;
 
 
     public ProductsResource() {
