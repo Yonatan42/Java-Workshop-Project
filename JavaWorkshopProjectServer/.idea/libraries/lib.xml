@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/gson-2.8.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/javax.persistence-2.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/org.eclipse.persistence.jpa.jpql-2.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/jjwt-0.9.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/jbcrypt-0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/jackson-databind-2.9.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/org.eclipse.persistence.antlr-2.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/jackson-core-2.9.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/org.eclipse.persistence.core-2.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/jackson-annotations-2.9.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/org.eclipse.persistence.asm-2.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/JavaWorkshopProjectServer-1.0-SNAPSHOT/WEB-INF/lib/org.eclipse.persistence.jpa-2.5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
