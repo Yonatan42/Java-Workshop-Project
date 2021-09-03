@@ -15,8 +15,8 @@
       <file leaf-file-name="UserService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="733">
-              <caret line="57" column="48" lean-forward="true" selection-start-line="57" selection-start-column="48" selection-end-line="57" selection-end-column="48" />
+            <state relative-caret-position="408">
+              <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
               <folding>
                 <element signature="e#1128#1129#0" expanded="true" />
                 <element signature="e#1177#1178#0" expanded="true" />
@@ -46,8 +46,8 @@
       <file leaf-file-name="UsersResource.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="209" column="39" lean-forward="true" selection-start-line="209" selection-start-column="39" selection-end-line="209" selection-end-column="39" />
+            <state relative-caret-position="393">
+              <caret line="234" column="16" selection-start-line="234" selection-end-line="235" />
             </state>
           </provider>
         </entry>
@@ -71,6 +71,7 @@
     <findStrings>
       <find>protected</find>
       <find>equals</find>
+      <find>Admin</find>
     </findStrings>
     <replaceStrings>
       <replace>private</replace>
@@ -81,8 +82,8 @@
       <list>
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/users/AbstractUser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/users/User.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UserService.java" />
       </list>
     </option>
   </component>
@@ -291,15 +292,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="209" column="39" lean-forward="true" selection-start-line="209" selection-start-column="39" selection-end-line="209" selection-end-column="39" />
+        <state relative-caret-position="393">
+          <caret line="234" column="16" selection-start-line="234" selection-end-line="235" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="733">
-          <caret line="57" column="48" lean-forward="true" selection-start-line="57" selection-start-column="48" selection-end-line="57" selection-end-column="48" />
+        <state relative-caret-position="408">
+          <caret line="78" lean-forward="true" selection-start-line="78" selection-end-line="78" />
           <folding>
             <element signature="e#1128#1129#0" expanded="true" />
             <element signature="e#1177#1178#0" expanded="true" />

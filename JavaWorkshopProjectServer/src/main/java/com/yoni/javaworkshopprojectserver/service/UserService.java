@@ -73,7 +73,7 @@ public class UserService {
     
     private boolean refreshSecretKey(String email){
         return getEntityManager()
-                .createNamedStoredProcedureQuery("ExtendedUsers.refreshSecretKey")
+                .createNamedStoredProcedureQuery("Users.refreshSecretKey")
                 .setParameter("email", email)
                 .execute();
 
