@@ -36,7 +36,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/ic_add_admin" />
+            android:icon="@drawable/ic_admin_area" />
     </com.google.android.material.tabs.TabLayout>
 
     <FrameLayout
