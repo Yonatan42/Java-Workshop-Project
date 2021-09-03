@@ -27,7 +27,7 @@
         custom:isEditable="true"/>
 
     <CheckBox
-        android:id="@+id/admin_create_user_is_admin"
+        android:id="@+id/admin_create_user_cb_is_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/admin_create_user_is_admin"

@@ -74,7 +74,7 @@ public class ProfileFragment extends BaseFragment {
         });
 
         btnCancel.setOnClickListener(v -> {
-            setUserInfoDataToUser();
+            userInfoFragment.set(getCurrentUser());
             userInfoFragment.setIsEditable(false);
             userInfoFragment.setShowPasswords(false);
             UIUtils.setViewsVisible(true, btnEdit);
@@ -103,19 +103,7 @@ public class ProfileFragment extends BaseFragment {
 
         ));
 
-        setUserInfoDataToUser();
-    }
-
-
-    private void setUserInfoDataToUser(){
-        User currentUser = getCurrentUser();
-        userInfoFragment.setFirstName(currentUser.getFirstName());
-        userInfoFragment.setLastName(currentUser.getLastName());
-        userInfoFragment.setEmail(currentUser.getEmail());
-        userInfoFragment.setPhone(currentUser.getPhone());
-        userInfoFragment.setAddress(currentUser.getAddress());
-        userInfoFragment.setPassword("");
-        userInfoFragment.setPassword2("");
+        userInfoFragment.set(getCurrentUser());
     }
 
     private User getCurrentUser(){

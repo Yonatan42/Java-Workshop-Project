@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class UserInfoFragment extends Fragment {
@@ -144,6 +145,22 @@ public class UserInfoFragment extends Fragment {
 
     public void setAddress(String address) {
         txtAddress.setText(address);
+    }
+
+    public void set(User user){
+        setFirstName(user.getFirstName());
+        setLastName(user.getLastName());
+        setEmail(user.getEmail());
+        setPhone(user.getPhone());
+        setAddress(user.getAddress());
+        setPassword("");
+        setPassword2("");
+    }
+
+    public void clear(){
+        for(EditText txt: new EditText[]{txtFName, txtLName, txtEmail, txtPass, txtPass2, txtPhone, txtAddress}){
+            txt.setText("");
+        }
     }
 
     public boolean validate(boolean showErrorUI){
