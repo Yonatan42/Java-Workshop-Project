@@ -90,6 +90,16 @@ public class UserService {
                     .orElse(null);
     }
 
+    public User findById(int id){
+        return getEntityManager()
+                .createNamedQuery("Users.findById", User.class)
+                .setParameter("id", id)
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
+    }
+
     public Response authenticateEncapsulated(String token, BiFunction<User, String, Response> action) {
         return authenticateEncapsulated(token, false, action);
     }

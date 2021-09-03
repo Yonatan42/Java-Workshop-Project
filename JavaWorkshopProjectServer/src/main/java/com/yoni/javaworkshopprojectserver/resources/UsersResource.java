@@ -244,8 +244,15 @@ public class UsersResource extends AbstractRestResource<User> {
             @HeaderParam("Authorization") String token,
             @PathParam("userId") int userId) {
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
-            userService.refreshSecretKey(u.getEmail());
-            getEntityManager().refresh(u);
+            User targetUser = userService.findById(userId);
+            if(targetUser == null){
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(JsonUtils.createResponseJson("user id not found", ErrorCodes.USERS_NO_SUCH_USER))
+                        .build();
+            }
+            userService.refreshSecretKey(targetUser.getEmail());
+            getEntityManager().refresh(targetUser);
             return Response
                 .status(Response.Status.OK)
                 .entity(JsonUtils.createResponseJson(JsonUtils.createStandardTokennedJson(t, null)))
