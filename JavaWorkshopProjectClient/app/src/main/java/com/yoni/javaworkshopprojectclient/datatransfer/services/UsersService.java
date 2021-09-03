@@ -6,33 +6,29 @@ import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 
-import java.util.List;
+
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface UsersService extends BaseRemoveService {
 
     String URL = "users";
 
-//    @GET(URL)
-//    Call<ServerResponse<List<User>>> getAllUsers();
-
-//    @POST(URL+"register3/")
-//    Call<Void> register3(@Body Customer customer);
 
     @POST(URL+"/register")
     @FormUrlEncoded
     Call<ServerResponse<TokennedResult<LoginResponse>>> register(@Field("email") String email,
-                                                        @Field("pass") String pass,
-                                                        @Field("firstName") String firstName,
-                                                        @Field("lastName") String lastName,
-                                                        @Field("phone") String phone,
-                                                        @Field("address") String address);
+                                                                 @Field("pass") String pass,
+                                                                 @Field("firstName") String firstName,
+                                                                 @Field("lastName") String lastName,
+                                                                 @Field("phone") String phone,
+                                                                 @Field("address") String address);
 
     @POST(URL+"/login")
     Call<ServerResponse<TokennedResult<LoginResponse>>> login(@Header("Authorization") String token);
@@ -43,5 +39,11 @@ public interface UsersService extends BaseRemoveService {
                                                               @Field("pass") String pass);
 
 
+    @PUT(URL+"/{userId}")
+    @FormUrlEncoded
+    Call<ServerResponse<TokennedResult<User>>> updateInfo(@Header("Authorization") String token,
+                                                          @Path("userId") int userId,
+                                                          @Field("user") User user
+    );
 
 }

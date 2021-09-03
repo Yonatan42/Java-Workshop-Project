@@ -39,4 +39,10 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
                          ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
         enqueueTokenned(service.register(email, pass, firstName, lastName, phone, address), onSuccess, onError);
     }
+
+    public void updateInfo(User user,
+                           ResponseSuccessTokennedCallback<User> onSuccess,
+                           ResponseErrorCallback<TokennedResult<User>> onError){
+        enqueueTokenned(service.updateInfo(getToken(), user.getId(), user), onSuccess, onError);
+    }
 }
