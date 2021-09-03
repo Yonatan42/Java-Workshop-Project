@@ -6,7 +6,7 @@
 package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
-import com.yoni.javaworkshopprojectserver.models.users.User;
+import com.yoni.javaworkshopprojectserver.models.User;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
 import com.yoni.javaworkshopprojectserver.utils.JwtUtils;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
@@ -71,8 +71,8 @@ public class UserService {
     }
     
     
-    private boolean refreshSecretKey(String email){
-        return getEntityManager()
+    public void refreshSecretKey(String email){
+        getEntityManager()
                 .createNamedStoredProcedureQuery("Users.refreshSecretKey")
                 .setParameter("email", email)
                 .execute();
@@ -88,10 +88,13 @@ public class UserService {
                     .stream()
                     .findFirst()
                     .orElse(null);
-    } 
-    
-    public Response authenticateEncapsulated(String token, BiFunction<User, String, Response> action){
-        Result<User, Integer> authRes = authenticate(token);
+    }
+
+    public Response authenticateEncapsulated(String token, BiFunction<User, String, Response> action) {
+        return authenticateEncapsulated(token, false, action);
+    }
+    public Response authenticateEncapsulated(String token, boolean requiresAdmin, BiFunction<User, String, Response> action){
+        Result<User, Integer> authRes = authenticate(token, requiresAdmin);
         if(!authRes.isValid()){
             switch(authRes.getError()){
                 case ErrorCodes.TOKEN_INVALID:

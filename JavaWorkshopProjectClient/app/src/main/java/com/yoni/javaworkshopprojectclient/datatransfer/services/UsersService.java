@@ -53,7 +53,6 @@ public interface UsersService extends BaseRemoveService {
     );
 
     @PATCH(URL+"/{userId}/invalidate")
-    @FormUrlEncoded
     Call<ServerResponse<TokennedResult<Void>>> invalidateToken(@Header("Authorization") String token,
                                                                @Path("userId") int userId);
     @POST(URL+"/remote-register")
