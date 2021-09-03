@@ -6,11 +6,10 @@
 package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
-import com.yoni.javaworkshopprojectserver.models.users.AbstractUser;
-import com.yoni.javaworkshopprojectserver.models.users.ExtendedUser;
+import com.yoni.javaworkshopprojectserver.models.users.User;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
-import com.yoni.javaworkshopprojectserver.utils.JwtUtil;
-import com.yoni.javaworkshopprojectserver.utils.ResponseUtil;
+import com.yoni.javaworkshopprojectserver.utils.JwtUtils;
+import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
 import com.yoni.javaworkshopprojectserver.utils.Result;
 import io.jsonwebtoken.JwtException;
 import java.util.function.BiFunction;
@@ -27,48 +26,48 @@ import javax.ws.rs.core.Response;
 @Singleton
 @LocalBean
 public class UserService {
-       
+
     @EJB
     private EntityManagerSingleton entityManagerBean;
    
     
-    public Result<AbstractUser, Integer> authenticate(String token){
+    public Result<User, Integer> authenticate(String token){
         return authenticate(token, false);
     }
 
     
-    public Result<AbstractUser, Integer> authenticate(String token, boolean requiredAdmin){
+    public Result<User, Integer> authenticate(String token, boolean requiredAdmin){
         boolean needsRefresh;
         String email;
         String secret;
         try{
-            needsRefresh = JwtUtil.isExpired(token);
-            email = JwtUtil.getEmail(token);
-            secret = JwtUtil.getSecurityString(token);
+            needsRefresh = JwtUtils.isExpired(token);
+            email = JwtUtils.getEmail(token);
+            secret = JwtUtils.getSecurityString(token);
         }
         catch(JwtException e){
             e.printStackTrace(System.err);
             return Result.MakeError(ErrorCodes.TOKEN_INVALID);
         }
         
-        ExtendedUser u = findByEmail(email); 
+        User user = findByEmail(email);
         
-        if(u == null){
+        if(user == null){
             return Result.MakeError(ErrorCodes.TOKEN_INVALID);
         }
-        if(!u.getSecretKey().equals(secret)){
+        if(!user.getSecretKey().equals(secret)){
             return Result.MakeError(ErrorCodes.TOKEN_INVALID);
         }
-        if(requiredAdmin && !u.isAdmin()){
+        if(requiredAdmin && !user.isAdmin()){
             return Result.MakeError(ErrorCodes.USERS_UNAUTHORIZED);
         }
         
         if(needsRefresh){
             refreshSecretKey(email);
-            getEntityManager().refresh(u);
+            getEntityManager().refresh(user);
         }
         
-        return Result.MakeValue(u);
+        return Result.MakeValue(user);
     }
     
     
@@ -81,9 +80,9 @@ public class UserService {
     }
     
         
-    public ExtendedUser findByEmail(String email){
+    public User findByEmail(String email){
             return getEntityManager()
-                    .createNamedQuery("ExtendedUsers.findByEmail", ExtendedUser.class)
+                    .createNamedQuery("Users.findByEmail", User.class)
                     .setParameter("email", email)
                     .getResultList()
                     .stream()
@@ -91,22 +90,22 @@ public class UserService {
                     .orElse(null);
     } 
     
-    public Response authenticateEncapsulated(String token, BiFunction<AbstractUser, String, Response> action){
-        Result<AbstractUser, Integer> authRes = authenticate(token);
+    public Response authenticateEncapsulated(String token, BiFunction<User, String, Response> action){
+        Result<User, Integer> authRes = authenticate(token);
         if(!authRes.isValid()){
             switch(authRes.getError()){
                 case ErrorCodes.TOKEN_INVALID:
-                    return ResponseUtil.createSimpleErrorResponse("login failed", Response.Status.FORBIDDEN, ErrorCodes.TOKEN_INVALID);
+                    return ResponseUtils.createSimpleErrorResponse("login failed", Response.Status.FORBIDDEN, ErrorCodes.TOKEN_INVALID);
                 case ErrorCodes.USERS_UNAUTHORIZED:
-                    return ResponseUtil.createSimpleErrorResponse("login failed", Response.Status.FORBIDDEN, ErrorCodes.USERS_UNAUTHORIZED);
+                    return ResponseUtils.createSimpleErrorResponse("login failed", Response.Status.FORBIDDEN, ErrorCodes.USERS_UNAUTHORIZED);
             }
         }
-        AbstractUser u = authRes.getValue();
+        User u = authRes.getValue();
         String t = token;
-        String oldSecret = JwtUtil.getSecurityString(token);
+        String oldSecret = JwtUtils.getSecurityString(token);
         String newSecret = u.getSecretKey();
         if(!oldSecret.equals(newSecret)){
-            t = JwtUtil.create(u.getEmail(), newSecret);
+            t = JwtUtils.create(u.getEmail(), newSecret);
         }
         return action.apply(u, t);   
     }

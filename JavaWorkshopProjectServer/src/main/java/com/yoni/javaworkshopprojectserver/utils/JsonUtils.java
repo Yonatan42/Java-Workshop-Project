@@ -15,7 +15,7 @@ import com.google.gson.JsonPrimitive;
  *
  * @author Yoni
  */
-public class JsonUtil {
+public class JsonUtils {
  
     private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     

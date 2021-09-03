@@ -16,7 +16,7 @@ import java.util.Date;
  *
  * @author Yoni
  */
-public class JwtUtil {
+public class JwtUtils {
     private static final String SECRET_KEY = "$ydKctHLiYqz{:da8PgppSc)n5=:WGGK+khd-,v5#e,4Q6tKRMT}Vn!vJ;yd";
     private static final int SECURITY_STRING_LENGTH = 64;
     private static final long DEFAULT_EXPIRATION_OFFSET = 5 * 50 * 1000; // 5 minutes//10 * 60 * 1000;// 10 minutes 

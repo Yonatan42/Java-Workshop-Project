@@ -7,13 +7,9 @@ package com.yoni.javaworkshopprojectserver.resources;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.yoni.javaworkshopprojectserver.models.users.AbstractUser;
-import com.yoni.javaworkshopprojectserver.models.users.Customer;
-import com.yoni.javaworkshopprojectserver.utils.BcryptUtil;
-import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
-import com.yoni.javaworkshopprojectserver.utils.JwtUtil;
-import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
-import com.yoni.javaworkshopprojectserver.utils.ResponseUtil;
+import com.yoni.javaworkshopprojectserver.models.users.User;
+import com.yoni.javaworkshopprojectserver.utils.*;
+import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
 import com.yoni.javaworkshopprojectserver.service.UserService;
 
 import javax.ejb.EJB;
@@ -37,14 +33,14 @@ import javax.ws.rs.core.Response;
  */
 @Stateless
 @Path("users")
-public class UsersResource extends AbstractRestResource<AbstractUser> {
+public class UsersResource extends AbstractRestResource<User> {
 
     @EJB
     private UserService userService;
     
     
     public UsersResource() {
-        super(AbstractUser.class);
+        super(User.class);
     }
     
     // todo - delete. here we have register instead
@@ -60,7 +56,7 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void edit(@PathParam("id") Integer id, AbstractUser entity) {
+    public void edit(@PathParam("id") Integer id, User entity) {
         super.edit(entity);
     }
 
@@ -77,19 +73,19 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response find(@PathParam("id") Integer id) {
-        return ResponseUtil.respondSafe(() -> {
+        return ResponseUtils.respondSafe(() -> {
             try{
-                AbstractUser c = super.find(id);
+                User c = super.find(id);
                 return Response
                         .status(Response.Status.OK)
-                        .entity(JsonUtil.createResponseJson(JsonUtil.convertToJson(c)))
+                        .entity(JsonUtils.createResponseJson(JsonUtils.convertToJson(c)))
                         .build();
             }
             catch(IllegalArgumentException e){
                 e.printStackTrace(System.err);
                 return Response
                         .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtil.createResponseJson("no customer found to provided id", ErrorCodes.USERS_NO_SUCH_USER))
+                        .entity(JsonUtils.createResponseJson("no customer found to provided id", ErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
         });
@@ -99,10 +95,10 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAllRes() {
-        return ResponseUtil.respondSafe(() -> {
+        return ResponseUtils.respondSafe(() -> {
             return Response
                     .status(Response.Status.OK)
-                    .entity(JsonUtil.createResponseJson(JsonUtil.convertToJson(super.findAll())))
+                    .entity(JsonUtils.createResponseJson(JsonUtils.convertToJson(super.findAll())))
                     .build();
         });
     }
@@ -112,10 +108,10 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
     @Path("count")
     @Produces(MediaType.APPLICATION_JSON)
     public Response countRes() {
-        return ResponseUtil.respondSafe(() -> {
+        return ResponseUtils.respondSafe(() -> {
             return Response
                     .status(Response.Status.OK)
-                    .entity(JsonUtil.createResponseJson(JsonUtil.createSimpleMessageObject(String.valueOf(super.count()))))
+                    .entity(JsonUtils.createResponseJson(JsonUtils.createSimpleMessageObject(String.valueOf(super.count()))))
                     .build();
         });
     }
@@ -133,34 +129,34 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
             @FormParam("phone") String phone, 
             @FormParam("address") String address) {
         
-        return ResponseUtil.respondSafe(() -> {
+        return ResponseUtils.respondSafe(() -> {
                 if(userService.findByEmail(email) != null){
                     return Response
                             .status(Response.Status.CONFLICT)
-                            .entity(JsonUtil.createResponseJson("user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
+                            .entity(JsonUtils.createResponseJson("user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
                             .build();
                 }
                 getEntityManager().getTransaction().begin();
                 
-                Customer c = new Customer();
-                c.setFirstName(firstName);
-                c.setLastName(lastName);
-                c.setPhone(phone);
-                c.setEmail(email);
-                c.setAddress(address);
-                c.setPass(BcryptUtil.encrypt(pass));
-                AbstractUser u = super.edit(c);
+                User user = new User();
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setPhone(phone);
+                user.setEmail(email);
+                user.setAddress(address);
+                user.setPass(BcryptUtils.encrypt(pass));
+                user = super.edit(user);
 
                 getEntityManager().getTransaction().commit();
                 
-                getEntityManager().refresh(u);
+                getEntityManager().refresh(user);
                 
-                System.out.println("registered customer: "+u);
+                System.out.println("registered customer: "+user);
                 
-                String token = JwtUtil.create(email, u.getSecretKey()); 
+                String token = JwtUtils.create(email, user.getSecretKey());
                 return Response
                     .status(Response.Status.CREATED)
-                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, token)))
+                    .entity(JsonUtils.createResponseJson(getLoginResponseJson(user, token)))
                     .build();
 
         });
@@ -177,27 +173,27 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
             @FormParam("email") String email, 
             @FormParam("pass") String pass) {
 
-        return ResponseUtil.respondSafe(() -> {
+        return ResponseUtils.respondSafe(() -> {
             
-            AbstractUser u = userService.findByEmail(email);
+            User u = userService.findByEmail(email);
             if(u == null){
                 return Response
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity(JsonUtil.createResponseJson("provided email doesn't exist", ErrorCodes.USERS_NO_SUCH_USER))
+                        .entity(JsonUtils.createResponseJson("provided email doesn't exist", ErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
             else{
-                if(!BcryptUtil.checkEq(pass, u.getPass())){
+                if(!BcryptUtils.checkEq(pass, u.getPass())){
                     return Response
                         .status(Response.Status.FORBIDDEN)
-                        .entity(JsonUtil.createResponseJson("login failed", ErrorCodes.USERS_PASSWORD_MISSMATCH))
+                        .entity(JsonUtils.createResponseJson("login failed", ErrorCodes.USERS_PASSWORD_MISSMATCH))
                         .build();
                 }
                 else{
-                    String token = JwtUtil.create(email,u.getSecretKey()); 
+                    String token = JwtUtils.create(email,u.getSecretKey());
                     return Response
                         .status(Response.Status.OK)
-                        .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, token)))
+                        .entity(JsonUtils.createResponseJson(getLoginResponseJson(u, token)))
                         .build();
                 }
             }
@@ -210,22 +206,22 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login( 
             @HeaderParam("Authorization") String token) {
-        return ResponseUtil.respondSafe(() -> {
+        return ResponseUtils.respondSafe(() -> {
             return userService.authenticateEncapsulated(token, (u, t) -> {
                 return Response
                     .status(Response.Status.OK)
-                    .entity(JsonUtil.createResponseJson(getLoginResponseJson(u, t)))
+                    .entity(JsonUtils.createResponseJson(getLoginResponseJson(u, t)))
                     .build();
             });
         });
     }
     
-    private JsonElement getLoginResponseJson(AbstractUser user, String token){
+    private JsonElement getLoginResponseJson(User user, String token){
         // todo - get categories from
         JsonObject root = new JsonObject();
-        root.add("user",  JsonUtil.convertToJson(user));
-//        root.add("categories",  JsonUtil.convertToJson(categories));
-        return JsonUtil.createStandardTokennedJson(token,root);
+        root.add("user",  JsonUtils.convertToJson(user));
+//        root.add("categories",  JsonUtils.convertToJson(categories));
+        return JsonUtils.createStandardTokennedJson(token,root);
     } 
     
     
@@ -234,9 +230,9 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
     @Path("token/refresh/{email}")
     @Produces(MediaType.TEXT_PLAIN)
     public String refreshToken(@PathParam("email") String email) {
-        AbstractUser u = userService.findByEmail(email);
+        User u = userService.findByEmail(email);
         String before = u.getSecretKey();
-        getEntityManager().createNamedStoredProcedureQuery("ExtendedUsers.refreshSecretKey").setParameter("email", email).execute();
+        getEntityManager().createNamedStoredProcedureQuery("Users.refreshSecretKey").setParameter("email", email).execute();
         getEntityManager().refresh(u);
 //         u = findByEmail(email);
          String after = u.getSecretKey();
@@ -250,14 +246,14 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
     @Path("token/create/{email}")
     @Produces(MediaType.TEXT_PLAIN)
     public String testToken(@PathParam("email") String email) {
-        return JwtUtil.create(email,""); // will update the second value
+        return JwtUtils.create(email,""); // will update the second value
     }
     
 //    @GET
 //    @Path("token/validate/{email}/{token}")
 //    @Produces(MediaType.TEXT_PLAIN)
 //    public boolean testToken(@PathParam("email") String email, @PathParam("token") String token) {
-//        return JwtUtil.isValid(token, email);
+//        return JwtUtils.isValid(token, email);
 //    }
     
 
@@ -265,17 +261,9 @@ public class UsersResource extends AbstractRestResource<AbstractUser> {
 
 //    private boolean checkAuth(
 //            /*@HeaderParam("authorization") */String token) {
-//        if(JwtUtil.isExpired(token)){
+//        if(JwtUtils.isExpired(token)){
 //            return false;
 //        }
-//        String email = JwtUtil.getEmail(token);
+//        String email = JwtUtils.getEmail(token);
 //    }
 }
-
-
-/*
-todo - 
-I have renamed this to UsersResource
-the intention is to have the entire user service here including customers, admins, both together (users), as well as token endpoints 
-*/
-

@@ -11,7 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author Yoni
  */
-public class BcryptUtil {
+public class BcryptUtils {
     
     public static String encrypt(String password){
         return BCrypt.hashpw(password, BCrypt.gensalt());
