@@ -58,22 +58,25 @@ SELECT * FROM orders;
 
 -- ordera details
 
+DROP VIEW orders_details;
+
 
 CREATE VIEW orders_details AS
 SELECT 
 o.id AS order_id, 
-c.id AS customer_id,
+u.id AS user_id,
 p.id AS product_id,
-CONCAT(c.last_name,  ' , ', c.first_name) AS customer_name,
-c.email,
+CONCAT(u.last_name,  ' , ', u.first_name) AS full_name,
+u.email,
 o.phone,
 o.address,
 p.title AS product_name,
 op.price_at_order AS price,
 op.quantity,
-op.price_at_order * op.quantity AS total_price
+op.price_at_order * op.quantity AS total_price,
+o.created AS transaction_date
 FROM orders AS o 
-INNER JOIN customers AS c ON o.customer_id = c.id 
+INNER JOIN users AS u ON o.customer_id = u.id 
 INNER JOIN order_products AS op ON o.id = op.order_id
 INNER JOIN products as p ON op.product_id = p.id;
 
@@ -84,15 +87,18 @@ SELECT * FROM orders_details;
 
 -- orders summaries
 
+DROP VIEW orders_summaries;
+
 CREATE VIEW orders_summaries AS
 SELECT 
 order_id, 
-customer_id,
-customer_name,
+user_id,
+full_name,
 email,
 phone,
 address,
-SUM(total_price) AS total_price 
+SUM(total_price) AS total_price,
+transaction_date
 FROM orders_details 
 GROUP BY order_id;
 

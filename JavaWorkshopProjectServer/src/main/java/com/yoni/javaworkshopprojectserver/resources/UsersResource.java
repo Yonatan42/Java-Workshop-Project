@@ -5,35 +5,19 @@
  */
 package com.yoni.javaworkshopprojectserver.resources;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.users.AbstractUser;
 import com.yoni.javaworkshopprojectserver.models.users.Customer;
-import com.yoni.javaworkshopprojectserver.models.users.ExtendedUser;
 import com.yoni.javaworkshopprojectserver.utils.BcryptUtil;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtil;
 import com.yoni.javaworkshopprojectserver.utils.JwtUtil;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtil;
-import com.yoni.javaworkshopprojectserver.utils.Result;
 import com.yoni.javaworkshopprojectserver.service.UserService;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.SignatureException;
-import java.util.Date;
-import java.util.List;
-import java.util.function.Function;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.enterprise.inject.spi.Producer;
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -43,11 +27,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 /**
@@ -56,13 +37,13 @@ import javax.ws.rs.core.Response;
  */
 @Stateless
 @Path("users")
-public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
+public class UsersResource extends AbstractRestResource<AbstractUser> {
 
     @EJB
     private UserService userService;
     
     
-    public UsersFacadeREST() {
+    public UsersResource() {
         super(AbstractUser.class);
     }
     
@@ -239,8 +220,12 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
         });
     }
     
-    private JsonElement getLoginResponseJson(AbstractUser u, String token){
-        return JsonUtil.createStandardTokennedJson(token, JsonUtil.convertToJson(u));
+    private JsonElement getLoginResponseJson(AbstractUser user, String token){
+        // todo - get categories from
+        JsonObject root = new JsonObject();
+        root.add("user",  JsonUtil.convertToJson(user));
+//        root.add("categories",  JsonUtil.convertToJson(categories));
+        return JsonUtil.createStandardTokennedJson(token,root);
     } 
     
     
@@ -290,7 +275,7 @@ public class UsersFacadeREST extends AbstractFacade<AbstractUser> {
 
 /*
 todo - 
-I have renamed this to UsersFacadeREST
+I have renamed this to UsersResource
 the intention is to have the entire user service here including customers, admins, both together (users), as well as token endpoints 
 */
 

@@ -1,7 +1,5 @@
 package com.yoni.javaworkshopprojectclient.remote;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 
 import com.yoni.javaworkshopprojectclient.R;
@@ -12,7 +10,7 @@ import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import retrofit2.Call;
 
 public class StandardResponseErrorCallback<T> implements ResponseErrorCallback<T> {
-    private ParentActivity parentActivity;
+    private final ParentActivity parentActivity;
     private Runnable retryBlock;
 
     public StandardResponseErrorCallback(ParentActivity parentActivity){
@@ -28,7 +26,7 @@ public class StandardResponseErrorCallback<T> implements ResponseErrorCallback<T
         onPreErrorResponse();
         switch (responseError.getCode()){
             case ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE:
-            case ServerResponse.ServerResponseError.PAGE_NOT_FOUND_CODE:
+            case ServerResponse.ServerResponseError.SERVER_UNKNOWN_ERROR_CODE:
                 if(retryBlock != null) {
                     new ErrorPopup(parentActivity, parentActivity.getString(R.string.error_check_internet), retryBlock).show();
                 }

@@ -20,7 +20,7 @@ import javax.validation.ValidatorFactory;
  *
  * @author Yoni
  */
-public abstract class AbstractFacade<T> {
+public abstract class AbstractRestResource<T> {
 
     
     @EJB
@@ -28,7 +28,7 @@ public abstract class AbstractFacade<T> {
     
     private Class<T> entityClass;
 
-    public AbstractFacade(Class<T> entityClass) {
+    public AbstractRestResource(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
