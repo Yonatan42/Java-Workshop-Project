@@ -26,7 +26,7 @@ public interface OrdersService extends BaseRemoveService {
 
     String URL = "orders";
 
-    @GET(URL+"{userId}/summaries/page/{pageNum}")
+    @GET(URL+"/{userId}/summaries/page/{pageNum}")
     Call<ServerResponse<TokennedResult<List<OrderSummary>>>> getPagedOrderSummaries(
             @Header("Authorization") String token,
             @Path("userId") int userId,
