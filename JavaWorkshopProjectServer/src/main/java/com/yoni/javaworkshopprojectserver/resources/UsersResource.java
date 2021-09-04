@@ -26,6 +26,8 @@ import javax.ws.rs.core.Response;
 @Path("users")
 public class UsersResource extends AbstractRestResource<User> {
 
+    private static final String TAG = "UsersResource";
+
     @EJB
     private UserService userService;
     
@@ -73,7 +75,7 @@ public class UsersResource extends AbstractRestResource<User> {
 //                        .build();
 //            }
 //            catch(IllegalArgumentException e){
-//                e.printStackTrace(System.err);
+//                Logger.logError(TAG, e);
 //                return Response
 //                        .status(Response.Status.NOT_FOUND)
 //                        .entity(JsonUtils.createResponseJson("no customer found to provided id", ErrorCodes.USERS_NO_SUCH_USER))
@@ -120,6 +122,7 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("phone") String phone,
             @FormParam("address") String address){
 
+        Logger.logFormat(TAG, "<register>\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", email, pass, firstName, lastName, phone, address);
         return registerInternal(email, pass, firstName, lastName, phone, address, false);
     }
 
@@ -154,7 +157,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 
                 getEntityManager().refresh(user);
                 
-                System.out.println("registered customer: "+user);
+                Logger.log(TAG, "registered customer: "+user);
                 
                 String token = JwtUtils.create(email, user.getSecretKey());
                 return Response
@@ -182,6 +185,7 @@ public class UsersResource extends AbstractRestResource<User> {
               @FormParam("address") String address,
               @FormParam("isAdmin") boolean isAdmin) {
 
+        Logger.logFormat(TAG, "<remoteRegister>\nAuthorization: %s\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nisAdmin: %b", token, email, pass, firstName, lastName, phone, address, isAdmin);
         return ResponseUtils.respondSafe(() ->
                 userService.authenticateEncapsulated(token, true, (u, t) ->
                         registerInternal(email, pass, firstName, lastName, phone, address, isAdmin)));
@@ -197,6 +201,7 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("email") String email, 
             @FormParam("pass") String pass) {
 
+        Logger.logFormat(TAG, "<loginAuth>\nemail: %s\npass: %s", email, pass);
         return ResponseUtils.respondSafe(() -> {
             
             User u = userService.findByEmail(email);
@@ -230,6 +235,8 @@ public class UsersResource extends AbstractRestResource<User> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login( 
             @HeaderParam("Authorization") String token) {
+
+        Logger.logFormat(TAG, "<login>\nAuthorization: %s", token);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> Response
             .status(Response.Status.OK)
             .entity(JsonUtils.createResponseJson(getLoginResponseJson(u, t)))
@@ -252,6 +259,8 @@ public class UsersResource extends AbstractRestResource<User> {
     public Response invalidateToken(
             @HeaderParam("Authorization") String token,
             @PathParam("userId") int userId) {
+
+        Logger.logFormat(TAG, "<invalidateToken>\nAuthorization: %s\nuserId: %d", token, userId);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             User targetUser = userService.findById(userId);
             if(targetUser == null){
@@ -283,6 +292,7 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("phone") String phone,
             @FormParam("address") String address
     ){
+        Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

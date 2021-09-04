@@ -9,6 +9,7 @@ import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.ProductCategory;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UserService;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
 
 import javax.ejb.EJB;
@@ -27,6 +28,8 @@ import java.util.List;
 @Stateless
 @Path("products")
 public class ProductsResource extends AbstractRestResource<Product> {
+
+    private static final String TAG = "ProductsResource";
 
     @EJB
     private ProductsService productsService;
@@ -48,6 +51,8 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @QueryParam("filterText") String filterText,
             @QueryParam("filterCategoryId") Integer filterCategoryId
     ) {
+
+        Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\npageNum: %d\nfilterText: %s\nfilterCategoryId: %d", token, pageNum, filterText, filterCategoryId);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -69,6 +74,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("price") float price,
             @FormParam("stockQuantity") int stockQuantity
     ){
+        Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategories %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, null/*todo - update this*/, price, stockQuantity);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -86,6 +92,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @PathParam("productId") int productId/*,
             @FormParam("product") Product product*/ // todo - figure out why this doesn't work and then uncomment
     ){
+        Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nproductId: %d\nproduct: %s", token, productId, null/*todo - update this*/);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -104,6 +111,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @PathParam("productId") int productId,
             @FormParam("isEnabled") boolean isEnabled
     ){
+        Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nproductId: %d\nisEnabled: %b", token, productId, isEnabled);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -124,10 +132,13 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @HeaderParam("Authorization") String token,
             @QueryParam("productIds") List<Integer> productIds
     ){
-        // todo - fill in
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("{\"message\":\"not implemented\"}")
-                .build();
+        Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nproductIds: %s", token, productIds);
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+            // todo - fill in
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
+        }));
     }
 
     @POST
@@ -138,9 +149,12 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @HeaderParam("Authorization") String token,
             @FormParam("title") String title
     ){
-        // todo - fill in
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity("{\"message\":\"not implemented\"}")
-                .build();
+        Logger.logFormat(TAG, "<createCategory>\nAuthorization: %s\ntitle: %s", token, title);
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+            // todo - fill in
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
+        }));
     }
 }

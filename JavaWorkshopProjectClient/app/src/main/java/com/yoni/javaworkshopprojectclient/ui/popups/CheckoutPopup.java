@@ -64,6 +64,7 @@ public class CheckoutPopup extends AlertDialog {
 
     private void makeOrder() {
         btnOk.setEnabled(false);
+        setCalendarToEndOfMonth();
         RemoteServiceManager.getInstance().getOrdersService().createOrder(
                 DataSets.getInstance().getCurrentUser().getId(),
                 userInfoFragment.getEmail(),
@@ -117,5 +118,13 @@ public class CheckoutPopup extends AlertDialog {
             datePickerDialog.getDatePicker().setMinDate(new Date().getTime());
             datePickerDialog.show();
         });
+    }
+
+    private void setCalendarToEndOfMonth(){
+        expirationCalendar.set(Calendar.DAY_OF_MONTH, expirationCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        expirationCalendar.set(Calendar.HOUR_OF_DAY, expirationCalendar.getActualMaximum(Calendar.HOUR_OF_DAY));
+        expirationCalendar.set(Calendar.MINUTE, expirationCalendar.getActualMaximum(Calendar.MINUTE));
+        expirationCalendar.set(Calendar.SECOND, expirationCalendar.getActualMaximum(Calendar.SECOND));
+        expirationCalendar.set(Calendar.MILLISECOND, expirationCalendar.getActualMaximum(Calendar.MILLISECOND));
     }
 }

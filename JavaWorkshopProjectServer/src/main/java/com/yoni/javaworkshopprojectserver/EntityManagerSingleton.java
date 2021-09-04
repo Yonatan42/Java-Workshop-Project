@@ -32,7 +32,7 @@ public class EntityManagerSingleton {
             Class.forName("com.mysql.cj.jdbc.Driver"); // the mysql jar needs to be added to the glasfish/libs folder
             em = Persistence.createEntityManagerFactory("my_persistence_unit").createEntityManager();
          } catch (ClassNotFoundException ex) {
-             Logger.LogError(TAG, "Linking to MySQL failed", ex);
+             Logger.logError(TAG, "Linking to MySQL failed", ex);
          }
     }
     

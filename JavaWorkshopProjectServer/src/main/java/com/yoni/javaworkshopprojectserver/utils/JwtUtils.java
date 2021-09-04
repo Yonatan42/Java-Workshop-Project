@@ -72,7 +72,7 @@ public class JwtUtils {
 //            return !isExpired(token) && getEmail(token).equals(email);
 //        }
 //        catch(SignatureException e){
-//            e.printStackTrace(System.err);
+//            Logger.logError(TAG, e);
 //            return false;
 //        }
 //    }

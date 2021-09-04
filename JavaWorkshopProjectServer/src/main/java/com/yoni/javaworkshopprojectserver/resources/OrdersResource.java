@@ -11,6 +11,7 @@ import com.yoni.javaworkshopprojectserver.models.ProductCategory;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UserService;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
 
 import javax.ejb.EJB;
@@ -30,6 +31,8 @@ import java.util.List;
 @Stateless
 @Path("orders")
 public class OrdersResource extends AbstractRestResource<Order> {
+
+    private static final String TAG = "OrdersResource";
 
     @EJB
     private OrdersService ordersService;
@@ -51,6 +54,7 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @PathParam("userId") int userId,
             @PathParam("pageNum") int pageNum
     ){
+        Logger.logFormat(TAG, "<getPagedOrderSummaries>\nAuthorization: %s\nuserId: %d\npageNum: %d", token, userId, pageNum);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -66,6 +70,7 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @HeaderParam("Authorization") String token,
             @PathParam("orderId") int orderId
     ){
+        Logger.logFormat(TAG, "<getOrderDetails>\nAuthorization: %s\norderId: %d", token, orderId);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -91,6 +96,8 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @FormParam("cardExpiration") Date cardExpiration,
             @FormParam("cardCVV") String cardCVV
     ){
+        // todo - at least removed logging of credit card info
+        Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\ncreditCard %s\ncardExpiration: %tF\ncardCVV: %s", token, userId, email, fname, lname, phone, address, creditCard, cardExpiration, cardCVV);
         return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)

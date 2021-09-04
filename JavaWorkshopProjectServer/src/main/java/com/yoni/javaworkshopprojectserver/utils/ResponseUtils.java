@@ -15,20 +15,22 @@ import javax.ws.rs.core.Response.Status;
  * @author Yoni
  */
 public class ResponseUtils {
+
+    private static final String TAG = "ResponseUtils";
     
     public static Response respondSafe(Supplier<Response> action){
         try{
             return action.get();
         }
         catch(PersistenceException e){
-            e.printStackTrace(System.err);
+            Logger.logError(TAG, e);
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(JsonUtils.createResponseJson("a persistence error occurred", ErrorCodes.PERSISTENCE_GENERAL))
                     .build();
         }
         catch(Exception e){
-            e.printStackTrace(System.err);
+            Logger.logError(TAG, e);
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity(JsonUtils.createResponseJson("unexpected error occurred", ErrorCodes.UNKNOWN))

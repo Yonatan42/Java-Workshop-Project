@@ -7,6 +7,7 @@ package com.yoni.javaworkshopprojectserver.exceptionmappers;
 
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -17,13 +18,15 @@ import javax.ws.rs.ext.Provider;
  * @author Yoni
  */
 @Provider
-public class UncaughExceptionMapper implements ExceptionMapper<Throwable> {
+public class UncaughtExceptionMapper implements ExceptionMapper<Throwable> {
+
+    private static final String TAG = "UncaughtExceptionMapper";
 
      // if we reached here, then the fallback didn't catch the exception, in other words, there was an attempt to access a page that doesn't exist. 
     
     @Override
     public Response toResponse(Throwable t) {
-        t.printStackTrace(System.err);
+        Logger.logError(TAG, t);
         return Response
                 .status(Response.Status.NOT_FOUND)
                 .entity(JsonUtils.createResponseJson("page not found", ErrorCodes.UNKNOWN))

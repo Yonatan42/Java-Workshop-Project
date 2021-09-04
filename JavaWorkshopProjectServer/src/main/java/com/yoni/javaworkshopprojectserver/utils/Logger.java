@@ -7,19 +7,25 @@ import java.io.StringWriter;
 
 public class Logger {
 
-    public static void Log(String tag, String message){
-        LogInternal(tag, message, false);
+    private static final String PREFIX = "[StoreIt] ";
+
+    public static void log(String tag, String message){
+        logInternal(tag, message, false);
     }
 
-    public static void LogError(String tag, String message){
-        LogError(tag, message, null);
+    public static void logFormat(String tag, String formattedMessage, Object... params){
+        logInternal(tag, String.format(formattedMessage, params), false);
     }
 
-    public static void LogError(String tag, Throwable t){
-        LogError(tag, null, t);
+    public static void logError(String tag, String message){
+        logError(tag, message, null);
     }
 
-    public static void LogError(String tag, String message, Throwable t){
+    public static void logError(String tag, Throwable t){
+        logError(tag, null, t);
+    }
+
+    public static void logError(String tag, String message, Throwable t){
         String msg = null;
         if(message != null){
             msg = message;
@@ -37,12 +43,12 @@ public class Logger {
                 e.printStackTrace();
             }
         }
-        LogInternal(tag, msg, true);
+        logInternal(tag, msg, true);
     }
 
-    private static void LogInternal(String tag, String message, boolean isError){
+    private static void logInternal(String tag, String message, boolean isError){
         PrintStream out = isError ? System.err : System.out;
-        out.println(tag+": "+message);
+        out.println(PREFIX+tag+": "+message);
     }
 
 }

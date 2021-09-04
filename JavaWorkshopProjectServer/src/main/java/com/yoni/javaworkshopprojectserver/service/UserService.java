@@ -7,10 +7,7 @@ package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.User;
-import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
-import com.yoni.javaworkshopprojectserver.utils.JwtUtils;
-import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
-import com.yoni.javaworkshopprojectserver.utils.Result;
+import com.yoni.javaworkshopprojectserver.utils.*;
 import io.jsonwebtoken.JwtException;
 import java.util.function.BiFunction;
 import javax.ejb.EJB;
@@ -26,6 +23,8 @@ import javax.ws.rs.core.Response;
 @Singleton
 @LocalBean
 public class UserService {
+
+    private static final String TAG = "UserService";
 
     @EJB
     private EntityManagerSingleton entityManagerBean;
@@ -46,7 +45,7 @@ public class UserService {
             secret = JwtUtils.getSecurityString(token);
         }
         catch(JwtException e){
-            e.printStackTrace(System.err);
+            Logger.logError(TAG, e);
             return Result.MakeError(ErrorCodes.TOKEN_INVALID);
         }
         

@@ -6,6 +6,8 @@
 package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,7 @@ import javax.validation.ValidatorFactory;
  */
 public abstract class AbstractRestResource<T> {
 
+    private static final String TAG = "AbstractRestResource";
     
     @EJB
     private EntityManagerSingleton entityManagerBean;
@@ -47,7 +50,7 @@ public abstract class AbstractRestResource<T> {
             Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
             while(iterator.hasNext()){
                 ConstraintViolation<T> cv = iterator.next();
-                System.err.println("Constraint Validatin: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
+                Logger.logError(TAG, "Constraint Validatin: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
             }
         }else{
             getEntityManager().persist(entity);
@@ -63,7 +66,7 @@ public abstract class AbstractRestResource<T> {
             Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
             while(iterator.hasNext()){
                 ConstraintViolation<T> cv = iterator.next();
-                System.err.println("Constraint Validatin: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
+                Logger.logError(TAG, "Constraint Validatin: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
             }
             return null;
         }else{
