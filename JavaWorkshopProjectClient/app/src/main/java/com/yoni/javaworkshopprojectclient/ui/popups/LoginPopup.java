@@ -37,9 +37,7 @@ public class LoginPopup extends AlertDialog {
 
             RemoteServiceManager.getInstance().getUsersService().login(email, pass,
                     (call, response, result) -> {
-                        DataSets.getInstance().setCurrentUser(result.getUser());
-                        DataSets.getInstance().setCategories(result.getCategories());
-                        parentActivity.setSelectedTab(ParentActivity.INITIAL_TAB);
+                        parentActivity.loginUser(result);
                         dismiss();
                     },
                     new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(parentActivity));

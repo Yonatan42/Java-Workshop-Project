@@ -63,10 +63,9 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
                            String address,
                            ResponseSuccessTokennedCallback<User> onSuccess,
                            ResponseErrorCallback<TokennedResult<User>> onError){
-        /* // todo - uncomment this once we are connected to the server
         enqueueTokenned(service.updateInfo(getToken(), userId, email, pass, firstName, lastName, phone, address), onSuccess, onError);
-         */
         // todo - remove this once we're connected to the server
+        /*
         User currentUser = DataSets.getInstance().getCurrentUser();
         currentUser.setEmail(email);
         currentUser.setFirstName(firstName);
@@ -74,13 +73,12 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
         currentUser.setPhone(phone);
         currentUser.setAddress(address);
         onSuccess.onResponseSuccessTokenned(null, null, currentUser);
+         */
     }
 
     public void invalidateToken(int userId, ResponseSuccessTokennedCallback<Void> onSuccess, ResponseErrorCallback<TokennedResult<Void>> onError){
-        /* // todo - uncomment this once we are connected to the server
         enqueueTokenned(service.invalidateToken(getToken(), userId), onSuccess, onError);
-        */
         // todo - remove this once we're connected to the server
-        onSuccess.onResponseSuccessTokenned(null, null ,null);
+        // onSuccess.onResponseSuccessTokenned(null, null ,null);
     }
 }

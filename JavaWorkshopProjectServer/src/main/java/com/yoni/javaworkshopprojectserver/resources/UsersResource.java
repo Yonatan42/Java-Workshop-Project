@@ -261,4 +261,26 @@ public class UsersResource extends AbstractRestResource<User> {
                 .build();
         }));
     }
+
+    @PUT
+    @Path("{userId}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateInfo(
+            @HeaderParam("Authorization") String token,
+            @PathParam("userId") int userId,
+            @FormParam("email") String email,
+            @FormParam("pass") String pass,
+            @FormParam("firstName") String firstName,
+            @FormParam("lastName") String lastName,
+            @FormParam("phone") String phone,
+            @FormParam("address") String address
+    ){
+        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+            // todo - fill in
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("{\"message\":\"not implemented\"}")
+                    .build();
+        }));
+    }
 }

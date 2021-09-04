@@ -61,7 +61,7 @@ public class RegisterFragment extends BaseFragment {
                 profileDetailsFrag.getLastName(),
                 profileDetailsFrag.getPhone(),
                 profileDetailsFrag.getAddress(),
-                (call, response, result) -> getParentActivity().setSelectedTab(ParentActivity.INITIAL_TAB),
+                (call, response, result) -> getParentActivity().loginUser(result),
                 new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(getParentActivity(), () -> attemptRegister(profileDetailsFrag)) {
                     @Override
                     public void onPreErrorResponse() {

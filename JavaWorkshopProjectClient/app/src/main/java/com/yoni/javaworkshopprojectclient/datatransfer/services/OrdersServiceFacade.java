@@ -32,14 +32,15 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
                                        int pageNum,
                                        ResponseSuccessTokennedCallback<List<OrderSummary>> onSuccess,
                                        ResponseErrorCallback<TokennedResult<List<OrderSummary>>> onError){
-        /* // todo - uncomment this
+
         if(userId == null){
             userId = DataSets.getInstance().getCurrentUser().getId();
         }
         enqueueTokenned(service.getPagedOrderSummaries(getToken(), userId, pageNum), onSuccess, onError);
-         */
+
 
         // todo - remove this testing code once we are connected to server
+        /*
         List<OrderSummary> orders = new ArrayList<>();
         int offset = pageNum * 20;
         for (int i = 1 + offset; i <= 20 + offset; i++ ) {
@@ -55,15 +56,17 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
         }
 
         onSuccess.onResponseSuccessTokenned(null, null, orders);
+     */
     }
+
 
     public void getOrderDetails(int orderId,
                                 ResponseSuccessTokennedCallback<OrderDetails> onSuccess,
                                 ResponseErrorCallback<TokennedResult<OrderDetails>> onError){
-        /* // todo - uncomment once we are connected to the server
         enqueueTokenned(service.getOrderDetails(getToken(), orderId), onSuccess, onError);
-         */
+
         // todo - remove this once we are connected to server
+        /*
         OrderDetails order = new OrderDetails();
         order.setOrderId(orderId);
         order.setUserId(1);
@@ -81,6 +84,8 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
         order.setProducts(products);
         order.setTotalPrice(total);
         onSuccess.onResponseSuccessTokenned(null, null, order);
+
+         */
     }
 
     public void createOrder(
@@ -95,13 +100,15 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
             String cardCVV,
             ResponseSuccessTokennedCallback<OrderDetails> onSuccess,
             ResponseErrorCallback<TokennedResult<OrderDetails>> onError){
-        /* // todo - uncomment once we are connected to the server
         enqueueTokenned(service.createOrder(getToken(), userId, email, fname, lname, phone, address, creditCard, cardExpiration, cardCVV), onSuccess, onError);
-        */
+
         // todo - remove this once we are connected to server
+        /*
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setOrderId(42);
         onSuccess.onResponseSuccessTokenned(null, null, orderDetails);
+
+         */
     }
 
 

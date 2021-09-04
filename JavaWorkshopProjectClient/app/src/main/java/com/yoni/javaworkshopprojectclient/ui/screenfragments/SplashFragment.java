@@ -48,11 +48,7 @@ public class SplashFragment extends BaseFragment {
 
     private void attemptLogin() {
         RemoteServiceManager.getInstance().getUsersService().login(
-                (call, response, result) -> {
-            DataSets.getInstance().setCurrentUser(result.getUser());
-            DataSets.getInstance().setCategories(result.getCategories());
-            getParentActivity().setSelectedTab(ParentActivity.INITIAL_TAB);
-        },
+                (call, response, result) -> getParentActivity().loginUser(result),
                 new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(getParentActivity(), SplashFragment.this::attemptLogin) {
                     @Override
                     public void onUnhandledResponseError(@NonNull Call<ServerResponse<TokennedResult<LoginResponse>>> call, ServerResponse.ServerResponseError responseError) {

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.events.Event;
 import com.yoni.javaworkshopprojectclient.events.OnActivityResultListener;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
@@ -204,5 +205,11 @@ public class ParentActivity extends AppCompatActivity {
         TokenStore.getInstance().clearToken();
         CartStore.getInstance().clear();
         makeFragmentTransition(AppScreen.SPLASH.getFragment());
+    }
+
+    public void loginUser(LoginResponse loginData){
+        DataSets.getInstance().setCurrentUser(loginData.getUser());
+        DataSets.getInstance().setCategories(loginData.getCategories());
+        setSelectedTab(ParentActivity.INITIAL_TAB);
     }
 }
