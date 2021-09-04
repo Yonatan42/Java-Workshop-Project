@@ -108,18 +108,28 @@ public class UsersResource extends AbstractRestResource<User> {
 //    }
 //
 
-    
     @POST
     @Path("register")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response register(
-            @FormParam("email") String email, 
-            @FormParam("pass") String pass, 
-            @FormParam("firstName") String firstName, 
-            @FormParam("lastName") String lastName, 
-            @FormParam("phone") String phone, 
-            @FormParam("address") String address) {
+            @FormParam("email") String email,
+            @FormParam("pass") String pass,
+            @FormParam("firstName") String firstName,
+            @FormParam("lastName") String lastName,
+            @FormParam("phone") String phone,
+            @FormParam("address") String address){
+
+        return registerInternal(email, pass, firstName, lastName, phone, address, false);
+    }
+
+    private Response registerInternal(String email,
+                             String pass,
+                             String firstName,
+                             String lastName,
+                             String phone,
+                             String address,
+                             boolean isAdmin) {
         
         return ResponseUtils.respondSafe(() -> {
                 if(userService.findByEmail(email) != null){
@@ -137,6 +147,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 user.setEmail(email);
                 user.setAddress(address);
                 user.setPass(BcryptUtils.encrypt(pass));
+                user.setAdmin(isAdmin);
                 user = super.edit(user);
 
                 getEntityManager().getTransaction().commit();
@@ -169,15 +180,11 @@ public class UsersResource extends AbstractRestResource<User> {
               @FormParam("lastName") String lastName,
               @FormParam("phone") String phone,
               @FormParam("address") String address,
-              @FormParam("isAdmin") boolean isAdmin){
+              @FormParam("isAdmin") boolean isAdmin) {
 
-
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
-                    .build();
-        }));
+        return ResponseUtils.respondSafe(() ->
+                userService.authenticateEncapsulated(token, true, (u, t) ->
+                        registerInternal(email, pass, firstName, lastName, phone, address, isAdmin)));
     }
 
 

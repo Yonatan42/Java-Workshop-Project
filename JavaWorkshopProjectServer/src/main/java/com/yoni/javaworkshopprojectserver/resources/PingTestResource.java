@@ -6,7 +6,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author 
+ * @author Yoni
  */
 @Path("ping")
 public class PingTestResource {

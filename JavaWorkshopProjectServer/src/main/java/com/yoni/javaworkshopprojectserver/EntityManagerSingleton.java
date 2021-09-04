@@ -5,8 +5,8 @@
  */
 package com.yoni.javaworkshopprojectserver;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
+
 import javax.annotation.PreDestroy;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -22,6 +22,8 @@ import javax.persistence.Persistence;
 @LocalBean
 @Startup
 public class EntityManagerSingleton {
+
+    private static final String TAG = "EntityManagerSingleton";
    
     private EntityManager em;
 
@@ -29,9 +31,9 @@ public class EntityManagerSingleton {
          try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // the mysql jar needs to be added to the glasfish/libs folder
             em = Persistence.createEntityManagerFactory("my_persistence_unit").createEntityManager();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JAXRSConfiguration.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         } catch (ClassNotFoundException ex) {
+             Logger.LogError(TAG, "Linking to MySQL failed", ex);
+         }
     }
     
     public EntityManager getEntityManager(){
