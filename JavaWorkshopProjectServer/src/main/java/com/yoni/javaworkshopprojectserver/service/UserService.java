@@ -36,6 +36,11 @@ public class UserService {
 
     
     public Result<User, Integer> authenticate(String token, boolean requiredAdmin){
+
+        if(token == null){
+            return Result.MakeError(ErrorCodes.TOKEN_INVALID);
+        }
+
         boolean needsRefresh;
         String email;
         String secret;
@@ -50,7 +55,7 @@ public class UserService {
         }
         
         User user = findByEmail(email);
-        
+
         if(user == null){
             return Result.MakeError(ErrorCodes.TOKEN_INVALID);
         }
@@ -65,7 +70,7 @@ public class UserService {
             refreshSecretKey(email);
             getEntityManager().refresh(user);
         }
-        
+
         return Result.MakeValue(user);
     }
     
@@ -104,9 +109,6 @@ public class UserService {
     }
     public Response authenticateEncapsulated(String token, boolean requiresAdmin, BiFunction<User, String, Response> action){
         final String tokenFailureErrorMsg = "access denied";
-        if(token == null){
-            return ResponseUtils.createSimpleErrorResponse(tokenFailureErrorMsg, Response.Status.FORBIDDEN, ErrorCodes.TOKEN_INVALID);
-        }
         Result<User, Integer> authRes = authenticate(token, requiresAdmin);
         if(!authRes.isValid()){
             switch(authRes.getError()){

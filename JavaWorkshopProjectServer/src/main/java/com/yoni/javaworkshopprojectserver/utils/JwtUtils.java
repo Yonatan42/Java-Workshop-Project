@@ -19,7 +19,7 @@ import java.util.Date;
 public class JwtUtils {
     private static final String SECRET_KEY = "$ydKctHLiYqz{:da8PgppSc)n5=:WGGK+khd-,v5#e,4Q6tKRMT}Vn!vJ;yd";
     private static final int SECURITY_STRING_LENGTH = 64;
-    private static final long DEFAULT_EXPIRATION_OFFSET = 5 * 50 * 1000; // 5 minutes//10 * 60 * 1000;// 10 minutes 
+    private static final long DEFAULT_EXPIRATION_OFFSET = 5 * 50 * 1000; // 5 minutes
     
     public static String getEmail(String token){
         String subject = getSubject(token);
@@ -30,12 +30,6 @@ public class JwtUtils {
         String subject = getSubject(token);
         return subject.substring(subject.length()-SECURITY_STRING_LENGTH);
     }
-    
-    // todo - the plan is to make another table that maps email to security string (same algorithm with make a random 64 char string)
-    // that security string is part of the subject 
-    // by changing the security string in the database we can invalidate a token
-    // need to change several more of these methods to do this.
-    // need to re-add the db changes but for a new table
     
     private static String getSubject(String token){
         return getClaims(token).getSubject();
@@ -66,16 +60,6 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
-    
-//    public static boolean isValid(String token, String email){
-//        try{
-//            return !isExpired(token) && getEmail(token).equals(email);
-//        }
-//        catch(SignatureException e){
-//            Logger.logError(TAG, e);
-//            return false;
-//        }
-//    }
     
     private static Claims getClaims(String token){
         try{
