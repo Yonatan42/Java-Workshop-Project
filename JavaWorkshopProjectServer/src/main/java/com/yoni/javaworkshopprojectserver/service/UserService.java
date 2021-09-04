@@ -103,13 +103,17 @@ public class UserService {
         return authenticateEncapsulated(token, false, action);
     }
     public Response authenticateEncapsulated(String token, boolean requiresAdmin, BiFunction<User, String, Response> action){
+        final String tokenFailureErrorMsg = "access denied";
+        if(token == null){
+            return ResponseUtils.createSimpleErrorResponse(tokenFailureErrorMsg, Response.Status.FORBIDDEN, ErrorCodes.TOKEN_INVALID);
+        }
         Result<User, Integer> authRes = authenticate(token, requiresAdmin);
         if(!authRes.isValid()){
             switch(authRes.getError()){
                 case ErrorCodes.TOKEN_INVALID:
-                    return ResponseUtils.createSimpleErrorResponse("login failed", Response.Status.FORBIDDEN, ErrorCodes.TOKEN_INVALID);
+                    return ResponseUtils.createSimpleErrorResponse(tokenFailureErrorMsg, Response.Status.FORBIDDEN, ErrorCodes.TOKEN_INVALID);
                 case ErrorCodes.USERS_UNAUTHORIZED:
-                    return ResponseUtils.createSimpleErrorResponse("login failed", Response.Status.FORBIDDEN, ErrorCodes.USERS_UNAUTHORIZED);
+                    return ResponseUtils.createSimpleErrorResponse(tokenFailureErrorMsg, Response.Status.FORBIDDEN, ErrorCodes.USERS_UNAUTHORIZED);
             }
         }
         User u = authRes.getValue();
