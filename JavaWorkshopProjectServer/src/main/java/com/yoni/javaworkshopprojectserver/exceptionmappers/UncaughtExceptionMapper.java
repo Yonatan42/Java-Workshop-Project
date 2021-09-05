@@ -8,6 +8,7 @@ package com.yoni.javaworkshopprojectserver.exceptionmappers;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
 import com.yoni.javaworkshopprojectserver.utils.Logger;
+import com.yoni.javaworkshopprojectserver.utils.ResponseLogger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -29,10 +30,10 @@ public class UncaughtExceptionMapper implements ExceptionMapper<Throwable> {
     @Override
     public Response toResponse(Throwable t) {
         Logger.logError(TAG, t);
-        return Response
+        return ResponseLogger.loggedResponse(Response
                 .status(Response.Status.NOT_FOUND)
                 .entity(JsonUtils.createResponseJson("page not found", ErrorCodes.UNKNOWN))
-                .build();
+                .build());
     }
     
 }

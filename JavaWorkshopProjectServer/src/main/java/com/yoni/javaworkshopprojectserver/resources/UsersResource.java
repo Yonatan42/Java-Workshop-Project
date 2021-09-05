@@ -135,7 +135,7 @@ public class UsersResource extends AbstractRestResource<User> {
                                       String address,
                                       boolean isAdmin) {
         
-        return ResponseUtils.respondSafe(senderToken, () -> {
+        return ResponseLogger.loggedResponse(ResponseUtils.respondSafe(senderToken, () -> {
                 if(userService.findByEmail(email) != null){
                     return Response
                             .status(Response.Status.CONFLICT)
@@ -166,7 +166,7 @@ public class UsersResource extends AbstractRestResource<User> {
                     .entity(JsonUtils.createResponseJson(senderToken != null ? senderToken : token, getLoginResponseJson(user)))
                     .build();
 
-        });
+        }));
         
 
     }
@@ -187,9 +187,9 @@ public class UsersResource extends AbstractRestResource<User> {
               @FormParam("isAdmin") boolean isAdmin) {
 
         Logger.logFormat(TAG, "<remoteRegister>\nAuthorization: %s\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nisAdmin: %b", token, email, pass, firstName, lastName, phone, address, isAdmin);
-        return userService.authenticateEncapsulated(token, true, (u, t) ->
+        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, true, (u, t) ->
                 ResponseUtils.respondSafe(t, () ->
-                        registerInternal(t, email, pass, firstName, lastName, phone, address, isAdmin)));
+                        registerInternal(t, email, pass, firstName, lastName, phone, address, isAdmin))));
     }
 
 
@@ -203,7 +203,7 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("pass") String pass) {
 
         Logger.logFormat(TAG, "<loginAuth>\nemail: %s\npass: %s", email, pass);
-        return ResponseUtils.respondSafe(() -> {
+        return ResponseLogger.loggedResponse(ResponseUtils.respondSafe(() -> {
             
             User u = userService.findByEmail(email);
             if(u == null){
@@ -227,7 +227,7 @@ public class UsersResource extends AbstractRestResource<User> {
                         .build();
                 }
             }
-        });
+        }));
     }
     
     @POST
@@ -238,10 +238,10 @@ public class UsersResource extends AbstractRestResource<User> {
             @HeaderParam("Authorization") String token) {
 
         Logger.logFormat(TAG, "<login>\nAuthorization: %s", token);
-        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> Response
+        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> Response
             .status(Response.Status.OK)
             .entity(JsonUtils.createResponseJson(t, getLoginResponseJson(u)))
-            .build()));
+            .build())));
     }
     
     private JsonElement getLoginResponseJson(User user){
@@ -262,7 +262,7 @@ public class UsersResource extends AbstractRestResource<User> {
             @PathParam("userId") int userId) {
 
         Logger.logFormat(TAG, "<invalidateToken>\nAuthorization: %s\nuserId: %d", token, userId);
-        return userService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             User targetUser = userService.findById(userId);
             if(targetUser == null){
                 return Response
@@ -276,7 +276,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 .status(Response.Status.OK)
                 .entity(JsonUtils.createResponseJson(t, null))
                 .build();
-        }));
+        })));
     }
 
     @PUT
@@ -294,22 +294,22 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("address") String address
     ){
         Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
-        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             User user = userService.findById(userId);
             if(user == null){
-                return ResponseLogger.loggedResponse(Response
+                return Response
                         .status(Response.Status.NOT_FOUND)
                         .entity(JsonUtils.createResponseJson(t, "user id not found", ErrorCodes.USERS_NO_SUCH_USER))
-                        .build());
+                        .build();
             }
 
             // check if email is in use
             User emailCheckUser = userService.findByEmail(email);
             if(emailCheckUser != null && !emailCheckUser.getId().equals(user.getId())){
-                return ResponseLogger.loggedResponse(Response
+                return Response
                         .status(Response.Status.CONFLICT)
                         .entity(JsonUtils.createResponseJson(t, "user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
-                        .build());
+                        .build();
             }
 
             getEntityManager().getTransaction().begin();
@@ -328,12 +328,12 @@ public class UsersResource extends AbstractRestResource<User> {
             Logger.log(TAG, "updated user: "+user);
 
             String newToken = JwtUtils.create(email, user.getSecretKey());
-            return ResponseLogger.loggedResponse(Response
+            return Response
                     .status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(newToken, JsonUtils.convertToJson(user)))
-                    .build());
+                    .build();
 
-        }));
+        })));
     }
     // todo - encapsulate a smaller part of the register/edit logic and use the same main function for register, register-remote, and update info
 }

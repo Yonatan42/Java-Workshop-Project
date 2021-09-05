@@ -12,6 +12,7 @@ import com.yoni.javaworkshopprojectserver.service.OrdersService;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UserService;
 import com.yoni.javaworkshopprojectserver.utils.Logger;
+import com.yoni.javaworkshopprojectserver.utils.ResponseLogger;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
 
 import javax.ejb.EJB;
@@ -55,12 +56,12 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @PathParam("pageNum") int pageNum
     ){
         Logger.logFormat(TAG, "<getPagedOrderSummaries>\nAuthorization: %s\nuserId: %d\npageNum: %d", token, userId, pageNum);
-        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
                     .build();
-        }));
+        })));
     }
 
     @GET
@@ -71,12 +72,12 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @PathParam("orderId") int orderId
     ){
         Logger.logFormat(TAG, "<getOrderDetails>\nAuthorization: %s\norderId: %d", token, orderId);
-        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
                     .build();
-        }));
+        })));
     }
 
 
@@ -98,12 +99,12 @@ public class OrdersResource extends AbstractRestResource<Order> {
     ){
         // todo - at least removed logging of credit card info
         Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\ncreditCard %s\ncardExpiration: %tF\ncardCVV: %s", token, userId, email, fname, lname, phone, address, creditCard, cardExpiration, cardCVV);
-        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
                     .build();
-        }));
+        })));
     }
 
 
