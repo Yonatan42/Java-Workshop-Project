@@ -10,16 +10,11 @@ import androidx.annotation.Nullable;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
-import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.LoginPopup;
-import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 
 import retrofit2.Call;
 
@@ -49,9 +44,9 @@ public class SplashFragment extends BaseFragment {
     private void attemptLogin() {
         RemoteServiceManager.getInstance().getUsersService().login(
                 (call, response, result) -> getParentActivity().loginUser(result),
-                new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(getParentActivity(), SplashFragment.this::attemptLogin) {
+                new StandardResponseErrorCallback<LoginResponse>(getParentActivity(), SplashFragment.this::attemptLogin) {
                     @Override
-                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<TokennedResult<LoginResponse>>> call, ServerResponse.ServerResponseError responseError) {
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<LoginResponse>> call, ServerResponse.ServerResponseError responseError) {
                         new LoginPopup(getParentActivity()).show();
                     }
                 });

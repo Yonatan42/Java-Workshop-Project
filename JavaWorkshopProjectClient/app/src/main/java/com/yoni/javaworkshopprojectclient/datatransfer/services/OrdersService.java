@@ -2,7 +2,6 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
@@ -27,14 +26,14 @@ public interface OrdersService extends BaseRemoveService {
     String URL = "orders";
 
     @GET(URL+"/{userId}/summaries/page/{pageNum}")
-    Call<ServerResponse<TokennedResult<List<OrderSummary>>>> getPagedOrderSummaries(
+    Call<ServerResponse<List<OrderSummary>>> getPagedOrderSummaries(
             @Header("Authorization") String token,
             @Path("userId") int userId,
             @Path("pageNum") int pageNum
     );
 
     @GET(URL+"/details/{orderId}")
-    Call<ServerResponse<TokennedResult<OrderDetails>>> getOrderDetails(
+    Call<ServerResponse<OrderDetails>> getOrderDetails(
             @Header("Authorization") String token,
             @Path("orderId") int orderId
     );
@@ -43,7 +42,7 @@ public interface OrdersService extends BaseRemoveService {
 
     @POST(URL)
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<OrderDetails>>> createOrder(
+    Call<ServerResponse<OrderDetails>> createOrder(
             @Header("Authorization") String token,
             @Field("userId") int userId,
             @Field("email") String email,

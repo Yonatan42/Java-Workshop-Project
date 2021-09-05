@@ -3,6 +3,7 @@ package com.yoni.javaworkshopprojectclient.remote;
 import androidx.annotation.NonNull;
 
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 
 import java.io.IOException;
 
@@ -31,6 +32,8 @@ public abstract class ServerCallback<T> implements Callback<ServerResponse<T>>, 
         }
 
         ServerResponse<T> res = response.body();
+        String token = res.getToken();
+        TokenStore.getInstance().storeToken(token);
         if(res.hasError()){
             onResponseError(call, res.getError());
         }

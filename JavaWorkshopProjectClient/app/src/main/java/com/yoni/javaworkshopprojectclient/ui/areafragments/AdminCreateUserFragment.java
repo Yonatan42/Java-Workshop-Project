@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
@@ -66,7 +65,7 @@ public class AdminCreateUserFragment extends Fragment {
                     SimpleMessagePopup.createGenericTimed(getContext(), getString(R.string.admin_create_user_success)).show();
                     clear();
                 },
-                new StandardResponseErrorCallback<TokennedResult<User>>((ParentActivity) getActivity()) {
+                new StandardResponseErrorCallback<User>((ParentActivity) getActivity()) {
                     @Override
                     public void onPreErrorResponse() {
                         setEditable(true);

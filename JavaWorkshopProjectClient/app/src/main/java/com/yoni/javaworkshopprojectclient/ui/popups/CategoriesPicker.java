@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.SelectableCategory;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
@@ -62,7 +61,7 @@ public class CategoriesPicker extends AlertDialog {
                         adapter.notifyItemInserted(nextIndex);
                         txtTitle.setText("");
                     },
-                    new StandardResponseErrorCallback<TokennedResult<ProductCategory>>(parentActivity) {
+                    new StandardResponseErrorCallback<ProductCategory>(parentActivity) {
                         @Override
                         public void onPreErrorResponse() {
                             btnNew.setEnabled(true);

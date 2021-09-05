@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
@@ -22,7 +21,6 @@ import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CartProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.CheckoutPopup;
-import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -84,7 +82,7 @@ public class CartFragment extends BaseFragment {
                     totalPrice = calculateTotalPrice();
                     setTotalText();
                 },
-                new StandardResponseErrorCallback<TokennedResult<List<Product>>>(getParentActivity()) {});
+                new StandardResponseErrorCallback<List<Product>>(getParentActivity()) {});
     }
 
     private float calculateTotalPrice(){

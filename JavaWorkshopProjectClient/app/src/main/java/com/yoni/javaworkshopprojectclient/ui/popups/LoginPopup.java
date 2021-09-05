@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
@@ -40,7 +39,7 @@ public class LoginPopup extends AlertDialog {
                         parentActivity.loginUser(result);
                         dismiss();
                     },
-                    new StandardResponseErrorCallback<TokennedResult<LoginResponse>>(parentActivity));
+                    new StandardResponseErrorCallback<LoginResponse>(parentActivity));
         });
 
         btnReg.setOnClickListener(v -> {

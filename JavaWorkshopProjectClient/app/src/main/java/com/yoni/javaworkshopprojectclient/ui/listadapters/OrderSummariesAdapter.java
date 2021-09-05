@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
@@ -93,7 +92,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
                         parent.setEnabled(true);
                         new OrderDetailsPopup(context, result).show();
                     },
-                    new StandardResponseErrorCallback<TokennedResult<OrderDetails>>(parentActivity) {
+                    new StandardResponseErrorCallback<OrderDetails>(parentActivity) {
                         @Override
                         public void onPreErrorResponse() {
                             parent.setEnabled(true);

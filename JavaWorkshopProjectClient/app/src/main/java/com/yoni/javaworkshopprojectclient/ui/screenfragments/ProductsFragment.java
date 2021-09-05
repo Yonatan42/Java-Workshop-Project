@@ -14,16 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CatalogProductsAdapter;
-import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.FilterProductsPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
@@ -31,8 +27,6 @@ import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
 
 public class ProductsFragment extends BaseFragment {
 
@@ -129,7 +123,7 @@ public class ProductsFragment extends BaseFragment {
 
 
                 },
-                new StandardResponseErrorCallback<TokennedResult<List<Product>>>(getParentActivity()) {
+                new StandardResponseErrorCallback<List<Product>>(getParentActivity()) {
                     @Override
                     public void onPreErrorResponse() {
                         loadInProgress = false;

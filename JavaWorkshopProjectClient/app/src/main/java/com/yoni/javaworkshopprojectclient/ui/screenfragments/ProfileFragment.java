@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
@@ -91,7 +90,7 @@ public class ProfileFragment extends BaseFragment {
                     SimpleMessagePopup.createGenericTimed(getParentActivity(), getString(R.string.profile_update_complete)).show();
                     btnCancel.callOnClick();
                 },
-                new StandardResponseErrorCallback<TokennedResult<User>>(getParentActivity()) {}
+                new StandardResponseErrorCallback<User>(getParentActivity()) {}
 
         ));
 

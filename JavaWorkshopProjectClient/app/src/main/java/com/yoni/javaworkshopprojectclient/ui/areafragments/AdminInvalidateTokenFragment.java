@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,12 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -52,7 +48,7 @@ public class AdminInvalidateTokenFragment extends Fragment {
                         txtUserId.setText("");
                         SimpleMessagePopup.createGenericTimed(getContext(), getString(R.string.admin_invalidate_token_success)).show();
                     },
-                    new StandardResponseErrorCallback<TokennedResult<Void>>((ParentActivity) getActivity()) {
+                    new StandardResponseErrorCallback<Void>((ParentActivity) getActivity()) {
                         @Override
                         public void onPreErrorResponse() {
                             btnInvalidate.setEnabled(true);

@@ -11,7 +11,6 @@ import android.widget.EditText;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
@@ -79,7 +78,7 @@ public class CheckoutPopup extends AlertDialog {
                     new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result.getOrderId())).show();
                     dismiss();
                 },
-                new StandardResponseErrorCallback<TokennedResult<OrderDetails>>(parentActivity) {
+                new StandardResponseErrorCallback<OrderDetails>(parentActivity) {
                     @Override
                     public void onPreErrorResponse() {
                         btnOk.setEnabled(true);

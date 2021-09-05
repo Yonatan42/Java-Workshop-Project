@@ -63,8 +63,8 @@
       <file leaf-file-name="UsersResource.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="497">
-              <caret line="129" column="51" lean-forward="true" selection-start-line="129" selection-start-column="51" selection-end-line="129" selection-end-column="51" />
+            <state relative-caret-position="3435">
+              <caret line="165" column="90" selection-start-line="165" selection-start-column="57" selection-end-line="165" selection-end-column="90" />
             </state>
           </provider>
         </entry>
@@ -837,8 +837,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="497">
-          <caret line="129" column="51" lean-forward="true" selection-start-line="129" selection-start-column="51" selection-end-line="129" selection-end-column="51" />
+        <state relative-caret-position="3435">
+          <caret line="165" column="90" selection-start-line="165" selection-start-column="57" selection-end-line="165" selection-end-column="90" />
         </state>
       </provider>
     </entry>

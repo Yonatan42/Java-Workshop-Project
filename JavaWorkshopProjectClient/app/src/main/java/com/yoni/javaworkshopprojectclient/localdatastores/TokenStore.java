@@ -34,6 +34,12 @@ public class TokenStore extends InitializedStore{
 
     public void storeToken (String token){
         throwIfUninitialized();
+        if(token == null) {
+            if (this.token != null) {
+                clearToken();
+            }
+            return;
+        }
         if(token.equals(this.token)){
             return;
         }

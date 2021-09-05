@@ -2,7 +2,6 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 
@@ -24,7 +23,7 @@ public interface UsersService extends BaseRemoveService {
 
     @POST(URL+"/register")
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<LoginResponse>>> register(@Field("email") String email,
+    Call<ServerResponse<LoginResponse>> register(@Field("email") String email,
                                                                  @Field("pass") String pass,
                                                                  @Field("firstName") String firstName,
                                                                  @Field("lastName") String lastName,
@@ -32,17 +31,17 @@ public interface UsersService extends BaseRemoveService {
                                                                  @Field("address") String address);
 
     @POST(URL+"/login")
-    Call<ServerResponse<TokennedResult<LoginResponse>>> login(@Header("Authorization") String token);
+    Call<ServerResponse<LoginResponse>> login(@Header("Authorization") String token);
 
     @POST(URL+"/login-auth")
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<LoginResponse>>> login(@Field("email") String email,
+    Call<ServerResponse<LoginResponse>> login(@Field("email") String email,
                                                               @Field("pass") String pass);
 
 
     @PUT(URL+"/{userId}")
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<User>>> updateInfo(@Header("Authorization") String token,
+    Call<ServerResponse<User>> updateInfo(@Header("Authorization") String token,
                                                            @Path("userId") int userId,
                                                            @Field("email") String email,
                                                            @Field("pass") String pass,
@@ -53,11 +52,11 @@ public interface UsersService extends BaseRemoveService {
     );
 
     @PUT(URL+"/{userId}/invalidate")
-    Call<ServerResponse<TokennedResult<Void>>> invalidateToken(@Header("Authorization") String token,
+    Call<ServerResponse<Void>> invalidateToken(@Header("Authorization") String token,
                                                                @Path("userId") int userId);
     @POST(URL+"/remote-register")
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<User>>> remoteRegister(@Header("Authorization") String token,
+    Call<ServerResponse<User>> remoteRegister(@Header("Authorization") String token,
                                                                        @Field("email") String email,
                                                                        @Field("pass") String pass,
                                                                        @Field("firstName") String firstName,

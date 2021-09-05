@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
@@ -117,14 +116,14 @@ public class OrdersFragment extends BaseFragment {
 
 
                 },
-                new StandardResponseErrorCallback<TokennedResult<List<OrderSummary>>>(getParentActivity()) {
+                new StandardResponseErrorCallback<List<OrderSummary>>(getParentActivity()) {
                     @Override
                     public void onPreErrorResponse() {
                         setLoadInProgress(false);
                     }
 
                     @Override
-                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<TokennedResult<List<OrderSummary>>>> call, ServerResponse.ServerResponseError responseError) {
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<List<OrderSummary>>> call, ServerResponse.ServerResponseError responseError) {
                         // todo - check the error code - we want to know if the user id doesn't exist
                     }
                 });

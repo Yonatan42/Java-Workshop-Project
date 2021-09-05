@@ -1,19 +1,9 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
-import androidx.annotation.NonNull;
-
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
-import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessTokennedCallback;
-import com.yoni.javaworkshopprojectclient.remote.TokennedServerCallback;
-
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.http.Field;
+import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
 
 public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
 
@@ -22,12 +12,12 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
         super(service);
     }
 
-    public void login(String email, String pass, ResponseSuccessTokennedCallback<LoginResponse> onSuccess, ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
-        enqueueTokenned(service.login(email, pass), onSuccess, onError);
+    public void login(String email, String pass, ResponseSuccessCallback<LoginResponse> onSuccess, ResponseErrorCallback<LoginResponse> onError){
+        enqueue(service.login(email, pass), onSuccess, onError);
     }
 
-    public void login(ResponseSuccessTokennedCallback<LoginResponse> onSuccess, ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
-        enqueueTokenned(service.login(getToken()), onSuccess, onError);
+    public void login(ResponseSuccessCallback<LoginResponse> onSuccess, ResponseErrorCallback<LoginResponse> onError){
+        enqueue(service.login(getToken()), onSuccess, onError);
     }
 
     public void register(String email,
@@ -36,9 +26,9 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
                          String lastName,
                          String phone,
                          String address,
-                         ResponseSuccessTokennedCallback<LoginResponse> onSuccess,
-                         ResponseErrorCallback<TokennedResult<LoginResponse>> onError){
-        enqueueTokenned(service.register(email, pass, firstName, lastName, phone, address), onSuccess, onError);
+                         ResponseSuccessCallback<LoginResponse> onSuccess,
+                         ResponseErrorCallback<LoginResponse> onError){
+        enqueue(service.register(email, pass, firstName, lastName, phone, address), onSuccess, onError);
     }
 
     public void remoteRegister(String email,
@@ -48,9 +38,9 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
                          String phone,
                          String address,
                          boolean isAdmin,
-                         ResponseSuccessTokennedCallback<User> onSuccess,
-                         ResponseErrorCallback<TokennedResult<User>> onError){
-        enqueueTokenned(service.remoteRegister(getToken(), email, pass, firstName, lastName, phone, address, isAdmin), onSuccess, onError);
+                               ResponseSuccessCallback<User> onSuccess,
+                         ResponseErrorCallback<User> onError){
+        enqueue(service.remoteRegister(getToken(), email, pass, firstName, lastName, phone, address, isAdmin), onSuccess, onError);
     }
 
     // todo - on server, since password is potentially changed, we need to create a new token
@@ -61,9 +51,9 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
                            String lastName,
                            String phone,
                            String address,
-                           ResponseSuccessTokennedCallback<User> onSuccess,
-                           ResponseErrorCallback<TokennedResult<User>> onError){
-        enqueueTokenned(service.updateInfo(getToken(), userId, email, pass, firstName, lastName, phone, address), onSuccess, onError);
+                           ResponseSuccessCallback<User> onSuccess,
+                           ResponseErrorCallback<User> onError){
+        enqueue(service.updateInfo(getToken(), userId, email, pass, firstName, lastName, phone, address), onSuccess, onError);
         // todo - remove this once we're connected to the server
         /*
         User currentUser = DataSets.getInstance().getCurrentUser();
@@ -76,8 +66,8 @@ public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {
          */
     }
 
-    public void invalidateToken(int userId, ResponseSuccessTokennedCallback<Void> onSuccess, ResponseErrorCallback<TokennedResult<Void>> onError){
-        enqueueTokenned(service.invalidateToken(getToken(), userId), onSuccess, onError);
+    public void invalidateToken(int userId, ResponseSuccessCallback<Void> onSuccess, ResponseErrorCallback<Void> onError){
+        enqueue(service.invalidateToken(getToken(), userId), onSuccess, onError);
         // todo - remove this once we're connected to the server
         // onSuccess.onResponseSuccessTokenned(null, null ,null);
     }

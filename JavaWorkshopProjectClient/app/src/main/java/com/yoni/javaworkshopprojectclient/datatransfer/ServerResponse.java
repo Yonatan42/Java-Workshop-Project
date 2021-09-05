@@ -4,6 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ServerResponse<T> {
+
+    @SerializedName("token")
+    @Expose
+    private String token;
     @SerializedName("hasError")
     @Expose
     private boolean hasError;
@@ -13,6 +17,10 @@ public class ServerResponse<T> {
     @SerializedName("result")
     @Expose
     private T result;
+
+    public String getToken() {
+        return token;
+    }
 
     public boolean hasError() {
         return hasError;
@@ -26,11 +34,11 @@ public class ServerResponse<T> {
         return result;
     }
 
-
     @Override
     public String toString() {
-        return "Response{" +
-                "hasError=" + hasError +
+        return "ServerResponse{" +
+                "token='" + token + '\'' +
+                ", hasError=" + hasError +
                 ", error=" + error +
                 ", result=" + result +
                 '}';

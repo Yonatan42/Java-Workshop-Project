@@ -2,7 +2,6 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
 import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.TokennedResult;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 
@@ -25,7 +24,7 @@ public interface ProductsService extends BaseRemoveService {
     String URL = "products";
 
     @GET(URL+"/page/{pageNum}")
-    Call<ServerResponse<TokennedResult<List<Product>>>> getPagedProducts(
+    Call<ServerResponse<List<Product>>> getPagedProducts(
             @Header("Authorization") String token,
             @Path("pageNum") int pageNum,
             @Query("filterText") String filterText,
@@ -35,7 +34,7 @@ public interface ProductsService extends BaseRemoveService {
     // when creating a new product we need to create a new stock row as well for it
     @POST(URL)
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<Product>>> insertProduct(
+    Call<ServerResponse<Product>> insertProduct(
             @Header("Authorization") String token,
             @Field("title") String title,
             @Field("description") String desc,
@@ -47,7 +46,7 @@ public interface ProductsService extends BaseRemoveService {
 
     @PUT(URL+"/{productId}")
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<Product>>> updateProduct(
+    Call<ServerResponse<Product>> updateProduct(
             @Header("Authorization") String token,
             @Path("productId") int productId,
             @Field("product") Product product
@@ -56,7 +55,7 @@ public interface ProductsService extends BaseRemoveService {
 
     @PUT(URL+"/{productId}/enabled")
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<Integer>>> setProductEnabled(
+    Call<ServerResponse<Integer>> setProductEnabled(
             @Header("Authorization") String token,
             @Path("productId") int productId,
             @Field("isEnabled") boolean isEnabled
@@ -68,14 +67,14 @@ public interface ProductsService extends BaseRemoveService {
     // for the cart page
 
     @GET(URL)
-    Call<ServerResponse<TokennedResult<List<Product>>>> getProductsByIds(
+    Call<ServerResponse<List<Product>>> getProductsByIds(
             @Header("Authorization") String token,
             @Query("productIds") List<Integer> productIds
     );
 
     @POST(URL+"/categories")
     @FormUrlEncoded
-    Call<ServerResponse<TokennedResult<ProductCategory>>> createCategory(
+    Call<ServerResponse<ProductCategory>> createCategory(
             @Header("Authorization") String token,
             @Field("title") String title
     );
