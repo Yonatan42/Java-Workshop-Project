@@ -123,22 +123,23 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("address") String address){
 
         Logger.logFormat(TAG, "<register>\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", email, pass, firstName, lastName, phone, address);
-        return registerInternal(email, pass, firstName, lastName, phone, address, false);
+        return registerInternal(null, email, pass, firstName, lastName, phone, address, false);
     }
 
-    private Response registerInternal(String email,
-                             String pass,
-                             String firstName,
-                             String lastName,
-                             String phone,
-                             String address,
-                             boolean isAdmin) {
+    private Response registerInternal(String senderToken,
+                                      String email,
+                                      String pass,
+                                      String firstName,
+                                      String lastName,
+                                      String phone,
+                                      String address,
+                                      boolean isAdmin) {
         
-        return ResponseUtils.respondSafe(() -> {
+        return ResponseUtils.respondSafe(senderToken, () -> {
                 if(userService.findByEmail(email) != null){
                     return Response
                             .status(Response.Status.CONFLICT)
-                            .entity(JsonUtils.createResponseJson("user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
+                            .entity(JsonUtils.createResponseJson(senderToken, "user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
                             .build();
                 }
                 getEntityManager().getTransaction().begin();
@@ -162,7 +163,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 String token = JwtUtils.create(email, user.getSecretKey());
                 return Response
                     .status(Response.Status.CREATED)
-                    .entity(JsonUtils.createResponseJson(token, getLoginResponseJson(user)))
+                    .entity(JsonUtils.createResponseJson(senderToken != null ? senderToken : token, getLoginResponseJson(user)))
                     .build();
 
         });
@@ -188,7 +189,7 @@ public class UsersResource extends AbstractRestResource<User> {
         Logger.logFormat(TAG, "<remoteRegister>\nAuthorization: %s\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nisAdmin: %b", token, email, pass, firstName, lastName, phone, address, isAdmin);
         return userService.authenticateEncapsulated(token, true, (u, t) ->
                 ResponseUtils.respondSafe(t, () ->
-                        registerInternal(email, pass, firstName, lastName, phone, address, isAdmin)));
+                        registerInternal(t, email, pass, firstName, lastName, phone, address, isAdmin)));
     }
 
 
