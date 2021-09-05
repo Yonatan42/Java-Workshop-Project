@@ -6,15 +6,12 @@
 package com.yoni.javaworkshopprojectserver.models;
 
 import com.google.gson.annotations.Expose;
-
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -23,29 +20,30 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity(name = "Users")
 @Table(name = "users")
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
-    @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id"),
-    @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
-    @NamedQuery(name = "Users.findByPass", query = "SELECT u FROM Users u WHERE u.pass = :pass"),
-    @NamedQuery(name = "Users.findByFirstName", query = "SELECT u FROM Users u WHERE u.firstName = :firstName"),
-    @NamedQuery(name = "Users.findByLastName", query = "SELECT u FROM Users u WHERE u.lastName = :lastName"),
-    @NamedQuery(name = "Users.findByPhone", query = "SELECT u FROM Users u WHERE u.phone = :phone"),
-    @NamedQuery(name = "Users.findByIsAdmin", query = "SELECT u FROM Users u WHERE u.isAdmin = :isAdmin"),
-    @NamedQuery(name = "Users.findBySecretKey", query = "SELECT u FROM Users u WHERE u.secretKey = :secretKey"),
-    @NamedQuery(name = "Users.findByCreated", query = "SELECT u FROM Users u WHERE u.created = :created"),
-    @NamedQuery(name = "Users.findByModified", query = "SELECT u FROM Users u WHERE u.modified = :modified")})
+        @NamedQuery(name = "Users.findById", query = "SELECT e FROM Users e WHERE e.id = :id"),
+        @NamedQuery(name = "Users.findByEmail", query = "SELECT e FROM Users e WHERE e.email = :email")
+})
 @NamedStoredProcedureQuery(name = "Users.refreshSecretKey",
         procedureName = "refresh_secret_key", parameters = {
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "email", type = String.class)})
 public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+ 
+    
+private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     @Expose
     private Integer id;
+    @Column(name = "created")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Expose
+    private Date created;
+    @Column(name = "modified")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Expose
+    private Date modified;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -54,10 +52,13 @@ public class User implements Serializable {
     @Expose
     private String email;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 60)
+    @Size(min = 60, max = 60)
     @Column(name = "pass")
     private String pass;
+    @Basic(optional = false)
+    @Size(min = 64, max = 64)
+    @Column(name = "secret_key")
+    private String secretKey;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 32)
@@ -81,24 +82,11 @@ public class User implements Serializable {
     @Expose
     private String address;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "is_admin")
     @Expose
     private boolean isAdmin;
-    @Basic(optional = false)
-    @Size(min = 1, max = 64)
-    @Column(name = "secret_key")
-    private String secretKey;
-    @Basic(optional = false)
-    @Column(name = "created")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created;
-    @Basic(optional = false)
-    @Column(name = "modified")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modified;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<Order> orderCollection;
+
+    
 
     public User() {
     }
@@ -107,16 +95,18 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String email, String pass, String firstName, String lastName, boolean isAdmin, String secretKey, Date created, Date modified) {
+    public User(Integer id, Date created, Date modified, @NotNull @Size(min = 1, max = 320) String email, @Size(min = 60, max = 60) String pass, @Size(min = 64, max = 64) String secretKey, @NotNull @Size(min = 1, max = 32) String firstName, @NotNull @Size(min = 1, max = 32) String lastName, @Size(max = 20) String phone, @Size(max = 65535) String address, boolean isAdmin) {
         this.id = id;
-        this.email = email;
-        this.pass = pass;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.isAdmin = isAdmin;
-        this.secretKey = secretKey;
         this.created = created;
         this.modified = modified;
+        this.email = email;
+        this.pass = pass;
+        this.secretKey = secretKey;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = address;
+        this.isAdmin = isAdmin;
     }
 
     public Integer getId() {
@@ -125,6 +115,38 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
     }
 
     public String getEmail() {
@@ -143,20 +165,12 @@ public class User implements Serializable {
         this.pass = pass;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     public String getPhone() {
@@ -175,47 +189,14 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public boolean getIsAdmin() {
+    public boolean isAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
+    public void setAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getModified() {
-        return modified;
-    }
-
-    public void setModified(Date modified) {
-        this.modified = modified;
-    }
-
-    @XmlTransient
-    public Collection<Order> getOrderCollection() {
-        return orderCollection;
-    }
-
-    public void setOrderCollection(Collection<Order> orderCollection) {
-        this.orderCollection = orderCollection;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -238,7 +219,18 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.models.User[ id=" + id + " ]";
+        return "User{" +
+                "id=" + id +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", email='" + email + '\'' +
+                ", pass='" + pass + '\'' +
+                ", secretKey='" + secretKey + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", isAdmin=" + isAdmin +
+                '}';
     }
-    
 }

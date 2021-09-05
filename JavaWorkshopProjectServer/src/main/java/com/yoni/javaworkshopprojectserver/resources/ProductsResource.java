@@ -5,10 +5,11 @@
  */
 package com.yoni.javaworkshopprojectserver.resources;
 
+import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Product;
-import com.yoni.javaworkshopprojectserver.models.ProductCategory;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
-import com.yoni.javaworkshopprojectserver.service.UserService;
+import com.yoni.javaworkshopprojectserver.service.UsersService;
+import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
 import com.yoni.javaworkshopprojectserver.utils.Logger;
 import com.yoni.javaworkshopprojectserver.utils.ResponseLogger;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
@@ -36,7 +37,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
     private ProductsService productsService;
 
     @EJB
-    private UserService userService;
+    private UsersService usersService;
 
 
     public ProductsResource() {
@@ -54,7 +55,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ) {
 
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\npageNum: %d\nfilterText: %s\nfilterCategoryId: %d", token, pageNum, filterText, filterCategoryId);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -76,7 +77,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("stockQuantity") int stockQuantity
     ){
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategories %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, null/*todo - update this*/, price, stockQuantity);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -91,10 +92,10 @@ public class ProductsResource extends AbstractRestResource<Product> {
     public Response updateProduct(
             @HeaderParam("Authorization") String token,
             @PathParam("productId") int productId/*,
-            @FormParam("product") Product product*/ // todo - figure out why this doesn't work and then uncomment
+            @FormParam("product") StockProduct product*/ // todo - figure out why this doesn't work and then uncomment
     ){
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nproductId: %d\nproduct: %s", token, productId, null/*todo - update this*/);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -113,7 +114,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("isEnabled") boolean isEnabled
     ){
         Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nproductId: %d\nisEnabled: %b", token, productId, isEnabled);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -134,10 +135,12 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @QueryParam("productIds") List<Integer> productIds
     ){
         Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nproductIds: %s", token, productIds);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+            // todo - this is not necessarily the place for it, this is just a test
+            List<CatalogProduct> products = productsService.getActiveProducts();
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
                     .build();
         })));
     }
@@ -151,7 +154,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("title") String title
     ){
         Logger.logFormat(TAG, "<createCategory>\nAuthorization: %s\ntitle: %s", token, title);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")

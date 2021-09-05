@@ -19,7 +19,7 @@ import java.util.Date;
 public class JwtUtils {
     private static final String SECRET_KEY = "$ydKctHLiYqz{:da8PgppSc)n5=:WGGK+khd-,v5#e,4Q6tKRMT}Vn!vJ;yd";
     private static final int SECURITY_STRING_LENGTH = 64;
-    private static final long DEFAULT_EXPIRATION_OFFSET = 5 * 50 * 1000; // 5 minutes
+    private static final long DEFAULT_EXPIRATION_OFFSET = 1000 * 60 * 60 * 24; // 1 day // 5 * 60 * 1000; // 5 minutes // todo - put back to 5 minutes
     
     public static String getEmail(String token){
         String subject = getSubject(token);

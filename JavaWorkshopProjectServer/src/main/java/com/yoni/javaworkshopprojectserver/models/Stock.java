@@ -8,6 +8,7 @@ package com.yoni.javaworkshopprojectserver.models;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -15,31 +16,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Yoni
  */
-@Entity(name = "Orders")
-@Table(name = "orders")
+@Entity(name = "Stock")
+@Table(name = "stock")
 @NamedQueries({
-    @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
-    @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
-    @NamedQuery(name = "Orders.findByPhone", query = "SELECT o FROM Orders o WHERE o.phone = :phone"),
-    @NamedQuery(name = "Orders.findByCreated", query = "SELECT o FROM Orders o WHERE o.created = :created"),
-    @NamedQuery(name = "Orders.findByModified", query = "SELECT o FROM Orders o WHERE o.modified = :modified")})
-public class Order implements Serializable {
+    @NamedQuery(name = "Stock.findAll", query = "SELECT s FROM Stock s"),
+    @NamedQuery(name = "Stock.findById", query = "SELECT s FROM Stock s WHERE s.id = :id"),
+    @NamedQuery(name = "Stock.findByQuantity", query = "SELECT s FROM Stock s WHERE s.quantity = :quantity"),
+    @NamedQuery(name = "Stock.findByPrice", query = "SELECT s FROM Stock s WHERE s.price = :price"),
+    @NamedQuery(name = "Stock.findByIsEnabled", query = "SELECT s FROM Stock s WHERE s.isEnabled = :isEnabled"),
+    @NamedQuery(name = "Stock.findByCreated", query = "SELECT s FROM Stock s WHERE s.created = :created"),
+    @NamedQuery(name = "Stock.findByModified", query = "SELECT s FROM Stock s WHERE s.modified = :modified")})
+public class Stock implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,20 +47,21 @@ public class Order implements Serializable {
     @Column(name = "id")
     @Expose
     private Integer id;
-    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "phone")
+    @Column(name = "quantity")
     @Expose
-    private String phone;
+    private int quantity;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
-    @Column(name = "address")
+    @Column(name = "price")
     @Expose
-    private String address;
+    private BigDecimal price;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
     @Basic(optional = false)
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
@@ -70,21 +70,19 @@ public class Order implements Serializable {
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private User customerId;
 
-    public Order() {
+    public Stock() {
     }
 
-    public Order(Integer id) {
+    public Stock(Integer id) {
         this.id = id;
     }
 
-    public Order(Integer id, String phone, String address, Date created, Date modified) {
+    public Stock(Integer id, int quantity, BigDecimal price, boolean isEnabled, Date created, Date modified) {
         this.id = id;
-        this.phone = phone;
-        this.address = address;
+        this.quantity = quantity;
+        this.price = price;
+        this.isEnabled = isEnabled;
         this.created = created;
         this.modified = modified;
     }
@@ -97,20 +95,28 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public String getAddress() {
-        return address;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
     public Date getCreated() {
@@ -129,14 +135,6 @@ public class Order implements Serializable {
         this.modified = modified;
     }
 
-    public User getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(User customerId) {
-        this.customerId = customerId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -147,10 +145,10 @@ public class Order implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Order)) {
+        if (!(object instanceof Stock)) {
             return false;
         }
-        Order other = (Order) object;
+        Stock other = (Stock) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -159,7 +157,7 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.models.Order[ id=" + id + " ]";
+        return "com.yoni.javaworkshopprojectserver.models.Stock[ id=" + id + " ]";
     }
     
 }

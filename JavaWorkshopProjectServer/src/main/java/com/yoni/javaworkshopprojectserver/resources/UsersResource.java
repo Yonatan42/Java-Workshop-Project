@@ -8,9 +8,9 @@ package com.yoni.javaworkshopprojectserver.resources;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.yoni.javaworkshopprojectserver.models.User;
+import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.*;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
-import com.yoni.javaworkshopprojectserver.service.UserService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -29,7 +29,7 @@ public class UsersResource extends AbstractRestResource<User> {
     private static final String TAG = "UsersResource";
 
     @EJB
-    private UserService userService;
+    private UsersService usersService;
     
     
     public UsersResource() {
@@ -136,7 +136,7 @@ public class UsersResource extends AbstractRestResource<User> {
                                       boolean isAdmin) {
         
         return ResponseLogger.loggedResponse(ResponseUtils.respondSafe(senderToken, () -> {
-                if(userService.findByEmail(email) != null){
+                if(usersService.findByEmail(email) != null){
                     return Response
                             .status(Response.Status.CONFLICT)
                             .entity(JsonUtils.createResponseJson(senderToken, "user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
@@ -151,7 +151,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 user.setEmail(email);
                 user.setAddress(address);
                 user.setPass(BcryptUtils.encrypt(pass));
-                user.setAdmin(isAdmin);
+                user.setIsAdmin(isAdmin);
                 user = super.edit(user);
 
                 getEntityManager().getTransaction().commit();
@@ -187,7 +187,7 @@ public class UsersResource extends AbstractRestResource<User> {
               @FormParam("isAdmin") boolean isAdmin) {
 
         Logger.logFormat(TAG, "<remoteRegister>\nAuthorization: %s\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nisAdmin: %b", token, email, pass, firstName, lastName, phone, address, isAdmin);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, true, (u, t) ->
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) ->
                 ResponseUtils.respondSafe(t, () ->
                         registerInternal(t, email, pass, firstName, lastName, phone, address, isAdmin))));
     }
@@ -205,7 +205,7 @@ public class UsersResource extends AbstractRestResource<User> {
         Logger.logFormat(TAG, "<loginAuth>\nemail: %s\npass: %s", email, pass);
         return ResponseLogger.loggedResponse(ResponseUtils.respondSafe(() -> {
             
-            User u = userService.findByEmail(email);
+            User u = usersService.findByEmail(email);
             if(u == null){
                 return Response
                         .status(Response.Status.UNAUTHORIZED)
@@ -238,7 +238,7 @@ public class UsersResource extends AbstractRestResource<User> {
             @HeaderParam("Authorization") String token) {
 
         Logger.logFormat(TAG, "<login>\nAuthorization: %s", token);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> Response
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> Response
             .status(Response.Status.OK)
             .entity(JsonUtils.createResponseJson(t, getLoginResponseJson(u)))
             .build())));
@@ -262,15 +262,15 @@ public class UsersResource extends AbstractRestResource<User> {
             @PathParam("userId") int userId) {
 
         Logger.logFormat(TAG, "<invalidateToken>\nAuthorization: %s\nuserId: %d", token, userId);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            User targetUser = userService.findById(userId);
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+            User targetUser = usersService.findById(userId);
             if(targetUser == null){
                 return Response
                         .status(Response.Status.NOT_FOUND)
                         .entity(JsonUtils.createResponseJson(t, "user id not found", ErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
-            userService.refreshSecretKey(targetUser.getEmail());
+            usersService.refreshSecretKey(targetUser.getEmail());
             getEntityManager().refresh(targetUser);
             return Response
                 .status(Response.Status.OK)
@@ -294,8 +294,8 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("address") String address
     ){
         Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
-        return ResponseLogger.loggedResponse(userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            User user = userService.findById(userId);
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+            User user = usersService.findById(userId);
             if(user == null){
                 return Response
                         .status(Response.Status.NOT_FOUND)
@@ -304,7 +304,7 @@ public class UsersResource extends AbstractRestResource<User> {
             }
 
             // check if email is in use
-            User emailCheckUser = userService.findByEmail(email);
+            User emailCheckUser = usersService.findByEmail(email);
             if(emailCheckUser != null && !emailCheckUser.getId().equals(user.getId())){
                 return Response
                         .status(Response.Status.CONFLICT)

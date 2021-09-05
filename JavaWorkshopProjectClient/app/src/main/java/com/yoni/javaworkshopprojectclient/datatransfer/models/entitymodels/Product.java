@@ -31,9 +31,6 @@ public class Product {
     @SerializedName("price")
     @Expose
     private float price;
-    @SerializedName("isEnabled")
-    @Expose
-    private boolean isEnabled;
 
     private int cartQuantity = -1;
 
@@ -100,14 +97,6 @@ public class Product {
         this.price = price;
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        isEnabled = enabled;
-    }
-
     public List<ProductCategory> getCategories() {
         return categories;
     }
@@ -129,7 +118,6 @@ public class Product {
         this.productId = product.productId;
         this.stockId = product.stockId;
         this.stock = product.stock;
-        this.isEnabled = product.isEnabled;
         this.categories = product.categories;
         this.price = product.price;
         this.title = product.title;
@@ -151,7 +139,6 @@ public class Product {
                 ", imageData='" + imageData + '\'' +
                 ", stock=" + stock +
                 ", price=" + price +
-                ", isEnabled=" + isEnabled +
                 ", cartQuantity=" + cartQuantity +
                 '}';
     }

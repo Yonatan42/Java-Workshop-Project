@@ -22,9 +22,9 @@ import javax.ws.rs.core.Response;
  */
 @Singleton
 @LocalBean
-public class UserService {
+public class UsersService {
 
-    private static final String TAG = "UserService";
+    private static final String TAG = "UsersService";
 
     @EJB
     private EntityManagerSingleton entityManagerBean;
@@ -62,7 +62,7 @@ public class UserService {
         if(!user.getSecretKey().equals(secret)){
             return Result.MakeError(ErrorCodes.TOKEN_INVALID);
         }
-        if(requiredAdmin && !user.isAdmin()){
+        if(requiredAdmin && !user.getIsAdmin()){
             return Result.MakeError(ErrorCodes.USERS_UNAUTHORIZED);
         }
         
