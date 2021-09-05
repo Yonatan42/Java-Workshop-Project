@@ -55,7 +55,7 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @PathParam("pageNum") int pageNum
     ){
         Logger.logFormat(TAG, "<getPagedOrderSummaries>\nAuthorization: %s\nuserId: %d\npageNum: %d", token, userId, pageNum);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -71,7 +71,7 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @PathParam("orderId") int orderId
     ){
         Logger.logFormat(TAG, "<getOrderDetails>\nAuthorization: %s\norderId: %d", token, orderId);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -98,7 +98,7 @@ public class OrdersResource extends AbstractRestResource<Order> {
     ){
         // todo - at least removed logging of credit card info
         Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\ncreditCard %s\ncardExpiration: %tF\ncardCVV: %s", token, userId, email, fname, lname, phone, address, creditCard, cardExpiration, cardCVV);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")

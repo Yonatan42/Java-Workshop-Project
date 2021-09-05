@@ -17,8 +17,12 @@ import javax.ws.rs.core.Response.Status;
 public class ResponseUtils {
 
     private static final String TAG = "ResponseUtils";
-    
-    public static Response respondSafe(Supplier<Response> action){
+
+    public static Response respondSafe(Supplier<Response> action) {
+        return respondSafe(null, action);
+    }
+
+    public static Response respondSafe(String token, Supplier<Response> action){
         try{
             return action.get();
         }
@@ -26,26 +30,34 @@ public class ResponseUtils {
             Logger.logError(TAG, e);
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(JsonUtils.createResponseJson("a persistence error occurred", ErrorCodes.PERSISTENCE_GENERAL))
+                    .entity(JsonUtils.createResponseJson(token, "a persistence error occurred", ErrorCodes.PERSISTENCE_GENERAL))
                     .build();
         }
         catch(Exception e){
             Logger.logError(TAG, e);
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity(JsonUtils.createResponseJson("unexpected error occurred", ErrorCodes.UNKNOWN))
+                    .entity(JsonUtils.createResponseJson(token, "unexpected error occurred", ErrorCodes.UNKNOWN))
                     .build();
         }
     }
-    
-    public static Response createSimpleErrorResponse(String message, Status status, int errorCode){
-        return createSimpleErrorResponse(message, status.getStatusCode(), errorCode);
+
+    public static Response createSimpleErrorResponse(String message, Status status, int errorCode) {
+        return createSimpleErrorResponse(null, message, status, errorCode);
+    }
+
+    public static Response createSimpleErrorResponse(String token, String message, Status status, int errorCode){
+        return createSimpleErrorResponse(token, message, status.getStatusCode(), errorCode);
+    }
+
+    public static Response createSimpleErrorResponse(String message, int status, int errorCode) {
+        return createSimpleErrorResponse(null, message, status, errorCode);
     }
     
-    public static Response createSimpleErrorResponse(String message, int status, int errorCode){
+    public static Response createSimpleErrorResponse(String token, String message, int status, int errorCode){
         return Response
                     .status(status)
-                    .entity(JsonUtils.createResponseJson(message, errorCode))
+                    .entity(JsonUtils.createResponseJson(token, message, errorCode))
                     .build();
     }
     

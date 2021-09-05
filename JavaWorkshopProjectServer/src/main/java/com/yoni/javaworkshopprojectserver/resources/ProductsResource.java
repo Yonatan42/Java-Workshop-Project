@@ -53,7 +53,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ) {
 
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\npageNum: %d\nfilterText: %s\nfilterCategoryId: %d", token, pageNum, filterText, filterCategoryId);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -75,7 +75,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("stockQuantity") int stockQuantity
     ){
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategories %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, null/*todo - update this*/, price, stockQuantity);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -93,7 +93,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("product") Product product*/ // todo - figure out why this doesn't work and then uncomment
     ){
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nproductId: %d\nproduct: %s", token, productId, null/*todo - update this*/);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -112,7 +112,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("isEnabled") boolean isEnabled
     ){
         Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nproductId: %d\nisEnabled: %b", token, productId, isEnabled);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -133,7 +133,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @QueryParam("productIds") List<Integer> productIds
     ){
         Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nproductIds: %s", token, productIds);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -150,7 +150,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("title") String title
     ){
         Logger.logFormat(TAG, "<createCategory>\nAuthorization: %s\ntitle: %s", token, title);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")

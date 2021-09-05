@@ -162,7 +162,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 String token = JwtUtils.create(email, user.getSecretKey());
                 return Response
                     .status(Response.Status.CREATED)
-                    .entity(JsonUtils.createResponseJson(getLoginResponseJson(user, token)))
+                    .entity(JsonUtils.createResponseJson(token, getLoginResponseJson(user)))
                     .build();
 
         });
@@ -186,8 +186,8 @@ public class UsersResource extends AbstractRestResource<User> {
               @FormParam("isAdmin") boolean isAdmin) {
 
         Logger.logFormat(TAG, "<remoteRegister>\nAuthorization: %s\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nisAdmin: %b", token, email, pass, firstName, lastName, phone, address, isAdmin);
-        return ResponseUtils.respondSafe(() ->
-                userService.authenticateEncapsulated(token, true, (u, t) ->
+        return userService.authenticateEncapsulated(token, true, (u, t) ->
+                ResponseUtils.respondSafe(t, () ->
                         registerInternal(email, pass, firstName, lastName, phone, address, isAdmin)));
     }
 
@@ -222,7 +222,7 @@ public class UsersResource extends AbstractRestResource<User> {
                     String token = JwtUtils.create(email,u.getSecretKey());
                     return Response
                         .status(Response.Status.OK)
-                        .entity(JsonUtils.createResponseJson(getLoginResponseJson(u, token)))
+                        .entity(JsonUtils.createResponseJson(token, getLoginResponseJson(u)))
                         .build();
                 }
             }
@@ -237,18 +237,18 @@ public class UsersResource extends AbstractRestResource<User> {
             @HeaderParam("Authorization") String token) {
 
         Logger.logFormat(TAG, "<login>\nAuthorization: %s", token);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, (u, t) -> Response
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> Response
             .status(Response.Status.OK)
-            .entity(JsonUtils.createResponseJson(getLoginResponseJson(u, t)))
+            .entity(JsonUtils.createResponseJson(t, getLoginResponseJson(u)))
             .build()));
     }
     
-    private JsonElement getLoginResponseJson(User user, String token){
+    private JsonElement getLoginResponseJson(User user){
         // todo - get categories from
         JsonObject root = new JsonObject();
         root.add("user",  JsonUtils.convertToJson(user));
 //        root.add("categories",  JsonUtils.convertToJson(categories));
-        return JsonUtils.createStandardTokennedJson(token,root);
+        return root;
     } 
     
 
@@ -261,19 +261,19 @@ public class UsersResource extends AbstractRestResource<User> {
             @PathParam("userId") int userId) {
 
         Logger.logFormat(TAG, "<invalidateToken>\nAuthorization: %s\nuserId: %d", token, userId);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+        return userService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             User targetUser = userService.findById(userId);
             if(targetUser == null){
                 return Response
                         .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtils.createResponseJson("user id not found", ErrorCodes.USERS_NO_SUCH_USER))
+                        .entity(JsonUtils.createResponseJson(t, "user id not found", ErrorCodes.USERS_NO_SUCH_USER))
                         .build();
             }
             userService.refreshSecretKey(targetUser.getEmail());
             getEntityManager().refresh(targetUser);
             return Response
                 .status(Response.Status.OK)
-                .entity(JsonUtils.createResponseJson(JsonUtils.createStandardTokennedJson(t, null)))
+                .entity(JsonUtils.createResponseJson(t, null))
                 .build();
         }));
     }
@@ -293,7 +293,7 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("address") String address
     ){
         Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
-        return ResponseUtils.respondSafe(() -> userService.authenticateEncapsulated(token, true, (u, t) -> {
+        return userService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")

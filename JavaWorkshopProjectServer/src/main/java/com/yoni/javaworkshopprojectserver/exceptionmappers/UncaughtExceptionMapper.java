@@ -22,7 +22,9 @@ public class UncaughtExceptionMapper implements ExceptionMapper<Throwable> {
 
     private static final String TAG = "UncaughtExceptionMapper";
 
-     // if we reached here, then the fallback didn't catch the exception, in other words, there was an attempt to access a page that doesn't exist. 
+     // if we reached here, then the fallback didn't catch the exception,
+    // in other words, there was an attempt to access a page that doesn't exist
+    // or an unexpected error occurred while checking authentication
     
     @Override
     public Response toResponse(Throwable t) {

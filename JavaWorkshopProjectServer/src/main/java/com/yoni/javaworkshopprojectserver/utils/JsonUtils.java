@@ -19,8 +19,11 @@ public class JsonUtils {
  
     private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
     
-    private static String createResponseJson(JsonElement result, String errorMessage, int errorCode){
+    private static String createResponseJson(String token, JsonElement result, String errorMessage, int errorCode){
         JsonObject jsonRoot = new JsonObject();
+        if(token != null) {
+            jsonRoot.addProperty("token", token);
+        }
         boolean hasError = errorCode > 0;
         jsonRoot.addProperty("hasError", hasError);
 
@@ -36,24 +39,29 @@ public class JsonUtils {
         
         return GSON.toJson(jsonRoot);
     }
-    
+
+    private static String createResponseJson(JsonElement result, String errorMessage, int errorCode) {
+        return createResponseJson(null, result, errorMessage, errorCode);
+    }
+
     public static String createResponseJson(JsonElement result){
-        return createResponseJson(result, null, 0);
+        return createResponseJson(null, result, null, 0);
+    }
+
+    public static String createResponseJson(String token, JsonElement result){
+        return createResponseJson(token, result, null, 0);
+    }
+
+    public static String createResponseJson(String errorMessage, int errorCode){
+        return createResponseJson(null, null, errorMessage, errorCode);
     }
     
-    public static String createResponseJson(String errorMessage, int errorCode){
-        return createResponseJson(null, errorMessage, errorCode);
+    public static String createResponseJson(String token, String errorMessage, int errorCode){
+        return createResponseJson(token, null, errorMessage, errorCode);
     }
     
     public static JsonElement createSimpleMessageObject(String message){
         return new JsonPrimitive(message);
-    }
-    
-    public static JsonElement createStandardTokennedJson(String token, JsonElement data){
-        JsonObject root = new JsonObject();
-        root.addProperty("token", token);
-        root.add("data", data);
-        return root;
     }
     
     public static JsonElement convertToJson(Object entity){
