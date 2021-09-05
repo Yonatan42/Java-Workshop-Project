@@ -158,7 +158,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 
                 getEntityManager().refresh(user);
                 
-                Logger.log(TAG, "registered customer: "+user);
+                Logger.log(TAG, "registered user: "+user);
                 
                 String token = JwtUtils.create(email, user.getSecretKey());
                 return Response
@@ -294,11 +294,46 @@ public class UsersResource extends AbstractRestResource<User> {
             @FormParam("address") String address
     ){
         Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
-        return userService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
-                    .build();
+        return userService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+            User user = userService.findById(userId);
+            if(user == null){
+                return ResponseLogger.loggedResponse(Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(JsonUtils.createResponseJson(t, "user id not found", ErrorCodes.USERS_NO_SUCH_USER))
+                        .build());
+            }
+
+            // check if email is in use
+            User emailCheckUser = userService.findByEmail(email);
+            if(emailCheckUser != null && !emailCheckUser.getId().equals(user.getId())){
+                return ResponseLogger.loggedResponse(Response
+                        .status(Response.Status.CONFLICT)
+                        .entity(JsonUtils.createResponseJson(t, "user already exists", ErrorCodes.USERS_ALREADY_EXISTS))
+                        .build());
+            }
+
+            getEntityManager().getTransaction().begin();
+
+            user.setEmail(email);
+            user.setPass(BcryptUtils.encrypt(pass));
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPhone(phone);
+            user.setAddress(address);
+            user = super.edit(user);
+
+            getEntityManager().getTransaction().commit();
+            getEntityManager().refresh(user);
+
+            Logger.log(TAG, "updated user: "+user);
+
+            String newToken = JwtUtils.create(email, user.getSecretKey());
+            return ResponseLogger.loggedResponse(Response
+                    .status(Response.Status.OK)
+                    .entity(JsonUtils.createResponseJson(newToken, JsonUtils.convertToJson(user)))
+                    .build());
+
         }));
     }
+    // todo - encapsulate a smaller part of the register/edit logic and use the same main function for register, register-remote, and update info
 }

@@ -7,13 +7,17 @@ import java.io.StringWriter;
 
 public class Logger {
 
+    public static boolean LOGGING_ENABLED = true;
+
     private static final String PREFIX = "[StoreIt] ";
 
     public static void log(String tag, String message){
+        if(!LOGGING_ENABLED) return;
         logInternal(tag, message, false);
     }
 
     public static void logFormat(String tag, String formattedMessage, Object... params){
+        if(!LOGGING_ENABLED) return;
         logInternal(tag, String.format(formattedMessage, params), false);
     }
 
@@ -26,6 +30,7 @@ public class Logger {
     }
 
     public static void logError(String tag, String message, Throwable t){
+        if(!LOGGING_ENABLED) return;
         String msg = null;
         if(message != null){
             msg = message;

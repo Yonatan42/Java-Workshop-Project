@@ -34,6 +34,7 @@ public class UIUtils {
     }
 
     public static String getTrimmedText(TextView txt){
+        if(txt.getText() == null) return "";
         return txt.getText().toString().trim();
     }
 
