@@ -7,6 +7,7 @@ package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Product;
+import com.yoni.javaworkshopprojectserver.models.Stock;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
@@ -137,7 +138,9 @@ public class ProductsResource extends AbstractRestResource<Product> {
         Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nproductIds: %s", token, productIds);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - this is not necessarily the place for it, this is just a test
-            List<CatalogProduct> products = productsService.getActiveProducts();
+            // todo - uncomment - we are only testing now
+            // List<CatalogProduct> products = productsService.getActiveProducts();
+            List<Stock> products = productsService.getStock();
             return Response
                     .status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))

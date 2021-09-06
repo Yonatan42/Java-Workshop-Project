@@ -7,6 +7,8 @@ package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
+import com.yoni.javaworkshopprojectserver.models.Stock;
+
 import java.util.ArrayList;
 
 import javax.ejb.EJB;
@@ -47,5 +49,11 @@ return new ArrayList<CatalogProduct>();
                 .collect(Collectors.groupingBy(StockProduct::getProductId));
 
          */
+    }
+
+    public List<Stock> getStock(){
+        return getEntityManager()
+                .createNamedQuery("Stock.findAll", Stock.class)
+                .getResultList();
     }
 }

@@ -10,17 +10,7 @@ import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -48,6 +38,9 @@ public class Stock implements Serializable {
     @Expose
     private Integer id;
     @Basic(optional = false)
+    @Column(name = "product_id")
+    private Integer productId;
+    @Basic(optional = false)
     @NotNull
     @Column(name = "quantity")
     @Expose
@@ -70,6 +63,10 @@ public class Stock implements Serializable {
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
+    @OneToOne(mappedBy = "stock")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @Expose
+    private Product product;
 
     public Stock() {
     }
