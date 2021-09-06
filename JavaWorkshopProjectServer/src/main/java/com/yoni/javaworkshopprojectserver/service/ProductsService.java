@@ -68,6 +68,13 @@ public class ProductsService extends BaseService {
                 .getResultList();
     }
 
+    public Stock getStockById(int id){
+        return firstOrNull(getEntityManager()
+                .createNamedQuery("Stock.findById", Stock.class)
+                .setParameter("id", id)
+                .getResultList());
+    }
+
     public List<Stock> getStockByProductIds(List<Integer> productIds){
         return createSelectQuery(Stock.class, (entity, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -108,6 +115,13 @@ public class ProductsService extends BaseService {
                 .getResultList();
     }
 
+    public Stock getStockByProductId(int productId){
+        return firstOrNull(getEntityManager()
+                .createNamedQuery("Stock.findByProductId", Stock.class)
+                .setParameter("productId", productId)
+                .getResultList());
+    }
+
     private List<CatalogProduct> stockListToCatalogList(List<Stock> stockList){
         return stockList
                 .stream()
@@ -116,20 +130,14 @@ public class ProductsService extends BaseService {
     }
 
     public boolean setStockEnabled(boolean isEnabled, int productId){
-        Stock stock = firstOrNull(getEntityManager()
-                .createNamedQuery("Stock.findByProductId", Stock.class)
-                .setParameter("productId", productId)
-                .getResultList());
-
+        Stock stock = getStockByProductId(productId);
         if(stock == null){
             return false;
         }
 
         stock.setEnabled(isEnabled);
 
-        getEntityManager().getTransaction().begin();
-        getEntityManager().merge(stock);
-        getEntityManager().getTransaction().commit();
+        withTransaction(() -> getEntityManager().merge(stock));
         getEntityManager().refresh(stock);
         return stock.isEnabled() == isEnabled;
     }
@@ -142,19 +150,11 @@ public class ProductsService extends BaseService {
         return newCategory;
     }
 
-    public CatalogProduct insertStockedProduct(
-            String title,
-            String desc,
-            String imageData,
-            List<Integer> categoryIds,
-            int quantity,
-            float price,
-            boolean isEnabled
-    ){
+    public CatalogProduct insertStockedProduct(String title, String desc, String imageData, List<Integer> categoryIds, int quantity, float price){
         Stock newStock = new Stock();
         newStock.setQuantity(quantity);
         newStock.setPrice(price);
-        newStock.setEnabled(isEnabled);
+        newStock.setEnabled(true);
 
         Product newProduct = new Product();
         newProduct.setTitle(title);
@@ -175,5 +175,29 @@ public class ProductsService extends BaseService {
 
         return new CatalogProduct(newStock);
 
+    }// todo - wrong id (in Catalog)
+
+    public CatalogProduct updateStockedProduct(int productId, String title, String desc, String imageData, List<Integer> categoryIds, int quantity, float price) {
+        Stock stock = getStockByProductId(productId);
+        if(stock == null){
+            return null;
+        }
+
+        stock.setQuantity(quantity);
+        stock.setPrice(price);
+        stock.setEnabled(true);
+
+        Product product = stock.getProduct();
+        product.setTitle(title);
+        product.setDescription(desc);
+        product.setImageData(imageData);
+
+        Set<Category> categories = new HashSet<>(getCategoriesByIds(categoryIds));
+
+        product.setCategories(categories);
+
+        withTransaction(() -> getEntityManager().merge(product));
+
+        return new CatalogProduct(stock);
     }
 }

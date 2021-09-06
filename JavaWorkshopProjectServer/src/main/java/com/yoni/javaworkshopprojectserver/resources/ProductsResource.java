@@ -78,7 +78,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ){
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, categoryIds, price, stockQuantity);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            CatalogProduct newProduct = productsService.insertStockedProduct(title, desc, imageData, categoryIds, stockQuantity, price, true);
+            CatalogProduct newProduct = productsService.insertStockedProduct(title, desc, imageData, categoryIds, stockQuantity, price);
             return Response
                     .status(Response.Status.CREATED)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(newProduct)))
@@ -93,15 +93,29 @@ public class ProductsResource extends AbstractRestResource<Product> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateProduct(
             @HeaderParam("Authorization") String token,
-            @PathParam("id") int id/*,
-            @FormParam("product") StockProduct product*/ // todo - figure out why this doesn't work and then uncomment
+            @PathParam("id") int id,
+            @FormParam("title") String title,
+            @FormParam("description") String desc,
+            @FormParam("imageData") String imageData,
+            @FormParam("categoryIds") List<Integer> categoryIds,
+            @FormParam("price") float price,
+            @FormParam("stockQuantity") int stockQuantity
     ){
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\nproduct: %s", token, id, null/*todo - update this*/);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
-                    .build();
+            CatalogProduct product = productsService.updateStockedProduct(id, title, desc, imageData, categoryIds, stockQuantity, price);
+            if(product != null) {
+                return Response
+                        .status(Response.Status.CREATED)
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(product)))
+                        .build();
+            }
+            else{
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(JsonUtils.createResponseJson(t, "nothing found for the given id", ErrorCodes.RESOURCES_NOT_FOUND))
+                        .build();
+            }
         })));
     }
 
