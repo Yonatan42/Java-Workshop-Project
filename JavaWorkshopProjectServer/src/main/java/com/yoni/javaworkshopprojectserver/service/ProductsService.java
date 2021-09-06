@@ -27,13 +27,6 @@ import java.util.stream.Collectors;
 @LocalBean
 public class ProductsService extends BaseService {
 
-    @EJB
-    private EntityManagerSingleton entityManagerBean;
-   
-
-    private EntityManager getEntityManager(){
-        return entityManagerBean.getEntityManager();
-    }
 
     public List<CatalogProduct> getActiveProducts(){
         return stockListToCatalogList(getEntityManager()
@@ -50,27 +43,6 @@ public class ProductsService extends BaseService {
     }
 
     public List<CatalogProduct> getActivePagedProductsFiltered(int start, int amount, String filterTitle, Integer filterCategoryId){
-
-        // todo - remove this once we can test the server again.
-//        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-//        CriteriaQuery<Stock> criteriaQuery = builder.createQuery(Stock.class);
-//        Root<Stock> entity = criteriaQuery.from(Stock.class);
-//        criteriaQuery.select(entity);
-//        List<Predicate> predicates = new ArrayList<>();
-//        if(filterTitle != null && !filterTitle.isEmpty()) {
-//            predicates.add(builder.like(builder.lower(entity.get("product").get("title")), "%"+filterTitle.toLowerCase()+"%"));
-//        }
-//        if(filterCategoryId != null) {
-//            predicates.add(builder.equal(entity.join("product").join("categories").get("id"), filterCategoryId));
-//        }
-//        predicates.add(builder.isTrue(entity.get("isEnabled")));
-//        predicates.add(builder.greaterThan(entity.get("quantity"),0));
-//        criteriaQuery.where(predicates.toArray(new Predicate[0]));
-//        Query query = getEntityManager().createQuery(criteriaQuery);
-//        query.setFirstResult(start);
-//        query.setMaxResults(amount);
-//        return stockListToCatalogList(query.getResultList());
-
         return stockListToCatalogList(createSelectQuery(Stock.class, (entity, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if(filterTitle != null && !filterTitle.isEmpty()) {
@@ -86,7 +58,6 @@ public class ProductsService extends BaseService {
         .setFirstResult(start)
         .setMaxResults(amount)
         .getResultList());
-
     }
 
 
@@ -97,13 +68,13 @@ public class ProductsService extends BaseService {
     }
 
     public List<Stock> getStockByProductIds(List<Integer> productIds){
-        return (productIds != null && !productIds.isEmpty() ?
-                getEntityManager()
-                    .createNamedQuery("Stock.findByProductIds", Stock.class)
-                    .setParameter("productIds", productIds) :
-                getEntityManager()
-                        .createNamedQuery("Stock.findAll", Stock.class))
-                .getResultList();
+        return createSelectQuery(Stock.class, (entity, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if(productIds != null && !productIds.isEmpty()){
+                predicates.add(entity.get("product").get("id").in(productIds));
+            }
+            return predicates;
+        }).getResultList();
     }
 
     public List<CatalogProduct> getCatalog(){
@@ -113,15 +84,6 @@ public class ProductsService extends BaseService {
     }
 
     public List<CatalogProduct> getCatalogByProductIds(List<Integer> productIds){
-        // todo - remove this once we can test the server
-//        return  stockListToCatalogList((productIds != null && !productIds.isEmpty() ?
-//                getEntityManager()
-//                        .createNamedQuery("Stock.findByProductIds", Stock.class)
-//                        .setParameter("productIds", productIds) :
-//                getEntityManager()
-//                        .createNamedQuery("Stock.findAll", Stock.class))
-//                .getResultList());
-
         return stockListToCatalogList(createSelectQuery(Stock.class, (entity, builder) -> {
                     List<Predicate> predicates = new ArrayList<>();
                     if(productIds != null && !productIds.isEmpty()){
@@ -143,5 +105,24 @@ public class ProductsService extends BaseService {
                 .stream()
                 .map(CatalogProduct::new)
                 .collect(Collectors.toList());
+    }
+
+    public boolean setStockEnabled(boolean isEnabled, int productId){
+        Stock stock = firstOrNull(getEntityManager()
+                .createNamedQuery("Stock.findByProductId", Stock.class)
+                .setParameter("productId", productId)
+                .getResultList());
+
+        if(stock == null){
+            return false;
+        }
+
+        stock.setEnabled(isEnabled);
+
+        getEntityManager().getTransaction().begin();
+        getEntityManager().merge(stock);
+        getEntityManager().getTransaction().commit();
+        getEntityManager().refresh(stock);
+        return stock.isEnabled() == isEnabled;
     }
 }

@@ -1,6 +1,8 @@
 package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
 import javax.ejb.EJB;
@@ -16,7 +18,7 @@ public abstract class BaseService {
     @EJB
     private EntityManagerSingleton entityManagerBean;
    
-    private EntityManager getEntityManager(){
+    protected EntityManager getEntityManager(){
         return entityManagerBean.getEntityManager();
     }
 
@@ -30,6 +32,13 @@ public abstract class BaseService {
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
         Query query = getEntityManager().createQuery(criteriaQuery);
         return query;
+    }
+
+    protected <T> T firstOrNull(List<T> list){
+        if(list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
     }
     
 

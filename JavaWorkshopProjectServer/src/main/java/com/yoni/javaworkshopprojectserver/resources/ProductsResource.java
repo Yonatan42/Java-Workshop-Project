@@ -9,10 +9,7 @@ import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
-import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
-import com.yoni.javaworkshopprojectserver.utils.Logger;
-import com.yoni.javaworkshopprojectserver.utils.ResponseLogger;
-import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
+import com.yoni.javaworkshopprojectserver.utils.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -117,10 +114,19 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ){
         Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nid: %d\nisEnabled: %b", token, id, isEnabled);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
-                    .build();
+
+            if(productsService.setStockEnabled(isEnabled, id)){
+                return Response
+                        .status(Response.Status.OK)
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(id)))
+                        .build();
+            }
+            else{
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(JsonUtils.createResponseJson(t, "nothing found for the given id", ErrorCodes.RESOURCES_NOT_FOUND))
+                        .build();
+            }
         })));
     }
 

@@ -162,7 +162,7 @@ public class UsersResource extends AbstractRestResource<User> {
                 user.setEmail(email);
                 user.setAddress(address);
                 user.setPass(BcryptUtils.encrypt(pass));
-                user.setIsAdmin(isAdmin);
+                user.setAdmin(isAdmin);
                 user = super.edit(user);
 
                 getEntityManager().getTransaction().commit();

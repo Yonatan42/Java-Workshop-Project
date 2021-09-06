@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "Stock.findAll", query = "SELECT s FROM Stock s"),
     @NamedQuery(name = "Stock.findByProductIds", query = "SELECT s FROM Stock s WHERE s.productId IN :productIds"),
+    @NamedQuery(name = "Stock.findByProductId", query = "SELECT s FROM Stock s WHERE s.productId = :productId"),
     @NamedQuery(name = "Stock.findAllActive", query = "SELECT s FROM Stock s WHERE s.isEnabled = true AND s.quantity > 0"),
     @NamedQuery(name = "Stock.findById", query = "SELECT s FROM Stock s WHERE s.id = :id"),
     @NamedQuery(name = "Stock.findByQuantity", query = "SELECT s FROM Stock s WHERE s.quantity = :quantity"),
@@ -107,14 +108,6 @@ public class Stock implements Serializable {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public boolean getIsEnabled() {
-        return isEnabled;
-    }
-
-    public void setIsEnabled(boolean isEnabled) {
-        this.isEnabled = isEnabled;
     }
 
     public Date getCreated() {

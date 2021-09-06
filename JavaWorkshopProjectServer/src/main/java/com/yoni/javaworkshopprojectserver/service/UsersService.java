@@ -5,15 +5,12 @@
  */
 package com.yoni.javaworkshopprojectserver.service;
 
-import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.User;
 import com.yoni.javaworkshopprojectserver.utils.*;
 import io.jsonwebtoken.JwtException;
 import java.util.function.BiFunction;
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.persistence.EntityManager;
 import javax.ws.rs.core.Response;
 
 /**
@@ -25,10 +22,6 @@ import javax.ws.rs.core.Response;
 public class UsersService extends BaseService {
 
     private static final String TAG = "UsersService";
-
-    @EJB
-    private EntityManagerSingleton entityManagerBean;
-   
     
     public Result<User, Integer> authenticate(String token){
         return authenticate(token, false);
@@ -62,7 +55,7 @@ public class UsersService extends BaseService {
         if(!user.getSecretKey().equals(secret)){
             return Result.MakeError(ErrorCodes.TOKEN_INVALID);
         }
-        if(requiredAdmin && !user.getIsAdmin()){
+        if(requiredAdmin && !user.isAdmin()){
             return Result.MakeError(ErrorCodes.USERS_UNAUTHORIZED);
         }
         
@@ -126,9 +119,5 @@ public class UsersService extends BaseService {
             t = JwtUtils.create(u.getEmail(), newSecret);
         }
         return action.apply(u, t);
-    }
-    
-    private EntityManager getEntityManager(){
-        return entityManagerBean.getEntityManager();
     }
 }

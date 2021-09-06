@@ -58,7 +58,7 @@ public class CatalogProduct implements Serializable {
                 stock.getProduct().getImageData(),
                 stock.getQuantity(),
                 stock.getPrice(),
-                stock.getIsEnabled(),
+                stock.isEnabled(),
                 stock.getProduct().getCategories()
         );
     }

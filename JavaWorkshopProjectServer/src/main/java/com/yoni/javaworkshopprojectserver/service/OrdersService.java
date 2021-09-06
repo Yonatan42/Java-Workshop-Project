@@ -22,12 +22,5 @@ import javax.persistence.EntityManager;
 @Singleton
 @LocalBean
 public class OrdersService extends BaseService {
-
-    @EJB
-    private EntityManagerSingleton entityManagerBean;
    
-
-    private EntityManager getEntityManager(){
-        return entityManagerBean.getEntityManager();
-    }
 }
