@@ -78,10 +78,12 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ){
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, categoryIds, price, stockQuantity);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
+            CatalogProduct newProduct = productsService.insertStockedProduct(title, desc, imageData, categoryIds, stockQuantity, price, true);
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(newProduct)))
                     .build();
+
         })));
     }
 
@@ -158,18 +160,10 @@ public class ProductsResource extends AbstractRestResource<Product> {
         Logger.logFormat(TAG, "<createCategory>\nAuthorization: %s\ntitle: %s", token, title);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             Category newCategory = productsService.insertCategory(title);
-            if(newCategory != null){
-                return Response
-                        .status(Response.Status.CREATED)
-                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(newCategory)))
-                        .build();
-            }
-            else{
-                return Response
-                        .status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity(JsonUtils.createResponseJson(t, "an error occurred while creating a product category", ErrorCodes.RESOURCES_NOT_FOUND))
-                        .build();
-            }
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(newCategory)))
+                    .build();
         })));
     }
 }

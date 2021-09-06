@@ -60,7 +60,7 @@ public class Product implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
     @OneToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
+            fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn(name = "id")
     private Stock stock;
 
@@ -75,11 +75,14 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public Product(Integer id, String title, Date created, Date modified) {
+    public Product(Integer id, @NotNull @Size(min = 1, max = 64) String title, @Size(max = 65535) String description, String imageData, Date created, Date modified, Stock stock, Set<Category> categories) {
         this.id = id;
         this.title = title;
+        this.description = description;
+        this.imageData = imageData;
         this.created = created;
         this.modified = modified;
+        this.categories = categories;
     }
 
     public Integer getId() {
@@ -130,6 +133,14 @@ public class Product implements Serializable {
         this.modified = modified;
     }
 
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
     public Set<Category> getCategories() {
         return categories;
     }
@@ -160,7 +171,14 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.models.Product[ id=" + id + " ]";
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", imageData='" + imageData + '\'' +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", categories=" + categories +
+                '}';
     }
-    
 }

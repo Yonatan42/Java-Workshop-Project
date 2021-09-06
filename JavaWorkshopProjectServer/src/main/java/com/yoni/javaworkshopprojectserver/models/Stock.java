@@ -52,7 +52,7 @@ public class Stock implements Serializable {
     @NotNull
     @Column(name = "price")
     @Expose
-    private BigDecimal price;
+    private float price;
     @Basic(optional = false)
     @NotNull
     @Column(name = "is_enabled")
@@ -77,7 +77,7 @@ public class Stock implements Serializable {
         this.id = id;
     }
 
-    public Stock(Integer id, int quantity, BigDecimal price, boolean isEnabled, Date created, Date modified) {
+    public Stock(Integer id, int quantity, float price, boolean isEnabled, Date created, Date modified) {
         this.id = id;
         this.quantity = quantity;
         this.price = price;
@@ -102,11 +102,11 @@ public class Stock implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -140,6 +140,7 @@ public class Stock implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
+        this.productId = product != null ? product.getId() : null;
     }
 
     @Override
@@ -164,7 +165,15 @@ public class Stock implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.models.Stock[ id=" + id + " ]";
+        return "Stock{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", isEnabled=" + isEnabled +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", product=" + product +
+                '}';
     }
-    
 }

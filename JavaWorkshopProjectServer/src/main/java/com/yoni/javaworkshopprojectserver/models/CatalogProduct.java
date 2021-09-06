@@ -30,8 +30,7 @@ public class CatalogProduct implements Serializable {
     @Expose
     private int quantity;
     @Expose
-    private BigDecimal price;
-    @Expose
+    private float price;
     private boolean isEnabled;
     @Expose
     private Set<Category> categories = new HashSet<>();
@@ -39,7 +38,7 @@ public class CatalogProduct implements Serializable {
     public CatalogProduct() {
     }
 
-    public CatalogProduct(int id, String title, String description, String imageData, int quantity, BigDecimal price, boolean isEnabled, Set<Category> categories) {
+    public CatalogProduct(int id, String title, String description, String imageData, int quantity, float price, boolean isEnabled, Set<Category> categories) {
         this.id = id;
         this.title = title;
         this.description = description;

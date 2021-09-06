@@ -50,7 +50,7 @@ public abstract class AbstractRestResource<T> {
             Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
             while(iterator.hasNext()){
                 ConstraintViolation<T> cv = iterator.next();
-                Logger.logError(TAG, "Constraint Validatin: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
+                Logger.logError(TAG, "Constraint Validation: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
             }
         }else{
             getEntityManager().persist(entity);
@@ -66,7 +66,7 @@ public abstract class AbstractRestResource<T> {
             Iterator<ConstraintViolation<T>> iterator = constraintViolations.iterator();
             while(iterator.hasNext()){
                 ConstraintViolation<T> cv = iterator.next();
-                Logger.logError(TAG, "Constraint Validatin: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
+                Logger.logError(TAG, "Constraint Validation: "+cv.getRootBeanClass().getName()+"."+cv.getPropertyPath() + " " +cv.getMessage());
             }
             return null;
         }else{

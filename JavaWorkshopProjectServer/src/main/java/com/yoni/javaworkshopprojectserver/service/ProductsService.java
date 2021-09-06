@@ -8,15 +8,16 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Category;
+import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.Stock;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -136,9 +137,43 @@ public class ProductsService extends BaseService {
     public Category insertCategory(String title){
         Category newCategory = new Category();
         newCategory.setTitle(title);
-        return withTransaction(() -> {
-            getEntityManager().persist(newCategory);
-            return newCategory;
+        withTransaction(() -> getEntityManager().persist(newCategory));
+        getEntityManager().refresh(newCategory);
+        return newCategory;
+    }
+
+    public CatalogProduct insertStockedProduct(
+            String title,
+            String desc,
+            String imageData,
+            List<Integer> categoryIds,
+            int quantity,
+            float price,
+            boolean isEnabled
+    ){
+        Stock newStock = new Stock();
+        newStock.setQuantity(quantity);
+        newStock.setPrice(price);
+        newStock.setEnabled(isEnabled);
+
+        Product newProduct = new Product();
+        newProduct.setTitle(title);
+        newProduct.setDescription(desc);
+        newProduct.setImageData(imageData);
+
+
+        Set<Category> categories = new HashSet<>(getCategoriesByIds(categoryIds));
+
+        newProduct.setCategories(categories);
+
+        withTransaction(() -> {
+            getEntityManager().persist(newProduct);
+            getEntityManager().flush();
+            newStock.setProduct(newProduct);
+            newProduct.setStock(newStock);
         });
+
+        return new CatalogProduct(newStock);
+
     }
 }

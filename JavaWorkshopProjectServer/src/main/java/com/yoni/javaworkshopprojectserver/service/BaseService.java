@@ -42,14 +42,10 @@ public abstract class BaseService {
         return list.get(0);
     }
 
-    public <T> T withTransaction(Supplier<T> action){
+    public void withTransaction(Runnable action){
         getEntityManager().getTransaction().begin();
-        T entity = action.get();
+        action.run();
         getEntityManager().getTransaction().commit();
-        getEntityManager().refresh(entity);
-        return entity;
     }
-    
-
 
 }

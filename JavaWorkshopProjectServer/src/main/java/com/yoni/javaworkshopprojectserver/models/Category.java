@@ -129,7 +129,11 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.models.Category[ id=" + id + " ]";
+        return "Category{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", created=" + created +
+                ", modified=" + modified +
+                '}';
     }
-    
 }
