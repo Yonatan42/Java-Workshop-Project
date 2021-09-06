@@ -2,7 +2,6 @@ package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
 import android.app.AlertDialog;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -11,12 +10,9 @@ import androidx.core.util.Consumer;
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.functionalintefaces.TriConsumer;
-import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsPopup;
-import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.List;
 
@@ -56,7 +52,7 @@ public class CartProductsAdapter extends BaseProductsAdapter<CartProductsAdapter
         super.onBindViewHolder(holder, position);
         Product product = products.get(position);
         holder.btnRemove.setOnClickListener(v -> {
-            CartStore.getInstance().delete(product.getProductId());
+            CartStore.getInstance().delete(product.getId());
             notifyItemRemoved(position);
             if(onProductRemoved != null){
                 onProductRemoved.accept(product);

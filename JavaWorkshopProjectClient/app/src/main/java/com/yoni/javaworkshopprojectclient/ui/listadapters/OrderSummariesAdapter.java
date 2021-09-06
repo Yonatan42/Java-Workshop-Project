@@ -17,7 +17,6 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.Expandabl
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.OrderDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -76,7 +75,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
         Context context = holder.itemView.getContext();
         ExpandableOrder order = orders.get(position);
         OrderSummary orderSummary = order.getOrderSummary();
-        holder.txtOrderNumber.setText(String.format("%s%d", context.getString(R.string.order_number_prefix), orderSummary.getOrderId()));
+        holder.txtOrderNumber.setText(String.format("%s%d", context.getString(R.string.order_number_prefix), orderSummary.getId()));
         holder.txtDate.setText(UIUtils.formatDate(orderSummary.getTransactionDate()));
         holder.txtPrice.setText(UIUtils.formatPrice(orderSummary.getTotalPrice(), UIUtils.getDollarSign(context)));
         holder.txtName.setText(orderSummary.getFullName());
@@ -87,7 +86,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
         holder.btnDetails.setOnClickListener(v -> {
             ViewGroup parent = (ViewGroup) holder.itemView.getParent();
             parent.setEnabled(false);
-            RemoteServiceManager.getInstance().getOrdersService().getOrderDetails(orderSummary.getOrderId(),
+            RemoteServiceManager.getInstance().getOrdersService().getOrderDetails(orderSummary.getId(),
                     (call, response, result) -> {
                         parent.setEnabled(true);
                         new OrderDetailsPopup(context, result).show();

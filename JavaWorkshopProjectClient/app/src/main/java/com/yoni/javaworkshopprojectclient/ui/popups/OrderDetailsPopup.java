@@ -31,7 +31,7 @@ public class OrderDetailsPopup extends AlertDialog {
         rvProducts.setAdapter(adapter);
         rvProducts.setLayoutManager(new LinearLayoutManager(context));
 
-        txtOrderNum.setText(String.format("%s%d", context.getString(R.string.order_number_prefix), order.getOrderId()));
+        txtOrderNum.setText(String.format("%s%d", context.getString(R.string.order_number_prefix), order.getId()));
         txtTotalPrice.setText(String.format("%s %s", context.getString(R.string.total_price_prefix), UIUtils.formatPrice(order.getTotalPrice(), UIUtils.getDollarSign(context))));
 
         btnBack.setOnClickListener(v -> dismiss());

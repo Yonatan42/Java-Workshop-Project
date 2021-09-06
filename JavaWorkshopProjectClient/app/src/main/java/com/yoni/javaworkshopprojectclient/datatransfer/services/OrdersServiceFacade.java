@@ -54,10 +54,10 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
     }
 
 
-    public void getOrderDetails(int orderId,
+    public void getOrderDetails(int id,
                                 ResponseSuccessCallback<OrderDetails> onSuccess,
                                 ResponseErrorCallback<OrderDetails> onError){
-        enqueue(service.getOrderDetails(getToken(), orderId), onSuccess, onError);
+        enqueue(service.getOrderDetails(getToken(), id), onSuccess, onError);
 
         // todo - remove this once we are connected to server
         /*

@@ -24,7 +24,7 @@ public class ProductsServiceFacade extends BaseRemoteServiceFacade<ProductsServi
     public void insertUpdateProduct(Product product,
                                     ResponseSuccessCallback<Product> onSuccess,
                                     ResponseErrorCallback<Product> onError){
-        if(product.getProductId() <= 0){
+        if(product.getId() <= 0){
             enqueue(service.insertProduct(
                     getToken(),
                     product.getTitle(),
@@ -36,20 +36,20 @@ public class ProductsServiceFacade extends BaseRemoteServiceFacade<ProductsServi
             ), onSuccess, onError);
         }
         else{
-            enqueue(service.updateProduct(getToken(), product.getProductId(), product), onSuccess, onError);
+            enqueue(service.updateProduct(getToken(), product.getId(), product), onSuccess, onError);
         }
     }
 
-    public void disableProduct(int productId,
+    public void disableProduct(int id,
                                ResponseSuccessCallback<Integer> onSuccess,
                                ResponseErrorCallback<Integer> onError){
-        enqueue(service.setProductEnabled(getToken(), productId, false), onSuccess, onError);
+        enqueue(service.setProductEnabled(getToken(), id, false), onSuccess, onError);
     }
 
-    public void getProducts(List<Integer> productIds,
+    public void getProducts(List<Integer> ids,
                             ResponseSuccessCallback<List<Product>> onSuccess,
                             ResponseErrorCallback<List<Product>> onError){
-        enqueue(service.getProductsByIds(getToken(), productIds), onSuccess, onError);
+        enqueue(service.getByIds(getToken(), ids), onSuccess, onError);
     }
 
     public void createCategory(String title,

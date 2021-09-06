@@ -7,9 +7,9 @@ import java.util.List;
 
 public class Product {
 
-    @SerializedName("productId")
+    @SerializedName("id")
     @Expose
-    private int productId;
+    private int id;
     @SerializedName("categories")
     @Expose
     private List<ProductCategory> categories;
@@ -38,12 +38,12 @@ public class Product {
     }
 
 
-    public int getProductId() {
-        return productId;
+    public int getId() {
+        return id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -104,7 +104,7 @@ public class Product {
 
 
     public void replace(Product product){
-        this.productId = product.productId;
+        this.id = product.id;
         this.stock = product.stock;
         this.categories = product.categories;
         this.price = product.price;
@@ -119,7 +119,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "productId=" + productId +
+                "id=" + id +
                 ", categories=" + categories +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

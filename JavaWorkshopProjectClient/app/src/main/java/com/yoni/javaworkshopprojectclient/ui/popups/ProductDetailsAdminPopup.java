@@ -1,9 +1,6 @@
 package com.yoni.javaworkshopprojectclient.ui.popups;
 
 
-import android.annotation.SuppressLint;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -144,7 +141,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         });
 
         btnDelete.setOnClickListener(v -> {
-            RemoteServiceManager.getInstance().getProductsService().disableProduct(product.getProductId(),
+            RemoteServiceManager.getInstance().getProductsService().disableProduct(product.getId(),
                     (call, response, result) -> {
                         onProductDeleted.accept(result); // will do notify removed
                         dismiss();

@@ -1,10 +1,8 @@
 package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -75,7 +73,7 @@ public class CheckoutPopup extends AlertDialog {
                 expirationCalendar.getTime(),
                 UIUtils.getTrimmedText(txtCVV),
                 (call, response, result) -> {
-                    new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result.getOrderId())).show();
+                    new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result.getId())).show();
                     dismiss();
                 },
                 new StandardResponseErrorCallback<OrderDetails>(parentActivity) {

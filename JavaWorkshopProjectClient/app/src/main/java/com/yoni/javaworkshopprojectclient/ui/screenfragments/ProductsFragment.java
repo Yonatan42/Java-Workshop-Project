@@ -114,7 +114,7 @@ public class ProductsFragment extends BaseFragment {
                     loadInProgress = false;
                     currentPage++;
                     int startIndex = products.size();
-                    List<Product> mergedList = ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getProductId(), o2.getProductId()));
+                    List<Product> mergedList = ListUtils.combineLists(products, result, (o1, o2) -> Integer.compare(o1.getId(), o2.getId()));
                     products.clear();
                     products.addAll(mergedList);
                     rvProducts.getAdapter().notifyItemRangeInserted(startIndex, products.size() - startIndex);

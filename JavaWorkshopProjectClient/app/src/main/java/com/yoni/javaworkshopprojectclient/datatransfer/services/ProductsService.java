@@ -44,27 +44,27 @@ public interface ProductsService extends BaseRemoveService {
             @Field("stockQuantity") int stockQuantity
     );
 
-    @PUT(URL+"/{productId}")
+    @PUT(URL+"/{id}")
     @FormUrlEncoded
     Call<ServerResponse<Product>> updateProduct(
             @Header("Authorization") String token,
-            @Path("productId") int productId,
+            @Path("id") int id,
             @Field("product") Product product
     );
 
 
-    @PUT(URL+"/{productId}/enabled")
+    @PUT(URL+"/{id}/enabled")
     @FormUrlEncoded
     Call<ServerResponse<Integer>> setProductEnabled(
             @Header("Authorization") String token,
-            @Path("productId") int productId,
+            @Path("id") int id,
             @Field("isEnabled") boolean isEnabled
     );
 
     @GET(URL)
-    Call<ServerResponse<List<Product>>> getProductsByIds(
+    Call<ServerResponse<List<Product>>> getByIds(
             @Header("Authorization") String token,
-            @Query("productIds") List<Integer> productIds
+            @Query("ids") List<Integer> ids
     );
 
     @POST(URL+"/categories")

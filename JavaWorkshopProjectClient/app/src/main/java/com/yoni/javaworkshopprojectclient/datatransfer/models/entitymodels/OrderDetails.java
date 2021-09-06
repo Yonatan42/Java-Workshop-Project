@@ -8,9 +8,9 @@ import java.util.List;
 // todo - synchronize this class with server/db
 public class OrderDetails {
 
-    @SerializedName("orderId")
+    @SerializedName("id")
     @Expose
-    private int orderId;
+    private int id;
     @SerializedName("userId")
     @Expose
     private int userId;
@@ -21,12 +21,12 @@ public class OrderDetails {
     @Expose
     private float totalPrice;
 
-    public int getOrderId() {
-        return orderId;
+    public int getId() {
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUserId() {
@@ -56,7 +56,7 @@ public class OrderDetails {
     @Override
     public String toString() {
         return "OrderDetails{" +
-                "orderId=" + orderId +
+                "id=" + id +
                 ", userId=" + userId +
                 ", products=" + products +
                 ", totalPrice=" + totalPrice +

@@ -7,9 +7,9 @@ import java.util.Date;
 
 public class OrderSummary {
 
-    @SerializedName("orderId")
+    @SerializedName("id")
     @Expose
-    private int orderId;
+    private int id;
     @SerializedName("userId")
     @Expose
     private int userId;
@@ -35,8 +35,8 @@ public class OrderSummary {
 
     // todo - delete constructors once we are connected to server
     public OrderSummary(){}
-    public OrderSummary(int orderId, int userId, String fullName, String email, String phone, String address, float totalPrice, Date transactionDate) {
-        this.orderId = orderId;
+    public OrderSummary(int id, int userId, String fullName, String email, String phone, String address, float totalPrice, Date transactionDate) {
+        this.id = id;
         this.userId = userId;
         this.fullName = fullName;
         this.email = email;
@@ -46,12 +46,12 @@ public class OrderSummary {
         this.transactionDate = transactionDate;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getId() {
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUserId() {
@@ -113,7 +113,7 @@ public class OrderSummary {
     @Override
     public String toString() {
         return "OrderSummary{" +
-                "orderId=" + orderId +
+                "id=" + id +
                 ", userId=" + userId +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +

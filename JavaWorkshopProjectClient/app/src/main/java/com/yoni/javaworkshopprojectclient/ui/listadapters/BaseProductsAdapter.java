@@ -88,12 +88,12 @@ public abstract class BaseProductsAdapter<T extends BaseProductsAdapter.ViewHold
     protected void handleAmountChange(Product product, float newAmount, float oldAmount){
         int newQuantity = (int)newAmount;
         product.setCartQuantity(newQuantity);
-        CartStore.getInstance().set(product.getProductId(), newQuantity);
+        CartStore.getInstance().set(product.getId(), newQuantity);
     }
 
     private void loadCartQuantityIfNeeded(Product product){
         if(product.getCartQuantity() == -1){
-            CartProduct cartProduct = CartStore.getInstance().get(product.getProductId());
+            CartProduct cartProduct = CartStore.getInstance().get(product.getId());
             product.setCartQuantity(cartProduct != null ? cartProduct.getQuantity() : 0);
         }
     }

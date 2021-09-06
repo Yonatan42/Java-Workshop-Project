@@ -7,12 +7,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class OrderDetailsProduct {
 
-    @SerializedName("productId")
+    @SerializedName("id")
     @Expose
-    private int productId;
-    @SerializedName("productTitle")
+    private int id;
+    @SerializedName("title")
     @Expose
-    private String productTitle;
+    private String title;
     @SerializedName("quantity")
     @Expose
     private int quantity;
@@ -20,20 +20,20 @@ public class OrderDetailsProduct {
     @Expose
     private float price;
 
-    public int getProductId() {
-        return productId;
+    public int getId() {
+        return id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getProductTitle() {
-        return productTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setProductTitle(String productTitle) {
-        this.productTitle = productTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int getQuantity() {
@@ -55,8 +55,8 @@ public class OrderDetailsProduct {
     @Override
     public String toString() {
         return "OrderDetailsProduct{" +
-                "productId=" + productId +
-                ", productTitle='" + productTitle + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 '}';

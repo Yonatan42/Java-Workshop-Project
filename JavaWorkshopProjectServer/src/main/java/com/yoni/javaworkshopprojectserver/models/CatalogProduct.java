@@ -25,7 +25,7 @@ public class CatalogProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Expose
-    private int productId;
+    private int id;
     @Expose
     private String title;
     @Expose
@@ -44,8 +44,8 @@ public class CatalogProduct implements Serializable {
     public CatalogProduct() {
     }
 
-    public CatalogProduct(int productId, String title, String description, String imageData, int quantity, BigDecimal price, boolean isEnabled, Set<Category> categories) {
-        this.productId = productId;
+    public CatalogProduct(int id, String title, String description, String imageData, int quantity, BigDecimal price, boolean isEnabled, Set<Category> categories) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.imageData = imageData;

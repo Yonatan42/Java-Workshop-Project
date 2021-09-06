@@ -7,6 +7,7 @@ package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
+import com.yoni.javaworkshopprojectserver.models.Category;
 import com.yoni.javaworkshopprojectserver.models.Stock;
 
 import java.util.ArrayList;
@@ -38,18 +39,9 @@ public class ProductsService {
     }
 
     public List<CatalogProduct> getActiveProducts(){
-//        return getEntityManager()
-//                .createNamedQuery("CatalogProducts.findAllActive", CatalogProduct.class)
-//                .getResultList();
-return new ArrayList<CatalogProduct>();
-        /*
-        Map<Integer, List<StockProduct>> stockMap = getEntityManager()
-                .createNamedQuery("StockProducts.findAllActive", StockProduct.class)
-                .getResultList()
-                .stream()
-                .collect(Collectors.groupingBy(StockProduct::getProductId));
-
-         */
+        return stockListToCatalogList(getEntityManager()
+                .createNamedQuery("findAllActive", Stock.class)
+                .getResultList());
     }
 
     public List<Stock> getStock(){
@@ -69,22 +61,29 @@ return new ArrayList<CatalogProduct>();
     }
 
     public List<CatalogProduct> getCatalog(){
-        return getEntityManager()
+        return stockListToCatalogList(getEntityManager()
                 .createNamedQuery("Stock.findAll", Stock.class)
-                .getResultList()
-                .stream()
-                .map(CatalogProduct::new)
-                .collect(Collectors.toList());
+                .getResultList());
     }
 
     public List<CatalogProduct> getCatalogByProductIds(List<Integer> productIds){
         String queryString = productIds != null && !productIds.isEmpty() ?
                 "Stock.findByProductIds" :
                 "Stock.findAll";
-        return getEntityManager()
+        return stockListToCatalogList(getEntityManager()
                 .createNamedQuery(queryString, Stock.class)
                 .setParameter("productIds", productIds)
-                .getResultList()
+                .getResultList());
+    }
+
+    public List<Category> getAllCategories(){
+        return getEntityManager()
+                .createNamedQuery("Categories.findAll", Category.class)
+                .getResultList();
+    }
+
+    private List<CatalogProduct> stockListToCatalogList(List<Stock> stockList){
+        return stockList
                 .stream()
                 .map(CatalogProduct::new)
                 .collect(Collectors.toList());

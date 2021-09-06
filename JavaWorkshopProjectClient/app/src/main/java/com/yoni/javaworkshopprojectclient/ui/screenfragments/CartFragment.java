@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -88,7 +87,7 @@ public class CartFragment extends BaseFragment {
     private float calculateTotalPrice(){
         return ListUtils.reduce(products, 0f, (acc, product) -> {
             if(product.getCartQuantity() == -1){
-                product.setCartQuantity(CartStore.getInstance().get(product.getProductId()).getQuantity());
+                product.setCartQuantity(CartStore.getInstance().get(product.getId()).getQuantity());
             }
             return acc + product.getPrice() * product.getCartQuantity();
         });
