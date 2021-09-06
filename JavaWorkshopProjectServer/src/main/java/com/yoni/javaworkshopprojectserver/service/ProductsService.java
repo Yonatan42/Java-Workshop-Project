@@ -58,6 +58,13 @@ return new ArrayList<CatalogProduct>();
                 .getResultList();
     }
 
+    public List<Stock> getStockByProductIds(List<Integer> productIds){
+        return getEntityManager()
+                .createNamedQuery("Stock.findByProductIds", Stock.class)
+                .setParameter("productIds", productIds)
+                .getResultList();
+    }
+
     public List<CatalogProduct> getCatalog(){
         return getEntityManager()
                 .createNamedQuery("Stock.findAll", Stock.class)
