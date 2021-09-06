@@ -15,7 +15,10 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -49,6 +52,38 @@ public class ProductsService {
                 .setFirstResult(start)
                 .setMaxResults(amount)
                 .getResultList());
+    }
+
+    public List<CatalogProduct> getActivePagedProductsFiltered(int start, int amount, String filterTitle, Integer filterCategoryId){
+//        return stockListToCatalogList(getEntityManager()
+//                .createNamedQuery("Stock.findAllActive", Stock.class)
+//                .setFirstResult(start)
+//                .setMaxResults(amount)
+//                .getResultList());
+
+//        Query query = getEntityManager().createNamedQuery("Stock.findAllActive")
+//                .setFirstResult(start)
+//                .setMaxResults(amount);
+
+        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Stock> criteriaQuery = builder.createQuery(Stock.class);
+        Root<Stock> entity = criteriaQuery.from(Stock.class);
+        criteriaQuery.select(entity);
+        List<Predicate> predicates = new ArrayList<>();
+        if(filterTitle != null && !filterTitle.isEmpty()) {
+            predicates.add(builder.like(builder.lower(entity.get("product").get("title")), "%"+filterTitle.toLowerCase()+"%"));
+        }
+        if(filterCategoryId != null) {
+            predicates.add(builder.equal(entity.join("product").join("categories").get("id"), filterCategoryId));
+        }
+        predicates.add(builder.isTrue(entity.get("isEnabled")));
+        predicates.add(builder.greaterThan(entity.get("quantity"),0));
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        Query query = getEntityManager().createQuery(criteriaQuery);
+        query.setFirstResult(start);
+        query.setMaxResults(amount);
+        return stockListToCatalogList(query.getResultList());
+
     }
 
     public List<Stock> getStock(){

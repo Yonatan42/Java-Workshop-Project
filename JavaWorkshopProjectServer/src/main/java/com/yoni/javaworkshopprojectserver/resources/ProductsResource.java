@@ -58,7 +58,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
         final int PAGE_SIZE = 10;
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
-            List<CatalogProduct> products = productsService.getActivePagedProducts(pageNum * PAGE_SIZE, PAGE_SIZE);
+            List<CatalogProduct> products = productsService.getActivePagedProductsFiltered(pageNum * PAGE_SIZE, PAGE_SIZE, filterText, filterCategoryId);
             return Response.status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
                     .build();
