@@ -5,6 +5,7 @@ import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -39,6 +40,14 @@ public abstract class BaseService {
             return null;
         }
         return list.get(0);
+    }
+
+    public <T> T withTransaction(Supplier<T> action){
+        getEntityManager().getTransaction().begin();
+        T entity = action.get();
+        getEntityManager().getTransaction().commit();
+        getEntityManager().refresh(entity);
+        return entity;
     }
     
 

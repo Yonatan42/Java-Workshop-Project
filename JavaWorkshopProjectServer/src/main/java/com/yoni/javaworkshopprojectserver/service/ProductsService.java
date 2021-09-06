@@ -100,6 +100,13 @@ public class ProductsService extends BaseService {
                 .getResultList();
     }
 
+    public List<Category> getCategoriesByIds(List<Integer> ids){
+        return getEntityManager()
+                .createNamedQuery("Categories.findByIds", Category.class)
+                .setParameter("ids", ids)
+                .getResultList();
+    }
+
     private List<CatalogProduct> stockListToCatalogList(List<Stock> stockList){
         return stockList
                 .stream()
@@ -124,5 +131,14 @@ public class ProductsService extends BaseService {
         getEntityManager().getTransaction().commit();
         getEntityManager().refresh(stock);
         return stock.isEnabled() == isEnabled;
+    }
+
+    public Category insertCategory(String title){
+        Category newCategory = new Category();
+        newCategory.setTitle(title);
+        return withTransaction(() -> {
+            getEntityManager().persist(newCategory);
+            return newCategory;
+        });
     }
 }

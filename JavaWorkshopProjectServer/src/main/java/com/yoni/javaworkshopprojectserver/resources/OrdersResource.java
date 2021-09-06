@@ -79,7 +79,7 @@ public class OrdersResource extends AbstractRestResource<Order> {
 
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Produces(MediaType.APPLICATION_JSON)
     public Response createOrder(
             @HeaderParam("Authorization") String token,

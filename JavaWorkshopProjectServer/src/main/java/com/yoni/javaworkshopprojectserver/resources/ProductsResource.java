@@ -6,6 +6,7 @@
 package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
+import com.yoni.javaworkshopprojectserver.models.Category;
 import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
@@ -71,12 +72,12 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("title") String title,
             @FormParam("description") String desc,
             @FormParam("imageData") String imageData,
-//            @FormParam("categories") List<ProductCategory> categories,  // todo - figure out why this doesn't work and then uncomment
+            @FormParam("categoryIds") List<Integer> categoryIds,
             @FormParam("price") float price,
             @FormParam("stockQuantity") int stockQuantity
     ){
-        Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategories %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, null/*todo - update this*/, price, stockQuantity);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, categoryIds, price, stockQuantity);
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -94,7 +95,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("product") StockProduct product*/ // todo - figure out why this doesn't work and then uncomment
     ){
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\nproduct: %s", token, id, null/*todo - update this*/);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("{\"message\":\"not implemented\"}")
@@ -113,7 +114,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("isEnabled") boolean isEnabled
     ){
         Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nid: %d\nisEnabled: %b", token, id, isEnabled);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
 
             if(productsService.setStockEnabled(isEnabled, id)){
                 return Response
@@ -155,11 +156,20 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("title") String title
     ){
         Logger.logFormat(TAG, "<createCategory>\nAuthorization: %s\ntitle: %s", token, title);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
-                    .build();
+        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+            Category newCategory = productsService.insertCategory(title);
+            if(newCategory != null){
+                return Response
+                        .status(Response.Status.CREATED)
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(newCategory)))
+                        .build();
+            }
+            else{
+                return Response
+                        .status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity(JsonUtils.createResponseJson(t, "an error occurred while creating a product category", ErrorCodes.RESOURCES_NOT_FOUND))
+                        .build();
+            }
         })));
     }
 }
