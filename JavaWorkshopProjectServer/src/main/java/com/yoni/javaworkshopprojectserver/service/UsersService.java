@@ -125,7 +125,7 @@ public class UsersService {
         if(!oldSecret.equals(newSecret)){
             t = JwtUtils.create(u.getEmail(), newSecret);
         }
-        return action.apply(u, t);   
+        return action.apply(u, t);
     }
     
     private EntityManager getEntityManager(){

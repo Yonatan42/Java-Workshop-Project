@@ -7,7 +7,9 @@ package com.yoni.javaworkshopprojectserver.resources;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.yoni.javaworkshopprojectserver.models.Category;
 import com.yoni.javaworkshopprojectserver.models.User;
+import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.*;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
@@ -17,6 +19,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  *
@@ -30,6 +33,9 @@ public class UsersResource extends AbstractRestResource<User> {
 
     @EJB
     private UsersService usersService;
+
+    @EJB
+    private ProductsService productsService;
     
     
     public UsersResource() {
@@ -250,10 +256,10 @@ public class UsersResource extends AbstractRestResource<User> {
     }
     
     private JsonElement getLoginResponseJson(User user){
-        // todo - getCatalog categories from
         JsonObject root = new JsonObject();
         root.add("user",  JsonUtils.convertToJson(user));
-//        root.add("categories",  JsonUtils.convertToJson(categories));
+        List<Category> categories = productsService.getAllCategories();
+        root.add("categories",  JsonUtils.convertToJson(categories));
         return root;
     } 
     

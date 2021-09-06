@@ -7,7 +7,6 @@ package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Product;
-import com.yoni.javaworkshopprojectserver.models.Stock;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
@@ -58,8 +57,9 @@ public class ProductsResource extends AbstractRestResource<Product> {
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\npageNum: %d\nfilterText: %s\nfilterCategoryId: %d", token, pageNum, filterText, filterCategoryId);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
+            List<CatalogProduct> products = productsService.getActiveProducts();
+            return Response.status(Response.Status.OK)
+                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
                     .build();
         })));
     }
