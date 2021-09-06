@@ -10,6 +10,9 @@ package com.yoni.javaworkshopprojectserver.utils;
  * @author Yoni
  */
 public class ErrorCodes {
+    
+    private ErrorCodes(){}
+    
   public static final int UNKNOWN = 100;
   public static final int PAGE_NOT_FOUND = 200;
 

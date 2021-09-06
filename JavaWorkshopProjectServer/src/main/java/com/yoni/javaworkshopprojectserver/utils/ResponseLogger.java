@@ -3,6 +3,9 @@ package com.yoni.javaworkshopprojectserver.utils;
 import javax.ws.rs.core.Response;
 
 public class ResponseLogger {
+    
+    private ResponseLogger(){}
+    
     private static final String TAG = "ResponseLogger";
 
     public static Response loggedResponse(Response response){

@@ -15,6 +15,9 @@ import javax.ws.rs.core.Response.Status;
  * @author Yoni
  */
 public class ResponseUtils {
+    
+    private ResponseUtils(){}
+    
 
     private static final String TAG = "ResponseUtils";
 

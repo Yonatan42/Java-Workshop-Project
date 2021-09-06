@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public class Logger {
+    
+    private Logger(){}
 
     public static boolean LOGGING_ENABLED = true;
 
