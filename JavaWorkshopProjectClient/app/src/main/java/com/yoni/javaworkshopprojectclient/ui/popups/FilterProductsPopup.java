@@ -15,6 +15,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.ProductFilter;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesFilterAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +27,7 @@ public class FilterProductsPopup extends AlertDialog {
         View layout = LayoutInflater.from(parentActivity).inflate(R.layout.popup_filter_products, null, false);
         TextView txtText = layout.findViewById(R.id.filter_products_txt_text);
         Spinner spinnerCategories = layout.findViewById(R.id.filter_products_spinner_categories);
+        categories = new ArrayList<>(categories);
         categories.add(0, new ProductCategory(0, "any"));
         CategoriesFilterAdapter adapter = new CategoriesFilterAdapter(parentActivity, categories);
         spinnerCategories.setAdapter(adapter);
