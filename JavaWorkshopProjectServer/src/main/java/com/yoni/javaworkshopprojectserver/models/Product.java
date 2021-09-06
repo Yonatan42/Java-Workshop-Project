@@ -9,6 +9,8 @@ import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -62,6 +64,10 @@ public class Product implements Serializable {
             fetch = FetchType.LAZY, optional = false)
     @PrimaryKeyJoinColumn(name = "id")
     private Stock stock;
+
+    @ManyToMany(mappedBy = "products")
+    @Expose
+    private Set<Category> categories = new HashSet<>();
 
     public Product() {
     }
