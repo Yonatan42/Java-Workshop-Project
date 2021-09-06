@@ -9,23 +9,15 @@ import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Category;
 import com.yoni.javaworkshopprojectserver.models.Stock;
-import com.yoni.javaworkshopprojectserver.utils.BaseService;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-
-// todo - fill in
 
 /**
  *
@@ -59,6 +51,7 @@ public class ProductsService extends BaseService {
 
     public List<CatalogProduct> getActivePagedProductsFiltered(int start, int amount, String filterTitle, Integer filterCategoryId){
 
+        // todo - remove this once we can test the server again.
 //        CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 //        CriteriaQuery<Stock> criteriaQuery = builder.createQuery(Stock.class);
 //        Root<Stock> entity = criteriaQuery.from(Stock.class);
@@ -120,12 +113,22 @@ public class ProductsService extends BaseService {
     }
 
     public List<CatalogProduct> getCatalogByProductIds(List<Integer> productIds){
-        return  stockListToCatalogList((productIds != null && !productIds.isEmpty() ?
-                getEntityManager()
-                        .createNamedQuery("Stock.findByProductIds", Stock.class)
-                        .setParameter("productIds", productIds) :
-                getEntityManager()
-                        .createNamedQuery("Stock.findAll", Stock.class))
+        // todo - remove this once we can test the server
+//        return  stockListToCatalogList((productIds != null && !productIds.isEmpty() ?
+//                getEntityManager()
+//                        .createNamedQuery("Stock.findByProductIds", Stock.class)
+//                        .setParameter("productIds", productIds) :
+//                getEntityManager()
+//                        .createNamedQuery("Stock.findAll", Stock.class))
+//                .getResultList());
+
+        return stockListToCatalogList(createSelectQuery(Stock.class, (entity, builder) -> {
+                    List<Predicate> predicates = new ArrayList<>();
+                    if(productIds != null && !productIds.isEmpty()){
+                        predicates.add(entity.get("product").get("id").in(productIds));
+                    }
+                    return predicates;
+                })
                 .getResultList());
     }
 

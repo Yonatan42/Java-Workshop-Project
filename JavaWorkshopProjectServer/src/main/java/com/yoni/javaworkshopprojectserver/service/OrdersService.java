@@ -21,7 +21,7 @@ import javax.persistence.EntityManager;
  */
 @Singleton
 @LocalBean
-public class OrdersService {
+public class OrdersService extends BaseService {
 
     @EJB
     private EntityManagerSingleton entityManagerBean;

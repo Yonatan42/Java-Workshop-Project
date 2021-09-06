@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectserver.utils;
+package com.yoni.javaworkshopprojectserver.service;
 
 import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import java.util.List;
@@ -21,8 +21,7 @@ public abstract class BaseService {
     }
 
     
-    // todo, perhaps generalize this and get a Class and make it work fo all types
-    pro <T> Query createSelectQuery(Class<T> entityType, BiFunction<Root<T>, CriteriaBuilder, List<Predicate>> predicateBuilder){
+    protected <T> Query createSelectQuery(Class<T> entityType, BiFunction<Root<T>, CriteriaBuilder, List<Predicate>> predicateBuilder){
         CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> criteriaQuery = builder.createQuery(entityType);
         Root<T> entity = criteriaQuery.from(entityType);

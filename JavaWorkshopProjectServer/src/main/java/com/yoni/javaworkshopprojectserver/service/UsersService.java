@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
  */
 @Singleton
 @LocalBean
-public class UsersService {
+public class UsersService extends BaseService {
 
     private static final String TAG = "UsersService";
 
