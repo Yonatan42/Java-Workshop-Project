@@ -204,5 +204,5 @@ public class OrderDetails implements Serializable {
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
     }
-    
+
 }

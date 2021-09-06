@@ -245,7 +245,7 @@ public class UsersResource extends AbstractRestResource<User> {
     }
     
     private JsonElement getLoginResponseJson(User user){
-        // todo - get categories from
+        // todo - getCatalog categories from
         JsonObject root = new JsonObject();
         root.add("user",  JsonUtils.convertToJson(user));
 //        root.add("categories",  JsonUtils.convertToJson(categories));

@@ -131,6 +131,14 @@ public class Product implements Serializable {
         this.modified = modified;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

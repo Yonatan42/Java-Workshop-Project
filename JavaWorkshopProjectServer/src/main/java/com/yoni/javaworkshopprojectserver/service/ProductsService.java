@@ -16,6 +16,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 // todo - fill in
@@ -55,5 +56,14 @@ return new ArrayList<CatalogProduct>();
         return getEntityManager()
                 .createNamedQuery("Stock.findAll", Stock.class)
                 .getResultList();
+    }
+
+    public List<CatalogProduct> getCatalog(){
+        return getEntityManager()
+                .createNamedQuery("Stock.findAll", Stock.class)
+                .getResultList()
+                .stream()
+                .map(CatalogProduct::new)
+                .collect(Collectors.toList());
     }
 }

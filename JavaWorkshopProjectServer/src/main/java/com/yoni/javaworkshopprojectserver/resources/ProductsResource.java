@@ -7,7 +7,6 @@ package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Product;
-import com.yoni.javaworkshopprojectserver.models.Stock;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
@@ -125,7 +124,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
 
 
     // todo - implement in server/db
-    // example of sql syntax for get all entities that are in a group of ids:
+    // example of sql syntax for getCatalog all entities that are in a group of ids:
     // ->  SELECT * FROM java_workshop_db.products WHERE id IN (1,2,3,4);
     // for the cart page
 
@@ -139,8 +138,8 @@ public class ProductsResource extends AbstractRestResource<Product> {
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - this is not necessarily the place for it, this is just a test
             // todo - uncomment - we are only testing now
-            // List<CatalogProduct> products = productsService.getActiveProducts();
-            List<Stock> products = productsService.getStock();
+             List<CatalogProduct> products = productsService.getCatalog();
+//            List<Stock> products = productsService.getStock();
             return Response
                     .status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
