@@ -35,6 +35,11 @@ public class UsersResource extends AbstractRestResource<User> {
     public UsersResource() {
         super(User.class);
     }
+
+
+    // todo - move all db stuff to service and return Result that can hold error code
+
+
     
     // todo - remove all these later
 //    @POST

@@ -33,8 +33,6 @@ public class CatalogProduct implements Serializable {
     @Expose
     private String imageData;
     @Expose
-    private int stockId;
-    @Expose
     private int quantity;
     @Expose
     private BigDecimal price;
@@ -46,12 +44,11 @@ public class CatalogProduct implements Serializable {
     public CatalogProduct() {
     }
 
-    public CatalogProduct(int productId, String title, String description, String imageData, int stockId, int quantity, BigDecimal price, boolean isEnabled, Set<Category> categories) {
+    public CatalogProduct(int productId, String title, String description, String imageData, int quantity, BigDecimal price, boolean isEnabled, Set<Category> categories) {
         this.productId = productId;
         this.title = title;
         this.description = description;
         this.imageData = imageData;
-        this.stockId = stockId;
         this.quantity = quantity;
         this.price = price;
         this.isEnabled = isEnabled;
@@ -64,7 +61,6 @@ public class CatalogProduct implements Serializable {
                 stock.getProduct().getTitle(),
                 stock.getProduct().getDescription(),
                 stock.getProduct().getImageData(),
-                stock.getId(),
                 stock.getQuantity(),
                 stock.getPrice(),
                 stock.getIsEnabled(),

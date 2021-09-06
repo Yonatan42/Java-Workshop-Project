@@ -61,11 +61,6 @@ public interface ProductsService extends BaseRemoveService {
             @Field("isEnabled") boolean isEnabled
     );
 
-    // todo - implement in server/db
-    // example of sql syntax for get all entities that are in a group of ids:
-    // ->  SELECT * FROM java_workshop_db.products WHERE id IN (1,2,3,4);
-    // for the cart page
-
     @GET(URL)
     Call<ServerResponse<List<Product>>> getProductsByIds(
             @Header("Authorization") String token,

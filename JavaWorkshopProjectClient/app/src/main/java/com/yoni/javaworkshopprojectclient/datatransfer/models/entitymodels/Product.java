@@ -13,9 +13,6 @@ public class Product {
     @SerializedName("categories")
     @Expose
     private List<ProductCategory> categories;
-    @SerializedName("stockId")
-    @Expose
-    private int stockId;
     @SerializedName("title")
     @Expose
     private String title;
@@ -47,14 +44,6 @@ public class Product {
 
     public void setProductId(int productId) {
         this.productId = productId;
-    }
-
-    public int getStockId() {
-        return stockId;
-    }
-
-    public void setStockId(int stockId) {
-        this.stockId = stockId;
     }
 
     public String getTitle() {
@@ -116,7 +105,6 @@ public class Product {
 
     public void replace(Product product){
         this.productId = product.productId;
-        this.stockId = product.stockId;
         this.stock = product.stock;
         this.categories = product.categories;
         this.price = product.price;
@@ -133,7 +121,6 @@ public class Product {
         return "Product{" +
                 "productId=" + productId +
                 ", categories=" + categories +
-                ", stockId=" + stockId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", imageData='" + imageData + '\'' +

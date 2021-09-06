@@ -59,8 +59,11 @@ return new ArrayList<CatalogProduct>();
     }
 
     public List<Stock> getStockByProductIds(List<Integer> productIds){
+        String queryString = productIds != null && !productIds.isEmpty() ?
+                "Stock.findByProductIds" :
+                "Stock.findAll";
         return getEntityManager()
-                .createNamedQuery("Stock.findByProductIds", Stock.class)
+                .createNamedQuery(queryString, Stock.class)
                 .setParameter("productIds", productIds)
                 .getResultList();
     }
@@ -68,6 +71,19 @@ return new ArrayList<CatalogProduct>();
     public List<CatalogProduct> getCatalog(){
         return getEntityManager()
                 .createNamedQuery("Stock.findAll", Stock.class)
+                .getResultList()
+                .stream()
+                .map(CatalogProduct::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<CatalogProduct> getCatalogByProductIds(List<Integer> productIds){
+        String queryString = productIds != null && !productIds.isEmpty() ?
+                "Stock.findByProductIds" :
+                "Stock.findAll";
+        return getEntityManager()
+                .createNamedQuery(queryString, Stock.class)
+                .setParameter("productIds", productIds)
                 .getResultList()
                 .stream()
                 .map(CatalogProduct::new)

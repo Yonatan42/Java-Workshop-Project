@@ -123,12 +123,6 @@ public class ProductsResource extends AbstractRestResource<Product> {
         })));
     }
 
-
-    // todo - implement in server/db
-    // example of sql syntax for getCatalog all entities that are in a group of ids:
-    // ->  SELECT * FROM java_workshop_db.products WHERE id IN (1,2,3,4);
-    // for the cart page
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductsByIds(
@@ -137,10 +131,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ){
         Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nproductIds: %s", token, productIds);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - this is not necessarily the place for it, this is just a test
-            // todo - uncomment - we are only testing now
-//             List<CatalogProduct> products = productsService.getCatalog();
-            List<Stock> products = productsService.getStockByProductIds(productIds);
+             List<CatalogProduct> products = productsService.getCatalogByProductIds(productIds);
             return Response
                     .status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
