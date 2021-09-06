@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,12 +50,12 @@ public class ProductsService {
     }
 
     public List<Stock> getStockByProductIds(List<Integer> productIds){
-        String queryString = productIds != null && !productIds.isEmpty() ?
-                "Stock.findByProductIds" :
-                "Stock.findAll";
-        return getEntityManager()
-                .createNamedQuery(queryString, Stock.class)
-                .setParameter("productIds", productIds)
+        return (productIds != null && !productIds.isEmpty() ?
+                getEntityManager()
+                    .createNamedQuery("Stock.findByProductIds", Stock.class)
+                    .setParameter("productIds", productIds) :
+                getEntityManager()
+                        .createNamedQuery("Stock.findAll", Stock.class))
                 .getResultList();
     }
 
@@ -65,12 +66,12 @@ public class ProductsService {
     }
 
     public List<CatalogProduct> getCatalogByProductIds(List<Integer> productIds){
-        String queryString = productIds != null && !productIds.isEmpty() ?
-                "Stock.findByProductIds" :
-                "Stock.findAll";
-        return stockListToCatalogList(getEntityManager()
-                .createNamedQuery(queryString, Stock.class)
-                .setParameter("productIds", productIds)
+        return  stockListToCatalogList((productIds != null && !productIds.isEmpty() ?
+                getEntityManager()
+                        .createNamedQuery("Stock.findByProductIds", Stock.class)
+                        .setParameter("productIds", productIds) :
+                getEntityManager()
+                        .createNamedQuery("Stock.findAll", Stock.class))
                 .getResultList());
     }
 

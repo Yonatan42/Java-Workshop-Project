@@ -87,15 +87,15 @@ public class ProductsResource extends AbstractRestResource<Product> {
     }
 
     @PUT
-    @Path("{productId}")
+    @Path("{id}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateProduct(
             @HeaderParam("Authorization") String token,
-            @PathParam("productId") int productId/*,
+            @PathParam("id") int id/*,
             @FormParam("product") StockProduct product*/ // todo - figure out why this doesn't work and then uncomment
     ){
-        Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nproductId: %d\nproduct: %s", token, productId, null/*todo - update this*/);
+        Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\nproduct: %s", token, id, null/*todo - update this*/);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -106,15 +106,15 @@ public class ProductsResource extends AbstractRestResource<Product> {
 
 
     @PUT
-    @Path("{productId}/enabled")
+    @Path("{id}/enabled")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response setProductEnabled(
             @HeaderParam("Authorization") String token,
-            @PathParam("productId") int productId,
+            @PathParam("id") int id,
             @FormParam("isEnabled") boolean isEnabled
     ){
-        Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nproductId: %d\nisEnabled: %b", token, productId, isEnabled);
+        Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nid: %d\nisEnabled: %b", token, id, isEnabled);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
@@ -127,11 +127,11 @@ public class ProductsResource extends AbstractRestResource<Product> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductsByIds(
             @HeaderParam("Authorization") String token,
-            @QueryParam("productIds") List<Integer> productIds
+            @QueryParam("ids") List<Integer> ids
     ){
-        Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nproductIds: %s", token, productIds);
+        Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nids: %s", token, ids);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-             List<CatalogProduct> products = productsService.getCatalogByProductIds(productIds);
+             List<CatalogProduct> products = productsService.getCatalogByProductIds(ids);
             return Response
                     .status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
