@@ -39,7 +39,15 @@ public class ProductsService {
 
     public List<CatalogProduct> getActiveProducts(){
         return stockListToCatalogList(getEntityManager()
-                .createNamedQuery("findAllActive", Stock.class)
+                .createNamedQuery("Stock.findAllActive", Stock.class)
+                .getResultList());
+    }
+
+    public List<CatalogProduct> getActivePagedProducts(int start, int amount){
+        return stockListToCatalogList(getEntityManager()
+                .createNamedQuery("Stock.findAllActive", Stock.class)
+                .setFirstResult(start)
+                .setMaxResults(amount)
                 .getResultList());
     }
 

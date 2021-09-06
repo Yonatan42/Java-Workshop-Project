@@ -55,9 +55,10 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ) {
 
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\npageNum: %d\nfilterText: %s\nfilterCategoryId: %d", token, pageNum, filterText, filterCategoryId);
+        final int PAGE_SIZE = 10;
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
-            List<CatalogProduct> products = productsService.getActiveProducts();
+            List<CatalogProduct> products = productsService.getActivePagedProducts(pageNum * PAGE_SIZE, PAGE_SIZE);
             return Response.status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
                     .build();
