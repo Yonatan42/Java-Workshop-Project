@@ -61,10 +61,15 @@ public class Product implements Serializable {
     private Date modified;
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn(name = "id")
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "product_id")
     private Stock stock;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "products_categories",
+            inverseJoinColumns = @JoinColumn(name = "category_id"),
+            joinColumns = @JoinColumn(name = "product_id")
+    )
     @Expose
     private Set<Category> categories = new HashSet<>();
 

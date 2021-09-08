@@ -101,7 +101,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
             @FormParam("price") float price,
             @FormParam("stockQuantity") int stockQuantity
     ){
-        Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\nproduct: %s", token, id, null/*todo - update this*/);
+        Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, id, title, desc, imageData, categoryIds, price, stockQuantity);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             CatalogProduct product = productsService.updateStockedProduct(id, title, desc, imageData, categoryIds, stockQuantity, price);
             if(product != null) {

@@ -52,7 +52,7 @@ public class Category implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "products_categories",
             joinColumns = @JoinColumn(name = "category_id"),
@@ -105,6 +105,14 @@ public class Category implements Serializable {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     @Override

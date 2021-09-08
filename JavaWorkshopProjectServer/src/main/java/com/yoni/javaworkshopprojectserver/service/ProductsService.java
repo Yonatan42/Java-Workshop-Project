@@ -171,6 +171,9 @@ public class ProductsService extends BaseService {
             getEntityManager().flush();
             newStock.setProduct(newProduct);
             newProduct.setStock(newStock);
+            getEntityManager().flush();
+            categories.forEach(category -> getEntityManager().merge(category));
+            getEntityManager().flush();
         });
 
         return new CatalogProduct(newStock);
@@ -182,6 +185,8 @@ public class ProductsService extends BaseService {
         if(stock == null){
             return null;
         }
+
+        Logger.log("ID_TEST", "stock before update: "+stock);
 
         stock.setQuantity(quantity);
         stock.setPrice(price);
@@ -196,7 +201,16 @@ public class ProductsService extends BaseService {
 
         product.setCategories(categories);
 
-        withTransaction(() -> getEntityManager().merge(product));
+        withTransaction(() -> {
+            getEntityManager().merge(stock);
+            getEntityManager().flush();
+            getEntityManager().merge(stock.getProduct());
+            getEntityManager().flush();
+            Set<Category> allAffectedCategories = stock.getProduct().getCategories();
+            allAffectedCategories.addAll(categories);
+            allAffectedCategories.forEach(category -> getEntityManager().merge(category));
+            getEntityManager().flush();
+        });
 
         return new CatalogProduct(stock);
     }

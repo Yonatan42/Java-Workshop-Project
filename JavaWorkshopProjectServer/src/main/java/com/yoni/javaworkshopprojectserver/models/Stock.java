@@ -66,7 +66,6 @@ public class Stock implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
     @OneToOne(mappedBy = "stock")
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
     @Expose
     private Product product;
 

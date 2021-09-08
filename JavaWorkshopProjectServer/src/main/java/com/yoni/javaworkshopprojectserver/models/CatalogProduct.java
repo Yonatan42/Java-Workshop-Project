@@ -6,6 +6,7 @@
 package com.yoni.javaworkshopprojectserver.models;
 
 import com.google.gson.annotations.Expose;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
