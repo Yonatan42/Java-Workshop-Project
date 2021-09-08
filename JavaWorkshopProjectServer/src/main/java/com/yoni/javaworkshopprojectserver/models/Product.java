@@ -73,13 +73,11 @@ public class Product implements Serializable {
     @Expose
     private Set<Category> categories = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "order_products",
-            inverseJoinColumns = @JoinColumn(name = "order_id"),
-            joinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Category> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = "product",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
     public Product() {
     }
@@ -160,6 +158,14 @@ public class Product implements Serializable {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    public Set<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 
     @Override

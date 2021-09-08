@@ -71,14 +71,11 @@ public class Order implements Serializable {
     @Expose
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "order_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
+    @OneToMany(mappedBy = "order",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @Expose
-    private Set<Product> products = new HashSet<>();
+    private Set<OrderProduct> orderProducts = new HashSet<>();
 
 
     public Order() {
@@ -152,12 +149,12 @@ public class Order implements Serializable {
         this.user = user;
     }
 
-    public Set<Product> getProducts() {
-        return products;
+    public Set<OrderProduct> getOrderProducts() {
+        return orderProducts;
     }
 
-    public void setProducts(Set<Product> products) {
-        this.products = products;
+    public void setOrderProducts(Set<OrderProduct> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 
     @Override
@@ -190,7 +187,7 @@ public class Order implements Serializable {
                 ", created=" + created +
                 ", modified=" + modified +
                 ", user=" + user +
-                ", products=" + products +
+                ", orderProducts=" + orderProducts +
                 '}';
     }
 }
