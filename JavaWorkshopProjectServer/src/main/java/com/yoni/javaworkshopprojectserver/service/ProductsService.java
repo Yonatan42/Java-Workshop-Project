@@ -5,17 +5,13 @@
  */
 package com.yoni.javaworkshopprojectserver.service;
 
-import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Category;
 import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.Stock;
-import com.yoni.javaworkshopprojectserver.utils.Logger;
 
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.util.*;
 import java.util.stream.Collectors;

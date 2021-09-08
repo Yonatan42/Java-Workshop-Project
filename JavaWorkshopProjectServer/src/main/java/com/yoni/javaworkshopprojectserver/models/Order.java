@@ -47,6 +47,9 @@ public class Order implements Serializable {
     @Column(name = "id")
     @Expose
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "user_id")
+    private Integer userId;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull

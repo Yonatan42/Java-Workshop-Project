@@ -18,11 +18,13 @@ CREATE TABLE orders (
 );
 
 ALTER TABLE orders DROP total_cost;
+
+ALTER TABLE orders CHANGE customer_id user_id INT NOT NULL;
 */
 
 CREATE TABLE orders (
 	id INT NOT NULL AUTO_INCREMENT,
-	customer_id INT NOT NULL,
+	user_id INT NOT NULL,
     phone VARCHAR(20) NOT NULL, # may be different from the one registered for the customer
     address TEXT NOT NULL, # may be different from the one registered for the customer
 	created TIMESTAMP DEFAULT NOW(),
@@ -30,6 +32,8 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_id) REFERENCES customers(id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	PRIMARY KEY (id)
 );
+
+
 
  
 CREATE TRIGGER trigger_orders_update

@@ -5,12 +5,13 @@
  */
 package com.yoni.javaworkshopprojectserver.service;
 
-import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 
-import javax.ejb.EJB;
+import com.yoni.javaworkshopprojectserver.models.Order;
+import com.yoni.javaworkshopprojectserver.models.OrderSummary;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.persistence.EntityManager;
+import java.util.List;
 
 
 // todo - fill in
@@ -22,5 +23,13 @@ import javax.persistence.EntityManager;
 @Singleton
 @LocalBean
 public class OrdersService extends BaseService {
+
+    public List<OrderSummary> getPagedOrderSummariesByUserId(int start, int amount, int userId){
+        return null;// todo - come back to this
+    }
+
+    public List<Order> getAllOrders(){
+        // todo - first test getting all orders, then test getting by user id
+    }
    
 }
