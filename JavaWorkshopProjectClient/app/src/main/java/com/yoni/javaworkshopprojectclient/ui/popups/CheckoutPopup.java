@@ -12,6 +12,7 @@ import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
@@ -69,14 +70,15 @@ public class CheckoutPopup extends AlertDialog {
                 userInfoFragment.getLastName(),
                 userInfoFragment.getPhone(),
                 userInfoFragment.getAddress(),
+                CartStore.getInstance().getAll(),
                 UIUtils.getTrimmedText(txtCreditCard),
                 expirationCalendar.getTime(),
                 UIUtils.getTrimmedText(txtCVV),
                 (call, response, result) -> {
-                    new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result.getId())).show();
+                    new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result)).show();
                     dismiss();
                 },
-                new StandardResponseErrorCallback<OrderDetails>(parentActivity) {
+                new StandardResponseErrorCallback<Integer>(parentActivity) {
                     @Override
                     public void onPreErrorResponse() {
                         btnOk.setEnabled(true);

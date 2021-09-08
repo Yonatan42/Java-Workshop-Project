@@ -101,16 +101,21 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @FormParam("lastName") String lname,
             @FormParam("phone") String phone,
             @FormParam("address") String address,
+            @FormParam("productIds") List<Integer> productIds,
+            @FormParam("productQuantities") List<Integer> productQuantities,
             @FormParam("creditCard") String creditCard,
             @FormParam("cardExpiration") Date cardExpiration,
             @FormParam("cardCVV") String cardCVV
     ){
         // todo - at least removed logging of credit card info
-        Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\ncreditCard %s\ncardExpiration: %tF\ncardCVV: %s", token, userId, email, fname, lname, phone, address, creditCard, cardExpiration, cardCVV);
+        Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %tF\ncardCVV: %s", token, userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
+            // todo - make a method that pretends to verify the credit card info
+            Integer orderId = ordersService.createOrder(userId, email, fname, lname, phone, address, productIds, productQuantities);
+
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(order)))
                     .build();
         })));
     }

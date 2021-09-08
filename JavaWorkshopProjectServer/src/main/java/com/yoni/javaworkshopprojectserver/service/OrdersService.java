@@ -61,4 +61,9 @@ public class OrdersService extends BaseService {
     private List<OrderDetails> orderListToOrderDetailsList(List<Order> list){
         return CollectionUtils.convertCollection(list, OrderDetails::new);
     }
+
+    public Integer createOrder(int userId, String email, String fname, String lname, String phone, String address, List<Integer> productIds, List<Integer> productQuantities) {
+        // todo - fill in
+        return null;
+    }
 }

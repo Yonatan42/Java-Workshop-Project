@@ -42,7 +42,7 @@ public interface OrdersService extends BaseRemoveService {
 
     @POST(URL)
     @FormUrlEncoded
-    Call<ServerResponse<OrderDetails>> createOrder(
+    Call<ServerResponse<Integer>> createOrder(
             @Header("Authorization") String token,
             @Field("userId") int userId,
             @Field("email") String email,
@@ -50,6 +50,8 @@ public interface OrdersService extends BaseRemoveService {
             @Field("lastName") String lname,
             @Field("phone") String phone,
             @Field("address") String address,
+            @Field("productIds") List<Integer> productIds,
+            @Field("productQuantities") List<Integer> productQuantities,
             @Field("creditCard") String creditCard,
             @Field("cardExpiration") Date cardExpiration,
             @Field("cardCVV") String cardCVV

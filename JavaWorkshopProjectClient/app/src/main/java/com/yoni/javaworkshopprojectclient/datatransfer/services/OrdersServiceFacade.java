@@ -1,12 +1,14 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
+import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -89,12 +91,19 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
             String lname,
             String phone,
             String address,
+            List<CartProduct> cartProducts,
             String creditCard,
             Date cardExpiration,
             String cardCVV,
-            ResponseSuccessCallback<OrderDetails> onSuccess,
-            ResponseErrorCallback<OrderDetails> onError){
-        enqueue(service.createOrder(getToken(), userId, email, fname, lname, phone, address, creditCard, cardExpiration, cardCVV), onSuccess, onError);
+            ResponseSuccessCallback<Integer> onSuccess,
+            ResponseErrorCallback<Integer> onError){
+        List<Integer> productIds = new ArrayList<>();
+        List<Integer> productQuantities = new ArrayList<>();
+        for (CartProduct product: cartProducts) {
+            productIds.add(product.getProductId());
+            productQuantities.add(product.getQuantity());
+        }
+        enqueue(service.createOrder(getToken(), userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV), onSuccess, onError);
 
         // todo - remove this once we are connected to server
         /*
