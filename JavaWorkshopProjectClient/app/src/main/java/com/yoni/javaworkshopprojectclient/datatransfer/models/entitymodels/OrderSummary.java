@@ -13,9 +13,12 @@ public class OrderSummary {
     @SerializedName("userId")
     @Expose
     private int userId;
-    @SerializedName("fullName")
+    @SerializedName("firstName")
     @Expose
-    private String fullName;
+    private String firstName;
+    @SerializedName("lastName")
+    @Expose
+    private String lastName;
     @SerializedName("email")
     @Expose
     private String email;
@@ -38,7 +41,8 @@ public class OrderSummary {
     public OrderSummary(int id, int userId, String fullName, String email, String phone, String address, float totalPrice, Date transactionDate) {
         this.id = id;
         this.userId = userId;
-        this.fullName = fullName;
+        this.firstName = fullName.split(" ")[0];
+        this.lastName = fullName.split(" ")[1];
         this.email = email;
         this.phone = phone;
         this.address = address;
@@ -62,12 +66,20 @@ public class OrderSummary {
         this.userId = userId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -115,7 +127,8 @@ public class OrderSummary {
         return "OrderSummary{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", fullName='" + fullName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +

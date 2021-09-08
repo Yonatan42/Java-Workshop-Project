@@ -36,6 +36,13 @@ public class Order implements Serializable {
     @Column(name = "id")
     @Expose
     private Integer id;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 320)
+    @Column(name = "email")
+    @Expose
+    private String email;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
@@ -95,6 +102,14 @@ public class Order implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhone() {
@@ -167,7 +182,15 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.models.Order[ id=" + id + " ]";
+        return "Order{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", user=" + user +
+                ", products=" + products +
+                '}';
     }
-    
 }
