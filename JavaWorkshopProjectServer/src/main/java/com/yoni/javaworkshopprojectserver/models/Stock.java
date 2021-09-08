@@ -65,7 +65,10 @@ public class Stock implements Serializable {
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
-    @OneToOne(mappedBy = "stock")
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn(name = "product_id", referencedColumnName = "id")
+
     @Expose
     private Product product;
 
