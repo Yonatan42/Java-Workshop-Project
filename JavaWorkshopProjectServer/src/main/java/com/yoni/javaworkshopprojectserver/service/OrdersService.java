@@ -26,25 +26,30 @@ import java.util.stream.Collectors;
 @LocalBean
 public class OrdersService extends BaseService {
 
-    public List<OrderSummary> getPagedOrderSummariesByUserId(int start, int amount, int userId){
-        return null;// todo - come back to this
-    }
-
     public List<Order> getAllOrders(){
-        // todo - first test getting all orders, then test getting by user id
         return getEntityManager()
                 .createNamedQuery("Orders.findAll", Order.class)
                 .getResultList();
     }
 
     public List<OrderSummary> getAllOrderSummaries(){
-        // todo - first test getting all orders, then test getting by user id
-        return getEntityManager()
+        return orderListToOrderSummaryList(getEntityManager()
                 .createNamedQuery("Orders.findAll", Order.class)
-                .getResultList()
-                .stream()
-                .map(OrderSummary::new)
-                .collect(Collectors.toList());
+                .getResultList());
+    }
+
+    public List<OrderSummary> getPagedOrderSummariesByUserId(int start, int amount, int userId){
+        // todo - first test getting all orders, then test getting by user id
+        return orderListToOrderSummaryList(getEntityManager()
+                .createNamedQuery("Orders.findByUserId", Order.class)
+                .setParameter("userId", userId)
+                .setFirstResult(start)
+                .setMaxResults(amount)
+                .getResultList());
+    }
+
+    private List<OrderSummary> orderListToOrderSummaryList(List<Order> list){
+        return convertList(list, OrderSummary::new);
     }
    
 }

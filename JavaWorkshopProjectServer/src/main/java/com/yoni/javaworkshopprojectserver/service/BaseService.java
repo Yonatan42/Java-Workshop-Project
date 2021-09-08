@@ -5,7 +5,9 @@ import com.yoni.javaworkshopprojectserver.EntityManagerSingleton;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -46,6 +48,13 @@ public abstract class BaseService {
         getEntityManager().getTransaction().begin();
         action.run();
         getEntityManager().getTransaction().commit();
+    }
+
+    protected <TIn, TOut> List<TOut> convertList(List<TIn> list, Function<TIn, TOut> converter){
+        return list
+                .stream()
+                .map(converter)
+                .collect(Collectors.toList());
     }
 
 }

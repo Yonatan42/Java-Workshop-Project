@@ -56,9 +56,8 @@ public class OrdersResource extends AbstractRestResource<Order> {
     ){
         Logger.logFormat(TAG, "<getPagedOrderSummaries>\nAuthorization: %s\nuserId: %d\npageNum: %d", token, userId, pageNum);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-//            List<Order> orders = ordersService.getAllOrders();
-            List<OrderSummary> orders = ordersService.getAllOrderSummaries();
+            final int PAGE_SIZE = 10;
+            List<OrderSummary> orders = ordersService.getPagedOrderSummariesByUserId(pageNum * PAGE_SIZE, PAGE_SIZE, userId);
             return Response
                     .status(Response.Status.CREATED)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(orders)))

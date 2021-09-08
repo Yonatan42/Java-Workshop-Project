@@ -119,10 +119,7 @@ public class ProductsService extends BaseService {
     }
 
     private List<CatalogProduct> stockListToCatalogList(List<Stock> stockList){
-        return stockList
-                .stream()
-                .map(CatalogProduct::new)
-                .collect(Collectors.toList());
+        return convertList(stockList, CatalogProduct::new);
     }
 
     public boolean setStockEnabled(boolean isEnabled, int productId){
