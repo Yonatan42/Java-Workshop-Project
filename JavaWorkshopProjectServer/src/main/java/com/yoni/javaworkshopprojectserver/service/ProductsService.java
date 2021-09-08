@@ -176,15 +176,13 @@ public class ProductsService extends BaseService {
 
         return new CatalogProduct(newStock);
 
-    }// todo - wrong id (in Catalog)
+    }
 
     public CatalogProduct updateStockedProduct(int productId, String title, String desc, String imageData, List<Integer> categoryIds, int quantity, float price) {
         Stock stock = getStockByProductId(productId);
         if(stock == null){
             return null;
         }
-
-        Logger.log("ID_TEST", "stock before update: "+stock);
 
         stock.setQuantity(quantity);
         stock.setPrice(price);

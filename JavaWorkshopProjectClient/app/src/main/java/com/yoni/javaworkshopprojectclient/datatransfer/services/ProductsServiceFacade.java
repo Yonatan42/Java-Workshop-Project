@@ -4,6 +4,7 @@ import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Produ
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
+import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.List;
 
@@ -24,19 +25,18 @@ public class ProductsServiceFacade extends BaseRemoteServiceFacade<ProductsServi
     public void insertUpdateProduct(Product product,
                                     ResponseSuccessCallback<Product> onSuccess,
                                     ResponseErrorCallback<Product> onError){
+
+        String title = product.getTitle();
+        String desc = product.getDescription();
+        String imageData = product.getImageData();
+        List<Integer> categoryIds = ListUtils.map(product.getCategories(), ProductCategory::getId);
+        float price = product.getPrice();
+        int stock = product.getStock();
         if(product.getId() <= 0){
-            enqueue(service.insertProduct(
-                    getToken(),
-                    product.getTitle(),
-                    product.getDescription(),
-                    product.getImageData(),
-                    product.getCategories(),
-                    product.getPrice(),
-                    product.getStock()
-            ), onSuccess, onError);
+            enqueue(service.insertProduct(getToken(), title, desc, imageData, categoryIds, price, stock), onSuccess, onError);
         }
         else{
-            enqueue(service.updateProduct(getToken(), product.getId(), product), onSuccess, onError);
+            enqueue(service.updateProduct(getToken(), product.getId(), title, desc, imageData, categoryIds, price, stock), onSuccess, onError);
         }
     }
 

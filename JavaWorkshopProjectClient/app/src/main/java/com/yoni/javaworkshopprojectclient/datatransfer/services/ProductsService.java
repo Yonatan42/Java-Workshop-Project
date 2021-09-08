@@ -39,7 +39,7 @@ public interface ProductsService extends BaseRemoveService {
             @Field("title") String title,
             @Field("description") String desc,
             @Field("imageData") String imageData,
-            @Field("categories") List<ProductCategory> categories,
+            @Field("categoryIds") List<Integer> categoryIds,
             @Field("price") float price,
             @Field("stockQuantity") int stockQuantity
     );
@@ -49,7 +49,12 @@ public interface ProductsService extends BaseRemoveService {
     Call<ServerResponse<Product>> updateProduct(
             @Header("Authorization") String token,
             @Path("id") int id,
-            @Field("product") Product product
+            @Field("title") String title,
+            @Field("description") String desc,
+            @Field("imageData") String imageData,
+            @Field("categoryIds") List<Integer> categoryIds,
+            @Field("price") float price,
+            @Field("stockQuantity") int stockQuantity
     );
 
 
