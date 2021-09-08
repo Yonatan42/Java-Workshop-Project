@@ -96,7 +96,7 @@ public class User implements Serializable {
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Order> orderCollection;
 
     public User() {
@@ -206,7 +206,6 @@ public class User implements Serializable {
         this.modified = modified;
     }
 
-    @XmlTransient
     public Collection<Order> getOrderCollection() {
         return orderCollection;
     }

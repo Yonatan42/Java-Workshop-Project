@@ -30,6 +30,9 @@ public class OrdersService extends BaseService {
 
     public List<Order> getAllOrders(){
         // todo - first test getting all orders, then test getting by user id
+        return getEntityManager()
+                .createNamedQuery("Orders.findAll", Order.class)
+                .getResultList();
     }
    
 }

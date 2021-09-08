@@ -73,6 +73,14 @@ public class Product implements Serializable {
     @Expose
     private Set<Category> categories = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "order_products",
+            inverseJoinColumns = @JoinColumn(name = "order_id"),
+            joinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<Category> orders = new HashSet<>();
+
     public Product() {
     }
 

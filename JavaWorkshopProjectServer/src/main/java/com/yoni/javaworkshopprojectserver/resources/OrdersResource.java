@@ -8,6 +8,7 @@ package com.yoni.javaworkshopprojectserver.resources;
 import com.yoni.javaworkshopprojectserver.models.Order;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
+import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
 import com.yoni.javaworkshopprojectserver.utils.Logger;
 import com.yoni.javaworkshopprojectserver.utils.ResponseLogger;
 import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
@@ -18,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
+import java.util.List;
 
 // todo - fill in
 
@@ -54,8 +56,10 @@ public class OrdersResource extends AbstractRestResource<Order> {
         Logger.logFormat(TAG, "<getPagedOrderSummaries>\nAuthorization: %s\nuserId: %d\npageNum: %d", token, userId, pageNum);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
+            List<Order> orders = ordersService.getAllOrders();
+            return Response
+                    .status(Response.Status.CREATED)
+                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(orders)))
                     .build();
         })));
     }
