@@ -158,6 +158,10 @@ public class Order implements Serializable {
         this.orderProducts = orderProducts;
     }
 
+    public float getTotalPrice(){
+        return getOrderProducts().stream().reduce(0f, (acc, orderProduct) -> acc + orderProduct.getQuantity() * orderProduct.getPriceAtOrder(), (u, u2) -> u + u2);
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

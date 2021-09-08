@@ -63,7 +63,7 @@ public class OrderSummary implements Serializable {
             order.getEmail(),
             order.getPhone(),
             order.getAddress(),
-            order.getOrderProducts().stream().reduce(0f, (acc, orderProduct) -> acc + orderProduct.getQuantity() * orderProduct.getPriceAtOrder(), (u, u2) -> u + u2),
+            order.getTotalPrice(),
             order.getCreated()
         );
     }

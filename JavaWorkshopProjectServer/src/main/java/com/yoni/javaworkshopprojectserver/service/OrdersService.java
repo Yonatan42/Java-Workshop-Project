@@ -7,13 +7,13 @@ package com.yoni.javaworkshopprojectserver.service;
 
 
 import com.yoni.javaworkshopprojectserver.models.Order;
+import com.yoni.javaworkshopprojectserver.models.OrderDetails;
 import com.yoni.javaworkshopprojectserver.models.OrderSummary;
+import com.yoni.javaworkshopprojectserver.utils.CollectionUtils;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 
 // todo - fill in
@@ -39,7 +39,6 @@ public class OrdersService extends BaseService {
     }
 
     public List<OrderSummary> getPagedOrderSummariesByUserId(int start, int amount, int userId){
-        // todo - first test getting all orders, then test getting by user id
         return orderListToOrderSummaryList(getEntityManager()
                 .createNamedQuery("Orders.findByUserId", Order.class)
                 .setParameter("userId", userId)
@@ -48,8 +47,18 @@ public class OrdersService extends BaseService {
                 .getResultList());
     }
 
-    private List<OrderSummary> orderListToOrderSummaryList(List<Order> list){
-        return convertList(list, OrderSummary::new);
+    public OrderDetails getOrderDetailsById(int id) {
+        return firstOrNull(orderListToOrderDetailsList(getEntityManager()
+                .createNamedQuery("Orders.findById", Order.class)
+                .setParameter("id", id)
+                .getResultList()));
     }
-   
+
+    private List<OrderSummary> orderListToOrderSummaryList(List<Order> list){
+        return CollectionUtils.convertCollection(list, OrderSummary::new);
+    }
+
+    private List<OrderDetails> orderListToOrderDetailsList(List<Order> list){
+        return CollectionUtils.convertCollection(list, OrderDetails::new);
+    }
 }

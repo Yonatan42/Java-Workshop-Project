@@ -50,11 +50,4 @@ public abstract class BaseService {
         getEntityManager().getTransaction().commit();
     }
 
-    protected <TIn, TOut> List<TOut> convertList(List<TIn> list, Function<TIn, TOut> converter){
-        return list
-                .stream()
-                .map(converter)
-                .collect(Collectors.toList());
-    }
-
 }

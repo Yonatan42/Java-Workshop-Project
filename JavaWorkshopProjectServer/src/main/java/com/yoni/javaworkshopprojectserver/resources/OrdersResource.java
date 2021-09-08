@@ -6,13 +6,11 @@
 package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.models.Order;
+import com.yoni.javaworkshopprojectserver.models.OrderDetails;
 import com.yoni.javaworkshopprojectserver.models.OrderSummary;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
-import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
-import com.yoni.javaworkshopprojectserver.utils.Logger;
-import com.yoni.javaworkshopprojectserver.utils.ResponseLogger;
-import com.yoni.javaworkshopprojectserver.utils.ResponseUtils;
+import com.yoni.javaworkshopprojectserver.utils.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -66,18 +64,27 @@ public class OrdersResource extends AbstractRestResource<Order> {
     }
 
     @GET
-    @Path("details/{orderId}")
+    @Path("details/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getOrderDetails(
             @HeaderParam("Authorization") String token,
-            @PathParam("orderId") int orderId
+            @PathParam("id") int id
     ){
-        Logger.logFormat(TAG, "<getOrderDetails>\nAuthorization: %s\norderId: %d", token, orderId);
+        Logger.logFormat(TAG, "<getOrderDetails>\nAuthorization: %s\nid: %d", token, id);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .entity("{\"message\":\"not implemented\"}")
-                    .build();
+            OrderDetails order = ordersService.getOrderDetailsById(id);
+            if(order != null) {
+                return Response
+                        .status(Response.Status.CREATED)
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(order)))
+                        .build();
+            }
+            else{
+                return Response
+                        .status(Response.Status.NOT_FOUND)
+                        .entity(JsonUtils.createResponseJson(t, "nothing found for the given id", ErrorCodes.RESOURCES_NOT_FOUND))
+                        .build();
+            }
         })));
     }
 

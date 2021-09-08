@@ -9,12 +9,12 @@ import com.yoni.javaworkshopprojectserver.models.CatalogProduct;
 import com.yoni.javaworkshopprojectserver.models.Category;
 import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.Stock;
+import com.yoni.javaworkshopprojectserver.utils.CollectionUtils;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.criteria.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -119,7 +119,7 @@ public class ProductsService extends BaseService {
     }
 
     private List<CatalogProduct> stockListToCatalogList(List<Stock> stockList){
-        return convertList(stockList, CatalogProduct::new);
+        return CollectionUtils.convertCollection(stockList, CatalogProduct::new);
     }
 
     public boolean setStockEnabled(boolean isEnabled, int productId){
