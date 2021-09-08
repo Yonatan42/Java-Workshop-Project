@@ -9,6 +9,8 @@ import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 
 /**
  *
@@ -52,17 +54,17 @@ public class OrderSummary implements Serializable {
         this.transactionDate = transactionDate;
     }
 
-//    public OrderSummary(Order order){
-//        this(
-//          order.getId(),
-//          order.getUser().getId(),
-//          order.getUser().getFirstName(),
-//          order.getUser().getLastName(),
-//          order.getEmail(),
-//                order.getPhone(),
-//                order.getAddress(),
-//                order.getOrderProducts().stream().reduce(0, (acc, product) -> acc + product)
-//
-//        );
-//    }
+    public OrderSummary(Order order){
+        this(
+            order.getId(),
+            order.getUser().getId(),
+            order.getUser().getFirstName(),
+            order.getUser().getLastName(),
+            order.getEmail(),
+            order.getPhone(),
+            order.getAddress(),
+            order.getOrderProducts().stream().reduce(0f, (acc, orderProduct) -> acc + orderProduct.getQuantity() * orderProduct.getPriceAtOrder(), (u, u2) -> u + u2),
+            order.getCreated()
+        );
+    }
 }

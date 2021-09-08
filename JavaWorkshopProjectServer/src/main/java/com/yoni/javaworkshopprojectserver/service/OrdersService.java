@@ -12,6 +12,8 @@ import com.yoni.javaworkshopprojectserver.models.OrderSummary;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 // todo - fill in
@@ -33,6 +35,16 @@ public class OrdersService extends BaseService {
         return getEntityManager()
                 .createNamedQuery("Orders.findAll", Order.class)
                 .getResultList();
+    }
+
+    public List<OrderSummary> getAllOrderSummaries(){
+        // todo - first test getting all orders, then test getting by user id
+        return getEntityManager()
+                .createNamedQuery("Orders.findAll", Order.class)
+                .getResultList()
+                .stream()
+                .map(OrderSummary::new)
+                .collect(Collectors.toList());
     }
    
 }

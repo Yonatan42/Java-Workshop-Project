@@ -6,6 +6,7 @@
 package com.yoni.javaworkshopprojectserver.resources;
 
 import com.yoni.javaworkshopprojectserver.models.Order;
+import com.yoni.javaworkshopprojectserver.models.OrderSummary;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.JsonUtils;
@@ -56,7 +57,8 @@ public class OrdersResource extends AbstractRestResource<Order> {
         Logger.logFormat(TAG, "<getPagedOrderSummaries>\nAuthorization: %s\nuserId: %d\npageNum: %d", token, userId, pageNum);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
-            List<Order> orders = ordersService.getAllOrders();
+//            List<Order> orders = ordersService.getAllOrders();
+            List<OrderSummary> orders = ordersService.getAllOrderSummaries();
             return Response
                     .status(Response.Status.CREATED)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(orders)))
