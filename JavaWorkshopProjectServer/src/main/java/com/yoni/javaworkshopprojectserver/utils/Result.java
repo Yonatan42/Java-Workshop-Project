@@ -12,16 +12,21 @@ package com.yoni.javaworkshopprojectserver.utils;
 public class Result<TV, TE>{
    
     public static <TV, TE> Result<TV, TE> makeValue(TV value){
-        return new Result(value, null);
+        Result<TV, TE> result = new Result(value, null);
+        result.isValid = true;
+        return result;
     }
     
     public static <TV, TE> Result<TV, TE> makeError(TE error){
-        return new Result(null, error);
+        Result<TV, TE> result =  new Result(null, error);
+        result.isValid = false;
+        return result;
     }
     
     
     private final TV value;
     private final TE error;
+    private boolean isValid;
     
     public Result(TV value, TE error){
         this.value = value;
@@ -29,7 +34,7 @@ public class Result<TV, TE>{
     }
     
     public boolean isValid(){
-        return value != null && error == null;
+        return isValid;
     }
 
     public TV getValue() {

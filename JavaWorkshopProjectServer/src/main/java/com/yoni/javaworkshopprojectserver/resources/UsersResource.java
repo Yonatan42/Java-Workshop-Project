@@ -77,7 +77,7 @@ public class UsersResource extends BaseAuthenticatedResource{
             int errorCode = result.getError();
             Response.Status status;
             String errorMsg;
-            switch (result.getError()){
+            switch (errorCode){
                 case ErrorCodes.USERS_ALREADY_EXISTS:
                     status = Response.Status.CONFLICT;
                     errorMsg = "user already exists";
@@ -143,7 +143,7 @@ public class UsersResource extends BaseAuthenticatedResource{
             int errorCode = result.getError();
             Response.Status status;
             String errorMsg;
-            switch (result.getError()){
+            switch (errorCode){
                 case ErrorCodes.USERS_NO_SUCH_USER:
                     errorMsg = "provided email doesn't exist";
                     status = Response.Status.UNAUTHORIZED;
@@ -202,7 +202,7 @@ public class UsersResource extends BaseAuthenticatedResource{
             int errorCode = result.getError();
             Response.Status status;
             String errorMsg;
-            switch (result.getError()){
+            switch (errorCode){
                 case ErrorCodes.USERS_NO_SUCH_USER:
                     errorMsg = "user id not found";
                     status = Response.Status.NOT_FOUND;
@@ -237,13 +237,6 @@ public class UsersResource extends BaseAuthenticatedResource{
         Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, userId, (u, t) -> ResponseUtils.respondSafe(t, () -> {
 
-            if(userId != u.getId()){
-                return Response
-                        .status(Response.Status.CONFLICT)
-                        .entity(JsonUtils.createResponseJson(t, "token does not match user id", ErrorCodes.USERS_INCONSISTANT))
-                        .build();
-            }
-
             Result<User, Integer> result = usersService.updateInfo(userId, email, pass, firstName, lastName, phone, address);
             if(result.isValid()){
                 User user = result.getValue();
@@ -257,7 +250,7 @@ public class UsersResource extends BaseAuthenticatedResource{
             int errorCode = result.getError();
             Response.Status status;
             String errorMsg;
-            switch (result.getError()){
+            switch (errorCode){
                 case ErrorCodes.USERS_NO_SUCH_USER:
                     errorMsg = "user id not found";
                     status = Response.Status.NOT_FOUND;

@@ -104,7 +104,7 @@ public class UsersService extends BaseService {
         // check if email is in use
         User emailCheckUser = findByEmail(email);
         if(emailCheckUser != null && !emailCheckUser.getId().equals(user.getId())){
-            Result.makeError(ErrorCodes.USERS_ALREADY_EXISTS);
+            return Result.makeError(ErrorCodes.USERS_ALREADY_EXISTS);
         }
 
         user.setEmail(email);
@@ -138,7 +138,7 @@ public class UsersService extends BaseService {
         user.setPass(BcryptUtils.encrypt(pass));
         user.setAdmin(isAdmin);
 
-        withTransaction(() -> getEntityManager().merge(user));
+        withTransaction(() -> getEntityManager().persist(user));
 
         getEntityManager().refresh(user);
 
@@ -154,7 +154,7 @@ public class UsersService extends BaseService {
     public Result<Void, Integer> invalidateToken(int userId){
         User targetUser = findById(userId);
         if(targetUser == null){
-            Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
+            return Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
         }
         refreshSecretKey(targetUser);
         return Result.makeValue(null);

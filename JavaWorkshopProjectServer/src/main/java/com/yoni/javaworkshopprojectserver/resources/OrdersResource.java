@@ -135,7 +135,7 @@ public class OrdersResource extends BaseAuthenticatedResource {
             int errorCode = result.getError();
             String errorMessage;
             Response.Status status;
-            switch (result.getError()){
+            switch (errorCode){
                 case ErrorCodes.USERS_NO_SUCH_USER:
                     status = Response.Status.FORBIDDEN;
                     errorMessage = "one or more of the products is no longer available";
