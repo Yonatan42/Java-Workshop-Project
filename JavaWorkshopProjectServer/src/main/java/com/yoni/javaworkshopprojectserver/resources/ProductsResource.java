@@ -48,7 +48,6 @@ public class ProductsResource extends BaseAuthenticatedResource {
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\npageNum: %d\nfilterText: %s\nfilterCategoryId: %d", token, pageNum, filterText, filterCategoryId);
         final int PAGE_SIZE = 10;
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - fill in
             List<CatalogProduct> products = productsService.getActivePagedProductsFiltered(pageNum * PAGE_SIZE, PAGE_SIZE, filterText, filterCategoryId);
             return Response.status(Response.Status.OK)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(products)))
@@ -56,7 +55,6 @@ public class ProductsResource extends BaseAuthenticatedResource {
         })));
     }
 
-    // when creating a new product we need to create a new stock row as well for it
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
@@ -124,19 +122,31 @@ public class ProductsResource extends BaseAuthenticatedResource {
     ){
         Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nid: %d\nisEnabled: %b", token, id, isEnabled);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - don't make this return boolean, have it return Result and NOT_FOUND will be an error code
-            if(productsService.setStockEnabled(isEnabled, id)){
+            Result<Void, Integer> result = productsService.setStockEnabled(isEnabled, id);
+            if (result.isValid()) {
                 return Response
                         .status(Response.Status.OK)
                         .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(id)))
                         .build();
             }
-            else{
-                return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtils.createResponseJson(t, "nothing found for the given id", ErrorCodes.RESOURCES_NOT_FOUND))
-                        .build();
+
+            int errorCode = result.getError();
+            Response.Status status;
+            String errorMsg;
+            switch (errorCode) {
+                case ErrorCodes.RESOURCES_NOT_FOUND:
+                    errorMsg = "nothing found for the given id";
+                    status = Response.Status.NOT_FOUND;
+                    break;
+                default:
+                    status = Response.Status.INTERNAL_SERVER_ERROR;
+                    errorMsg = ErrorCodes.UNKNOWN_ERROR_MSG;
             }
+            return Response
+                    .status(status)
+                    .entity(JsonUtils.createResponseJson(t, errorMsg, errorCode))
+                    .build();
+
         })));
     }
 

@@ -5,7 +5,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.InvocationTargetException;
 
-// todo - remove this latera
+// todo - remove this later
 /**
  *
  * @author Yoni

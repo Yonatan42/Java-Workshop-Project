@@ -10,6 +10,8 @@ import com.yoni.javaworkshopprojectserver.models.Category;
 import com.yoni.javaworkshopprojectserver.models.Product;
 import com.yoni.javaworkshopprojectserver.models.Stock;
 import com.yoni.javaworkshopprojectserver.utils.CollectionUtils;
+import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
+import com.yoni.javaworkshopprojectserver.utils.Result;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -122,17 +124,18 @@ public class ProductsService extends BaseService {
         return CollectionUtils.convertCollection(stockList, CatalogProduct::new);
     }
 
-    public boolean setStockEnabled(boolean isEnabled, int productId){
+    public Result<Void, Integer> setStockEnabled(boolean isEnabled, int productId){
         Stock stock = getStockByProductId(productId);
         if(stock == null){
-            return false;
+            return Result.makeError(ErrorCodes.RESOURCES_NOT_FOUND);
         }
 
         stock.setEnabled(isEnabled);
 
         withTransaction(() -> getEntityManager().merge(stock));
         getEntityManager().refresh(stock);
-        return stock.isEnabled() == isEnabled;
+
+        return Result.makeValue(null);
     }
 
     public Category insertCategory(String title){
