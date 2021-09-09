@@ -17,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Base64;
 import java.util.List;
 
 // todo - fill in
@@ -68,8 +69,9 @@ public class ProductsResource extends BaseAuthenticatedResource {
             @FormParam("stockQuantity") int stockQuantity
     ){
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, categoryIds, price, stockQuantity);
+        byte[] imageDataBytes = ImageConversionUtils.getDecodedImageData(imageData);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            CatalogProduct newProduct = productsService.insertStockedProduct(title, desc, imageData, categoryIds, stockQuantity, price);
+            CatalogProduct newProduct = productsService.insertStockedProduct(title, desc, imageDataBytes, categoryIds, stockQuantity, price);
             return Response
                     .status(Response.Status.CREATED)
                     .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(newProduct)))
@@ -93,8 +95,9 @@ public class ProductsResource extends BaseAuthenticatedResource {
             @FormParam("stockQuantity") int stockQuantity
     ){
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, id, title, desc, imageData, categoryIds, price, stockQuantity);
+        byte[] imageDataBytes = ImageConversionUtils.getDecodedImageData(imageData);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            CatalogProduct product = productsService.updateStockedProduct(id, title, desc, imageData, categoryIds, stockQuantity, price);
+            CatalogProduct product = productsService.updateStockedProduct(id, title, desc, imageDataBytes, categoryIds, stockQuantity, price);
             if(product != null) {
                 return Response
                         .status(Response.Status.CREATED)

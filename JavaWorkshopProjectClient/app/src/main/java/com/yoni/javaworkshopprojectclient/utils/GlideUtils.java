@@ -12,13 +12,23 @@ public class GlideUtils {
     private GlideUtils(){}
 
     public static void loadBase64IntoImage(String base64, Context context, int placeholderRes, ImageView iv){
-        byte[] imageByteArray = base64 != null ?
-                Base64.decode(base64, Base64.DEFAULT) :
-                null;
-        Glide.with(context)
-                .load(imageByteArray)
-                .placeholder(placeholderRes)
-                .into(iv);
+        byte[] imageByteArray = null;
+        if(base64 != null) {
+            try {
+                imageByteArray = Base64.decode(base64, Base64.DEFAULT);
+            }
+            catch (IllegalArgumentException e){} // malformed base64 string
+        }
+
+        if(imageByteArray != null) {
+            Glide.with(context)
+                    .load(imageByteArray)
+                    .placeholder(placeholderRes)
+                    .into(iv);
+        }
+        else{
+            iv.setImageResource(placeholderRes);
+        }
     }
 
 }

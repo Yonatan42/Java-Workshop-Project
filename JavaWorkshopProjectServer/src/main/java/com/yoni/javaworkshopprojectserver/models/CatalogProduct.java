@@ -6,10 +6,9 @@
 package com.yoni.javaworkshopprojectserver.models;
 
 import com.google.gson.annotations.Expose;
-import com.yoni.javaworkshopprojectserver.utils.Logger;
+import com.yoni.javaworkshopprojectserver.utils.ImageConversionUtils;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +54,7 @@ public class CatalogProduct implements Serializable {
                 stock.getProduct().getId(),
                 stock.getProduct().getTitle(),
                 stock.getProduct().getDescription(),
-                stock.getProduct().getImageData(),
+                ImageConversionUtils.getEncodedImageData(stock.getProduct().getImageData()),
                 stock.getQuantity(),
                 stock.getPrice(),
                 stock.isEnabled(),

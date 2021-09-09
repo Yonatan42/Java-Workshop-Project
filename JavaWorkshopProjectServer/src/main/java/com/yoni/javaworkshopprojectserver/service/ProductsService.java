@@ -146,7 +146,7 @@ public class ProductsService extends BaseService {
         return newCategory;
     }
 
-    public CatalogProduct insertStockedProduct(String title, String desc, String imageData, List<Integer> categoryIds, int quantity, float price){
+    public CatalogProduct insertStockedProduct(String title, String desc, byte[] imageData, List<Integer> categoryIds, int quantity, float price){
         Stock newStock = new Stock();
         newStock.setQuantity(quantity);
         newStock.setPrice(price);
@@ -177,7 +177,7 @@ public class ProductsService extends BaseService {
 
     }
 
-    public CatalogProduct updateStockedProduct(int productId, String title, String desc, String imageData, List<Integer> categoryIds, int quantity, float price) {
+    public CatalogProduct updateStockedProduct(int productId, String title, String desc, byte[] imageData, List<Integer> categoryIds, int quantity, float price) {
         Stock stock = getStockByProductId(productId);
         if(stock == null){
             return null;

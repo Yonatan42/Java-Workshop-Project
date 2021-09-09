@@ -8,9 +8,7 @@ package com.yoni.javaworkshopprojectserver.models;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -50,7 +48,7 @@ public class Product implements Serializable {
     @Lob
     @Column(name = "image_data")
     @Expose
-    private String imageData;
+    private byte[] imageData;
     @Basic(optional = false)
     @Column(name = "created")
     @Temporal(TemporalType.TIMESTAMP)
@@ -86,7 +84,7 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public Product(Integer id, @NotNull @Size(min = 1, max = 64) String title, @Size(max = 65535) String description, String imageData, Date created, Date modified, Stock stock, Set<Category> categories) {
+    public Product(Integer id, @NotNull @Size(min = 1, max = 64) String title, @Size(max = 65535) String description, byte[] imageData, Date created, Date modified, Stock stock, Set<Category> categories) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -120,11 +118,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public String getImageData() {
+    public byte[] getImageData() {
         return imageData;
     }
 
-    public void setImageData(String imageData) {
+    public void setImageData(byte[] imageData) {
         this.imageData = imageData;
     }
 
@@ -168,6 +166,7 @@ public class Product implements Serializable {
         this.orderProducts = orderProducts;
     }
 
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -194,7 +193,7 @@ public class Product implements Serializable {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", imageData='" + imageData + '\'' +
+                ", imageData='" + Arrays.toString(imageData) + '\'' +
                 ", created=" + created +
                 ", modified=" + modified +
                 ", categories=" + categories +
