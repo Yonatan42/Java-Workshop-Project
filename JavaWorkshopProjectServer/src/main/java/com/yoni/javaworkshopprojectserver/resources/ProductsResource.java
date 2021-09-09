@@ -27,15 +27,12 @@ import java.util.List;
  */
 @Stateless
 @Path("products")
-public class ProductsResource {
+public class ProductsResource extends BaseAuthenticatedResource {
 
     private static final String TAG = "ProductsResource";
 
     @EJB
     private ProductsService productsService;
-
-    @EJB
-    private UsersService usersService;
 
 
     @GET
@@ -50,7 +47,7 @@ public class ProductsResource {
 
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\npageNum: %d\nfilterText: %s\nfilterCategoryId: %d", token, pageNum, filterText, filterCategoryId);
         final int PAGE_SIZE = 10;
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - fill in
             List<CatalogProduct> products = productsService.getActivePagedProductsFiltered(pageNum * PAGE_SIZE, PAGE_SIZE, filterText, filterCategoryId);
             return Response.status(Response.Status.OK)
@@ -73,7 +70,7 @@ public class ProductsResource {
             @FormParam("stockQuantity") int stockQuantity
     ){
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, categoryIds, price, stockQuantity);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             CatalogProduct newProduct = productsService.insertStockedProduct(title, desc, imageData, categoryIds, stockQuantity, price);
             return Response
                     .status(Response.Status.CREATED)
@@ -98,7 +95,7 @@ public class ProductsResource {
             @FormParam("stockQuantity") int stockQuantity
     ){
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, id, title, desc, imageData, categoryIds, price, stockQuantity);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             CatalogProduct product = productsService.updateStockedProduct(id, title, desc, imageData, categoryIds, stockQuantity, price);
             if(product != null) {
                 return Response
@@ -126,7 +123,7 @@ public class ProductsResource {
             @FormParam("isEnabled") boolean isEnabled
     ){
         Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nid: %d\nisEnabled: %b", token, id, isEnabled);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - don't make this return boolean, have it return Result and NOT_FOUND will be an error code
             if(productsService.setStockEnabled(isEnabled, id)){
                 return Response
@@ -150,7 +147,7 @@ public class ProductsResource {
             @QueryParam("ids") List<Integer> ids
     ){
         Logger.logFormat(TAG, "<getProductsByIds>\nAuthorization: %s\nids: %s", token, ids);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
              List<CatalogProduct> products = productsService.getCatalogByProductIds(ids);
             return Response
                     .status(Response.Status.OK)
@@ -168,7 +165,7 @@ public class ProductsResource {
             @FormParam("title") String title
     ){
         Logger.logFormat(TAG, "<createCategory>\nAuthorization: %s\ntitle: %s", token, title);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             Category newCategory = productsService.insertCategory(title);
             return Response
                     .status(Response.Status.CREATED)

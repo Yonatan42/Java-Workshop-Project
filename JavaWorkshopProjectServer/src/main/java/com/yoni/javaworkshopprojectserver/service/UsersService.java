@@ -8,10 +8,8 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.yoni.javaworkshopprojectserver.models.User;
 import com.yoni.javaworkshopprojectserver.utils.*;
 import io.jsonwebtoken.JwtException;
-import java.util.function.BiFunction;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import javax.ws.rs.core.Response;
 
 /**
  *
@@ -102,30 +100,6 @@ public class UsersService extends BaseService {
                 .orElse(null);
     }
 
-    public Response authenticateEncapsulated(String token, BiFunction<User, String, Response> action) {
-        return authenticateEncapsulated(token, false, action);
-    }
-    public Response authenticateEncapsulated(String token, boolean requiresAdmin, BiFunction<User, String, Response> action){
-        final String tokenFailureErrorMsg = "access denied";
-        Result<User, Integer> authRes = authenticate(token, requiresAdmin);
-        if(!authRes.isValid()){
-            switch(authRes.getError()){
-                case ErrorCodes.TOKEN_INVALID:
-                    return ResponseUtils.createSimpleErrorResponse(tokenFailureErrorMsg, Response.Status.FORBIDDEN, ErrorCodes.TOKEN_INVALID);
-                case ErrorCodes.USERS_UNAUTHORIZED:
-                    return ResponseUtils.createSimpleErrorResponse(tokenFailureErrorMsg, Response.Status.FORBIDDEN, ErrorCodes.USERS_UNAUTHORIZED);
-            }
-        }
-        User u = authRes.getValue();
-        String t = token;
-        String oldSecret = JwtUtils.getSecurityString(token);
-        String newSecret = u.getSecretKey();
-        if(!oldSecret.equals(newSecret)){
-            t = JwtUtils.create(u.getEmail(), newSecret);
-        }
-        return action.apply(u, t);
-    }
-
 
     public Result<User, Integer> updateInfo(int userId, String email, String pass, String firstName, String lastName, String phone, String address){
         User user = findById(userId);
@@ -181,6 +155,29 @@ public class UsersService extends BaseService {
 
     public String createToken(User user){
         return JwtUtils.create(user.getEmail(), user.getSecretKey());
+    }
+
+    public Result<Void, Integer> invalidateToken(int userId){
+        User targetUser = findById(userId);
+        if(targetUser == null){
+            Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
+        }
+        refreshSecretKey(targetUser);
+        return Result.makeValue(null);
+    }
+
+    public Result<User, Integer> credentialLogin(String email, String pass){
+        User user = findByEmail(email);
+        if(user == null){
+            return Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
+        }
+
+        if(!BcryptUtils.checkEq(pass, user.getPass())){
+            return Result.makeError(ErrorCodes.USERS_PASSWORD_MISSMATCH);
+        }
+
+        return Result.makeValue(user);
+
     }
 
 

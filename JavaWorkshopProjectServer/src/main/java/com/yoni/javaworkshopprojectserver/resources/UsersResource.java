@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Stateless
 @Path("users")
-public class UsersResource{
+public class UsersResource extends BaseAuthenticatedResource{
 
     private static final String TAG = "UsersResource";
 
@@ -119,7 +119,7 @@ public class UsersResource{
               @FormParam("isAdmin") boolean isAdmin) {
 
         Logger.logFormat(TAG, "<remoteRegister>\nAuthorization: %s\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nisAdmin: %b", token, email, pass, firstName, lastName, phone, address, isAdmin);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) ->
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) ->
                 ResponseUtils.respondSafe(t, () ->
                         registerInternal(t, email, pass, firstName, lastName, phone, address, isAdmin))));
     }
@@ -136,29 +136,37 @@ public class UsersResource{
 
         Logger.logFormat(TAG, "<loginAuth>\nemail: %s\npass: %s", email, pass);
         return ResponseLogger.loggedResponse(ResponseUtils.respondSafe(() -> {
-            // todo - move to service and return result
-            User u = usersService.findByEmail(email);
-            if(u == null){
+            Result<User, Integer> result = usersService.credentialLogin(email, pass);
+            if(result.isValid()){
+                User user = result.getValue();
+                String token = usersService.createToken(user);
                 return Response
-                        .status(Response.Status.UNAUTHORIZED)
-                        .entity(JsonUtils.createResponseJson("provided email doesn't exist", ErrorCodes.USERS_NO_SUCH_USER))
-                        .build();
-            }
-            else{
-                if(!BcryptUtils.checkEq(pass, u.getPass())){
-                    return Response
-                        .status(Response.Status.FORBIDDEN)
-                        .entity(JsonUtils.createResponseJson("login failed", ErrorCodes.USERS_PASSWORD_MISSMATCH))
-                        .build();
-                }
-                else{
-                    String token = JwtUtils.create(email,u.getSecretKey());
-                    return Response
                         .status(Response.Status.OK)
-                        .entity(JsonUtils.createResponseJson(token, getLoginResponseJson(u)))
+                        .entity(JsonUtils.createResponseJson(token, getLoginResponseJson(user)))
                         .build();
-                }
             }
+
+            int errorCode = result.getError();
+            Response.Status status;
+            String errorMsg;
+            switch (result.getError()){
+                case ErrorCodes.USERS_NO_SUCH_USER:
+                    errorMsg = "provided email doesn't exist";
+                    status = Response.Status.UNAUTHORIZED;
+                    break;
+                    case ErrorCodes.USERS_PASSWORD_MISSMATCH:
+                    errorMsg = "login failed";
+                    status = Response.Status.FORBIDDEN;
+                    break;
+                default:
+                    status = Response.Status.INTERNAL_SERVER_ERROR;
+                    errorMsg = ErrorCodes.UNKNOWN_ERROR_MSG;
+
+            }
+            return Response
+                    .status(status)
+                    .entity(JsonUtils.createResponseJson(errorMsg, errorCode))
+                    .build();
         }));
     }
     
@@ -170,7 +178,7 @@ public class UsersResource{
             @HeaderParam("Authorization") String token) {
 
         Logger.logFormat(TAG, "<login>\nAuthorization: %s", token);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> Response
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> Response
             .status(Response.Status.OK)
             .entity(JsonUtils.createResponseJson(t, getLoginResponseJson(u)))
             .build())));
@@ -184,20 +192,37 @@ public class UsersResource{
             @PathParam("userId") int userId) {
 
         Logger.logFormat(TAG, "<invalidateToken>\nAuthorization: %s\nuserId: %d", token, userId);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - restructure this to make the thing a Result
-            User targetUser = usersService.findById(userId);
-            if(targetUser == null){
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+            Result<Void, Integer> result = usersService.invalidateToken(userId);
+            if(result.isValid()){
+                String returnToken = t;
+                if(userId == u.getId()){ // the the user invalidated their own token
+                    returnToken = usersService.createToken(u);
+                }
                 return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtils.createResponseJson(t, "user id not found", ErrorCodes.USERS_NO_SUCH_USER))
+                        .status(Response.Status.OK)
+                        .entity(JsonUtils.createResponseJson(returnToken, null))
                         .build();
             }
-            usersService.refreshSecretKey(targetUser);
+
+            int errorCode = result.getError();
+            Response.Status status;
+            String errorMsg;
+            switch (result.getError()){
+                case ErrorCodes.USERS_NO_SUCH_USER:
+                    errorMsg = "user id not found";
+                    status = Response.Status.NOT_FOUND;
+                    break;
+                default:
+                    status = Response.Status.INTERNAL_SERVER_ERROR;
+                    errorMsg = ErrorCodes.UNKNOWN_ERROR_MSG;
+
+            }
             return Response
-                .status(Response.Status.OK)
-                .entity(JsonUtils.createResponseJson(t, null))
-                .build();
+                    .status(status)
+                    .entity(JsonUtils.createResponseJson(t, errorMsg, errorCode))
+                    .build();
+
         })));
     }
 
@@ -216,7 +241,7 @@ public class UsersResource{
             @FormParam("address") String address
     ){
         Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
 
             if(userId != u.getId()){
                 return Response
@@ -260,7 +285,6 @@ public class UsersResource{
 
         })));
     }
-    // todo - encapsulate a smaller part of the register/edit logic and use the same main function for register, register-remote, and update info
 
 
     private JsonElement getLoginResponseJson(User user){

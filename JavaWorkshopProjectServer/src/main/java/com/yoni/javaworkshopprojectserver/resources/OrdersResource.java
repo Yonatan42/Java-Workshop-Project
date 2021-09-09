@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Stateless
 @Path("orders")
-public class OrdersResource {
+public class OrdersResource extends BaseAuthenticatedResource {
 
     private static final String TAG = "OrdersResource";
 
@@ -50,7 +50,7 @@ public class OrdersResource {
             @PathParam("pageNum") int pageNum
     ){
         Logger.logFormat(TAG, "<getPagedOrderSummaries>\nAuthorization: %s\nuserId: %d\npageNum: %d", token, userId, pageNum);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             final int PAGE_SIZE = 10;
             List<OrderSummary> orders = ordersService.getPagedOrderSummariesByUserId(pageNum * PAGE_SIZE, PAGE_SIZE, userId);
             return Response
@@ -68,7 +68,7 @@ public class OrdersResource {
             @PathParam("id") int id
     ){
         Logger.logFormat(TAG, "<getOrderDetails>\nAuthorization: %s\nid: %d", token, id);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             OrderDetails order = ordersService.getOrderDetailsById(id);
             if(order != null) {
                 return Response
@@ -106,7 +106,7 @@ public class OrdersResource {
     ){
         // todo - at least removed logging of credit card info
         Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %d\ncardCVV: %s", token, userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
-        return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - make a method that pretends to verify the credit card info
             Map<Integer, Integer> productMap = new HashMap<>();
             for (int i = 0; i < productIds.size(); i++){
