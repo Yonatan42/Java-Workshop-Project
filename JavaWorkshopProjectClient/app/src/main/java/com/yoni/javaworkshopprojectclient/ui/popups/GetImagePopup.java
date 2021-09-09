@@ -35,7 +35,7 @@ import java.util.Arrays;
 public class GetImagePopup extends AlertDialog {
 
     private static final String TAG = "GetImagePopup";
-    private static final int MAX_IMAGE_DIMEN = 512;
+    private static final int MAX_IMAGE_DIMEN = 256;
 
     private ParentActivity parentActivity;
 

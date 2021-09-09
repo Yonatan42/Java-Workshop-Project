@@ -22,13 +22,16 @@ ALTER TABLE `products` CHANGE `name` `title` VARCHAR (64) NOT NULL;
 
 # change name and type of image_url to image_data (make blob for base64 encoding and allow it to be null - will have a placeholder on the client)
 ALTER TABLE `products` CHANGE `image_url` `image_data` BLOB;
+
+
+ALTER TABLE `products` MODIFY `image_data` MEDIUMBLOB;
 */
 
 CREATE TABLE products (
 	id INT NOT NULL AUTO_INCREMENT,
 	title VARCHAR (64) NOT NULL,
 	description TEXT,
-    image_url BLOB,
+    image_url MEDIUMBLOB,
 	created TIMESTAMP DEFAULT NOW(),
 	modified TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
@@ -38,6 +41,9 @@ CREATE TRIGGER trigger_products_update
 BEFORE UPDATE ON products
 FOR EACH ROW
 SET NEW.modified = NOW();
+
+
+
 
 # test category
 # INSERT INTO products (title, description) VALUES ('prod1', 'desc1');
