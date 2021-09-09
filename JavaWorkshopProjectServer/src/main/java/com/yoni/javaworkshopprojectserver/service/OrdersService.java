@@ -9,7 +9,6 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.yoni.javaworkshopprojectserver.models.*;
 import com.yoni.javaworkshopprojectserver.utils.CollectionUtils;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
-import com.yoni.javaworkshopprojectserver.utils.Logger;
 import com.yoni.javaworkshopprojectserver.utils.Result;
 
 import javax.ejb.LocalBean;
@@ -17,11 +16,8 @@ import javax.ejb.Singleton;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-
-// todo - fill in
 
 /**
  *
@@ -67,7 +63,7 @@ public class OrdersService extends BaseService {
         return CollectionUtils.convertCollection(list, OrderDetails::new);
     }
 
-    public Result<Integer, Integer> createOrder(User user, String email, String fname, String lname, String phone, String address, List<Stock> stockedProducts, Map<Integer, Integer> productMap) {
+    public Result<Order, Integer> createOrder(User user, String email, String fname, String lname, String phone, String address, List<Stock> stockedProducts, Map<Integer, Integer> productMap) {
 
         if(user == null){
             return Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
@@ -108,6 +104,6 @@ public class OrdersService extends BaseService {
         getEntityManager().refresh(order);
 
 
-        return Result.makeValue(order.getId());
+        return Result.makeValue(order);
     }
 }

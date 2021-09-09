@@ -33,14 +33,8 @@ public class UsersResource extends BaseAuthenticatedResource{
 
     @EJB
     private UsersService usersService;
-
     @EJB
     private ProductsService productsService;
-    
-
-
-    // todo - move all db stuff to service and return Result that can hold error code
-
 
 
     @POST
@@ -241,7 +235,7 @@ public class UsersResource extends BaseAuthenticatedResource{
             @FormParam("address") String address
     ){
         Logger.logFormat(TAG, "<updateInfo>\nAuthorization: %s\nuserId: %d\nemail: %s\npass: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s", token, userId, email, pass, firstName, lastName, phone, address);
-        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
+        return ResponseLogger.loggedResponse(authenticateEncapsulated(token, userId, (u, t) -> ResponseUtils.respondSafe(t, () -> {
 
             if(userId != u.getId()){
                 return Response

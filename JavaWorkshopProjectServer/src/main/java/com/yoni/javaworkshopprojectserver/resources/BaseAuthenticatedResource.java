@@ -17,9 +17,19 @@ public abstract class BaseAuthenticatedResource {
     @EJB
     private UsersService usersService;
 
+    // admin is not required
     public Response authenticateEncapsulated(String token, BiFunction<User, String, Response> action) {
         return authenticateEncapsulated(token, false, action);
     }
+
+    // admin is required only if the user has not requested for themselves
+    public Response authenticateEncapsulated(String token, int userId, BiFunction<User, String, Response> action) {
+        User user = usersService.findById(userId);
+        boolean requiresAdmin = user == null || !user.getEmail().equals(JwtUtils.getEmail(token));
+        return authenticateEncapsulated(token, requiresAdmin, action);
+    }
+
+    // admin is designated as required or not
     public Response authenticateEncapsulated(String token, boolean requiresAdmin, BiFunction<User, String, Response> action){
         final String tokenFailureErrorMsg = "access denied";
         Result<User, Integer> authRes = usersService.authenticate(token, requiresAdmin);
@@ -31,14 +41,14 @@ public abstract class BaseAuthenticatedResource {
                     return ResponseUtils.createSimpleErrorResponse(tokenFailureErrorMsg, Response.Status.FORBIDDEN, ErrorCodes.USERS_UNAUTHORIZED);
             }
         }
-        User u = authRes.getValue();
-        String t = token;
+        User user = authRes.getValue();
+        String returnToken = token;
         String oldSecret = JwtUtils.getSecurityString(token);
-        String newSecret = u.getSecretKey();
+        String newSecret = user.getSecretKey();
         if(!oldSecret.equals(newSecret)){
-            t = JwtUtils.create(u.getEmail(), newSecret);
+            returnToken = JwtUtils.create(user.getEmail(), newSecret);
         }
-        return action.apply(u, t);
+        return action.apply(user, returnToken);
     }
 
 }

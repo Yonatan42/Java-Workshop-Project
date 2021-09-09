@@ -81,23 +81,17 @@ public class UsersService extends BaseService {
     }
         
     public User findByEmail(String email){
-            return getEntityManager()
+            return firstOrNull(getEntityManager()
                     .createNamedQuery("Users.findByEmail", User.class)
                     .setParameter("email", email)
-                    .getResultList()
-                    .stream()
-                    .findFirst()
-                    .orElse(null);
+                    .getResultList());
     }
 
     public User findById(int id){
-        return getEntityManager()
+        return firstOrNull(getEntityManager()
                 .createNamedQuery("Users.findById", User.class)
                 .setParameter("id", id)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElse(null);
+                .getResultList());
     }
 
 

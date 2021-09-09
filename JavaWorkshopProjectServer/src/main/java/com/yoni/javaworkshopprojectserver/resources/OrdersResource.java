@@ -5,10 +5,12 @@
  */
 package com.yoni.javaworkshopprojectserver.resources;
 
+import com.yoni.javaworkshopprojectserver.models.Order;
 import com.yoni.javaworkshopprojectserver.models.OrderDetails;
 import com.yoni.javaworkshopprojectserver.models.OrderSummary;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
 import com.yoni.javaworkshopprojectserver.service.ProductsService;
+import com.yoni.javaworkshopprojectserver.service.TransactionService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.*;
 
@@ -17,6 +19,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,12 +36,12 @@ public class OrdersResource extends BaseAuthenticatedResource {
 
     @EJB
     private OrdersService ordersService;
-
     @EJB
     private ProductsService productsService;
-
     @EJB
     private UsersService usersService;
+    @EJB
+    private TransactionService transactionService;
 
 
     @GET
@@ -107,23 +110,32 @@ public class OrdersResource extends BaseAuthenticatedResource {
         // todo - at least removed logging of credit card info
         Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %d\ncardCVV: %s", token, userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            // todo - make a method that pretends to verify the credit card info
+            String transactionToken = transactionService.verifyCrediCardInfo(creditCard, new Date(cardExpiration), cardCVV);
+            if(transactionToken == null){
+                return Response
+                        .status(Response.Status.FORBIDDEN)
+                        .entity(JsonUtils.createResponseJson("credit card couldn't not be verified", ErrorCodes.ORDERS_FAILED_CREDIT_VERIFICATION))
+                        .build();
+            }
+
             Map<Integer, Integer> productMap = new HashMap<>();
             for (int i = 0; i < productIds.size(); i++){
                 productMap.put(productIds.get(i), productQuantities.get(i));
             }
-            Result<Integer, Integer> orderCreationResult = ordersService.createOrder(usersService.findById(userId), email, fname, lname, phone, address, productsService.getStockByProductIds(productIds), productMap);
-            if(orderCreationResult.isValid()) {
+            Result<Order, Integer> result = ordersService.createOrder(usersService.findById(userId), email, fname, lname, phone, address, productsService.getStockByProductIds(productIds), productMap);
+            if(result.isValid()) {
+                Order order = result.getValue();
+                transactionService.makeTransaction(transactionToken, order.getTotalPrice());
                 return Response
                         .status(Response.Status.CREATED)
-                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(orderCreationResult.getValue())))
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(order.getId())))
                         .build();
             }
 
-            int errorCode = orderCreationResult.getError();
+            int errorCode = result.getError();
             String errorMessage;
             Response.Status status;
-            switch (orderCreationResult.getError()){
+            switch (result.getError()){
                 case ErrorCodes.USERS_NO_SUCH_USER:
                     status = Response.Status.FORBIDDEN;
                     errorMessage = "one or more of the products is no longer available";
