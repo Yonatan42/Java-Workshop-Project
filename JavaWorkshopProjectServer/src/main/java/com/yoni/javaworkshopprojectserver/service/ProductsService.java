@@ -167,6 +167,9 @@ public class ProductsService extends BaseService {
             getEntityManager().flush();
         });
 
+        getEntityManager().refresh(newProduct);
+        getEntityManager().refresh(newStock);
+
         return new CatalogProduct(newStock);
 
     }
@@ -194,6 +197,8 @@ public class ProductsService extends BaseService {
             getEntityManager().merge(stock);
             getEntityManager().flush();
         });
+
+        getEntityManager().refresh(stock);
 
         return new CatalogProduct(stock);
     }

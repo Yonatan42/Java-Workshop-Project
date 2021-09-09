@@ -78,7 +78,7 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
         holder.txtOrderNumber.setText(String.format("%s%d", context.getString(R.string.order_number_prefix), orderSummary.getId()));
         holder.txtDate.setText(UIUtils.formatDate(orderSummary.getTransactionDate()));
         holder.txtPrice.setText(UIUtils.formatPrice(orderSummary.getTotalPrice(), UIUtils.getDollarSign(context)));
-        String fullName = orderSummary.getFirstName() + ", " + orderSummary.getLastName();
+        String fullName = orderSummary.getLastName() + ", " + orderSummary.getFirstName();
         holder.txtName.setText(fullName);
         holder.txtPhone.setText(orderSummary.getPhone());
         holder.txtAddress .setText(orderSummary.getAddress());
