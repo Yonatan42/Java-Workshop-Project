@@ -6,14 +6,18 @@
 package com.yoni.javaworkshopprojectserver.service;
 
 
-import com.yoni.javaworkshopprojectserver.models.Order;
-import com.yoni.javaworkshopprojectserver.models.OrderDetails;
-import com.yoni.javaworkshopprojectserver.models.OrderSummary;
+import com.yoni.javaworkshopprojectserver.models.*;
 import com.yoni.javaworkshopprojectserver.utils.CollectionUtils;
+import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
+import com.yoni.javaworkshopprojectserver.utils.Result;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 // todo - fill in
@@ -62,8 +66,45 @@ public class OrdersService extends BaseService {
         return CollectionUtils.convertCollection(list, OrderDetails::new);
     }
 
-    public Integer createOrder(int userId, String email, String fname, String lname, String phone, String address, List<Integer> productIds, List<Integer> productQuantities) {
-        // todo - fill in
-        return null;
+    public Result<Integer, Integer> createOrder(User user, String email, String fname, String lname, String phone, String address, List<Stock> stockedProducts, Map<Integer, Integer> productMap) {
+
+        if(user == null){
+            return Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
+        }
+
+        if(stockedProducts.isEmpty()){
+            return Result.makeError(ErrorCodes.ORDERS_EMPTY);
+        }
+
+        if(stockedProducts.stream().anyMatch(product -> product.getQuantity() <= 0 || !product.isEnabled())){
+            return Result.makeError(ErrorCodes.RESOURCES_UNAVAILABLE);
+        }
+
+        Order order = new Order();
+        order.setEmail(email);
+        order.setPhone(phone);
+        order.setAddress(address);
+        order.setFirstName(fname);
+        order.setLastName(lname);
+        Set<OrderProduct> orderProducts = stockedProducts
+                .stream()
+                .map(stockedProduct -> {
+                    OrderProduct orderProduct = new OrderProduct();
+                    orderProduct.setOrder(order);
+                    orderProduct.setProduct(stockedProduct.getProduct());
+                    orderProduct.setPriceAtOrder(stockedProduct.getPrice());
+                    orderProduct.setQuantity(productMap.get(orderProduct.getProduct().getId()));
+                    return orderProduct;
+                }).collect(Collectors.toSet());
+        order.setOrderProducts(orderProducts);
+        order.setUser(user);
+
+        withTransaction(() -> {
+            getEntityManager().persist(order);
+            getEntityManager().flush();
+        });
+
+
+        return Result.makeValue(order.getId());
     }
 }

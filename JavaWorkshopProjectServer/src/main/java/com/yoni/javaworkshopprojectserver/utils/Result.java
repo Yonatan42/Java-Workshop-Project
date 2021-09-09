@@ -11,11 +11,11 @@ package com.yoni.javaworkshopprojectserver.utils;
  */
 public class Result<TV, TE>{
    
-    public static <TV, TE> Result<TV, TE> MakeValue(TV value){
+    public static <TV, TE> Result<TV, TE> makeValue(TV value){
         return new Result(value, null);
     }
     
-    public static <TV, TE> Result<TV, TE> MakeError(TE error){
+    public static <TV, TE> Result<TV, TE> makeError(TE error){
         return new Result(null, error);
     }
     

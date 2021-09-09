@@ -58,8 +58,8 @@ public class OrderSummary implements Serializable {
         this(
             order.getId(),
             order.getUser().getId(),
-            order.getUser().getFirstName(),
-            order.getUser().getLastName(),
+            order.getFirstName(),
+            order.getLastName(),
             order.getEmail(),
             order.getPhone(),
             order.getAddress(),

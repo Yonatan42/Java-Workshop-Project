@@ -9,6 +9,7 @@ import com.yoni.javaworkshopprojectserver.models.Order;
 import com.yoni.javaworkshopprojectserver.models.OrderDetails;
 import com.yoni.javaworkshopprojectserver.models.OrderSummary;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
+import com.yoni.javaworkshopprojectserver.service.ProductsService;
 import com.yoni.javaworkshopprojectserver.service.UsersService;
 import com.yoni.javaworkshopprojectserver.utils.*;
 
@@ -18,7 +19,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // todo - fill in
 
@@ -34,6 +37,9 @@ public class OrdersResource extends AbstractRestResource<Order> {
 
     @EJB
     private OrdersService ordersService;
+
+    @EJB
+    private ProductsService productsService;
 
     @EJB
     private UsersService usersService;
@@ -111,12 +117,44 @@ public class OrdersResource extends AbstractRestResource<Order> {
         Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %tF\ncardCVV: %s", token, userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - make a method that pretends to verify the credit card info
-            Integer orderId = ordersService.createOrder(userId, email, fname, lname, phone, address, productIds, productQuantities);
+            Map<Integer, Integer> productMap = new HashMap<>();
+            for (int i = 0; i < productIds.size(); i++){
+                productMap.put(productIds.get(i), productQuantities.get(i));
+            }
+            Result<Integer, Integer> orderCreationResult = ordersService.createOrder(usersService.findById(userId), email, fname, lname, phone, address, productsService.getStockByProductIds(productIds), productMap);
+            if(orderCreationResult.isValid()) {
+                return Response
+                        .status(Response.Status.CREATED)
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(orderCreationResult.getValue())))
+                        .build();
+            }
+            else{
+                int errorCode = orderCreationResult.getError();
+                String errorMessage;
+                Response.Status status;
+                switch (orderCreationResult.getError()){
+                    case ErrorCodes.USERS_NO_SUCH_USER:
+                        status = Response.Status.FORBIDDEN;
+                        errorMessage = "one or more of the products is no longer available";
+                        break;
+                    case ErrorCodes.RESOURCES_UNAVAILABLE:
+                        status = Response.Status.GONE;
+                        errorMessage = "one or more of the products is no longer available";
+                        break;
+                    case ErrorCodes.ORDERS_EMPTY:
+                        status = Response.Status.BAD_REQUEST;
+                        errorMessage = "order attempted with no products";
+                        break;
+                    default:
+                        status = Response.Status.INTERNAL_SERVER_ERROR;
+                        errorMessage = "an unknown error occurred";
+                }
+                return Response
+                        .status(status)
+                        .entity(JsonUtils.createResponseJson(errorMessage, errorCode))
+                        .build();
+            }
 
-            return Response
-                    .status(Response.Status.CREATED)
-                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(order)))
-                    .build();
         })));
     }
 

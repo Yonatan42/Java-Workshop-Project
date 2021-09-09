@@ -31,7 +31,7 @@ public class UsersService extends BaseService {
     public Result<User, Integer> authenticate(String token, boolean requiredAdmin){
 
         if(token == null){
-            return Result.MakeError(ErrorCodes.TOKEN_INVALID);
+            return Result.makeError(ErrorCodes.TOKEN_INVALID);
         }
 
         boolean needsRefresh;
@@ -44,19 +44,19 @@ public class UsersService extends BaseService {
         }
         catch(JwtException e){
             Logger.logError(TAG, e);
-            return Result.MakeError(ErrorCodes.TOKEN_INVALID);
+            return Result.makeError(ErrorCodes.TOKEN_INVALID);
         }
         
         User user = findByEmail(email);
 
         if(user == null){
-            return Result.MakeError(ErrorCodes.TOKEN_INVALID);
+            return Result.makeError(ErrorCodes.TOKEN_INVALID);
         }
         if(!user.getSecretKey().equals(secret)){
-            return Result.MakeError(ErrorCodes.TOKEN_INVALID);
+            return Result.makeError(ErrorCodes.TOKEN_INVALID);
         }
         if(requiredAdmin && !user.isAdmin()){
-            return Result.MakeError(ErrorCodes.USERS_UNAUTHORIZED);
+            return Result.makeError(ErrorCodes.USERS_UNAUTHORIZED);
         }
         
         if(needsRefresh){
@@ -64,7 +64,7 @@ public class UsersService extends BaseService {
             getEntityManager().refresh(user);
         }
 
-        return Result.MakeValue(user);
+        return Result.makeValue(user);
     }
     
     

@@ -11,8 +11,10 @@ package com.yoni.javaworkshopprojectserver.utils;
  */
 public class ErrorCodes {
 
+
+
     private ErrorCodes(){}
-    
+
     public static final int UNKNOWN = 100;
     public static final int PAGE_NOT_FOUND = 200;
 
@@ -28,7 +30,11 @@ public class ErrorCodes {
     public static final int TOKEN_EXPIRED = 501;
     public static final int TOKEN_INVALID = 502;
 
-    public static final int RESOURCES_GENERAL = 500;
-    public static final int RESOURCES_NOT_FOUND = 501;
+    public static final int RESOURCES_GENERAL = 600;
+    public static final int RESOURCES_NOT_FOUND = 601;
+    public static final int RESOURCES_UNAVAILABLE = 602;
+
+    public static final int ORDERS_GENERAL = 700;
+    public static final int ORDERS_EMPTY = 701;
 
 }
