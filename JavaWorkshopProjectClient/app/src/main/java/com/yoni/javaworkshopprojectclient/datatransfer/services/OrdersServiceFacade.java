@@ -87,8 +87,8 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
     public void createOrder(
             int userId,
             String email,
-            String fname,
-            String lname,
+            String firstName,
+            String lastName,
             String phone,
             String address,
             List<CartProduct> cartProducts,
@@ -103,7 +103,7 @@ public class OrdersServiceFacade extends BaseRemoteServiceFacade<OrdersService> 
             productIds.add(product.getProductId());
             productQuantities.add(product.getQuantity());
         }
-        enqueue(service.createOrder(getToken(), userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration.getTime(), cardCVV), onSuccess, onError);
+        enqueue(service.createOrder(getToken(), userId, email, firstName, lastName, phone, address, productIds, productQuantities, creditCard, cardExpiration.getTime(), cardCVV), onSuccess, onError);
 
         // todo - remove this once we are connected to server
         /*

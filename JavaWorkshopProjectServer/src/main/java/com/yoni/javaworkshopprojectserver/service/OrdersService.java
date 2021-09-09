@@ -63,7 +63,7 @@ public class OrdersService extends BaseService {
         return CollectionUtils.convertCollection(list, OrderDetails::new);
     }
 
-    public Result<Order, Integer> createOrder(User user, String email, String fname, String lname, String phone, String address, List<Stock> stockedProducts, Map<Integer, Integer> productMap) {
+    public Result<Order, Integer> createOrder(User user, String email, String firstName, String lastName, String phone, String address, List<Stock> stockedProducts, Map<Integer, Integer> productMap) {
 
         if(user == null){
             return Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
@@ -81,8 +81,8 @@ public class OrdersService extends BaseService {
         order.setEmail(email);
         order.setPhone(phone);
         order.setAddress(address);
-        order.setFirstName(fname);
-        order.setLastName(lname);
+        order.setFirstName(firstName);
+        order.setLastName(lastName);
         Set<OrderProduct> orderProducts = stockedProducts
                 .stream()
                 .map(stockedProduct -> {

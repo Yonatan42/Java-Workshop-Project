@@ -97,8 +97,8 @@ public class OrdersResource extends BaseAuthenticatedResource {
             @HeaderParam("Authorization") String token,
             @FormParam("userId") int userId,
             @FormParam("email") String email,
-            @FormParam("firstName") String fname,
-            @FormParam("lastName") String lname,
+            @FormParam("firstName") String firstName,
+            @FormParam("lastName") String lastName,
             @FormParam("phone") String phone,
             @FormParam("address") String address,
             @FormParam("productIds") List<Integer> productIds,
@@ -108,7 +108,7 @@ public class OrdersResource extends BaseAuthenticatedResource {
             @FormParam("cardCVV") String cardCVV
     ){
         // todo - at least removed logging of credit card info
-        Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %d\ncardCVV: %s", token, userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
+        Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %d\ncardCVV: %s", token, userId, email, firstName, lastName, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             String transactionToken = transactionService.verifyCrediCardInfo(creditCard, new Date(cardExpiration), cardCVV);
             if(transactionToken == null){
@@ -122,7 +122,7 @@ public class OrdersResource extends BaseAuthenticatedResource {
             for (int i = 0; i < productIds.size(); i++){
                 productMap.put(productIds.get(i), productQuantities.get(i));
             }
-            Result<Order, Integer> result = ordersService.createOrder(usersService.findById(userId), email, fname, lname, phone, address, productsService.getStockByProductIds(productIds), productMap);
+            Result<Order, Integer> result = ordersService.createOrder(usersService.findById(userId), email, firstName, lastName, phone, address, productsService.getStockByProductIds(productIds), productMap);
             if(result.isValid()) {
                 Order order = result.getValue();
                 transactionService.makeTransaction(transactionToken, order.getTotalPrice());
