@@ -22,12 +22,17 @@ ALTER TABLE orders DROP total_cost;
 ALTER TABLE orders CHANGE customer_id user_id INT NOT NULL;
 
 ALTER TABLE orders ADD email VARCHAR(320) NOT NULL AFTER user_id;
+
+ALTER TABLE orders ADD first_name VARCHAR(32) NOT NULL AFTER email;
+ALTER TABLE orders ADD last_name VARCHAR(32) NOT NULL AFTER first_name;
 */
 
 CREATE TABLE orders (
 	id INT NOT NULL AUTO_INCREMENT,
 	user_id INT NOT NULL,
     email VARCHAR(320) NOT NULL, # may be different from the one registered for the user
+	first_name VARCHAR(32) NOT NULL,  # may be different from the one registered for the user
+	last_name VARCHAR(32) NOT NULL,  # may be different from the one registered for the user
     phone VARCHAR(20) NOT NULL, # may be different from the one registered for the user
     address TEXT NOT NULL, # may be different from the one registered for the user
 	created TIMESTAMP DEFAULT NOW(),
@@ -35,7 +40,6 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_id) REFERENCES customers(id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	PRIMARY KEY (id)
 );
-
 
 
 
