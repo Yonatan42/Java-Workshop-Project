@@ -25,6 +25,7 @@ public class ErrorCodes {
     public static final int USERS_NO_SUCH_USER = 402;
     public static final int USERS_ALREADY_EXISTS = 403;
     public static final int USERS_UNAUTHORIZED = 404;
+    public static final int USERS_INCONSISTANT = 405;
 
     public static final int TOKEN_GENERAL = 500;
     public static final int TOKEN_EXPIRED = 501;
@@ -36,5 +37,8 @@ public class ErrorCodes {
 
     public static final int ORDERS_GENERAL = 700;
     public static final int ORDERS_EMPTY = 701;
+
+
+    public static final String UNKNOWN_ERROR_MSG = "an unknown error occurred";
 
 }

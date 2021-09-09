@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Stateless
 @Path("products")
-public class ProductsResource extends AbstractRestResource<Product> {
+public class ProductsResource {
 
     private static final String TAG = "ProductsResource";
 
@@ -37,10 +37,6 @@ public class ProductsResource extends AbstractRestResource<Product> {
     @EJB
     private UsersService usersService;
 
-
-    public ProductsResource() {
-        super(Product.class);
-    }
 
     @GET
     @Path("page/{pageNum}")
@@ -131,7 +127,7 @@ public class ProductsResource extends AbstractRestResource<Product> {
     ){
         Logger.logFormat(TAG, "<setProductEnabled>\nAuthorization: %s\nid: %d\nisEnabled: %b", token, id, isEnabled);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-
+            // todo - don't make this return boolean, have it return Result and NOT_FOUND will be an error code
             if(productsService.setStockEnabled(isEnabled, id)){
                 return Response
                         .status(Response.Status.OK)

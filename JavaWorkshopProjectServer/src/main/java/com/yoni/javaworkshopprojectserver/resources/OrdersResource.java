@@ -5,7 +5,6 @@
  */
 package com.yoni.javaworkshopprojectserver.resources;
 
-import com.yoni.javaworkshopprojectserver.models.Order;
 import com.yoni.javaworkshopprojectserver.models.OrderDetails;
 import com.yoni.javaworkshopprojectserver.models.OrderSummary;
 import com.yoni.javaworkshopprojectserver.service.OrdersService;
@@ -28,7 +27,7 @@ import java.util.Map;
  */
 @Stateless
 @Path("orders")
-public class OrdersResource extends AbstractRestResource<Order> {
+public class OrdersResource {
 
     private static final String TAG = "OrdersResource";
 
@@ -40,11 +39,6 @@ public class OrdersResource extends AbstractRestResource<Order> {
 
     @EJB
     private UsersService usersService;
-
-
-    public OrdersResource() {
-        super(Order.class);
-    }
 
 
     @GET
@@ -125,32 +119,32 @@ public class OrdersResource extends AbstractRestResource<Order> {
                         .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(orderCreationResult.getValue())))
                         .build();
             }
-            else{
-                int errorCode = orderCreationResult.getError();
-                String errorMessage;
-                Response.Status status;
-                switch (orderCreationResult.getError()){
-                    case ErrorCodes.USERS_NO_SUCH_USER:
-                        status = Response.Status.FORBIDDEN;
-                        errorMessage = "one or more of the products is no longer available";
-                        break;
-                    case ErrorCodes.RESOURCES_UNAVAILABLE:
-                        status = Response.Status.GONE;
-                        errorMessage = "one or more of the products is no longer available";
-                        break;
-                    case ErrorCodes.ORDERS_EMPTY:
-                        status = Response.Status.BAD_REQUEST;
-                        errorMessage = "order attempted with no products";
-                        break;
-                    default:
-                        status = Response.Status.INTERNAL_SERVER_ERROR;
-                        errorMessage = "an unknown error occurred";
-                }
-                return Response
-                        .status(status)
-                        .entity(JsonUtils.createResponseJson(errorMessage, errorCode))
-                        .build();
+
+            int errorCode = orderCreationResult.getError();
+            String errorMessage;
+            Response.Status status;
+            switch (orderCreationResult.getError()){
+                case ErrorCodes.USERS_NO_SUCH_USER:
+                    status = Response.Status.FORBIDDEN;
+                    errorMessage = "one or more of the products is no longer available";
+                    break;
+                case ErrorCodes.RESOURCES_UNAVAILABLE:
+                    status = Response.Status.GONE;
+                    errorMessage = "one or more of the products is no longer available";
+                    break;
+                case ErrorCodes.ORDERS_EMPTY:
+                    status = Response.Status.BAD_REQUEST;
+                    errorMessage = "order attempted with no products";
+                    break;
+                default:
+                    status = Response.Status.INTERNAL_SERVER_ERROR;
+                    errorMessage = ErrorCodes.UNKNOWN_ERROR_MSG;
             }
+            return Response
+                    .status(status)
+                    .entity(JsonUtils.createResponseJson(errorMessage, errorCode))
+                    .build();
+
 
         })));
     }

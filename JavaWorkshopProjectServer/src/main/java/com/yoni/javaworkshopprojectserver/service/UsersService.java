@@ -75,7 +75,12 @@ public class UsersService extends BaseService {
                 .execute();
 
     }
-    
+
+    public void refreshSecretKey(User user){
+        refreshSecretKey(user.getEmail());
+        getEntityManager().refresh(user);
+
+    }
         
     public User findByEmail(String email){
             return getEntityManager()
@@ -120,4 +125,63 @@ public class UsersService extends BaseService {
         }
         return action.apply(u, t);
     }
+
+
+    public Result<User, Integer> updateInfo(int userId, String email, String pass, String firstName, String lastName, String phone, String address){
+        User user = findById(userId);
+        if(user == null){
+            return Result.makeError(ErrorCodes.USERS_NO_SUCH_USER);
+        }
+
+        // check if email is in use
+        User emailCheckUser = findByEmail(email);
+        if(emailCheckUser != null && !emailCheckUser.getId().equals(user.getId())){
+            Result.makeError(ErrorCodes.USERS_ALREADY_EXISTS);
+        }
+
+        user.setEmail(email);
+        user.setPass(BcryptUtils.encrypt(pass));
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPhone(phone);
+        user.setAddress(address);
+
+        withTransaction(() -> getEntityManager().merge(user));
+
+        getEntityManager().refresh(user);
+
+        Logger.log(TAG, "updated user: "+user);
+
+        return Result.makeValue(user);
+    }
+
+
+    public Result<User, Integer> register(String email, String pass, String firstName, String lastName, String phone, String address, boolean isAdmin){
+        if(findByEmail(email) != null) {
+            return Result.makeError(ErrorCodes.USERS_ALREADY_EXISTS);
+        }
+
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setAddress(address);
+        user.setPass(BcryptUtils.encrypt(pass));
+        user.setAdmin(isAdmin);
+
+        withTransaction(() -> getEntityManager().merge(user));
+
+        getEntityManager().refresh(user);
+
+        Logger.log(TAG, "registered user: "+user);
+
+        return Result.makeValue(user);
+    }
+
+    public String createToken(User user){
+        return JwtUtils.create(user.getEmail(), user.getSecretKey());
+    }
+
+
 }
