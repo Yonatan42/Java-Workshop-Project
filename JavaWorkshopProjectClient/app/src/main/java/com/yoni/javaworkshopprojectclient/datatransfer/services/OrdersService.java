@@ -53,7 +53,7 @@ public interface OrdersService extends BaseRemoveService {
             @Field("productIds") List<Integer> productIds,
             @Field("productQuantities") List<Integer> productQuantities,
             @Field("creditCard") String creditCard,
-            @Field("cardExpiration") Date cardExpiration,
+            @Field("cardExpiration") long cardExpiration, // timestamp
             @Field("cardCVV") String cardCVV
     );
 

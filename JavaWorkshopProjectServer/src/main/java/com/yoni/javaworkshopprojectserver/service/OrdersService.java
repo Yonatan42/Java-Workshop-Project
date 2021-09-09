@@ -105,6 +105,8 @@ public class OrdersService extends BaseService {
             getEntityManager().flush();
         });
 
+        getEntityManager().refresh(order);
+
 
         return Result.makeValue(order.getId());
     }

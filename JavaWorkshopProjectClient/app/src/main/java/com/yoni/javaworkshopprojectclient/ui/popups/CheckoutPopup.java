@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
@@ -24,7 +25,9 @@ import java.util.Date;
 
 public class CheckoutPopup extends AlertDialog {
 
-    private ParentActivity parentActivity;
+    private final ParentActivity parentActivity;
+    private final FragmentManager fragmentManager;
+    private final Runnable onCheckoutComplete;
     private Calendar expirationCalendar;
     private Button btnCancel;
     private Button btnOk;
@@ -33,9 +36,11 @@ public class CheckoutPopup extends AlertDialog {
     private EditText txtExpiration;
     private UserInfoFragment userInfoFragment;
 
-    public CheckoutPopup(ParentActivity parentActivity, Fragment fragment) {
+    public CheckoutPopup(ParentActivity parentActivity, FragmentManager fragmentManager, Runnable onCheckoutComplete) {
         super(parentActivity);
         this.parentActivity = parentActivity;
+        this.fragmentManager = fragmentManager;
+        this.onCheckoutComplete = onCheckoutComplete;
 
         View layout = LayoutInflater.from(parentActivity).inflate(R.layout.popup_checkout, null, false);
         btnCancel = layout.findViewById(R.id.checkout_popup_btn_cancel);
@@ -43,7 +48,7 @@ public class CheckoutPopup extends AlertDialog {
         txtCreditCard = layout.findViewById(R.id.checkout_popup_txt_card);
         txtCVV = layout.findViewById(R.id.checkout_popup_txt_cvv);
         txtExpiration = layout.findViewById(R.id.checkout_popup_txt_expiration);
-        userInfoFragment =  (UserInfoFragment) fragment.getParentFragmentManager().findFragmentById(R.id.checkout_popup_user_details_fragment);
+        userInfoFragment =  (UserInfoFragment) fragmentManager.findFragmentById(R.id.checkout_popup_user_details_fragment);
 
 
 
@@ -77,6 +82,7 @@ public class CheckoutPopup extends AlertDialog {
                 (call, response, result) -> {
                     new SimpleMessagePopup(getContext(), getContext().getString(R.string.order_complete_title), String.format("#%d",result)).show();
                     dismiss();
+                    onCheckoutComplete.run();
                 },
                 new StandardResponseErrorCallback<Integer>(parentActivity) {
                     @Override
@@ -91,6 +97,12 @@ public class CheckoutPopup extends AlertDialog {
         // todo - validate - use userInfoFragment's validation + for the new stuff
         // show error toast within this method
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        fragmentManager.beginTransaction().remove(userInfoFragment).commit();
     }
 
     private void setUpUserInfo(){

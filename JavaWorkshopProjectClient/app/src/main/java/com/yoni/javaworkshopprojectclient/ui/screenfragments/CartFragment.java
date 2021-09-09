@@ -1,7 +1,6 @@
 package com.yoni.javaworkshopprojectclient.ui.screenfragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,8 @@ public class CartFragment extends BaseFragment {
     private RecyclerView rvProducts;
     private TextView txtNoResults;
     private TextView txtTotal;
+    private Button btnClear;
+    private Button btnCheckout;
     private float totalPrice = 0;
 
     @Nullable
@@ -46,8 +47,8 @@ public class CartFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         rvProducts = view.findViewById(R.id.cart_rv);
-        Button btnClear = view.findViewById(R.id.cart_btn_clear);
-        Button btnCheckout = view.findViewById(R.id.cart_btn_checkout);
+        btnClear = view.findViewById(R.id.cart_btn_clear);
+        btnCheckout = view.findViewById(R.id.cart_btn_checkout);
         txtTotal = view.findViewById(R.id.cart_txt_total);
         txtNoResults = view.findViewById(R.id.cart_txt_no_results);
 
@@ -58,23 +59,29 @@ public class CartFragment extends BaseFragment {
         rvProducts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         btnClear.setOnClickListener(v -> {
-            int size = products.size();
-            products.clear();
-            adapter.notifyItemRangeRemoved(0, size);
-            CartStore.getInstance().clear();
-            totalPrice = 0;
-            setTotalText();
+            clearCart();
         });
 
-        btnCheckout.setOnClickListener(v -> new CheckoutPopup(getParentActivity(), this).show());
+        btnCheckout.setOnClickListener(v -> new CheckoutPopup(getParentActivity(), this.getParentFragmentManager(), this::clearCart).show());
 
         setTotalText();
         loadProducts();
     }
 
+    private void clearCart(){
+        int size = products.size();
+        products.clear();
+        rvProducts.getAdapter().notifyItemRangeRemoved(0, size);
+        CartStore.getInstance().clear();
+        totalPrice = 0;
+        setTotalText();
+        setEmptyChartDisplayIfNeeded();
+    }
+
     private void loadProducts(){
         List<CartProduct> cartProducts = CartStore.getInstance().getAll();
         if(cartProducts.isEmpty()){
+            setEmptyChartDisplayIfNeeded();
             return;
         }
         RemoteServiceManager.getInstance().getProductsService().getProducts(ListUtils.map(cartProducts, CartProduct::getProductId),
@@ -83,8 +90,7 @@ public class CartFragment extends BaseFragment {
                     rvProducts.getAdapter().notifyItemRangeInserted(0, products.size());
                     totalPrice = calculateTotalPrice();
                     setTotalText();
-
-                    txtNoResults.setVisibility(products.isEmpty() ? View.VISIBLE : View.GONE);
+                    setEmptyChartDisplayIfNeeded();
                 },
                 new StandardResponseErrorCallback<List<Product>>(getParentActivity()) {});
     }
@@ -110,11 +116,20 @@ public class CartFragment extends BaseFragment {
             totalPrice = 0;
         }
         setTotalText();
+        setEmptyChartDisplayIfNeeded();
     }
 
     private void onProductQuantityChanged(Product product, float newQuantity, float oldQuantity){
         float diff = newQuantity - oldQuantity;
         totalPrice += product.getPrice() * diff;
         setTotalText();
+        setEmptyChartDisplayIfNeeded();
+    }
+
+    private void setEmptyChartDisplayIfNeeded(){
+        boolean isEmpty = products.isEmpty();
+        txtNoResults.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        btnCheckout.setEnabled(!isEmpty);
+        btnClear.setEnabled(!isEmpty);
     }
 }
