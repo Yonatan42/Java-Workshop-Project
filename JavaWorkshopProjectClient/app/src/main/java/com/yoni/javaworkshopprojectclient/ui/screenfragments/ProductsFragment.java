@@ -22,6 +22,7 @@ import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CatalogProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.FilterProductsPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.ProductDetailsAdminPopup;
+import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -59,10 +60,7 @@ public class ProductsFragment extends BaseFragment {
         rvProducts.setLayoutManager(new GridLayoutManager(getContext(),2));
 
         UIUtils.setViewsVisible(DataSets.getInstance().getCurrentUser().isAdminModeActive(), btnNew);
-        btnNew.setOnClickListener(v -> new ProductDetailsAdminPopup(getParentActivity(), newProduct -> {
-            products.add(newProduct);
-            adapter.notifyItemInserted(products.size()-2);
-        }).show());
+        btnNew.setOnClickListener(v -> new ProductDetailsAdminPopup(getParentActivity(), newProduct -> SimpleMessagePopup.createGenericTimed(getParentActivity(), "Product Inserted").show()).show());
 
         fabFilter.setOnClickListener(v -> {
             new FilterProductsPopup(getParentActivity(), productsFilter, DataSets.getInstance().getCategories(), newFilter -> {
