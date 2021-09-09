@@ -9,6 +9,7 @@ package com.yoni.javaworkshopprojectserver.service;
 import com.yoni.javaworkshopprojectserver.models.*;
 import com.yoni.javaworkshopprojectserver.utils.CollectionUtils;
 import com.yoni.javaworkshopprojectserver.utils.ErrorCodes;
+import com.yoni.javaworkshopprojectserver.utils.Logger;
 import com.yoni.javaworkshopprojectserver.utils.Result;
 
 import javax.ejb.LocalBean;
@@ -76,7 +77,7 @@ public class OrdersService extends BaseService {
             return Result.makeError(ErrorCodes.ORDERS_EMPTY);
         }
 
-        if(stockedProducts.stream().anyMatch(product -> product.getQuantity() <= 0 || !product.isEnabled())){
+        if(stockedProducts.size() != productMap.size() || stockedProducts.stream().anyMatch(product -> product.getQuantity() <= 0 || !product.isEnabled())){
             return Result.makeError(ErrorCodes.RESOURCES_UNAVAILABLE);
         }
 

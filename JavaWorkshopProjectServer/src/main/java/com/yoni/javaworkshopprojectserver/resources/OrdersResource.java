@@ -18,12 +18,9 @@ import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-// todo - fill in
 
 /**
  *
@@ -110,11 +107,11 @@ public class OrdersResource extends AbstractRestResource<Order> {
             @FormParam("productIds") List<Integer> productIds,
             @FormParam("productQuantities") List<Integer> productQuantities,
             @FormParam("creditCard") String creditCard,
-            @FormParam("cardExpiration") Date cardExpiration,
+            @FormParam("cardExpiration") long cardExpiration, // timestamp
             @FormParam("cardCVV") String cardCVV
     ){
         // todo - at least removed logging of credit card info
-        Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %tF\ncardCVV: %s", token, userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
+        Logger.logFormat(TAG, "<createOrder>\nAuthorization: %s\nuserId: %d\nemail: %s\nfirstName: %s\nlastName: %s\nphone: %s\naddress: %s\nproductIds: %s\nproductQuantities: %s\ncreditCard %s\ncardExpiration: %d\ncardCVV: %s", token, userId, email, fname, lname, phone, address, productIds, productQuantities, creditCard, cardExpiration, cardCVV);
         return ResponseLogger.loggedResponse(usersService.authenticateEncapsulated(token, (u, t) -> ResponseUtils.respondSafe(t, () -> {
             // todo - make a method that pretends to verify the credit card info
             Map<Integer, Integer> productMap = new HashMap<>();

@@ -33,7 +33,7 @@ public class OrderSummary {
     private float totalPrice;
     @SerializedName("transactionDate")
     @Expose
-    private Date transactionDate; // todo - add to view in db (creation date)
+    private long transactionDate; // timestamp
 
 
     // todo - delete constructors once we are connected to server
@@ -47,7 +47,7 @@ public class OrderSummary {
         this.phone = phone;
         this.address = address;
         this.totalPrice = totalPrice;
-        this.transactionDate = transactionDate;
+        this.transactionDate = transactionDate.getTime();
     }
 
     public int getId() {
@@ -115,11 +115,11 @@ public class OrderSummary {
     }
 
     public Date getTransactionDate() {
-        return transactionDate;
+        return new Date(transactionDate);
     }
 
     public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
+        this.transactionDate = transactionDate.getTime();
     }
 
     @Override

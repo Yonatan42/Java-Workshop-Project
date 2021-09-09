@@ -8,7 +8,6 @@ package com.yoni.javaworkshopprojectserver.models;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

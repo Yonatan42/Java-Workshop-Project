@@ -9,8 +9,6 @@ import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 
 /**
  *
@@ -36,7 +34,7 @@ public class OrderSummary implements Serializable {
     @Expose
     private float totalPrice;
     @Expose
-    private Date transactionDate;
+    private long transactionDate; // timestamp
 
 
     public OrderSummary() {
@@ -51,7 +49,7 @@ public class OrderSummary implements Serializable {
         this.phone = phone;
         this.address = address;
         this.totalPrice = totalPrice;
-        this.transactionDate = transactionDate;
+        this.transactionDate = transactionDate.getTime();
     }
 
     public OrderSummary(Order order){
