@@ -53,7 +53,9 @@ public class CartProductsAdapter extends BaseProductsAdapter<CartProductsAdapter
         Product product = products.get(position);
         holder.btnRemove.setOnClickListener(v -> {
             CartStore.getInstance().delete(product.getId());
+            products.remove(product);
             notifyItemRemoved(position);
+            notifyItemRangeChanged(position, products.size());
             if(onProductRemoved != null){
                 onProductRemoved.accept(product);
             }

@@ -1,5 +1,6 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public abstract class BaseProductsAdapter<T extends BaseProductsAdapter.ViewHold
         holder.itemView.setOnClickListener(v -> onItemClicked(product));
 
         Stepper stepperCart = holder.stepperCart;
+        stepperCart.setOnValueChangedListener(null);
         UIUtils.setViewsVisible(!DataSets.getInstance().getCurrentUser().isAdminModeActive(), stepperCart);
         stepperCart.setMaxValue(product.getStock());
         stepperCart.setValue(product.getCartQuantity());

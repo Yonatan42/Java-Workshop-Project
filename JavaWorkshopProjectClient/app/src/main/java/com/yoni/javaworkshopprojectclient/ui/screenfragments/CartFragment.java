@@ -1,6 +1,7 @@
 package com.yoni.javaworkshopprojectclient.ui.screenfragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class CartFragment extends BaseFragment {
 
     private final List<Product> products = new ArrayList<>();
     private RecyclerView rvProducts;
+    private TextView txtNoResults;
     private TextView txtTotal;
     private float totalPrice = 0;
 
@@ -47,6 +49,7 @@ public class CartFragment extends BaseFragment {
         Button btnClear = view.findViewById(R.id.cart_btn_clear);
         Button btnCheckout = view.findViewById(R.id.cart_btn_checkout);
         txtTotal = view.findViewById(R.id.cart_txt_total);
+        txtNoResults = view.findViewById(R.id.cart_txt_no_results);
 
         products.clear();
 
@@ -80,6 +83,8 @@ public class CartFragment extends BaseFragment {
                     rvProducts.getAdapter().notifyItemRangeInserted(0, products.size());
                     totalPrice = calculateTotalPrice();
                     setTotalText();
+
+                    txtNoResults.setVisibility(products.isEmpty() ? View.VISIBLE : View.GONE);
                 },
                 new StandardResponseErrorCallback<List<Product>>(getParentActivity()) {});
     }
@@ -98,7 +103,12 @@ public class CartFragment extends BaseFragment {
     }
 
     private void onProductRemoved(Product product){
-        totalPrice -= product.getPrice() * product.getCartQuantity();
+        float price = product.getPrice() * product.getCartQuantity();
+        totalPrice -= price;
+        final float MIN_THRESHOLD = 0.01f;
+        if(Math.abs(totalPrice) < MIN_THRESHOLD){
+            totalPrice = 0;
+        }
         setTotalText();
     }
 
