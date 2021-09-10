@@ -1,6 +1,7 @@
 .DS_Store
 ~$*
-/JavaWorkshopProjectServer/target/
+JavaWorkshopProjectServer/target/
+JavaWorkshopProjectServer/.idea/workspace.xml
 *.iml
 .gradle
 JavaWorkshopProjectClient/local.properties
