@@ -116,7 +116,8 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
                             }
                             ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
                         }
-                    });
+                    },
+                    parentActivity.getLoader());
         });
 
         holder.itemView.setOnClickListener(v -> {

@@ -121,7 +121,8 @@ public class ProductsFragment extends BaseFragment {
                     public void onPreErrorResponse() {
                         loadInProgress = false;
                     }
-                });
+                },
+                currentPage == 0 ? getParentActivity().getLoader() : null);
     }
 
 

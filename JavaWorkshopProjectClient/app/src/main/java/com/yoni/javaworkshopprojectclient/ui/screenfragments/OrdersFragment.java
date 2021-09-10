@@ -121,12 +121,8 @@ public class OrdersFragment extends BaseFragment {
                     public void onPreErrorResponse() {
                         setLoadInProgress(false);
                     }
-
-                    @Override
-                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<List<OrderSummary>>> call, ServerResponse.ServerResponseError responseError) {
-                        // todo - check the error code - we want to know if the user id doesn't exist
-                    }
-                });
+                },
+                currentPage == 0 ? getParentActivity().getLoader() : null);
     }
 
     private void initialOrdersLoad() {

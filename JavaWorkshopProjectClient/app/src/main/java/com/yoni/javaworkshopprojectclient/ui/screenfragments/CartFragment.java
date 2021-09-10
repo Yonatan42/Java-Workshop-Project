@@ -92,7 +92,8 @@ public class CartFragment extends BaseFragment {
                     setTotalText();
                     setEmptyChartDisplayIfNeeded();
                 },
-                new StandardResponseErrorCallback<List<Product>>(getParentActivity()) {});
+                new StandardResponseErrorCallback<>(getParentActivity()),
+                getParentActivity().getLoader());
     }
 
     private float calculateTotalPrice(){

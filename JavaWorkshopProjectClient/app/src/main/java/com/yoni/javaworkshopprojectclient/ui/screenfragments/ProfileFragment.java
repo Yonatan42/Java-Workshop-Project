@@ -115,9 +115,9 @@ public class ProfileFragment extends BaseFragment {
                         }
                         ErrorPopup.createGenericOneOff(getParentActivity(), errorMessage).show();
                     }
-                }
-
-        );});
+                },
+                    getParentActivity().getLoader());
+        });
 
         userInfoFragment.set(getCurrentUser());
     }

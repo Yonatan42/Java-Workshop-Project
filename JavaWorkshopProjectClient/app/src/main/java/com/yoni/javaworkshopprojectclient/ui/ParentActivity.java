@@ -26,6 +26,7 @@ import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListen
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
+import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
 import com.yoni.javaworkshopprojectclient.ui.screenfragments.BaseFragment;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
@@ -53,6 +54,7 @@ public class ParentActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private TabLayout tabLayout;
+    private Loader appLoader;
 
     private final Event<OnActivityResultListener> onActivityResultEvent = new Event<>();
     private final Event<OnRequestPermissionResultListener> onPermissionResultEvent = new Event<>();
@@ -65,6 +67,11 @@ public class ParentActivity extends AppCompatActivity {
         initializeLocalStores();
         initializeFragments();
         initializeTabLayout();
+        initializeLoader();
+    }
+
+    private void initializeLoader() {
+        appLoader = new Loader(this);
     }
 
     private void initializeLocalStores(){
@@ -211,5 +218,9 @@ public class ParentActivity extends AppCompatActivity {
         DataSets.getInstance().setCurrentUser(loginData.getUser());
         DataSets.getInstance().setCategories(loginData.getCategories());
         setSelectedTab(ParentActivity.INITIAL_TAB);
+    }
+
+    public Loader getLoader(){
+        return appLoader;
     }
 }

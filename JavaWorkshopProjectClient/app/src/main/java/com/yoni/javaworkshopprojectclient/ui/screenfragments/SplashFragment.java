@@ -60,7 +60,8 @@ public class SplashFragment extends BaseFragment {
                         }
                         ErrorPopup.createGenericOneOff(getParentActivity(), errorMessage).show();
                     }
-                });
+                },
+                getParentActivity().getLoader());
     }
 
 

@@ -35,7 +35,7 @@
         <entry key="app/src/main/res/layout/popup_error.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/layout/popup_filter_products.xml" value="0.33" />
         <entry key="app/src/main/res/layout/popup_get_image.xml" value="0.2515625" />
-        <entry key="app/src/main/res/layout/popup_loader.xml" value="0.43802083333333336" />
+        <entry key="app/src/main/res/layout/popup_loader.xml" value="0.25" />
         <entry key="app/src/main/res/layout/popup_login.xml" value="0.259375" />
         <entry key="app/src/main/res/layout/popup_order_details.xml" value="0.27708333333333335" />
         <entry key="app/src/main/res/layout/popup_payment_info.xml" value="0.43802083333333336" />

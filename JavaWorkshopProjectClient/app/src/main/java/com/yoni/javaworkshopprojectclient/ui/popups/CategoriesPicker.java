@@ -68,7 +68,8 @@ public class CategoriesPicker extends AlertDialog {
                         public void onPreErrorResponse() {
                             btnNew.setEnabled(true);
                         }
-                    });
+                    },
+                    parentActivity.getLoader());
         });
 
         btnBack.setOnClickListener(v -> dismiss());

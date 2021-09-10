@@ -67,7 +67,8 @@ public class LoginPopup extends AlertDialog {
                             }
                             ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
                         }
-                    });
+                    },
+                    parentActivity.getLoader());
         });
 
         btnReg.setOnClickListener(v -> {

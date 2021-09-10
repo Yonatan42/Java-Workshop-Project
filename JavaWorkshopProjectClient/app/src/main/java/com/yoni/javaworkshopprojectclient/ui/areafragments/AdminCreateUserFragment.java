@@ -90,7 +90,8 @@ public class AdminCreateUserFragment extends Fragment {
                         ErrorPopup.createGenericOneOff(getContext(), errorMessage).show();
 
                     }
-                }
+                },
+                ((ParentActivity) getActivity()).getLoader()
         );
     }
 

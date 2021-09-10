@@ -164,7 +164,8 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                             }
                             ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
                         }
-                    });
+                    },
+                    parentActivity.getLoader());
         });
 
         btnDelete.setOnClickListener(v -> {
@@ -187,7 +188,8 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                             }
                             ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
                         }
-                    });
+                    },
+                    parentActivity.getLoader());
         });
     }
 

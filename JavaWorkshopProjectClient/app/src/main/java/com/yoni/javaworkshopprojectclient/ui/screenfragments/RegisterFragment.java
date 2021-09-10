@@ -82,6 +82,7 @@ public class RegisterFragment extends BaseFragment {
                         }
                         ErrorPopup.createGenericOneOff(getParentActivity(), errorMessage).show();
                     }
-                });
+                },
+                getParentActivity().getLoader());
     }
 }
