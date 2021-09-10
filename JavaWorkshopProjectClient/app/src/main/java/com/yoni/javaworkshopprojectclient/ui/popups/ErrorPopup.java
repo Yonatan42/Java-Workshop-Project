@@ -12,7 +12,11 @@ import com.yoni.javaworkshopprojectclient.R;
 public class ErrorPopup extends AlertDialog {
 
     public static ErrorPopup createGenericOneOff(Context context){
-        return new ErrorPopup(context, null);
+        return createGenericOneOff(context, null);
+    }
+
+    public static ErrorPopup createGenericOneOff(Context context, String message){
+        return new ErrorPopup(context, message);
     }
 
     public ErrorPopup(Context context, String message){

@@ -25,16 +25,19 @@ public class StandardResponseErrorCallback<T> implements ResponseErrorCallback<T
     public void onResponseError(@NonNull Call<ServerResponse<T>> call, ServerResponse.ServerResponseError responseError){
         onPreErrorResponse();
         switch (responseError.getCode()){
-            case ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE:
-            case ServerResponse.ServerResponseError.SERVER_UNKNOWN_ERROR_CODE:
+            case ErrorCodes.UNKNOWN_ERROR:
+            case ErrorCodes.SERVER_UNKNOWN_ERROR:
                 if(retryBlock != null) {
                     new ErrorPopup(parentActivity, parentActivity.getString(R.string.error_check_internet), retryBlock).show();
                 }
                 else{
-                    new ErrorPopup(parentActivity, parentActivity.getString(R.string.error_check_internet)).show();
+                    ErrorPopup.createGenericOneOff(parentActivity, parentActivity.getString(R.string.error_check_internet)).show();
                 }
                 return;
-            case ServerResponse.ServerResponseError.INVALID_TOKEN_CODE:
+            case ErrorCodes.USERS_UNAUTHORIZED:
+                ErrorPopup.createGenericOneOff(parentActivity, parentActivity.getString(R.string.error_access_denied)).show();
+                return;
+            case ErrorCodes.TOKEN_INVALID:
                 parentActivity.logoutUser();
                 return;
 

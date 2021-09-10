@@ -148,7 +148,7 @@ public class UsersResource extends BaseAuthenticatedResource{
                     errorMsg = "provided email doesn't exist";
                     status = Response.Status.UNAUTHORIZED;
                     break;
-                    case ErrorCodes.USERS_PASSWORD_MISSMATCH:
+                    case ErrorCodes.USERS_PASSWORD_MISMATCH:
                     errorMsg = "login failed";
                     status = Response.Status.FORBIDDEN;
                     break;

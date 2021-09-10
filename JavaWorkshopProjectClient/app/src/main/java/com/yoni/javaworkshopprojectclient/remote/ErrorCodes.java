@@ -1,21 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.yoni.javaworkshopprojectserver.utils;
+package com.yoni.javaworkshopprojectclient.remote;
 
-/**
- *
- * @author Yoni
- */
 public class ErrorCodes {
+    public static final int UNKNOWN_ERROR = 0;
 
+    public static final int SERVER_UNKNOWN_ERROR = 100;
 
-
-    private ErrorCodes(){}
-
-    public static final int UNKNOWN = 100;
     public static final int PAGE_NOT_FOUND = 200;
 
     public static final int PERSISTENCE_GENERAL = 300;
@@ -38,8 +27,5 @@ public class ErrorCodes {
     public static final int ORDERS_GENERAL = 700;
     public static final int ORDERS_EMPTY = 701;
     public static final int ORDERS_FAILED_CREDIT_VERIFICATION = 702;
-
-
-    public static final String UNKNOWN_ERROR_MSG = "an unknown error occurred";
 
 }

@@ -10,10 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
+
+import retrofit2.Call;
 
 public class RegisterFragment extends BaseFragment {
 
@@ -59,6 +64,20 @@ public class RegisterFragment extends BaseFragment {
                     @Override
                     public void onPreErrorResponse() {
                         profileDetailsFrag.setEditable(true);
+                    }
+
+                    @Override
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<LoginResponse>> call, ServerResponse.ServerResponseError responseError) {
+                        String errorMessage;
+                        switch (responseError.getCode()){
+                            case ErrorCodes.USERS_ALREADY_EXISTS:
+                                errorMessage = getString(R.string.error_user_already_exists);
+                                break;
+                            default:
+                                super.onUnhandledResponseError(call, responseError);
+                                return;
+                        }
+                        ErrorPopup.createGenericOneOff(getParentActivity(), errorMessage).show();
                     }
                 });
     }

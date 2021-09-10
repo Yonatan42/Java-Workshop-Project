@@ -6,13 +6,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
+
+import retrofit2.Call;
 
 public class LoginPopup extends AlertDialog {
 
@@ -39,7 +45,24 @@ public class LoginPopup extends AlertDialog {
                         parentActivity.loginUser(result);
                         dismiss();
                     },
-                    new StandardResponseErrorCallback<LoginResponse>(parentActivity));
+                    new StandardResponseErrorCallback<LoginResponse>(parentActivity){
+                        @Override
+                        public void onUnhandledResponseError(@NonNull Call<ServerResponse<LoginResponse>> call, ServerResponse.ServerResponseError responseError) {
+                            String errorMessage;
+                            switch (responseError.getCode()){
+                                case ErrorCodes.USERS_NO_SUCH_USER:
+                                    errorMessage = parentActivity.getString(R.string.error_user_doesnt_exist);
+                                    break;
+                                case ErrorCodes.USERS_PASSWORD_MISMATCH:
+                                    errorMessage = parentActivity.getString(R.string.error_user_credential_mismatch);
+                                    break;
+                                default:
+                                    super.onUnhandledResponseError(call, responseError);
+                                    return;
+                            }
+                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
+                        }
+                    });
         });
 
         btnReg.setOnClickListener(v -> {

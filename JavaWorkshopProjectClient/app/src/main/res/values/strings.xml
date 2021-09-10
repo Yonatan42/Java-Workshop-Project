@@ -61,4 +61,8 @@
     <string name="admin_invalidate_token_btn_invalidate">invalidate</string>
     <string name="admin_invalidate_token_success">Token Invalidated</string>
     <string name="admin_create_user_success">User Created</string>
+    <string name="error_access_denied">you don\'t have access to this feature</string>
+    <string name="error_user_already_exists">A user with the given credentials already exists</string>
+    <string name="error_user_doesnt_exist">no user found for the given credentials</string>
+    <string name="error_user_credential_mismatch">one or more of the given credentials don\'t match</string>
 </resources>

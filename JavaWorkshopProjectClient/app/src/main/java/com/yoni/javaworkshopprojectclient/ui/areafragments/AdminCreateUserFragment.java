@@ -12,11 +12,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
+
+import retrofit2.Call;
 
 public class AdminCreateUserFragment extends Fragment {
 
@@ -69,6 +74,21 @@ public class AdminCreateUserFragment extends Fragment {
                     @Override
                     public void onPreErrorResponse() {
                         setEditable(true);
+                    }
+
+                    @Override
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<User>> call, ServerResponse.ServerResponseError responseError) {
+                        String errorMessage;
+                        switch (responseError.getCode()){
+                            case ErrorCodes.USERS_ALREADY_EXISTS:
+                                errorMessage = getString(R.string.error_user_already_exists);
+                                break;
+                            default:
+                                super.onUnhandledResponseError(call, responseError);
+                                return;
+                        }
+                        ErrorPopup.createGenericOneOff(getContext(), errorMessage).show();
+
                     }
                 }
         );

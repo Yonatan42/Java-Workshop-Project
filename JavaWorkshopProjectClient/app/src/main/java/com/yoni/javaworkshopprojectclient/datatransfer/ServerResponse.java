@@ -45,10 +45,6 @@ public class ServerResponse<T> {
     }
 
     public static class ServerResponseError {
-        // todo - create an error code class/enum
-        public static final int UNKNOWN_ERROR_CODE = 0;
-        public static final int SERVER_UNKNOWN_ERROR_CODE = 100;
-        public static final int INVALID_TOKEN_CODE = 502;
 
         @SerializedName("message")
         @Expose

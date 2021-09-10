@@ -167,7 +167,7 @@ public class UsersService extends BaseService {
         }
 
         if(!BcryptUtils.checkEq(pass, user.getPass())){
-            return Result.makeError(ErrorCodes.USERS_PASSWORD_MISSMATCH);
+            return Result.makeError(ErrorCodes.USERS_PASSWORD_MISMATCH);
         }
 
         return Result.makeValue(user);

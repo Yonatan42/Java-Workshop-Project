@@ -42,6 +42,6 @@ public abstract class ServerCallback<T> implements Callback<ServerResponse<T>>, 
         }
     }
     public final void onFailure(@NonNull Call<ServerResponse<T>> call, Throwable t){
-        onResponseError(call, new ServerResponse.ServerResponseError(t.getMessage(), ServerResponse.ServerResponseError.UNKNOWN_ERROR_CODE));
+        onResponseError(call, new ServerResponse.ServerResponseError(t.getMessage(), ErrorCodes.UNKNOWN_ERROR));
     }
 }
