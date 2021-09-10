@@ -13,11 +13,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
+
+import retrofit2.Call;
 
 public class AdminInvalidateTokenFragment extends Fragment {
 
@@ -52,6 +57,21 @@ public class AdminInvalidateTokenFragment extends Fragment {
                         @Override
                         public void onPreErrorResponse() {
                             btnInvalidate.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onUnhandledResponseError(@NonNull Call<ServerResponse<Void>> call, ServerResponse.ServerResponseError responseError) {
+                            String errorMessage;
+                            switch (responseError.getCode()){
+                                case ErrorCodes.USERS_NO_SUCH_USER:
+                                    errorMessage = getContext().getString(R.string.error_user_doesnt_exist);
+                                    break;
+                                default:
+                                    super.onUnhandledResponseError(call, responseError);
+                                    return;
+                            }
+                            ErrorPopup.createGenericOneOff(getContext(), errorMessage).show();
+
                         }
                     }
             );

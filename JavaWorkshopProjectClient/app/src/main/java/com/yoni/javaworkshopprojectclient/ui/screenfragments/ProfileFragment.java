@@ -11,14 +11,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.SimpleMessagePopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
+
+import retrofit2.Call;
 
 public class ProfileFragment extends BaseFragment {
 
@@ -90,7 +94,24 @@ public class ProfileFragment extends BaseFragment {
                     SimpleMessagePopup.createGenericTimed(getParentActivity(), getString(R.string.profile_update_complete)).show();
                     btnCancel.callOnClick();
                 },
-                new StandardResponseErrorCallback<User>(getParentActivity()) {}
+                new StandardResponseErrorCallback<User>(getParentActivity()) {
+                    @Override
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<User>> call, ServerResponse.ServerResponseError responseError) {
+                        String errorMessage;
+                        switch (responseError.getCode()){
+                            case ErrorCodes.USERS_NO_SUCH_USER:
+                                errorMessage = getString(R.string.error_user_doesnt_exist);
+                                break;
+                            case ErrorCodes.USERS_ALREADY_EXISTS:
+                                errorMessage = getString(R.string.error_user_already_exists);
+                                break;
+                            default:
+                                super.onUnhandledResponseError(call, responseError);
+                                return;
+                        }
+                        ErrorPopup.createGenericOneOff(getParentActivity(), errorMessage).show();
+                    }
+                }
 
         ));
 

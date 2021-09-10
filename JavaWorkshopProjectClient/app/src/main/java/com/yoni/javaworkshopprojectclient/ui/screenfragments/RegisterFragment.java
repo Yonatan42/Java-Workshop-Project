@@ -70,6 +70,9 @@ public class RegisterFragment extends BaseFragment {
                     public void onUnhandledResponseError(@NonNull Call<ServerResponse<LoginResponse>> call, ServerResponse.ServerResponseError responseError) {
                         String errorMessage;
                         switch (responseError.getCode()){
+                            case ErrorCodes.USERS_NO_SUCH_USER:
+                                errorMessage = getString(R.string.error_user_doesnt_exist);
+                                break;
                             case ErrorCodes.USERS_ALREADY_EXISTS:
                                 errorMessage = getString(R.string.error_user_already_exists);
                                 break;
