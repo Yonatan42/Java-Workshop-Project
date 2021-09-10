@@ -11,16 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.ui.popups.OrderDetailsPopup;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;
+
+import retrofit2.Call;
 
 public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAdapter.ViewHolder> {
 
@@ -97,6 +102,19 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
                         public void onPreErrorResponse() {
                             parent.setEnabled(true);
                         }
+
+                        @Override
+                        public void onUnhandledResponseError(@NonNull Call<ServerResponse<OrderDetails>> call, ServerResponse.ServerResponseError responseError) {
+                            String errorMessage;
+                            switch (responseError.getCode()){
+                                case ErrorCodes.RESOURCES_NOT_FOUND:
+                                    errorMessage = parentActivity.getString(R.string.error_no_order_found);
+                                    break;
+                                default:
+                                    super.onUnhandledResponseError(call, responseError);
+                                    return;
+                            }
+                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();                        }
                     });
         });
 

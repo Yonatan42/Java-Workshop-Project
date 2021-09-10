@@ -6,14 +6,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
@@ -22,6 +25,8 @@ import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import retrofit2.Call;
 
 public class CheckoutPopup extends AlertDialog {
 
@@ -89,6 +94,26 @@ public class CheckoutPopup extends AlertDialog {
                     public void onPreErrorResponse() {
                         btnOk.setEnabled(true);
                     }
+
+                    @Override
+                    public void onUnhandledResponseError(@NonNull Call<ServerResponse<Integer>> call, ServerResponse.ServerResponseError responseError) {
+                        String errorMessage;
+                        switch (responseError.getCode()){
+                            case ErrorCodes.USERS_NO_SUCH_USER:
+                                errorMessage = parentActivity.getString(R.string.error_no_user_found);
+                                break;
+                            case ErrorCodes.RESOURCES_UNAVAILABLE:
+                                errorMessage = parentActivity.getString(R.string.error_product_disabled_or_too_few);
+                                break;
+                            case ErrorCodes.ORDERS_EMPTY:
+                                errorMessage = parentActivity.getString(R.string.error_empty_order);
+                                break;
+                            default:
+                                super.onUnhandledResponseError(call, responseError);
+                                return;
+                        }
+                        ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();                        }
+
                 }
         );
     }

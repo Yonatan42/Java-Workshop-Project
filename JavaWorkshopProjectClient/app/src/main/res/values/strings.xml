@@ -66,5 +66,9 @@
     <string name="error_user_doesnt_exist">no user found for the given credentials</string>
     <string name="error_user_credential_mismatch">one or more of the given credentials don\'t match</string>
     <string name="error_product_with_no_categories">a product must belong to at least one category</string>
-    <string name="error_no_resource_found">nothing found for the given id</string>
+    <string name="error_no_product_found">no matching product found</string>
+    <string name="error_no_order_found">no matching order found</string>
+    <string name="error_no_user_found">no matching user found</string>
+    <string name="error_product_disabled_or_too_few">one or more of the selected products is no longer available</string>
+    <string name="error_empty_order">an order must contain at least one products</string>
 </resources>

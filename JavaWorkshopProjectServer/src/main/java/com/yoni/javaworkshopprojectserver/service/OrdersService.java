@@ -73,7 +73,8 @@ public class OrdersService extends BaseService {
             return Result.makeError(ErrorCodes.ORDERS_EMPTY);
         }
 
-        if(stockedProducts.size() != productMap.size() || stockedProducts.stream().anyMatch(product -> product.getQuantity() <= 0 || !product.isEnabled())){
+        if(stockedProducts.size() != productMap.size() ||
+                stockedProducts.stream().anyMatch(product -> !product.isEnabled() ||  product.getQuantity() < productMap.get(product.getId()) )){
             return Result.makeError(ErrorCodes.RESOURCES_UNAVAILABLE);
         }
 

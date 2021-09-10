@@ -138,7 +138,7 @@ public class OrdersResource extends BaseAuthenticatedResource {
             switch (errorCode){
                 case ErrorCodes.USERS_NO_SUCH_USER:
                     status = Response.Status.FORBIDDEN;
-                    errorMessage = "one or more of the products is no longer available";
+                    errorMessage = "no such user exists";
                     break;
                 case ErrorCodes.RESOURCES_UNAVAILABLE:
                     status = Response.Status.GONE;

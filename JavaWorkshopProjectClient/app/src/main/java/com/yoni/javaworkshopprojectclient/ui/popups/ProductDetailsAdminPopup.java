@@ -151,7 +151,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                                     errorMessage = parentActivity.getString(R.string.error_product_with_no_categories);
                                     break;
                                 case ErrorCodes.RESOURCES_NOT_FOUND:
-                                    errorMessage = parentActivity.getString(R.string.error_no_resource_found);
+                                    errorMessage = parentActivity.getString(R.string.error_no_product_found);
                                     break;
                                 default:
                                     super.onUnhandledResponseError(call, responseError);
@@ -174,7 +174,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                             String errorMessage;
                             switch (responseError.getCode()){
                                 case ErrorCodes.RESOURCES_NOT_FOUND:
-                                    errorMessage = parentActivity.getString(R.string.error_no_resource_found);
+                                    errorMessage = parentActivity.getString(R.string.error_no_product_found);
                                     break;
                                 default:
                                     super.onUnhandledResponseError(call, responseError);
