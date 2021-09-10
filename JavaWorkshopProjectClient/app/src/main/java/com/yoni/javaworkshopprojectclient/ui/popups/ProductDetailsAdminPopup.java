@@ -5,11 +5,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
+import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
 import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
@@ -19,6 +22,8 @@ import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
 
 
 public class ProductDetailsAdminPopup extends ProductDetailsPopup {
@@ -137,7 +142,24 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                         callback.accept(insertUpdateProduct);
                         dismiss();
                     },
-                    new StandardResponseErrorCallback<Product>(parentActivity) {});
+                    new StandardResponseErrorCallback<Product>(parentActivity) {
+                        @Override
+                        public void onUnhandledResponseError(@NonNull Call<ServerResponse<Product>> call, ServerResponse.ServerResponseError responseError) {
+                            String errorMessage;
+                            switch (responseError.getCode()){
+                                case ErrorCodes.PRODUCTS_NO_CATEGORIES:
+                                    errorMessage = parentActivity.getString(R.string.error_product_with_no_categories);
+                                    break;
+                                case ErrorCodes.RESOURCES_NOT_FOUND:
+                                    errorMessage = parentActivity.getString(R.string.error_no_resource_found);
+                                    break;
+                                default:
+                                    super.onUnhandledResponseError(call, responseError);
+                                    return;
+                            }
+                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
+                        }
+                    });
         });
 
         btnDelete.setOnClickListener(v -> {
@@ -146,7 +168,20 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                         onProductDeleted.accept(result); // will do notify removed
                         dismiss();
                     },
-                    new StandardResponseErrorCallback<Integer>(parentActivity) {});
+                    new StandardResponseErrorCallback<Integer>(parentActivity) {
+                        @Override
+                        public void onUnhandledResponseError(@NonNull Call<ServerResponse<Integer>> call, ServerResponse.ServerResponseError responseError) {
+                            String errorMessage;
+                            switch (responseError.getCode()){
+                                case ErrorCodes.RESOURCES_NOT_FOUND:
+                                    errorMessage = parentActivity.getString(R.string.error_no_resource_found);
+                                    break;
+                                default:
+                                    super.onUnhandledResponseError(call, responseError);
+                                    return;
+                            }
+                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();                        }
+                    });
         });
     }
 

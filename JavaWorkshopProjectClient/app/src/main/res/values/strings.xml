@@ -65,4 +65,6 @@
     <string name="error_user_already_exists">A user with the given credentials already exists</string>
     <string name="error_user_doesnt_exist">no user found for the given credentials</string>
     <string name="error_user_credential_mismatch">one or more of the given credentials don\'t match</string>
+    <string name="error_product_with_no_categories">a product must belong to at least one category</string>
+    <string name="error_no_resource_found">nothing found for the given id</string>
 </resources>
