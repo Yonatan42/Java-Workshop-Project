@@ -113,7 +113,8 @@ public class CheckoutPopup extends AlertDialog {
                                 super.onUnhandledResponseError(call, responseError);
                                 return;
                         }
-                        ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();                        }
+                        ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
+                    }
 
                 }
         );

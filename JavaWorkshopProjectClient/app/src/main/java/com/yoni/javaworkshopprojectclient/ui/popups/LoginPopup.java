@@ -17,6 +17,8 @@ import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.utils.AppScreen;
+import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
+import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import retrofit2.Call;
 
@@ -36,9 +38,12 @@ public class LoginPopup extends AlertDialog {
 
 
         btnSignin.setOnClickListener(v -> {
-            // todo - validate forms - make validation utils class
-            String email = txtEmail.getText().toString().toLowerCase().trim();
+            String email = UIUtils.getTrimmedText(txtEmail).toLowerCase();
             String pass = txtPass.getText().toString();
+
+            if(!validateForm(email, pass)){
+                return;
+            }
 
             RemoteServiceManager.getInstance().getUsersService().login(email, pass,
                     (call, response, result) -> {
@@ -74,6 +79,28 @@ public class LoginPopup extends AlertDialog {
 
         setView(layout);
         setCancelable(false);
+    }
+
+    private boolean validateForm(String email, String pass) {
+        String errorMessage;
+        if(email.isEmpty()){
+            errorMessage = "email must be filled in";
+        }
+        else if(!InputValidationUtils.validateEmail(email)){
+            errorMessage = "email is not valid";
+        }
+        else if(pass.isEmpty()){
+            errorMessage = "password must be filled in";
+        }
+        else if(!InputValidationUtils.validatePassword(pass)){
+            errorMessage = "passwords must be at least 8 characters containing at least one letter and one number";
+        }
+        else { // valid
+            return true;
+        }
+
+        ErrorPopup.createGenericOneOff(getContext(), errorMessage).show();
+        return false;
     }
 
     @Override

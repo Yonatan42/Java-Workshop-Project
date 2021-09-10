@@ -114,7 +114,8 @@ public class OrderSummariesAdapter extends RecyclerView.Adapter<OrderSummariesAd
                                     super.onUnhandledResponseError(call, responseError);
                                     return;
                             }
-                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();                        }
+                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
+                        }
                     });
         });
 

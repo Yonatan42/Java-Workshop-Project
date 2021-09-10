@@ -19,6 +19,8 @@ import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
+import java.util.Locale;
+
 public class UserInfoFragment extends Fragment {
 
     private EditText txtFName;
@@ -97,24 +99,24 @@ public class UserInfoFragment extends Fragment {
         return UIUtils.getTrimmedText(txtFName);
     }
 
-    public void setFirstName(String fname) {
-        txtFName.setText(fname);
+    public void setFirstName(String firstName) {
+        txtFName.setText(firstName);
     }
 
     public String getLastName() {
         return UIUtils.getTrimmedText(txtLName);
     }
 
-    public void setLastName(String lname) {
-        txtLName.setText(lname);
+    public void setLastName(String lastName) {
+        txtLName.setText(lastName);
     }
 
     public String getEmail() {
-        return UIUtils.getTrimmedText(txtEmail);
+        return UIUtils.getTrimmedText(txtEmail).toLowerCase();
     }
 
     public void setEmail(String email) {
-        txtEmail.setText(email);
+        txtEmail.setText(email.toLowerCase());
     }
 
     public String getPassword() {

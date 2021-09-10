@@ -18,6 +18,7 @@ import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
+import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -115,6 +116,10 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
             String desc = UIUtils.getTrimmedText(txtDesc);
             float price = UIUtils.tryGetFloatValue(txtPrice, -1); // todo verify that the value is > 0
 
+            if(!validateForm(title, desc, price, selectedCategories, newStock)){
+                return;
+            }
+
             Consumer<Product> callback;
             Product insertUpdateProduct;
             if(product == null){
@@ -133,7 +138,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
             insertUpdateProduct.setDescription(desc);
             insertUpdateProduct.setPrice(price);
             insertUpdateProduct.setCategories(selectedCategories);
-            insertUpdateProduct.setImageData(newBase64Image);
+            insertUpdateProduct.setImageData(newBase64Image); // allowed to be null
             insertUpdateProduct.setStock(newStock);
 
             RemoteServiceManager.getInstance().getProductsService().insertUpdateProduct(insertUpdateProduct,
@@ -180,9 +185,39 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
                                     super.onUnhandledResponseError(call, responseError);
                                     return;
                             }
-                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();                        }
+                            ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
+                        }
                     });
         });
+    }
+
+    private boolean validateForm(String title, String desc, float price, List<ProductCategory> selectedCategories, int newStock){
+        String errorMessage;
+
+        if(title.isEmpty()){
+            errorMessage = "title must be filled in";
+        }
+        else if(!InputValidationUtils.validateProductTitle(title)){
+            errorMessage = "title is not valid";
+        }
+        else if(!desc.isEmpty() && !InputValidationUtils.validateProductDesc(title)){
+            errorMessage = "description is not valid";
+        }
+        else if(price <= 0){
+            errorMessage = "price must be filled in and positive";
+        }
+        else if(selectedCategories.isEmpty()){
+            errorMessage = "at least one category must be selected";
+        }
+        else if(newStock < 0){ // allowed to be created with 0 stock
+            errorMessage = "stock must be filled in";
+        }
+        else{ // valid
+            return true;
+        }
+
+        ErrorPopup.createGenericOneOff(getContext(), errorMessage).show();
+        return false;
     }
 
 }
