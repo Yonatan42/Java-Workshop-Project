@@ -1,5 +1,6 @@
 .DS_Store
 ~$*
+*.tmp
 JavaWorkshopProjectServer/target/
 JavaWorkshopProjectServer/.idea/workspace.xml
 *.iml
