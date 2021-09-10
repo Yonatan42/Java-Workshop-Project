@@ -114,7 +114,7 @@ public class UsersService extends BaseService {
         user.setPhone(phone);
         user.setAddress(address);
 
-        withTransaction(() -> getEntityManager().merge(user));
+        withTransaction(addValidation(user, () -> getEntityManager().merge(user)));
 
         getEntityManager().refresh(user);
 
@@ -138,7 +138,7 @@ public class UsersService extends BaseService {
         user.setPass(BcryptUtils.encrypt(pass));
         user.setAdmin(isAdmin);
 
-        withTransaction(() -> getEntityManager().persist(user));
+        withTransaction(addValidation(user, () -> getEntityManager().persist(user)));
 
         getEntityManager().refresh(user);
 

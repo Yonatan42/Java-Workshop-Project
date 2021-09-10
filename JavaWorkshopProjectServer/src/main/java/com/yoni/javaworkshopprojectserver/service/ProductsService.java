@@ -132,7 +132,7 @@ public class ProductsService extends BaseService {
 
         stock.setEnabled(isEnabled);
 
-        withTransaction(() -> getEntityManager().merge(stock));
+        withTransaction(addValidation(stock, () -> getEntityManager().merge(stock)));
         getEntityManager().refresh(stock);
 
         return Result.makeValue(null);
@@ -141,7 +141,7 @@ public class ProductsService extends BaseService {
     public Category insertCategory(String title){
         Category newCategory = new Category();
         newCategory.setTitle(title);
-        withTransaction(() -> getEntityManager().persist(newCategory));
+        withTransaction(addValidation(newCategory, () -> getEntityManager().persist(newCategory)));
         getEntityManager().refresh(newCategory);
         return newCategory;
     }
@@ -165,13 +165,13 @@ public class ProductsService extends BaseService {
 
         newProduct.setCategories(categories);
 
-        withTransaction(() -> {
+        withTransaction(addValidation(newProduct, () -> {
             getEntityManager().persist(newProduct);
             getEntityManager().flush();
             newStock.setProduct(newProduct);
             newProduct.setStock(newStock);
             getEntityManager().flush();
-        });
+        }));
 
         getEntityManager().refresh(newProduct);
         getEntityManager().refresh(newStock);
@@ -203,10 +203,10 @@ public class ProductsService extends BaseService {
 
         product.setCategories(categories);
 
-        withTransaction(() -> {
+        withTransaction(addValidation(stock, () -> {
             getEntityManager().merge(stock);
             getEntityManager().flush();
-        });
+        }));
 
         getEntityManager().refresh(stock);
 

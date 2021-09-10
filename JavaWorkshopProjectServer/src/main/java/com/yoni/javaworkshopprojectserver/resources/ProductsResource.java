@@ -115,10 +115,10 @@ public class ProductsResource extends BaseAuthenticatedResource {
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, id, title, desc, imageData, categoryIds, price, stockQuantity);
         byte[] imageDataBytes = ImageConversionUtils.getDecodedImageData(imageData);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            Result<CatalogProduct, Integer> result = productsService.insertStockedProduct(title, desc, imageDataBytes, categoryIds, stockQuantity, price);
+            Result<CatalogProduct, Integer> result = productsService.updateStockedProduct(id, title, desc, imageDataBytes, categoryIds, stockQuantity, price);
             if(result.isValid()) {
                 return Response
-                        .status(Response.Status.CREATED)
+                        .status(Response.Status.OK)
                         .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(result.getValue())))
                         .build();
             }

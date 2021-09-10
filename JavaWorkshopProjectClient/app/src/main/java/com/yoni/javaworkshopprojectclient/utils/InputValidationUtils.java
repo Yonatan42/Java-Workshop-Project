@@ -12,8 +12,8 @@ public class InputValidationUtils {
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"; // at least 8 characters with at least one letter and one number
     private static final String CREDIT_CARD_NUM_PATTERN = "^[0-9]{8,12}$"; // simplified the credit card since we won't be using real ones
     private static final String CREDIT_CARD_CVV_PATTERN = "^[0-9]{3,4}$";
-    private static final String PRODUCT_TITLE_PATTERN = "[\\w\\[\\]`!@#$%\\^&*()={}:;<>+'-]*";
-    private static final String PRODUCT_DESCRIPTION_PATTERN = "[\\w\\[\\]`!@#$%\\^&*()={}:;<>+'-]{2,}";
+    private static final String PRODUCT_TITLE_PATTERN = "[\\w\\[\\]`!@#$%\\^&*()={}:;<>+\\s'-]+";
+    private static final String PRODUCT_DESCRIPTION_PATTERN = "[\\w\\[\\]`!@#$%\\^&*()={}:;<>+\\s'-]*";
 
     public static boolean validateEmail(String email){
         return email.matches(EMAIL_PATTERN);

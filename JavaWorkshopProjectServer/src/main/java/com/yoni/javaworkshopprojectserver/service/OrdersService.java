@@ -97,10 +97,10 @@ public class OrdersService extends BaseService {
         order.setOrderProducts(orderProducts);
         order.setUser(user);
 
-        withTransaction(() -> {
+        withTransaction(addValidation(order, () -> {
             getEntityManager().persist(order);
             getEntityManager().flush();
-        });
+        }));
 
         getEntityManager().refresh(order);
 

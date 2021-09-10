@@ -7,6 +7,7 @@ package com.yoni.javaworkshopprojectserver.utils;
 
 import java.util.function.Supplier;
 import javax.persistence.PersistenceException;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -28,6 +29,13 @@ public class ResponseUtils {
     public static Response respondSafe(String token, Supplier<Response> action){
         try{
             return action.get();
+        }
+        catch (ConstraintViolationException e){
+            Logger.logError(TAG, e);
+            return Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(JsonUtils.createResponseJson(token, "a constraint violation occurred", ErrorCodes.PERSISTENCE_CONSTRAINT_VIOLATION))
+                    .build();
         }
         catch(PersistenceException e){
             Logger.logError(TAG, e);

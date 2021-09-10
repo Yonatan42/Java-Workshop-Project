@@ -14,15 +14,13 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import javax.validation.*;
 
 public abstract class BaseService {
 
@@ -54,13 +52,16 @@ public abstract class BaseService {
         return list.get(0);
     }
 
-    protected void withTransaction(Runnable action){
-        getEntityManager().getTransaction().begin();
+    protected void withTransaction(Runnable action) {
+        EntityTransaction transaction = getEntityManager().getTransaction();
+        if (!transaction.isActive()) {
+            transaction.begin();
+        }
         action.run();
-        getEntityManager().getTransaction().commit();
+        transaction.commit();
     }
 
-    protected <T> void withValidation(T entity, Consumer<T> action){
+    protected <T> Runnable addValidation(T entity, Runnable action){
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
@@ -77,8 +78,9 @@ public abstract class BaseService {
                         .append(violation.getMessage());
             }
             Logger.logError(TAG, "Constraint Violations: "+constraintViolationMsg);
+            throw new ConstraintViolationException(constraintViolationMsg.toString(), constraintViolations);
         }else{
-            action.accept(entity);
+            return action;
         }
     }
 

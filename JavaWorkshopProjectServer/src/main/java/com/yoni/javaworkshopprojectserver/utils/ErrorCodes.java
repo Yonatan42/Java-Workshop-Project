@@ -19,6 +19,7 @@ public class ErrorCodes {
     public static final int PAGE_NOT_FOUND = 200;
 
     public static final int PERSISTENCE_GENERAL = 300;
+    public static final int PERSISTENCE_CONSTRAINT_VIOLATION = 301;
 
     public static final int USERS_GENERAL = 400;
     public static final int USERS_PASSWORD_MISMATCH = 401;
