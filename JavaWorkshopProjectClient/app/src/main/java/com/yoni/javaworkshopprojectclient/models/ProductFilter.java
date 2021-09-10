@@ -1,6 +1,6 @@
-package com.yoni.javaworkshopprojectclient.datatransfer.models;
+package com.yoni.javaworkshopprojectclient.models;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.ProductCategory;
 
 import java.util.Objects;
 

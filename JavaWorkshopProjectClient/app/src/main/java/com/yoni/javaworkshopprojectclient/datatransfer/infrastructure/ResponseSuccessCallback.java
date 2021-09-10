@@ -1,8 +1,6 @@
-package com.yoni.javaworkshopprojectclient.remote;
+package com.yoni.javaworkshopprojectclient.datatransfer.infrastructure;
 
 import androidx.annotation.NonNull;
-
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 
 import retrofit2.Call;
 import retrofit2.Response;

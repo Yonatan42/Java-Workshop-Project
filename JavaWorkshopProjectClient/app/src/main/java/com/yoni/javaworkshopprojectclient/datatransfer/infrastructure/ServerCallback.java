@@ -1,8 +1,7 @@
-package com.yoni.javaworkshopprojectclient.remote;
+package com.yoni.javaworkshopprojectclient.datatransfer.infrastructure;
 
 import androidx.annotation.NonNull;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 
 import java.io.IOException;

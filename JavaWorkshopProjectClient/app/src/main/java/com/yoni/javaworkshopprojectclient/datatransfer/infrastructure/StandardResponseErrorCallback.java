@@ -1,11 +1,10 @@
-package com.yoni.javaworkshopprojectclient.remote;
+package com.yoni.javaworkshopprojectclient.datatransfer.infrastructure;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 

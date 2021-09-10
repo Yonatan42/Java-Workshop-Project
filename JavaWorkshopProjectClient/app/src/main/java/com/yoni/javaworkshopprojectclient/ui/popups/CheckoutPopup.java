@@ -7,18 +7,16 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ServerResponse;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
-import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
-import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ErrorCodes;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
 import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;

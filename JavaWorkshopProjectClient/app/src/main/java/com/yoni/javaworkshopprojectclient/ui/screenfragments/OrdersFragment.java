@@ -14,21 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.ExpandableOrder;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderSummary;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.models.uimodels.ExpandableOrder;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
-import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.OrderSummariesAdapter;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
 
 public class OrdersFragment extends BaseFragment {
 

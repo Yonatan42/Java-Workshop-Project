@@ -1,18 +1,15 @@
 package com.yoni.javaworkshopprojectclient.ui.listadapters;
 
 import android.content.Context;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels.SelectableCategory;
+import com.yoni.javaworkshopprojectclient.models.uimodels.SelectableCategory;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;

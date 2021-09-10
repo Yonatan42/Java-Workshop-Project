@@ -2,11 +2,11 @@ package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 import androidx.annotation.NonNull;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ServerResponse;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
-import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
-import com.yoni.javaworkshopprojectclient.remote.ServerCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseSuccessCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ServerCallback;
 import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
 
 import retrofit2.Call;

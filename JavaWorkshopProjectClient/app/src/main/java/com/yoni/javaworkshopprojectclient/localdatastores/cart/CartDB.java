@@ -6,9 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.CartProduct;
 
 import java.util.ArrayList;
 import java.util.List;

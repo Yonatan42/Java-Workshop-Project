@@ -3,7 +3,7 @@ package com.yoni.javaworkshopprojectclient.localdatastores.cart;
 
 import android.content.Context;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.CartProduct;
 import com.yoni.javaworkshopprojectclient.localdatastores.InitializedStore;
 
 import java.util.List;

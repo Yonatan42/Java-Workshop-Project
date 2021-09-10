@@ -1,9 +1,9 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ServerResponse;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.models.pureresponsemodels.LoginResponse;
 
 
 
@@ -11,7 +11,6 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;

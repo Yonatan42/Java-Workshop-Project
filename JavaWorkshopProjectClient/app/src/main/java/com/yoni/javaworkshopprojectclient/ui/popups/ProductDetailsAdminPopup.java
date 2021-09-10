@@ -9,12 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
-import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
-import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ServerResponse;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ErrorCodes;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.customviews.Stepper;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;

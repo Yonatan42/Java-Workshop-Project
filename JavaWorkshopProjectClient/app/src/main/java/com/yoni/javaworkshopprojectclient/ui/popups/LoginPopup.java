@@ -9,14 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
-import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
-import com.yoni.javaworkshopprojectclient.remote.ErrorCodes;
-import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ServerResponse;
+import com.yoni.javaworkshopprojectclient.models.pureresponsemodels.LoginResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ErrorCodes;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
-import com.yoni.javaworkshopprojectclient.utils.AppScreen;
+import com.yoni.javaworkshopprojectclient.ui.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 

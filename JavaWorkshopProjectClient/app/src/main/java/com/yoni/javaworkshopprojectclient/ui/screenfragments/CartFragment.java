@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.CartProduct;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
-import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
-import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.RemoteServiceManager;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CartProductsAdapter;
 import com.yoni.javaworkshopprojectclient.ui.popups.CheckoutPopup;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;

@@ -1,13 +1,10 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
-import com.yoni.javaworkshopprojectclient.datatransfer.ServerResponse;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ServerResponse;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderDetails;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderSummary;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -15,11 +12,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface OrdersService extends BaseRemoveService {
 

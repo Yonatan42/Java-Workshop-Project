@@ -1,9 +1,9 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
-import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseSuccessCallback;
 import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 

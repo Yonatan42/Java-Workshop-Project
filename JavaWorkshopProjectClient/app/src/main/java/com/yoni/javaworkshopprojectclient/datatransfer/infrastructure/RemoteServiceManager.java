@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.remote;
+package com.yoni.javaworkshopprojectclient.datatransfer.infrastructure;
 
 import com.google.gson.Gson;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.OrdersService;
@@ -7,12 +7,6 @@ import com.yoni.javaworkshopprojectclient.datatransfer.services.ProductsServiceF
 import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersService;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.ProductsService;
 import com.yoni.javaworkshopprojectclient.datatransfer.services.UsersServiceFacade;
-
-import java.io.File;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class RemoteServiceManager {
 
@@ -31,11 +25,6 @@ public class RemoteServiceManager {
 
     private RemoteServiceManager() {}
 
-
-    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/";
-//    public static final String BASE_URL = "http://10.0.2.2:8080/JavaWorkshopProjectServer/resources/testing/";
-// todo - remove test url when testing is done
-
     public final Gson gson = new Gson();
     private UsersServiceFacade usersServiceFacade;
     private ProductsServiceFacade productsServiceFacade;
@@ -46,7 +35,7 @@ public class RemoteServiceManager {
         if(usersServiceFacade == null){
             synchronized (this){
                 if(usersServiceFacade == null) {
-                    usersServiceFacade = new UsersServiceFacade(RetrofitClient.getClient(BASE_URL).create(UsersService.class));
+                    usersServiceFacade = new UsersServiceFacade(RetrofitClient.getClient().create(UsersService.class));
                 }
             }
         }
@@ -57,7 +46,7 @@ public class RemoteServiceManager {
         if(productsServiceFacade == null){
             synchronized (this){
                 if(productsServiceFacade == null) {
-                    productsServiceFacade = new ProductsServiceFacade(RetrofitClient.getClient(BASE_URL).create(ProductsService.class));
+                    productsServiceFacade = new ProductsServiceFacade(RetrofitClient.getClient().create(ProductsService.class));
                 }
             }
         }
@@ -68,7 +57,7 @@ public class RemoteServiceManager {
         if(ordersServiceFacade == null){
             synchronized (this){
                 if(ordersServiceFacade == null) {
-                    ordersServiceFacade = new OrdersServiceFacade(RetrofitClient.getClient(BASE_URL).create(OrdersService.class));
+                    ordersServiceFacade = new OrdersServiceFacade(RetrofitClient.getClient().create(OrdersService.class));
                 }
             }
         }

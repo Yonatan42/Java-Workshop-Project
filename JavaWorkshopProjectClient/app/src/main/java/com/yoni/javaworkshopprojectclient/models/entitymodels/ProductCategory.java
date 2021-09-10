@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels;
+package com.yoni.javaworkshopprojectclient.models.entitymodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

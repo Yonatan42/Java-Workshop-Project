@@ -14,12 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
-
-import java.util.Locale;
 
 public class UserInfoFragment extends Fragment {
 

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetailsProduct;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderDetailsProduct;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.List;

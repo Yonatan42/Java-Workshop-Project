@@ -1,12 +1,12 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.CartProduct;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.CartProduct;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderDetails;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.localdatastores.DataSets;
-import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseSuccessCallback;
 import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
 
 import java.util.ArrayList;

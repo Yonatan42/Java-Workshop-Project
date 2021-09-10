@@ -1,6 +1,6 @@
-package com.yoni.javaworkshopprojectclient.datatransfer.models.uimodels;
+package com.yoni.javaworkshopprojectclient.models.uimodels;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderSummary;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderSummary;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.List;

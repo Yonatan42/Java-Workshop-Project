@@ -7,11 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.utils.GlideUtils;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;

@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.remote;
+package com.yoni.javaworkshopprojectclient.datatransfer.infrastructure;
 
 public class ErrorCodes {
     public static final int UNKNOWN_ERROR = 0;

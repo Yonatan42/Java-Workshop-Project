@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels;
+package com.yoni.javaworkshopprojectclient.models.entitymodels;
 
 public class CartProduct {
     private int productId;

@@ -1,7 +1,7 @@
 package com.yoni.javaworkshopprojectclient.localdatastores;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.User;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 
 import java.util.ArrayList;

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.OrderDetails;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.OrderDetails;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.OrderDetailsProductsAdapter;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 

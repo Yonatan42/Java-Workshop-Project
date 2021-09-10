@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.tabs.TabLayout;
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
+import com.yoni.javaworkshopprojectclient.models.pureresponsemodels.LoginResponse;
 import com.yoni.javaworkshopprojectclient.events.Event;
 import com.yoni.javaworkshopprojectclient.events.OnActivityResultListener;
 import com.yoni.javaworkshopprojectclient.events.OnRequestPermissionResultListener;
@@ -28,7 +28,6 @@ import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.localdatastores.TokenStore;
 import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
 import com.yoni.javaworkshopprojectclient.ui.screenfragments.BaseFragment;
-import com.yoni.javaworkshopprojectclient.utils.AppScreen;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.lang.annotation.Retention;

@@ -2,7 +2,6 @@ package com.yoni.javaworkshopprojectclient.utils;
 
 import androidx.arch.core.util.Function;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
 import com.yoni.javaworkshopprojectclient.functionalintefaces.BiFunction;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Supplier;
 
 public class ListUtils {
 

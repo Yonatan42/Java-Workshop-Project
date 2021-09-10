@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Consumer;
 
 import com.yoni.javaworkshopprojectclient.R;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.Product;
 import com.yoni.javaworkshopprojectclient.functionalintefaces.TriConsumer;
 import com.yoni.javaworkshopprojectclient.localdatastores.cart.CartStore;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;

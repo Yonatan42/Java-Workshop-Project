@@ -1,9 +1,9 @@
 package com.yoni.javaworkshopprojectclient.datatransfer.services;
 
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels.LoginResponse;
-import com.yoni.javaworkshopprojectclient.remote.ResponseErrorCallback;
-import com.yoni.javaworkshopprojectclient.remote.ResponseSuccessCallback;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.models.pureresponsemodels.LoginResponse;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseErrorCallback;
+import com.yoni.javaworkshopprojectclient.datatransfer.infrastructure.ResponseSuccessCallback;
 import com.yoni.javaworkshopprojectclient.ui.popups.Loader;
 
 public class UsersServiceFacade extends BaseRemoteServiceFacade<UsersService> {

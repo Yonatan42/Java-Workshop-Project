@@ -1,4 +1,4 @@
-package com.yoni.javaworkshopprojectclient.utils;
+package com.yoni.javaworkshopprojectclient.ui;
 
 import com.yoni.javaworkshopprojectclient.ui.screenfragments.AdminFragment;
 import com.yoni.javaworkshopprojectclient.ui.screenfragments.BaseFragment;

@@ -1,10 +1,9 @@
-package com.yoni.javaworkshopprojectclient.datatransfer.models.pureresponsemodels;
+package com.yoni.javaworkshopprojectclient.models.pureresponsemodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.Product;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.ProductCategory;
-import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.ProductCategory;
+import com.yoni.javaworkshopprojectclient.models.entitymodels.User;
 
 import java.util.List;
 
