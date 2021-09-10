@@ -1,12 +1,10 @@
 package com.yoni.javaworkshopprojectclient.ui.popups;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +18,7 @@ import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.listadapters.CategoriesPickerAdapter;
+import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
 import com.yoni.javaworkshopprojectclient.utils.ListUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
@@ -28,7 +27,7 @@ import java.util.List;
 
 public class CategoriesPicker extends AlertDialog {
 
-    private ParentActivity parentActivity;
+    private final ParentActivity parentActivity;
     protected CategoriesPicker(ParentActivity parentActivity, List<ProductCategory> existingSelectedCategories, Consumer<List<ProductCategory>> onCategoriesSelected) {
         super(parentActivity, R.style.WrapContentDialog);
         this.parentActivity = parentActivity;
@@ -50,6 +49,9 @@ public class CategoriesPicker extends AlertDialog {
 
         btnNew.setOnClickListener(v -> {
             String title = UIUtils.getTrimmedText(txtTitle);
+            if(!validateForm(title)){
+                return;
+            }
             btnNew.setEnabled(false);
             RemoteServiceManager.getInstance().getProductsService().createCategory(title,
                     (call, response, result) -> {
@@ -77,6 +79,22 @@ public class CategoriesPicker extends AlertDialog {
         });
 
         setView(layout);
+    }
+
+    private boolean validateForm(String title) {
+        String errorMessage;
+        if(title.isEmpty()){
+            errorMessage = getContext().getString(R.string.error_validation_category_title_empty);
+        }
+        else if(InputValidationUtils.validateTitle(title)){
+            errorMessage = getContext().getString(R.string.error_validation_category_title_invalid);
+        }
+        else {// valid
+            return true;
+        }
+
+        ErrorPopup.createGenericOneOff(parentActivity, errorMessage).show();
+        return false;
     }
 
     private void selectInitialCategories(List<ProductCategory> existingSelectedCategories, List<SelectableCategory> selectableCategories) {

@@ -195,22 +195,22 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         String errorMessage;
 
         if(title.isEmpty()){
-            errorMessage = "title must be filled in";
+            errorMessage = getContext().getString(R.string.error_validation_product_title_empty);
         }
-        else if(!InputValidationUtils.validateProductTitle(title)){
-            errorMessage = "title is not valid";
+        else if(!InputValidationUtils.validateTitle(title)){
+            errorMessage = getContext().getString(R.string.error_validation_product_title_invalid);
         }
-        else if(!desc.isEmpty() && !InputValidationUtils.validateProductDesc(title)){
-            errorMessage = "description is not valid";
+        else if(!desc.isEmpty() && !InputValidationUtils.validateDesc(title)){
+            errorMessage = getContext().getString(R.string.error_validation_product_desc_invalid);
         }
         else if(price <= 0){
-            errorMessage = "price must be filled in and positive";
+            errorMessage = getContext().getString(R.string.error_validation_product_price_invalid);
         }
         else if(selectedCategories.isEmpty()){
-            errorMessage = "at least one category must be selected";
+            errorMessage = getContext().getString(R.string.error_validation_product_categories_empty);
         }
         else if(newStock < 0){ // allowed to be created with 0 stock
-            errorMessage = "stock must be filled in";
+            errorMessage = getContext().getString(R.string.error_validation_product_stock_empty);
         }
         else{ // valid
             return true;

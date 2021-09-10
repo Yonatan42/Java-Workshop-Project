@@ -180,46 +180,46 @@ public class UserInfoFragment extends Fragment {
         String address = getAddress();
 
         if(email.isEmpty()){
-            errorMessage = "email must be filled in";
+            errorMessage = getString(R.string.error_validation_user_info_email_empty);
         }
         else if(!InputValidationUtils.validateEmail(email)){
-            errorMessage = "email is not valid";
+            errorMessage = getString(R.string.error_validation_user_info_email_invalid);
         }
         else if(showPasswords && pass.isEmpty()){
-            errorMessage = "password must be filled in";
+            errorMessage = getString(R.string.error_validation_user_info_pass_empty);
         }
         else if(showPasswords && pass2.isEmpty()){
-            errorMessage = "password confirmation must be filled in";
+            errorMessage = getString(R.string.error_validation_user_info_pass2_empty);
         }
         else if(showPasswords && !pass.equals(pass2)){
-            errorMessage = "passwords do not match";
+            errorMessage = getString(R.string.error_validation_user_info_pass_mismatch);
         }
         else if(showPasswords && !InputValidationUtils.validatePassword(pass)){
-            errorMessage = "passwords must be at least 8 characters containing at least one letter and one number";
+            errorMessage = getString(R.string.error_validation_user_info_pass_invalid);
         }
         else if(firstName.isEmpty()){
-            errorMessage = "first name must be filled in";
+            errorMessage = getString(R.string.error_validation_user_info_fname_empty);
         }
         else if(!InputValidationUtils.validateName(firstName)){
-            errorMessage = "first name is not valid";
+            errorMessage = getString(R.string.error_validation_user_info_fname_invalid);
         }
         else if(lastName.isEmpty()){
-            errorMessage = "last name must be filled in";
+            errorMessage = getString(R.string.error_validation_user_info_lname_empty);
         }
         else if(!InputValidationUtils.validateName(lastName)){
-            errorMessage = "last name is not valid";
+            errorMessage = getString(R.string.error_validation_user_info_lname_invalid);
         }
         else if(phone.isEmpty()){
-            errorMessage = "phone number must be filled in";
+            errorMessage = getString(R.string.error_validation_user_info_phone_empty);
         }
         else if(!InputValidationUtils.validatePhone(phone)){
-            errorMessage = "phone number is not valid";
+            errorMessage = getString(R.string.error_validation_user_info_phone_invalid);
         }
         else if(address.isEmpty()){
-            errorMessage = "address must be filled in";
+            errorMessage = getString(R.string.error_validation_user_info_address_empty);
         }
         else if(!InputValidationUtils.validateAddress(address)){
-            errorMessage = "address is not valid";
+            errorMessage = getString(R.string.error_validation_user_info_address_invalid);
         }
         else{ // valid
             return true;

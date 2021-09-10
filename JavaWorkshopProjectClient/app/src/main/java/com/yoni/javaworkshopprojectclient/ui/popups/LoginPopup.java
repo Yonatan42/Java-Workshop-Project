@@ -84,16 +84,16 @@ public class LoginPopup extends AlertDialog {
     private boolean validateForm(String email, String pass) {
         String errorMessage;
         if(email.isEmpty()){
-            errorMessage = "email must be filled in";
+            errorMessage = getContext().getString(R.string.error_validation_user_info_email_empty);
         }
         else if(!InputValidationUtils.validateEmail(email)){
-            errorMessage = "email is not valid";
+            errorMessage = getContext().getString(R.string.error_validation_user_info_email_invalid);
         }
         else if(pass.isEmpty()){
-            errorMessage = "password must be filled in";
+            errorMessage = getContext().getString(R.string.error_validation_user_info_pass_empty);
         }
         else if(!InputValidationUtils.validatePassword(pass)){
-            errorMessage = "passwords must be at least 8 characters containing at least one letter and one number";
+            errorMessage = getContext().getString(R.string.error_validation_user_info_pass_invalid);
         }
         else { // valid
             return true;

@@ -72,4 +72,26 @@
     <string name="error_product_disabled_or_too_few">one or more of the selected products is no longer available</string>
     <string name="error_empty_order">an order must contain at least one products</string>
     <string name="error_credit_declined">your credit card was declined</string>
+    <string name="error_validation_product_title_empty">title must be filled in</string>
+    <string name="error_validation_product_title_invalid">title is not valid</string>
+    <string name="error_validation_product_desc_invalid">description is not valid</string>
+    <string name="error_validation_product_price_invalid">price must be filled in and positive</string>
+    <string name="error_validation_product_categories_empty">at least one category must be selected</string>
+    <string name="error_validation_product_stock_empty">stock must be filled in</string>
+    <string name="error_validation_user_info_email_empty">email must be filled in</string>
+    <string name="error_validation_user_info_email_invalid">email is not valid</string>
+    <string name="error_validation_user_info_pass_empty">password must be filled in</string>
+    <string name="error_validation_user_info_pass2_empty">password confirmation must be filled in</string>
+    <string name="error_validation_user_info_pass_mismatch">passwords do not match</string>
+    <string name="error_validation_user_info_pass_invalid">passwords must be at least 8 characters containing at least one letter and one number</string>
+    <string name="error_validation_user_info_fname_empty">first name must be filled in</string>
+    <string name="error_validation_user_info_fname_invalid">first name is not valid</string>
+    <string name="error_validation_user_info_lname_empty">last name must be filled in</string>
+    <string name="error_validation_user_info_lname_invalid">last name is not valid</string>
+    <string name="error_validation_user_info_phone_empty">phone number must be filled in</string>
+    <string name="error_validation_user_info_phone_invalid">phone number is not valid</string>
+    <string name="error_validation_user_info_address_empty">address must be filled in</string>
+    <string name="error_validation_user_info_address_invalid">address is not valid</string>
+    <string name="error_validation_category_title_empty">category title must be filled in</string>
+    <string name="error_validation_category_title_invalid">category title is not valid</string>
 </resources>
