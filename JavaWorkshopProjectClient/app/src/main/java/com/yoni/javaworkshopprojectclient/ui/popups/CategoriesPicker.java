@@ -86,7 +86,7 @@ public class CategoriesPicker extends AlertDialog {
         if(title.isEmpty()){
             errorMessage = getContext().getString(R.string.error_validation_category_title_empty);
         }
-        else if(InputValidationUtils.validateTitle(title)){
+        else if(!InputValidationUtils.validateTitle(title)){
             errorMessage = getContext().getString(R.string.error_validation_category_title_invalid);
         }
         else {// valid
