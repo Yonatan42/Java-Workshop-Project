@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 
 import com.yoni.javaworkshopprojectclient.R;
 import com.yoni.javaworkshopprojectclient.datatransfer.models.entitymodels.User;
+import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
+import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 public class UserInfoFragment extends Fragment {
@@ -164,8 +166,67 @@ public class UserInfoFragment extends Fragment {
     }
 
     public boolean validate(boolean showErrorUI){
-        // todo - do validation for all fields
-        // show error ui is to show the Toast or not
-        return true;
+
+        String errorMessage;
+
+        String email = getEmail();
+        String pass = getPassword();
+        String pass2 = getPassword2();
+        String firstName = getFirstName();
+        String lastName = getLastName();
+        String phone = getPhone();
+        String address = getAddress();
+
+        if(email.isEmpty()){
+            errorMessage = "email must be filled in";
+        }
+        else if(!InputValidationUtils.validateEmail(email)){
+            errorMessage = "email is not valid";
+        }
+        else if(showPasswords && pass.isEmpty()){
+            errorMessage = "password must be filled in";
+        }
+        else if(showPasswords && pass2.isEmpty()){
+            errorMessage = "password confirmation must be filled in";
+        }
+        else if(showPasswords && !pass.equals(pass2)){
+            errorMessage = "passwords do not match";
+        }
+        else if(showPasswords && !InputValidationUtils.validatePassword(pass)){
+            errorMessage = "passwords must be at least 8 characters containing at least one letter and one number";
+        }
+        else if(firstName.isEmpty()){
+            errorMessage = "first name must be filled in";
+        }
+        else if(!InputValidationUtils.validateName(firstName)){
+            errorMessage = "first name is not valid";
+        }
+        else if(lastName.isEmpty()){
+            errorMessage = "last name must be filled in";
+        }
+        else if(!InputValidationUtils.validateName(lastName)){
+            errorMessage = "last name is not valid";
+        }
+        else if(phone.isEmpty()){
+            errorMessage = "phone number must be filled in";
+        }
+        else if(!InputValidationUtils.validatePhone(phone)){
+            errorMessage = "phone number is not valid";
+        }
+        else if(address.isEmpty()){
+            errorMessage = "address must be filled in";
+        }
+        else if(!InputValidationUtils.validateAddress(address)){
+            errorMessage = "address is not valid";
+        }
+        else{ // valid
+            return true;
+        }
+
+        if(showErrorUI){
+            ErrorPopup.createGenericOneOff(getContext(), errorMessage).show();
+        }
+
+        return false;
     }
 }

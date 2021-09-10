@@ -21,6 +21,7 @@ import com.yoni.javaworkshopprojectclient.remote.RemoteServiceManager;
 import com.yoni.javaworkshopprojectclient.remote.StandardResponseErrorCallback;
 import com.yoni.javaworkshopprojectclient.ui.ParentActivity;
 import com.yoni.javaworkshopprojectclient.ui.areafragments.UserInfoFragment;
+import com.yoni.javaworkshopprojectclient.utils.InputValidationUtils;
 import com.yoni.javaworkshopprojectclient.utils.UIUtils;
 
 import java.util.Calendar;
@@ -61,6 +62,7 @@ public class CheckoutPopup extends AlertDialog {
         setUpExpiration();
         btnCancel.setOnClickListener(v -> dismiss());
         btnOk.setOnClickListener(v -> {
+            setCalendarToEndOfMonth();
             if(validateForm()) {
                 makeOrder();
             }
@@ -72,7 +74,6 @@ public class CheckoutPopup extends AlertDialog {
 
     private void makeOrder() {
         btnOk.setEnabled(false);
-        setCalendarToEndOfMonth();
         RemoteServiceManager.getInstance().getOrdersService().createOrder(
                 DataSets.getInstance().getCurrentUser().getId(),
                 userInfoFragment.getEmail(),
@@ -119,9 +120,42 @@ public class CheckoutPopup extends AlertDialog {
     }
 
     private boolean validateForm(){
-        // todo - validate - use userInfoFragment's validation + for the new stuff
-        // show error toast within this method
-        return true;
+
+        if(!userInfoFragment.validate(true)){
+            return false;
+        }
+
+        String cardNum = UIUtils.getTrimmedText(txtCreditCard);
+        String cvv = UIUtils.getTrimmedText(txtCVV);
+        String expirationText = UIUtils.getTrimmedText(txtExpiration);
+        Date expiration = expirationCalendar.getTime();
+
+        String errorMessage;
+
+        if(cardNum.isEmpty()){
+            errorMessage = "credit card number must be filled in";
+        }
+        else if(!InputValidationUtils.validateCreditCardNum(cardNum)){
+            errorMessage = "credit card number is not valid";
+        }
+        else if(cvv.isEmpty()){
+            errorMessage = "credit card cvv must be filled in";
+        }
+        else if(!InputValidationUtils.validateCreditCardCVV(cvv)){
+            errorMessage = "credit card cvv is not valid";
+        }
+        else if(expirationText.isEmpty()){
+            errorMessage = "credit card expiration date must be filled in";
+        }
+        else if(expiration.compareTo(new Date()) <= 0){
+            errorMessage = "credit card expiration date has passed";
+        }
+        else{ // valid
+            return true;
+        }
+
+        ErrorPopup.createGenericOneOff(getContext(), errorMessage).show();
+        return false;
     }
 
     @Override
