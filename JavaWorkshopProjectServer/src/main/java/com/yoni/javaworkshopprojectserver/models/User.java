@@ -22,17 +22,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity(name = "Users")
 @Table(name = "users")
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
     @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id"),
-    @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
-    @NamedQuery(name = "Users.findByPass", query = "SELECT u FROM Users u WHERE u.pass = :pass"),
-    @NamedQuery(name = "Users.findByFirstName", query = "SELECT u FROM Users u WHERE u.firstName = :firstName"),
-    @NamedQuery(name = "Users.findByLastName", query = "SELECT u FROM Users u WHERE u.lastName = :lastName"),
-    @NamedQuery(name = "Users.findByPhone", query = "SELECT u FROM Users u WHERE u.phone = :phone"),
-    @NamedQuery(name = "Users.findByIsAdmin", query = "SELECT u FROM Users u WHERE u.isAdmin = :isAdmin"),
-    @NamedQuery(name = "Users.findBySecretKey", query = "SELECT u FROM Users u WHERE u.secretKey = :secretKey"),
-    @NamedQuery(name = "Users.findByCreated", query = "SELECT u FROM Users u WHERE u.created = :created"),
-    @NamedQuery(name = "Users.findByModified", query = "SELECT u FROM Users u WHERE u.modified = :modified")})
+    @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")})
 @NamedStoredProcedureQuery(name = "Users.refreshSecretKey",
         procedureName = "refresh_secret_key", parameters = {
         @StoredProcedureParameter(mode = ParameterMode.IN, name = "email", type = String.class)})

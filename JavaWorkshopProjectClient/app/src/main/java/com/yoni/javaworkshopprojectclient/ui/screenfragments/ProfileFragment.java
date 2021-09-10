@@ -79,7 +79,11 @@ public class ProfileFragment extends BaseFragment {
             UIUtils.setViewsVisible(false, btnSave, btnCancel);
         });
 
-        btnSave.setOnClickListener(v -> RemoteServiceManager.getInstance().getUsersService().updateInfo(
+        btnSave.setOnClickListener(v -> {
+            if(!userInfoFragment.validate(true)){
+                return;
+            }
+            RemoteServiceManager.getInstance().getUsersService().updateInfo(
                 currentUser.getId(),
                 userInfoFragment.getEmail(),
                 userInfoFragment.getPassword(),
@@ -113,7 +117,7 @@ public class ProfileFragment extends BaseFragment {
                     }
                 }
 
-        ));
+        );});
 
         userInfoFragment.set(getCurrentUser());
     }

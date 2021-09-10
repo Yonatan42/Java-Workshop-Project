@@ -27,18 +27,6 @@ import java.util.stream.Collectors;
 @LocalBean
 public class OrdersService extends BaseService {
 
-    public List<Order> getAllOrders(){
-        return getEntityManager()
-                .createNamedQuery("Orders.findAll", Order.class)
-                .getResultList();
-    }
-
-    public List<OrderSummary> getAllOrderSummaries(){
-        return orderListToOrderSummaryList(getEntityManager()
-                .createNamedQuery("Orders.findAll", Order.class)
-                .getResultList());
-    }
-
     public List<OrderSummary> getPagedOrderSummariesByUserId(int start, int amount, int userId){
         return orderListToOrderSummaryList(getEntityManager()
                 .createNamedQuery("Orders.findByUserId", Order.class)
@@ -74,7 +62,7 @@ public class OrdersService extends BaseService {
         }
 
         if(stockedProducts.size() != productMap.size() ||
-                stockedProducts.stream().anyMatch(product -> !product.isEnabled() ||  product.getQuantity() < productMap.get(product.getId()) )){
+                stockedProducts.stream().anyMatch(product -> !product.isEnabled() ||  product.getQuantity() < productMap.get(product.getProduct().getId()) )){
             return Result.makeError(ErrorCodes.RESOURCES_UNAVAILABLE);
         }
 

@@ -71,4 +71,5 @@
     <string name="error_no_user_found">no matching user found</string>
     <string name="error_product_disabled_or_too_few">one or more of the selected products is no longer available</string>
     <string name="error_empty_order">an order must contain at least one products</string>
+    <string name="error_credit_declined">your credit card was declined</string>
 </resources>

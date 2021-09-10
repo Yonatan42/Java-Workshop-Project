@@ -26,21 +26,6 @@ import java.util.*;
 @LocalBean
 public class ProductsService extends BaseService {
 
-
-    public List<CatalogProduct> getActiveProducts(){
-        return stockListToCatalogList(getEntityManager()
-                .createNamedQuery("Stock.findAllActive", Stock.class)
-                .getResultList());
-    }
-
-    public List<CatalogProduct> getActivePagedProducts(int start, int amount){
-        return stockListToCatalogList(getEntityManager()
-                .createNamedQuery("Stock.findAllActive", Stock.class)
-                .setFirstResult(start)
-                .setMaxResults(amount)
-                .getResultList());
-    }
-
     public List<CatalogProduct> getActivePagedProductsFiltered(int start, int amount, String filterTitle, Integer filterCategoryId){
         return stockListToCatalogList(createSelectQuery(Stock.class, (entity, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -60,19 +45,6 @@ public class ProductsService extends BaseService {
     }
 
 
-    public List<Stock> getStock(){
-        return getEntityManager()
-                .createNamedQuery("Stock.findAll", Stock.class)
-                .getResultList();
-    }
-
-    public Stock getStockById(int id){
-        return firstOrNull(getEntityManager()
-                .createNamedQuery("Stock.findById", Stock.class)
-                .setParameter("id", id)
-                .getResultList());
-    }
-
     public List<Stock> getStockByProductIds(List<Integer> productIds){
         return createSelectQuery(Stock.class, (entity, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -81,12 +53,6 @@ public class ProductsService extends BaseService {
             }
             return predicates;
         }).getResultList();
-    }
-
-    public List<CatalogProduct> getCatalog(){
-        return stockListToCatalogList(getEntityManager()
-                .createNamedQuery("Stock.findAll", Stock.class)
-                .getResultList());
     }
 
     public List<CatalogProduct> getCatalogByProductIds(List<Integer> productIds){

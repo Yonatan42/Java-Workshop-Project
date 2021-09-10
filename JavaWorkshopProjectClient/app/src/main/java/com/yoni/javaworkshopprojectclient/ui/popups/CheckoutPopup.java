@@ -109,6 +109,9 @@ public class CheckoutPopup extends AlertDialog {
                             case ErrorCodes.ORDERS_EMPTY:
                                 errorMessage = parentActivity.getString(R.string.error_empty_order);
                                 break;
+                            case ErrorCodes.ORDERS_FAILED_CREDIT_VERIFICATION:
+                                errorMessage = parentActivity.getString(R.string.error_credit_declined);
+                                break;
                             default:
                                 super.onUnhandledResponseError(call, responseError);
                                 return;

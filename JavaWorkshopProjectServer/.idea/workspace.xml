@@ -12,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="OrdersService.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="OrdersService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/OrdersService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
-              <caret line="99" column="14" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="14" />
+            <state relative-caret-position="848">
+              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -24,66 +24,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResponseUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ResponseUtils.java">
+      <file leaf-file-name="OrderProduct.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderProduct.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="38" column="9" selection-start-line="38" selection-start-column="9" selection-end-line="38" selection-end-column="9" />
+            <state relative-caret-position="1155">
+              <caret line="39" column="27" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BaseService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/BaseService.java">
+      <file leaf-file-name="UsersService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UsersService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="577">
-              <caret line="63" column="40" selection-start-line="63" selection-start-column="27" selection-end-line="63" selection-end-column="40" />
-              <folding>
-                <element signature="e#1014#1015#0" expanded="true" />
-                <element signature="e#1073#1074#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProductsResource.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="120" column="50" selection-start-line="120" selection-start-column="50" selection-end-line="120" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProductsService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/ProductsService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="269">
-              <caret line="148" column="48" lean-forward="true" selection-start-line="148" selection-start-column="48" selection-end-line="148" selection-end-column="48" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UsersResource.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="150" column="36" selection-start-line="150" selection-start-column="36" selection-end-line="150" selection-end-column="36" />
-              <folding>
-                <element signature="e#0#13628#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrdersResource.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="124" column="62" lean-forward="true" selection-start-line="124" selection-start-column="62" selection-end-line="124" selection-end-column="62" />
+            <state relative-caret-position="834">
+              <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="178" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -94,17 +48,68 @@
       <file leaf-file-name="ErrorCodes.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ErrorCodes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="276">
+              <caret line="20" column="54" lean-forward="true" selection-start-line="20" selection-start-column="54" selection-end-line="21" selection-end-column="67" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JwtUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/JwtUtils.java">
+      <file leaf-file-name="OrderSummary.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderSummary.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+            <state relative-caret-position="1551">
+              <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Product.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Product.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Stock.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Stock.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="21" column="111" selection-start-line="21" selection-start-column="111" selection-end-line="21" selection-end-column="111" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProductsService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/ProductsService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-4282">
+              <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="792">
+              <caret line="36" column="11" lean-forward="true" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OrdersResource.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="798">
+              <caret line="124" column="61" selection-start-line="124" selection-start-column="61" selection-end-line="124" selection-end-column="61" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -120,25 +125,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Many</find>
-      <find>User.</find>
-      <find>User</find>
-      <find>users</find>
-      <find>user</find>
-      <find>my_persistence_unit</find>
-      <find>productIds</find>
-      <find>productId</find>
-      <find>categ</find>
-      <find>Stock.findAllActive</find>
-      <find>prod</find>
-      <find>getIs</find>
-      <find>casca</find>
-      <find>trans</find>
-      <find>existing</find>
-      <find>Stock.findByProductId</find>
-      <find>customer</find>
-      <find>JoinCol</find>
-      <find>JoinC</find>
       <find>createOrder</find>
       <find>collect</find>
       <find>USERS_NO_SUCH_USER</find>
@@ -150,6 +136,25 @@
       <find>RESOURCES_NOT_FOUND</find>
       <find>login failed```</find>
       <find>withTransaction</find>
+      <find>Categories.findAll</find>
+      <find>Categories.findById</find>
+      <find>Categories.findByTitle</find>
+      <find>Orders.findAll</find>
+      <find>Orders.findById</find>
+      <find>\@NamedQuery\(name \= \&quot;Orders\.findByUserId\&quot;\, query \= \&quot;SELECT o FROM Orders o WHERE o\.user\.id \= \:userId\&quot;\)\,\n</find>
+      <find>Orders.findByUserId</find>
+      <find>Products.findAll</find>
+      <find>Products.findById</find>
+      <find>Products.findByTitle</find>
+      <find>Stock.findAll</find>
+      <find>Stock.findByProductIds</find>
+      <find>Stock.findByProductId</find>
+      <find>Stock.findAllActive</find>
+      <find>Stock.findById</find>
+      <find>Users.findAll</find>
+      <find>Users.findById</find>
+      <find>Users.findByEmail</find>
+      <find>Users.findByIsAdmin</find>
     </findStrings>
     <replaceStrings>
       <replace>private</replace>
@@ -184,35 +189,35 @@
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/transfermodels/LoginResponse.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/JpaUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/BaseService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Category.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Stock.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderDetails.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ListUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/CollectionUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Order.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderProduct.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderSummary.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/AbstractRestResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/BaseResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/BaseAuthenticatedResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/TransactionService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/Result.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UsersService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/TestingEndpoints.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/PingTestResource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Product.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/Base64Utils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ImageConversionUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/CatalogProduct.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/UsersResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/OrdersService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ResponseUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ErrorCodes.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/BaseService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/ProductsService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Category.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Order.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Product.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Stock.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/User.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/ProductsService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/OrdersService.java" />
       </list>
     </option>
   </component>
@@ -238,6 +243,12 @@
               <item name="JavaWorkshopProjectServer" type="58d84e3e:PackageViewProjectNode" />
               <item name="main" type="616d4139:PackageViewModuleNode" />
               <item name="com.yoni.javaworkshopprojectserver" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="JavaWorkshopProjectServer" type="58d84e3e:PackageViewProjectNode" />
+              <item name="main" type="616d4139:PackageViewModuleNode" />
+              <item name="com.yoni.javaworkshopprojectserver" type="1f31426a:PackageElementNode" />
+              <item name="exceptionmappers" type="1f31426a:PackageElementNode" />
             </path>
             <path>
               <item name="JavaWorkshopProjectServer" type="58d84e3e:PackageViewProjectNode" />
@@ -417,7 +428,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/ProductCategory.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-857">
@@ -505,34 +515,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Category.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="32" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderDetails.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33">
-          <caret line="40" column="87" selection-start-line="40" selection-start-column="87" selection-end-line="40" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderProduct.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="991">
-          <caret line="39" column="27" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderSummary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="524">
-          <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/AbstractRestResource.java" />
     <entry file="jar://$PROJECT_DIR$/target/endorsed/javaee-api-8.0.jar!/javax/ws/rs/core/Response.class">
       <provider selected="true" editor-type-id="text-editor">
@@ -555,37 +537,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Order.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1584">
-          <caret line="218" column="41" selection-start-line="218" selection-start-column="41" selection-end-line="218" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/Result.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="173">
           <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33">
-          <caret line="74" column="11" lean-forward="true" selection-start-line="74" selection-start-column="11" selection-end-line="74" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UsersService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1007">
-          <caret line="112" column="35" lean-forward="true" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#4075#0" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#6046#6047#0" expanded="true" />
-            <element signature="e#6122#6123#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -610,24 +565,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Stock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="726">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/src.zip!/java/util/Base64.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
           <caret line="259" column="22" selection-start-line="259" selection-start-column="22" selection-end-line="259" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Product.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1582">
-          <caret line="172" column="49" selection-start-line="172" selection-start-column="49" selection-end-line="172" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -655,26 +596,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="124" column="62" lean-forward="true" selection-start-line="124" selection-start-column="62" selection-end-line="124" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/OrdersService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="99" column="14" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/target/endorsed/javaee-api-8.0.jar!/javax/validation/ValidationException.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -696,13 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ErrorCodes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/JwtUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
@@ -710,10 +624,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="120" column="50" selection-start-line="120" selection-start-column="50" selection-end-line="120" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/JsonUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/BaseService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="577">
-          <caret line="63" column="40" selection-start-line="63" selection-start-column="27" selection-end-line="63" selection-end-column="40" />
+        <state relative-caret-position="1254">
+          <caret line="58" column="9" lean-forward="true" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
           <folding>
             <element signature="e#1014#1015#0" expanded="true" />
             <element signature="e#1073#1074#0" expanded="true" />
@@ -721,20 +649,116 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Category.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Order.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="25" column="105" selection-start-line="25" selection-start-column="105" selection-end-line="25" selection-end-column="105" />
+          <folding>
+            <element signature="e#3871#3872#0" expanded="true" />
+            <element signature="e#3903#3904#0" expanded="true" />
+            <element signature="e#3953#3954#0" expanded="true" />
+            <element signature="e#3995#3996#0" expanded="true" />
+            <element signature="e#4030#4031#0" expanded="true" />
+            <element signature="e#4061#4062#0" expanded="true" />
+            <element signature="e#4109#4110#0" expanded="true" />
+            <element signature="e#4149#4150#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderDetails.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="976">
+          <caret line="40" column="87" selection-start-line="40" selection-start-column="87" selection-end-line="40" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderProduct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="39" column="27" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/OrderSummary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1551">
+          <caret line="54" column="17" selection-start-line="54" selection-start-column="17" selection-end-line="54" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Product.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/Stock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="21" column="111" selection-start-line="21" selection-start-column="111" selection-end-line="21" selection-end-column="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/models/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="792">
+          <caret line="36" column="11" lean-forward="true" selection-start-line="36" selection-start-column="11" selection-end-line="36" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/ProductsService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="148" column="48" lean-forward="true" selection-start-line="148" selection-start-column="48" selection-end-line="148" selection-end-column="48" />
+        <state relative-caret-position="-4282">
+          <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/ProductsResource.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/UsersService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="120" column="50" selection-start-line="120" selection-start-column="50" selection-end-line="120" selection-end-column="50" />
+        <state relative-caret-position="834">
+          <caret line="178" lean-forward="true" selection-start-line="178" selection-end-line="178" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/utils/ErrorCodes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="20" column="54" lean-forward="true" selection-start-line="20" selection-start-column="54" selection-end-line="21" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/resources/OrdersResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="124" column="61" selection-start-line="124" selection-start-column="61" selection-end-line="124" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/yoni/javaworkshopprojectserver/service/OrdersService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="848">
+          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

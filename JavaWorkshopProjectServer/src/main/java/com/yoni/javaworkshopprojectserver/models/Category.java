@@ -23,11 +23,7 @@ import javax.validation.constraints.Size;
 @Table(name = "categories")
 @NamedQueries({
     @NamedQuery(name = "Categories.findAll", query = "SELECT c FROM Categories c"),
-    @NamedQuery(name = "Categories.findById", query = "SELECT c FROM Categories c WHERE c.id = :id"),
-    @NamedQuery(name = "Categories.findByIds", query = "SELECT c FROM Categories c WHERE c.id IN :ids"),
-    @NamedQuery(name = "Categories.findByTitle", query = "SELECT c FROM Categories c WHERE c.title = :title"),
-    @NamedQuery(name = "Categories.findByCreated", query = "SELECT c FROM Categories c WHERE c.created = :created"),
-    @NamedQuery(name = "Categories.findByModified", query = "SELECT c FROM Categories c WHERE c.modified = :modified")})
+    @NamedQuery(name = "Categories.findByIds", query = "SELECT c FROM Categories c WHERE c.id IN :ids")})
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -101,14 +101,11 @@ public class ProductsFragment extends BaseFragment {
 
 
     private void loadProducts(){
-//        Loader loader = new Loader(getContext(), "Loading Products", "please wait...");
-//        loader.show();
         loadInProgress = true;
         String filterText = productsFilter != null ? productsFilter.getText() : null;
         Integer filterCategoryId = productsFilter != null && productsFilter.getCategory() != null ? productsFilter.getCategory().getId() : null;
         RemoteServiceManager.getInstance().getProductsService().getPagedProducts(currentPage, filterText, filterCategoryId,
                 (call, response, result) -> {
-//                    loader.dismiss();
                     loadInProgress = false;
                     currentPage++;
                     int startIndex = products.size();
@@ -118,8 +115,6 @@ public class ProductsFragment extends BaseFragment {
                     rvProducts.getAdapter().notifyItemRangeInserted(startIndex, products.size() - startIndex);
 
                     txtNoResults.setVisibility(products.isEmpty() ? View.VISIBLE : View.GONE);
-
-
                 },
                 new StandardResponseErrorCallback<List<Product>>(getParentActivity()) {
                     @Override

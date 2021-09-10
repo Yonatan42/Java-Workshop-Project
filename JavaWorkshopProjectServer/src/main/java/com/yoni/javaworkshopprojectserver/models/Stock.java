@@ -19,16 +19,7 @@ import javax.validation.constraints.NotNull;
 @Entity(name = "Stock")
 @Table(name = "stock")
 @NamedQueries({
-    @NamedQuery(name = "Stock.findAll", query = "SELECT s FROM Stock s"),
-    @NamedQuery(name = "Stock.findByProductIds", query = "SELECT s FROM Stock s WHERE s.productId IN :productIds"),
-    @NamedQuery(name = "Stock.findByProductId", query = "SELECT s FROM Stock s WHERE s.productId = :productId"),
-    @NamedQuery(name = "Stock.findAllActive", query = "SELECT s FROM Stock s WHERE s.isEnabled = true AND s.quantity > 0"),
-    @NamedQuery(name = "Stock.findById", query = "SELECT s FROM Stock s WHERE s.id = :id"),
-    @NamedQuery(name = "Stock.findByQuantity", query = "SELECT s FROM Stock s WHERE s.quantity = :quantity"),
-    @NamedQuery(name = "Stock.findByPrice", query = "SELECT s FROM Stock s WHERE s.price = :price"),
-    @NamedQuery(name = "Stock.findByIsEnabled", query = "SELECT s FROM Stock s WHERE s.isEnabled = :isEnabled"),
-    @NamedQuery(name = "Stock.findByCreated", query = "SELECT s FROM Stock s WHERE s.created = :created"),
-    @NamedQuery(name = "Stock.findByModified", query = "SELECT s FROM Stock s WHERE s.modified = :modified")})
+    @NamedQuery(name = "Stock.findByProductId", query = "SELECT s FROM Stock s WHERE s.productId = :productId")})
 public class Stock implements Serializable {
 
     private static final long serialVersionUID = 1L;
