@@ -71,12 +71,30 @@ public class ProductsResource extends BaseAuthenticatedResource {
         Logger.logFormat(TAG, "<getPagedProducts>\nAuthorization: %s\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, title, desc, imageData, categoryIds, price, stockQuantity);
         byte[] imageDataBytes = ImageConversionUtils.getDecodedImageData(imageData);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            CatalogProduct newProduct = productsService.insertStockedProduct(title, desc, imageDataBytes, categoryIds, stockQuantity, price);
-            return Response
-                    .status(Response.Status.CREATED)
-                    .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(newProduct)))
-                    .build();
+            Result<CatalogProduct, Integer> result = productsService.insertStockedProduct(title, desc, imageDataBytes, categoryIds, stockQuantity, price);
+            if(result.isValid()) {
+                return Response
+                        .status(Response.Status.CREATED)
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(result.getValue())))
+                        .build();
+            }
 
+            int errorCode = result.getError();
+            Response.Status status;
+            String errorMsg;
+            switch (errorCode) {
+                case ErrorCodes.PRODUCTS_NO_CATEGORIES:
+                    errorMsg = "cannot create a product with no categories";
+                    status = Response.Status.BAD_REQUEST;
+                    break;
+                default:
+                    status = Response.Status.INTERNAL_SERVER_ERROR;
+                    errorMsg = ErrorCodes.UNKNOWN_ERROR_MSG;
+            }
+            return Response
+                    .status(status)
+                    .entity(JsonUtils.createResponseJson(t, errorMsg, errorCode))
+                    .build();
         })));
     }
 
@@ -97,19 +115,35 @@ public class ProductsResource extends BaseAuthenticatedResource {
         Logger.logFormat(TAG, "<updateProduct>\nAuthorization: %s\nid: %d\ntitle: %s\ndescription: %s\nimageData: %s\ncategoryIds %s\nprice: %.2f\nstockQuantity: %d", token, id, title, desc, imageData, categoryIds, price, stockQuantity);
         byte[] imageDataBytes = ImageConversionUtils.getDecodedImageData(imageData);
         return ResponseLogger.loggedResponse(authenticateEncapsulated(token, true, (u, t) -> ResponseUtils.respondSafe(t, () -> {
-            CatalogProduct product = productsService.updateStockedProduct(id, title, desc, imageDataBytes, categoryIds, stockQuantity, price);
-            if(product != null) {
+            Result<CatalogProduct, Integer> result = productsService.insertStockedProduct(title, desc, imageDataBytes, categoryIds, stockQuantity, price);
+            if(result.isValid()) {
                 return Response
                         .status(Response.Status.CREATED)
-                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(product)))
+                        .entity(JsonUtils.createResponseJson(t, JsonUtils.convertToJson(result.getValue())))
                         .build();
             }
-            else{
-                return Response
-                        .status(Response.Status.NOT_FOUND)
-                        .entity(JsonUtils.createResponseJson(t, "nothing found for the given id", ErrorCodes.RESOURCES_NOT_FOUND))
-                        .build();
+
+            int errorCode = result.getError();
+            Response.Status status;
+            String errorMsg;
+            switch (errorCode) {
+                case ErrorCodes.PRODUCTS_NO_CATEGORIES:
+                    errorMsg = "cannot create a product with no categories";
+                    status = Response.Status.BAD_REQUEST;
+                    break;
+                case ErrorCodes.RESOURCES_NOT_FOUND:
+                    errorMsg = "nothing found for the given id";
+                    status = Response.Status.NOT_FOUND;
+                    break;
+                default:
+                    status = Response.Status.INTERNAL_SERVER_ERROR;
+                    errorMsg = ErrorCodes.UNKNOWN_ERROR_MSG;
             }
+            return Response
+                    .status(status)
+                    .entity(JsonUtils.createResponseJson(t, errorMsg, errorCode))
+                    .build();
+
         })));
     }
 

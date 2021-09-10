@@ -149,7 +149,7 @@ public class UsersResource extends BaseAuthenticatedResource{
                     status = Response.Status.UNAUTHORIZED;
                     break;
                     case ErrorCodes.USERS_PASSWORD_MISMATCH:
-                    errorMsg = "login failed";
+                    errorMsg = "provided email and password don't match";
                     status = Response.Status.FORBIDDEN;
                     break;
                 default:

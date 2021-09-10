@@ -39,6 +39,8 @@ public class ErrorCodes {
     public static final int ORDERS_EMPTY = 701;
     public static final int ORDERS_FAILED_CREDIT_VERIFICATION = 702;
 
+    public static final int PRODUCTS_GENERAL = 800;
+    public static final int PRODUCTS_NO_CATEGORIES = 801;
 
     public static final String UNKNOWN_ERROR_MSG = "an unknown error occurred";
 

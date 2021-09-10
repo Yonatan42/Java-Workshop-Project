@@ -1,5 +1,7 @@
 package com.yoni.javaworkshopprojectclient.remote;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.yoni.javaworkshopprojectclient.R;
@@ -10,6 +12,7 @@ import com.yoni.javaworkshopprojectclient.ui.popups.ErrorPopup;
 import retrofit2.Call;
 
 public class StandardResponseErrorCallback<T> implements ResponseErrorCallback<T> {
+    private static final String TAG = "ServerErrorCallback";
     private final ParentActivity parentActivity;
     private Runnable retryBlock;
 
@@ -23,6 +26,7 @@ public class StandardResponseErrorCallback<T> implements ResponseErrorCallback<T
     }
 
     public void onResponseError(@NonNull Call<ServerResponse<T>> call, ServerResponse.ServerResponseError responseError){
+        Log.e(TAG, "error received from server -  call: "+call.request().method()+" "+call.request().url().url() + ", error " + responseError.getCode() + " - " + responseError.getMessage());
         onPreErrorResponse();
         switch (responseError.getCode()){
             case ErrorCodes.UNKNOWN_ERROR:

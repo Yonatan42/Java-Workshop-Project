@@ -146,7 +146,13 @@ public class ProductsService extends BaseService {
         return newCategory;
     }
 
-    public CatalogProduct insertStockedProduct(String title, String desc, byte[] imageData, List<Integer> categoryIds, int quantity, float price){
+    public Result<CatalogProduct, Integer> insertStockedProduct(String title, String desc, byte[] imageData, List<Integer> categoryIds, int quantity, float price){
+        Set<Category> categories = new HashSet<>(getCategoriesByIds(categoryIds));
+
+        if(categories.isEmpty()){
+            return Result.makeError(ErrorCodes.PRODUCTS_NO_CATEGORIES);
+        }
+
         Stock newStock = new Stock();
         newStock.setQuantity(quantity);
         newStock.setPrice(price);
@@ -156,9 +162,6 @@ public class ProductsService extends BaseService {
         newProduct.setTitle(title);
         newProduct.setDescription(desc);
         newProduct.setImageData(imageData);
-
-
-        Set<Category> categories = new HashSet<>(getCategoriesByIds(categoryIds));
 
         newProduct.setCategories(categories);
 
@@ -173,14 +176,20 @@ public class ProductsService extends BaseService {
         getEntityManager().refresh(newProduct);
         getEntityManager().refresh(newStock);
 
-        return new CatalogProduct(newStock);
+        return Result.makeValue(new CatalogProduct(newStock));
 
     }
 
-    public CatalogProduct updateStockedProduct(int productId, String title, String desc, byte[] imageData, List<Integer> categoryIds, int quantity, float price) {
+    public Result<CatalogProduct, Integer> updateStockedProduct(int productId, String title, String desc, byte[] imageData, List<Integer> categoryIds, int quantity, float price) {
         Stock stock = getStockByProductId(productId);
         if(stock == null){
-            return null;
+            return Result.makeError(ErrorCodes.RESOURCES_NOT_FOUND);
+        }
+
+        Set<Category> categories = new HashSet<>(getCategoriesByIds(categoryIds));
+
+        if(categories.isEmpty()){
+            return Result.makeError(ErrorCodes.PRODUCTS_NO_CATEGORIES);
         }
 
         stock.setQuantity(quantity);
@@ -192,8 +201,6 @@ public class ProductsService extends BaseService {
         product.setDescription(desc);
         product.setImageData(imageData);
 
-        Set<Category> categories = new HashSet<>(getCategoriesByIds(categoryIds));
-
         product.setCategories(categories);
 
         withTransaction(() -> {
@@ -203,6 +210,6 @@ public class ProductsService extends BaseService {
 
         getEntityManager().refresh(stock);
 
-        return new CatalogProduct(stock);
+        return Result.makeValue(new CatalogProduct(stock));
     }
 }
