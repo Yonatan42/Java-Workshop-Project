@@ -38,7 +38,6 @@ public class SplashFragment extends BaseFragment {
             attemptLogin();
         }
         else{
-            // todo - possibly delay to show splash page
             new LoginPopup(getParentActivity()).show();
         }
     }

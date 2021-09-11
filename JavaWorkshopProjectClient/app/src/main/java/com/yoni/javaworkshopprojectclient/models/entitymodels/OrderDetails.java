@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-// todo - synchronize this class with server/db
 public class OrderDetails {
 
     @SerializedName("id")

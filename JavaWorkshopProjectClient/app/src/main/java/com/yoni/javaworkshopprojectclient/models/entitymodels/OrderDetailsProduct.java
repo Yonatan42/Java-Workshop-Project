@@ -1,6 +1,5 @@
 package com.yoni.javaworkshopprojectclient.models.entitymodels;
 
-// todo - synchronize this class with server/db
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

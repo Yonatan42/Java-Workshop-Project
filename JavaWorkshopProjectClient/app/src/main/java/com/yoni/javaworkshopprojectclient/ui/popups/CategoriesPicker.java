@@ -29,7 +29,7 @@ public class CategoriesPicker extends AlertDialog {
 
     private final ParentActivity parentActivity;
     protected CategoriesPicker(ParentActivity parentActivity, List<ProductCategory> existingSelectedCategories, Consumer<List<ProductCategory>> onCategoriesSelected) {
-        super(parentActivity, R.style.WrapContentDialog);
+        super(parentActivity);
         this.parentActivity = parentActivity;
 
         View layout = LayoutInflater.from(getContext()).inflate(R.layout.popup_categories_picker, null, false);

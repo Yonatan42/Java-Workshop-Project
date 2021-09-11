@@ -35,21 +35,6 @@ public class OrderSummary {
     @Expose
     private long transactionDate; // timestamp
 
-
-    // todo - delete constructors once we are connected to server
-    public OrderSummary(){}
-    public OrderSummary(int id, int userId, String fullName, String email, String phone, String address, float totalPrice, Date transactionDate) {
-        this.id = id;
-        this.userId = userId;
-        this.firstName = fullName.split(" ")[0];
-        this.lastName = fullName.split(" ")[1];
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.totalPrice = totalPrice;
-        this.transactionDate = transactionDate.getTime();
-    }
-
     public int getId() {
         return id;
     }

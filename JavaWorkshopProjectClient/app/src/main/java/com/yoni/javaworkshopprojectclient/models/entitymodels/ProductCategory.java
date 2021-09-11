@@ -12,8 +12,8 @@ public class ProductCategory
     @Expose
     private String title;
 
-    // todo - remove constructors once we get the list from the server
     public ProductCategory(){}
+    
     public ProductCategory(int id, String title){
         this.id = id;
         this.title = title;

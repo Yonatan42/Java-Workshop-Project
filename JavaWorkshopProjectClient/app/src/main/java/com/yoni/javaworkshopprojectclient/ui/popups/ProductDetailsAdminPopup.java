@@ -114,7 +114,7 @@ public class ProductDetailsAdminPopup extends ProductDetailsPopup {
         btnSave.setOnClickListener(v -> {
             String title = UIUtils.getTrimmedText(txtTitle);
             String desc = UIUtils.getTrimmedText(txtDesc);
-            float price = UIUtils.tryGetFloatValue(txtPrice, -1); // todo verify that the value is > 0
+            float price = UIUtils.tryGetFloatValue(txtPrice, -1);
 
             if(!validateForm(title, desc, price, selectedCategories, newStock)){
                 return;
