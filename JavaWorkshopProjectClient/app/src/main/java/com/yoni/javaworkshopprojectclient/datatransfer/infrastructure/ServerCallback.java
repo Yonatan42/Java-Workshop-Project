@@ -17,6 +17,7 @@ public abstract class ServerCallback<T> implements Callback<ServerResponse<T>>, 
             try {
                 String errorBodyContent = response.errorBody().string();
                 ServerResponse res = RemoteServiceManager.getInstance().getGson().fromJson(errorBodyContent, ServerResponse.class);
+                storeToken(res);
                 onResponseError(call, res.getError());
                 return;
             }
@@ -31,8 +32,7 @@ public abstract class ServerCallback<T> implements Callback<ServerResponse<T>>, 
         }
 
         ServerResponse<T> res = response.body();
-        String token = res.getToken();
-        TokenStore.getInstance().storeToken(token);
+        storeToken(res);
         if(res.hasError()){
             onResponseError(call, res.getError());
         }
@@ -40,7 +40,14 @@ public abstract class ServerCallback<T> implements Callback<ServerResponse<T>>, 
             onResponseSuccess(call, response, res.getResult());
         }
     }
+
     public final void onFailure(@NonNull Call<ServerResponse<T>> call, Throwable t){
         onResponseError(call, new ServerResponse.ServerResponseError(t.getMessage(), ErrorCodes.UNKNOWN_ERROR));
     }
+
+    private void storeToken(ServerResponse<T> res) {
+        String token = res.getToken();
+        TokenStore.getInstance().storeToken(token);
+    }
+
 }
