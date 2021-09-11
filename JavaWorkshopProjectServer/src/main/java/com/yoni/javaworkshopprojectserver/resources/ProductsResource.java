@@ -17,10 +17,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Base64;
 import java.util.List;
-
-// todo - fill in
 
 /**
  *
