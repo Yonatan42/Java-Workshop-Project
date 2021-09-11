@@ -13,7 +13,7 @@ public class ProductCategory
     private String title;
 
     public ProductCategory(){}
-    
+
     public ProductCategory(int id, String title){
         this.id = id;
         this.title = title;

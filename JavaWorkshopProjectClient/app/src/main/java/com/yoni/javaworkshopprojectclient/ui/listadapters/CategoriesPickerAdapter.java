@@ -39,8 +39,6 @@ public class CategoriesPickerAdapter extends RecyclerView.Adapter<CategoriesPick
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         CheckBox checkBox = new CheckBox(context);
-//        float textSize = context.getResources().getDimension(R.dimen.standard_text_size);
-//        checkBox.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         UIUtils.setSpText(checkBox, R.dimen.standard_text_size);
         ViewHolder viewHolder = new ViewHolder(checkBox);
         return viewHolder;
