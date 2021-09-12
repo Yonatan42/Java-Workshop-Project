@@ -47,6 +47,7 @@ public class CategoriesPickerAdapter extends RecyclerView.Adapter<CategoriesPick
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SelectableCategory category = categories.get(position);
+        holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setChecked(category.isSelected());
         holder.checkBox.setText(category.getTitle());
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
