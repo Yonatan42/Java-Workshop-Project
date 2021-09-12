@@ -85,8 +85,13 @@ public class OrdersService extends BaseService {
         order.setOrderProducts(orderProducts);
         order.setUser(user);
 
+        stockedProducts.forEach(stockedProduct -> {
+            stockedProduct.setQuantity(stockedProduct.getQuantity() - productMap.get(stockedProduct.getProduct().getId()));
+        });
+
         withTransaction(addValidation(order, () -> {
             getEntityManager().persist(order);
+            stockedProducts.forEach(getEntityManager()::merge);
             getEntityManager().flush();
         }));
 
