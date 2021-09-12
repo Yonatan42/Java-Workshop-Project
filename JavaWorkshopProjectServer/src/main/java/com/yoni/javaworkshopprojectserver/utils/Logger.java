@@ -9,7 +9,13 @@ public class Logger {
     
     private Logger(){}
 
-    public static boolean LOGGING_ENABLED = true;
+    private static boolean LOGGING_ENABLED = false;
+    /*
+    to turn on accurate logging of the MySQL statements,
+    add these two lines to persistence.xml, within the properties tag:
+      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.logging.parameters" value="true"/>
+     */
 
     private static final String PREFIX = "[StoreIt] ";
 
