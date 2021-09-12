@@ -211,12 +211,14 @@ public class ParentActivity extends AppCompatActivity {
         TokenStore.getInstance().clearToken();
         CartStore.getInstance().clear();
         makeFragmentTransition(AppScreen.SPLASH.getFragment());
+        DataSets.getInstance().getCurrentUser().setAdminModeActive(false);
     }
 
     public void loginUser(LoginResponse loginData){
         DataSets.getInstance().setCurrentUser(loginData.getUser());
         DataSets.getInstance().setCategories(loginData.getCategories());
         setSelectedTab(ParentActivity.INITIAL_TAB);
+        setAdminModeTabs(false);
     }
 
     public Loader getLoader(){

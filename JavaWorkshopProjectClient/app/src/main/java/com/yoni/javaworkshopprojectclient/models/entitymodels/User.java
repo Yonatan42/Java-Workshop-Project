@@ -90,10 +90,7 @@ public class User {
     }
 
     public void setAdminModeActive(boolean isAdminModeActive) {
-        if(!isAdmin && isAdminModeActive){
-            throw new IllegalStateException("cannot set admin mode to active for a non-admin user");
-        }
-        this.isAdminModeActive = isAdminModeActive;
+        this.isAdminModeActive = isAdminModeActive && isAdmin;
     }
 
     public void replace(User user){
@@ -104,6 +101,7 @@ public class User {
         this.phone = user.phone;
         this.address = user.address;
         this.isAdmin = user.isAdmin;
+        this.isAdminModeActive = false;
     }
 
     @Override

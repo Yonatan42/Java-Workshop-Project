@@ -49,20 +49,20 @@ public class ProfileFragment extends BaseFragment {
 
         User currentUser = getCurrentUser();
         UIUtils.setViewsVisible(currentUser.isAdmin(), switchAdminMode);
-        switchAdminMode.setChecked(currentUser.isAdminModeActive());
+        if(currentUser.isAdmin()) {
+            switchAdminMode.setFocusable(false);
+            switchAdminMode.setOnCheckedChangeListener((v, isChecked) -> {
+                currentUser.setAdminModeActive(isChecked);
+                getParentActivity().setAdminModeTabs(isChecked);
+            });
 
-        switchAdminMode.setOnCheckedChangeListener((v, isChecked) -> {
-            currentUser.setAdminModeActive(isChecked);
-            getParentActivity().setAdminModeTabs(isChecked);
+            switchAdminMode.setChecked(currentUser.isAdminModeActive());
+        }
+
+        btnLogout.setOnClickListener(v -> {
+            getParentActivity().logoutUser();
+            switchAdminMode.setChecked(false);
         });
-
-        switchAdminMode.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus){
-                switchAdminMode.setChecked(!switchAdminMode.isChecked());
-            }
-        });
-
-        btnLogout.setOnClickListener(v -> getParentActivity().logoutUser());
 
         btnEdit.setOnClickListener(v -> {
             userInfoFragment.setEditable(true);
