@@ -58,7 +58,6 @@ public class Stock implements Serializable {
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn(name = "product_id", referencedColumnName = "id")
-
     @Expose
     private Product product;
 

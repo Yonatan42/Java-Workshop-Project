@@ -229,7 +229,18 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.yoni.javaworkshopprojectserver.models.User[ id=" + id + " ]";
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", pass='" + pass + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", secretKey='" + secretKey + '\'' +
+                ", created=" + created +
+                ", modified=" + modified +
+                '}';
     }
-    
 }
