@@ -29,7 +29,6 @@ public interface ProductsService extends BaseRemoveService {
             @Query("filterCategoryId") Integer filterCategoryId
     );
 
-    // when creating a new product we need to create a new stock row as well for it
     @POST(URL)
     @FormUrlEncoded
     Call<ServerResponse<Product>> insertProduct(

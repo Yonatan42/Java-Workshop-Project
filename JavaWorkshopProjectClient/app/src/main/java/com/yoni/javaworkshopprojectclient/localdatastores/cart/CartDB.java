@@ -37,7 +37,7 @@ public class CartDB extends SQLiteOpenHelper implements CartTransactable {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // not upgrades at the moment
+        // no upgrades at the moment
     }
 
     private void createTable() {
